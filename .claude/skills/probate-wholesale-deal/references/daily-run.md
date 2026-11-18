@@ -64,5 +64,16 @@ counts by stage and market
 
 Keep the report short enough to read on a phone in five minutes; details live in `leads/`.
 
-### 7. Save
+### 7. Refresh the dashboard
+If `config.yaml` has `dashboard_slug`, update the dashboard artifact (use the claude-artifacts tools):
+1. Write four CSVs to a scratch folder, keeping these exact columns:
+   - `leads.csv`: lead_id,address,market,state,stage,verdict,arv_mid,repairs_mid,mao,asking,letters_issued,court_confirmation,next_action,next_action_date,touch_count,last_touch_date (from the tracker; leave out executor/heir names and contact details, because anyone who can open the dashboard can read its files). Stage is one of: New, Researched, Outreach drafted, Contacted, Negotiating, Under contract, Assigned, Closed, Dead.
+   - `approvals.csv`: lead_id,item,file,created (everything listed under "Needs your approval")
+   - `sources.csv`: date,market,source,status,note (latest status per source)
+   - `runs.csv`: date,new_leads,updated_leads,approvals_waiting,legal_changes,pushed (append today's row to the previous history kept in `pipeline/runs.csv`)
+2. `upload_asset` the four files to the dashboard slug.
+3. For each of `datasets/leads`, `datasets/approvals`, `datasets/sources`, `datasets/runs`: `db_get` it for its version, then `db_write` an `update` with `ifVersion`, setting `source.url` to the new upload URL and `updated` to `{at: <now ISO>, by: "Daily run"}`. On the first real run also set the titles "Pipeline leads" and "Approvals queue" and drop the word "sample" from their descriptions.
+Don't touch `files/index.html`. If the dashboard update fails, note it in the report and carry on.
+
+### 8. Save
 `git add -A && git commit -m "Daily run YYYY-MM-DD: N new leads, M updates"` and push to the default branch, retrying network errors up to 4 times with backoff. If the push fails, say so at the top of your final message.

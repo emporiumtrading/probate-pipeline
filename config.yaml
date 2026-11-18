@@ -1,6 +1,7 @@
 # Daily probate pipeline settings. Edit freely; the daily run reads this first.
 
 owner_timezone: America/Chicago
+dashboard_slug: 24accd17-df79-4cf5-a42f-e6451a61b8a0   # Probate Pipeline Dashboard (claude.ai artifact)
 outreach_mode: drafts_only        # drafts_only | research_only. Never send anything automatically.
 max_new_leads_per_day: 10         # deep-dive cap per run (controls depth vs. cost)
 lookback_days_first_run: 90       # first run searches filings from the last N days
