@@ -1,0 +1,49 @@
+# Daily probate pipeline settings. Edit freely; the daily run reads this first.
+
+owner_timezone: America/Chicago
+outreach_mode: drafts_only        # drafts_only | research_only. Never send anything automatically.
+max_new_leads_per_day: 10         # deep-dive cap per run (controls depth vs. cost)
+lookback_days_first_run: 90       # first run searches filings from the last N days
+legal_recheck_days: 30            # re-verify each state's legal file after N days
+
+defaults:
+  buyer_pct: 0.70                 # change per market once real buyers confirm what they pay
+  assignment_fee: 10000
+  min_equity_pct: 0.30            # skip leads where estimated equity is below this share of value
+
+markets:
+  - id: oh-franklin
+    county: Franklin
+    state: OH
+    city: Columbus
+    outreach_allowed: true        # still drafts only; Ohio R.C. 5301.95 disclosure must be in every contract
+    sources:
+      probate_court: https://probate.franklincountyohio.gov
+      auditor: https://property.franklincountyauditor.com
+      treasurer: https://treasurer.franklincountyohio.gov
+      recorder: https://recorder.franklincountyohio.gov
+    last_checked: null
+
+  - id: tn-shelby
+    county: Shelby
+    state: TN
+    city: Memphis
+    outreach_allowed: true
+    sources:
+      probate_court: https://www.probatecourt.shelbycountytn.gov   # did not respond on 2026-11-18; try alternates and log
+      register_of_deeds: https://register.shelby.tn.us              # rate-limited (429) on 2026-11-18; go slow
+      assessor: https://www.assessormelvinburgess.com
+      trustee: https://www.shelbycountytrustee.com
+    last_checked: null
+
+  - id: pa-philadelphia
+    county: Philadelphia
+    state: PA
+    city: Philadelphia
+    outreach_allowed: false       # PA Act 52 of 2024: wholesaling needs a license. Research only until licensed_or_partnered is true.
+    licensed_or_partnered: false
+    sources:
+      register_of_wills: https://www.phila.gov/departments/register-of-wills/
+      property: https://property.phila.gov
+      courts_portal: https://ujsportal.pacourts.us
+    last_checked: null
