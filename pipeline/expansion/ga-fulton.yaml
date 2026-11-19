@@ -1,0 +1,15 @@
+# Expansion check 2026-11-19 (state sweep worker)
+- id: ga-fulton
+  county: Fulton
+  state: GA
+  city: Atlanta
+  status: blocked               # parcel source works; no automatable probate filing source
+  outreach_allowed: true        # no enacted GA wholesaling law found; confirm SB 458/SB 485 (2026) status (legal/GA.md)
+  license_required: unclear     # no license today if only the contract is marketed; pending-bill status unverified
+  sources:
+    probate_notices: {url: "https://www.georgiapublicnotice.com", result: "manual only - Terms of Use ban automated means and commercial use"}
+    statewide_probate_index: {url: "https://www.georgiaprobaterecords.com/Estates/SearchEstates.aspx", result: "failed - Fulton is not a participating county"}
+    fulton_probate_court: {url: "https://fultoncountyga.gov (Probate Court pages)", result: "failed - pages 404, no online estate index found; records by email probate.records@fultoncountyga.gov"}
+    parcels: {url: "https://gismaps.fultoncountyga.gov/arcgispub2/rest/services/Tax/Tyler_TaxParcels/MapServer/0/query", result: "worked - Owner, Address, LUCode, ClassCode, LivUnits (TaxYear 2027)"}
+  last_checked: 2026-11-19
+  notes: Daily Report (Fulton legal organ) notices could be read by hand on georgiapublicnotice.com and matched to the parcel layer.

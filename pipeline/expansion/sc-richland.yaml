@@ -1,0 +1,14 @@
+# Expansion check 2026-11-19 (state sweep worker)
+- id: sc-richland
+  county: Richland
+  state: SC
+  city: Columbia
+  status: research_only         # license effectively required (2024 Act 204 + REC advisory 2024-11-14)
+  outreach_allowed: false
+  license_required: yes
+  sources:
+    probate_notices: {url: "https://www.scpublicnotices.com", result: "manual only - Terms of Use: personal non-commercial use, no automated means"}
+    estate_inquiry: {url: "https://www7.richlandcountysc.gov/EstateInquiry/main.aspx", result: "worked (name search only) - returns case no., DOD, date opened/closed; no filing-date search, documents need SMS account"}
+    parcels: {url: "Richland County GIS (gis.richlandcountysc.gov / richlandmaps.com)", result: "failed - no response / 404; no public owner-name REST layer found"}
+  last_checked: 2026-11-19
+  notes: Even with sources, no deep-dives until SC license/partner. Estate Inquiry is useful later to confirm a known decedent's case.

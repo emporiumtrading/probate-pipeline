@@ -53,3 +53,23 @@
 | 2026-11-19 | tx-harris | www.hctax.net property tax lookup | not automatable (JS app) | taxes unchecked; manual https://www.hctax.net/Property/PropertyTax |
 | 2026-11-19 | tx-harris | www.redfin.com sold search | blocked (403) | not retried; TX is non-disclosure, no public sold prices |
 | 2026-11-19 | tx-harris | www.har.com zip profiles | worked (list $/sf, rent) | sold list not shown publicly |
+| 2026-11-19 | ms-hinds | www.mspublicnotices.org (MS Press) | manual only | Terms of Use ban automated collection and commercial use; search by hand at https://www.mspublicnotices.org |
+| 2026-11-19 | ms-hinds | courts.ms.gov MEC (chancery) | failed | login/fee system; no public filing-date index |
+| 2026-11-19 | ms-hinds | www.hindscountyms.com (Chancery Clerk) | blocked (403) | manual: call/visit Hinds Chancery Clerk |
+| 2026-11-19 | ms-hinds | gis.mississippi.edu MS_Parcels_Aprl2024 | no Hinds data | only Lincoln parcels layer |
+| 2026-11-19 | ms-hinds | gis.cmpdd.org (Hinds map viewer host) | no response | |
+| 2026-11-19 | al-jefferson | www.alabamapublicnotices.com (AL Press) | manual only | Terms of Use ban scraping/automated means and commercial use; search by hand at https://www.alabamapublicnotices.com |
+| 2026-11-19 | al-jefferson | www.jccal.org (Probate Court) | blocked (Cloudflare) | not bypassed |
+| 2026-11-19 | al-jefferson | landmarkweb.jccal.org | blocked (Incapsula bot check) | not bypassed; manual in browser |
+| 2026-11-19 | al-jefferson | jccgis.jccal.org BOE/JCParcelsWMS/MapServer/0 | worked | owner-name query OK (OWNERNAME, ADDR_APR, AssdValue, Cls); TA folder token-only |
+| 2026-11-19 | ga-fulton | www.georgiapublicnotice.com (GA Press) | manual only | Terms of Use ban automated means, scraping and commercial use; IP blocking for bot-like use; search by hand |
+| 2026-11-19 | ga-fulton | www.georgiaprobaterecords.com Estates search | not usable | Fulton is not a participating county |
+| 2026-11-19 | ga-fulton | fultoncountyga.gov Probate Court pages | failed (404) | no online estate index found; records by email probate.records@fultoncountyga.gov |
+| 2026-11-19 | ga-fulton | gismaps.fultoncountyga.gov Tax/Tyler_TaxParcels/MapServer/0 | worked | owner-name query OK (Owner, Address, LUCode, ClassCode) |
+| 2026-11-19 | sc-richland | www.scpublicnotices.com (SC Press) | manual only | Terms of Use: personal non-commercial use only, no automated means |
+| 2026-11-19 | sc-richland | www7.richlandcountysc.gov/EstateInquiry | worked (name only) | case no., DOD, opened/closed dates; no date search; documents need SMS account |
+| 2026-11-19 | sc-richland | Richland County GIS parcels | failed | gis.richlandcountysc.gov no response, richlandmaps.com 404; no public owner layer found |
+| 2026-11-19 | nc-mecklenburg | www.ncnotices.com (NC Press) | manual only | Terms of Use: personal non-commercial use only, no automated means |
+| 2026-11-19 | nc-mecklenburg | portal-nc.tylertech.cloud (NC eCourts) | manual only | CAPTCHA; search estates by hand |
+| 2026-11-19 | nc-mecklenburg | www.nccourts.gov | blocked (CloudFront 403) | |
+| 2026-11-19 | nc-mecklenburg | meckgis TaxParcel_Camaownershipvalues/FeatureServer/0 | worked | owner name, situs address, values, last sale |

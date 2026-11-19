@@ -1,0 +1,15 @@
+# Expansion check 2026-11-19 (state sweep worker)
+- id: nc-mecklenburg
+  county: Mecklenburg
+  state: NC
+  city: Charlotte
+  status: research_only         # NCREC treats soliciting sellers with intent to assign as possible unlicensed brokerage
+  outreach_allowed: false
+  license_required: unclear     # HB 797 not enacted (Senate Rules since 2025-05-01); NCREC Dec 2023 guidance
+  sources:
+    probate_notices: {url: "https://www.ncnotices.com", result: "manual only - Terms of Use: personal non-commercial use, no automated means"}
+    ecourts_portal: {url: "https://portal-nc.tylertech.cloud/Portal/", result: "manual only - CAPTCHA"}
+    nccourts: {url: "https://www.nccourts.gov", result: "failed - CloudFront 403"}
+    parcels: {url: "https://meckgis.mecklenburgcountync.gov/server/rest/services/TaxParcel_Camaownershipvalues/FeatureServer/0/query", result: "worked - full_owner_name, situsaddress1, values, last sale date/price, deed book"}
+  last_checked: 2026-11-19
+  notes: Parcel + sale data are excellent; probate filings must be pulled by hand from eCourts.

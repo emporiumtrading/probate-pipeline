@@ -1,0 +1,16 @@
+# Expansion check 2026-11-19 (state sweep worker)
+- id: al-jefferson
+  county: Jefferson
+  state: AL
+  city: Birmingham
+  status: blocked               # parcel source works; no automatable probate filing source
+  outreach_allowed: true        # no license; Ala. Code 8-42-2 written disclosures + 3-business-day pre-assignment notice (legal/AL.md)
+  license_required: no
+  sources:
+    probate_notices: {url: "https://www.alabamapublicnotices.com", result: "manual only - Terms of Use ban scraping/automated collection and commercial use"}
+    probate_court: {url: "https://www.jccal.org (Probate Court)", result: "failed - Cloudflare block"}
+    probate_records_landmark: {url: "https://landmarkweb.jccal.org/landmarkweb", result: "failed - Incapsula bot protection; not bypassed"}
+    parcels: {url: "https://jccgis.jccal.org/server/rest/services/BOE/JCParcelsWMS/MapServer/0/query", result: "worked - OWNERNAME, ADDR_APR, Property_City, AssdValue, Cls"}
+    tax_assessor_gis: {url: "https://jccgis.jccal.org/server/rest/services/TA", result: "token required"}
+  last_checked: 2026-11-19
+  notes: Becomes workable if a probate filing list can be obtained by hand (alabamapublicnotices.com manual search "Jefferson" + "letters testamentary/administration") and fed to the parcel layer.

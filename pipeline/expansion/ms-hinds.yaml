@@ -1,0 +1,16 @@
+# Expansion check 2026-11-19 (state sweep worker)
+- id: ms-hinds
+  county: Hinds
+  state: MS
+  city: Jackson
+  status: blocked               # no public no-login probate filing index; parcel source not reachable
+  outreach_allowed: true        # no MS wholesaling statute found (legal/MS.md); drafts only
+  license_required: no          # UNVERIFIED - MREC license law not readable today
+  sources:
+    probate_notices: {url: "https://www.mspublicnotices.org", result: "manual only - Terms of Use ban automated/commercial use"}
+    probate_court: {url: "https://courts.ms.gov (MEC chancery e-filing)", result: "failed - login/fee system, no public filing-date index"}
+    chancery_clerk: {url: "https://www.hindscountyms.com/elected-offices/chancery-clerk", result: "failed - HTTP 403"}
+    parcels_statewide: {url: "https://gis.mississippi.edu/server/rest/services/Cadastral/MS_Parcels_Aprl2024/MapServer", result: "failed - no Hinds layer"}
+    parcels_cmpdd: {url: "https://gis.cmpdd.org", result: "failed - no response"}
+  last_checked: 2026-11-19
+  notes: Retry in 30 days. Manual path = Hinds Chancery Clerk estate dockets in person/phone; land roll query by name on the county site in a browser.
