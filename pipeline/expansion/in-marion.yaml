@@ -1,0 +1,14 @@
+# Market block proposal for config.yaml (worker run 2026-11-19). Not yet workable end to end: parcel owner check blocked by rate limit.
+- id: in-marion
+  county: Marion
+  state: IN
+  city: Indianapolis
+  outreach_allowed: true        # no IN wholesaler license (legal/IN.md); every solicitation needs the IC 32-21-16.5-4 disclosure; still drafts only
+  status: partial               # probate source works; parcel source rate-limited 2026-11-19 -> retry next run before going live
+  sources:
+    probate_notices: https://www.ibj.com/public-notices/results   # category "Notice of Administration"; data API https://notices.courtcommercialrecord.com/api/search/Notice%20of%20Administration/<start>/<end>?page=N (robots.txt Disallow - low volume only)
+    court_case_search_manual: https://public.courts.in.gov/mycase/   # ToU forbids automated use; CAPTCHA; manual only
+    parcels: https://gis.indy.gov/server/rest/services/MapIndy/MapIndyProperty/MapServer/10   # FULLOWNERNAME, owner address, AV, class; 429 on 2026-11-19
+    assessor_manual: https://www.indy.gov/agency/marion-county-assessors-office
+  pending_estates_file: pipeline/candidates/in-marion-2026-11-19-estates-unverified.tsv   # 48 estates awaiting parcel match
+  last_checked: 2026-11-19
