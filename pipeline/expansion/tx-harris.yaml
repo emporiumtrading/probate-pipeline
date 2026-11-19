@@ -1,0 +1,18 @@
+# Market block for config.yaml (proposed by expansion worker 2026-11-19; owner to merge)
+- id: tx-harris
+  county: Harris
+  state: TX
+  city: Houston
+  outreach_allowed: true        # still drafts only; TX Prop. Code 5.0205 / Occ. Code 1101.0045 written equitable-interest disclosures required; mail only (SB 140 text/call question open)
+  licensed_or_partnered: false  # no license needed to assign a contract with written disclosure (legal/TX.md)
+  sources:
+    probate_index: https://www.cclerk.hctx.net/applications/websearch/CourtSearch.aspx?CaseType=Probate   # Harris County Clerk, Probate Courts 1-5; search by File Date From/To; no login
+    probate_case_detail: https://www.cclerk.hctx.net/applications/websearch/CourtCaseDetail.aspx?ID=   # parties (applicant + attorney w/ addresses) and events (DOD in comments) via the IDs in the results page
+    parcels: https://www.gis.hctx.net/arcgis/rest/services/HCAD/Parcels/MapServer/0/query            # HCAD parcel layer: owner_name_1/2, site address, state_class, market value, new_owner_date
+    hcad_bulk: https://download.hcad.org/data/CAMA/2026/Real_building_land.zip                      # building_res.txt (yr built, sqft, quality), fixtures.txt (beds/baths)
+    appraisal_district: https://hcad.org/property-search/real-property/
+    tax_office: https://www.hctax.net/Property/PropertyTax        # account lookup is a JS app; check taxes manually
+    real_property_records: https://www.cclerk.hctx.net/applications/websearch/RP.aspx   # deeds/liens (manual)
+    market_context: https://www.har.com/zipcode_77016/realestate/for_sale  # HAR zip profile: list $/sqft, rent (sold prices not public: TX non-disclosure)
+  notes: Texas is a non-disclosure state - sold prices are not in public records; ARVs are HCAD-value/list-price based and must be confirmed with an agent or buyer before any offer.
+  last_checked: 2026-11-19
