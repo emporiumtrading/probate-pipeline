@@ -22,6 +22,8 @@ For each market's state: if `legal/<STATE>.md` is missing or its "Last verified"
 ### 3. Lead sourcing (Researcher)
 For each market, search the probate source for estate filings since `last_checked` (or `lookback_days_first_run` on the first run). For each filing, check the auditor/assessor/property site for real property in the decedent's name. Keep only filings with real property in the county. Skip any lead already in the tracker (match case number or parcel). Rank new candidates by: equity signals, vacancy/distress, out-of-state representative, filing age 1–12 months. Take the top `max_new_leads_per_day` across all markets. Update each market's `last_checked` in `config.yaml`. Log each source's result (worked / blocked / changed layout / no results) in `pipeline/sources-log.md`.
 
+When matching a decedent to a parcel owner, don't treat Jr./Sr./II/III as interchangeable (a "Sr." decedent and a "Jr." owner are different people), and drop any parcel whose deed history shows a certificate of transfer or sale to someone else after the date of death.
+
 If a source can't be searched automatically, say so plainly in the report with the manual search URL. Don't invent leads.
 
 ### 4. Deep-dive each new lead

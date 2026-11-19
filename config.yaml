@@ -23,7 +23,7 @@ markets:
       auditor: https://property.franklincountyauditor.com
       treasurer: https://treasurer.franklincountyohio.gov
       recorder: https://recorder.franklincountyohio.gov
-    last_checked: null
+    last_checked: 2026-11-19
 
   - id: tn-shelby
     county: Shelby
@@ -35,7 +35,7 @@ markets:
       register_of_deeds: https://register.shelby.tn.us              # rate-limited (429) on 2026-11-18; go slow
       assessor: https://www.assessormelvinburgess.com
       trustee: https://www.shelbycountytrustee.com
-    last_checked: null
+    last_checked: 2026-11-19
 
   - id: pa-philadelphia
     county: Philadelphia
@@ -47,4 +47,4 @@ markets:
       register_of_wills: https://www.phila.gov/departments/register-of-wills/
       property: https://property.phila.gov
       courts_portal: https://ujsportal.pacourts.us
-    last_checked: null
+    last_checked: 2026-11-19
