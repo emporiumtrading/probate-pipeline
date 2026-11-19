@@ -44,3 +44,12 @@
 | 2026-11-19 | az-maricopa | gis.mcassessor.maricopa.gov/arcgis/rest/services/Parcels/MapServer/0 | worked | public ArcGIS layer: OWNER_NAME, mail/situs address, DEED_DATE, SALE_DATE/PRICE, CONST_YEAR, LIVING_SPACE, FCV_CUR, PUC; no robots.txt (404); maxRecordCount 1000 |
 | 2026-11-19 | az-maricopa | mcassessor.maricopa.gov parcel search | manual only | robots.txt Disallow /mcs/ and /?q=; manual: https://mcassessor.maricopa.gov |
 | 2026-11-19 | az-maricopa | apps.azleg.gov/api/Bill (bill status) + azleg.gov/ars | worked | legal research only |
+| 2026-11-19 | tx-harris | cclerk.hctx.net CourtSearch.aspx?CaseType=Probate (search by File Date) | worked | no login/CAPTCHA; 22 weekday searches 10/20–11/18 = 785 filings; 690 estate-type (will/indep/dep admin, heirship, SEA) |
+| 2026-11-19 | tx-harris | cclerk.hctx.net CourtCaseDetail.aspx?ID= (parties + events) | worked | applicant/executor + attorney w/ addresses; DOD in event comments; decedent address usually blank |
+| 2026-11-19 | tx-harris | www.gis.hctx.net HCAD/Parcels MapServer/0 query | worked | owner_name_1/2, site addr, class, market value, new_owner_date; ~5–10 s per query; 543 name queries; 242 cases with a unique decedent-owned residential parcel |
+| 2026-11-19 | tx-harris | gis.hctx.net (bare host) | TLS name mismatch | use www.gis.hctx.net |
+| 2026-11-19 | tx-harris | download.hcad.org/data/CAMA/2026/Real_building_land.zip | worked | 235 MB; building_res (yr built, sqft, quality) + fixtures (beds/baths); updated 2026-11-15 |
+| 2026-11-19 | tx-harris | cclerk.hctx.net RP.aspx (real property index by grantor/grantee) | worked | deeds, D/Ts, releases, tax liens; results list may be truncated to first page |
+| 2026-11-19 | tx-harris | www.hctax.net property tax lookup | not automatable (JS app) | taxes unchecked; manual https://www.hctax.net/Property/PropertyTax |
+| 2026-11-19 | tx-harris | www.redfin.com sold search | blocked (403) | not retried; TX is non-disclosure, no public sold prices |
+| 2026-11-19 | tx-harris | www.har.com zip profiles | worked (list $/sf, rent) | sold list not shown publicly |
