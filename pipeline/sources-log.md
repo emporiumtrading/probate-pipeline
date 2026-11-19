@@ -38,3 +38,9 @@
 | 2026-11-19 | in-marion | gisdata.in.gov (IndianaMap statewide Parcel_Boundaries_of_Indiana_Current) | no response (timeout 30s) | statewide layer likely lacks owner names anyway (DLGF attributes only) |
 | 2026-11-19 | in-marion | Marion County Assessor / Treasurer property search (manual) | not tried | manual owner-name search fallback for the 48 estates |
 | 2026-11-19 | in-marion | notices.courtcommercialrecord.com (IBJ) | manual only | robots.txt Disallow: / — do not automate; use https://www.ibj.com/public-notices by hand |
+| 2026-11-19 | az-maricopa | superiorcourt.maricopa.gov/docket/ProbateCourtCases/ (case search by name or case no.; no filing-date search) | manual only | robots.txt Disallow: /Docket/; first case lookup returned "Server busy"; not retried. Manual: https://www.superiorcourt.maricopa.gov/docket/ProbateCourtCases/caseSearch.asp |
+| 2026-11-19 | az-maricopa | arizonapublicnotices.com (AZ Newspapers Assn) keyword "creditors Maricopa", 10/20-11/18 | manual only | robots.txt disallows anthropic-ai/ClaudeBot/Claude-Web (Disallow: /). Found after a test search (~187 Notice to Creditors listings, PB2026-00xxxx); results discarded and not used. Manual: https://www.arizonapublicnotices.com/ |
+| 2026-11-19 | az-maricopa | recordreporter.com (Record Reporter legal notices) | login required | notices behind login; not used |
+| 2026-11-19 | az-maricopa | gis.mcassessor.maricopa.gov/arcgis/rest/services/Parcels/MapServer/0 | worked | public ArcGIS layer: OWNER_NAME, mail/situs address, DEED_DATE, SALE_DATE/PRICE, CONST_YEAR, LIVING_SPACE, FCV_CUR, PUC; no robots.txt (404); maxRecordCount 1000 |
+| 2026-11-19 | az-maricopa | mcassessor.maricopa.gov parcel search | manual only | robots.txt Disallow /mcs/ and /?q=; manual: https://mcassessor.maricopa.gov |
+| 2026-11-19 | az-maricopa | apps.azleg.gov/api/Bill (bill status) + azleg.gov/ars | worked | legal research only |

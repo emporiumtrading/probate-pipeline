@@ -1,0 +1,16 @@
+# Market block proposal for config.yaml (expansion worker 2026-11-19). NOT workable end to end: no automatable probate filing source.
+- id: az-maricopa
+  county: Maricopa
+  state: AZ
+  city: Phoenix
+  outreach_allowed: true        # no AZ wholesaler license (legal/AZ.md); A.R.S. 44-5101 written wholesale-buyer disclosure before any binding contract; still drafts only
+  licensed_or_partnered: false  # not needed for assignment with disclosure
+  status: blocked               # probate sources are manual only (robots.txt); retry after 30 days or with a manual/licensed data feed
+  sources:
+    probate_case_search_manual: https://www.superiorcourt.maricopa.gov/docket/ProbateCourtCases/caseSearch.asp   # robots.txt Disallow /Docket/; name or case no. only; manual only
+    probate_notices_manual: https://www.arizonapublicnotices.com/   # Notice to Creditors (keyword "creditors Maricopa", date range); robots.txt disallows AI agents; manual only
+    parcels: https://gis.mcassessor.maricopa.gov/arcgis/rest/services/Parcels/MapServer/0/query   # OWNER_NAME, situs, deed/sale date, yr built, sqft, FCV, PUC; works
+    assessor_manual: https://mcassessor.maricopa.gov
+    treasurer_manual: https://treasurer.maricopa.gov
+    recorder_manual: https://recorder.maricopa.gov
+  last_checked: 2026-11-19
