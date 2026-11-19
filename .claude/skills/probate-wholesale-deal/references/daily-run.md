@@ -5,7 +5,7 @@ Use this when the skill runs on a schedule inside the pipeline repo (it has `con
 Work in depth, not breadth: a few leads researched properly beat fifty half-checked names. Respect `max_new_leads_per_day`.
 
 ## Hard limits (every run)
-- **Never contact anyone.** No emails, texts, calls, letters, form submissions, or messages to executors, heirs, attorneys, buyers or courts. Outreach is drafts only, queued for the owner's approval in the report.
+- **Contact only as `config.yaml` → `autonomy` allows**, and only after the Compliance Officer passes the item. With `outreach: drafts_only`, nothing is sent. With `autonomous`, the Communications worker sends mail/email through connected services. Never phone or text automatically. Nothing binding is ever signed for the owner, and no money or bank details are ever handled.
 - Public records only. Don't create accounts, bypass logins, CAPTCHAs, paywalls or rate limits. If a site blocks or rate-limits you, back off, log it in `pipeline/sources-log.md`, and move on.
 - Personal data (names, addresses, phone numbers of executors/heirs) stays in this private repo. Don't paste it into outside services beyond the searches needed to research it.
 - Markets with `outreach_allowed: false` get research and underwriting only; no outreach drafts.
@@ -51,6 +51,14 @@ For every open lead in the tracker (not WALK AWAY / CLOSED / DEAD):
 - If the owner left notes in the tracker `notes` column or in `leads/<id>/owner-notes.md`, act on them (e.g. "spoke to executor, wants $80k" → re-run negotiator plan).
 - Mark leads stale after 6 months with no movement.
 
+### 5b. Communications, negotiation, professionals, closing
+Following `references/orchestration.md`, run these workers (in parallel where possible):
+- **Communications**: send what's due (compliance-gated), read the inbox, route replies.
+- **Negotiation desk**: answer counters within authority; re-price with the Deal Analyst when facts change; move agreed deals to "Contract out for signature" with the contract built from the attorney-approved state template.
+- **Professional Network**: for any market with an active deal and no engaged attorney/title company, build or refresh `network/<market>.md` and request quotes if allowed.
+- **Dispositions desk**: for deals under contract, match and contact vetted buyers (compliance-gated).
+- **Closing desk**: for every contract, track deadlines and update the signature and wire queues.
+
 ### 6. Daily report
 Write `reports/YYYY-MM-DD.md`:
 
@@ -58,7 +66,12 @@ Write `reports/YYYY-MM-DD.md`:
 # Probate Pipeline — YYYY-MM-DD
 ## Top of mind
 - [legal changes, deals that changed status, anything urgent]
-## Needs your approval (nothing is sent without you)
+## Your queues
+### Sign
+### Wire (confirm by phone with title first)
+### Calls requested
+### Exceptions (outside authority or held by compliance)
+## Needs your approval (only if outreach is drafts_only)
 | Lead | What | File |
 ## New leads today (N)
 | Lead | Market | Verdict | ARV | MAO | Why |

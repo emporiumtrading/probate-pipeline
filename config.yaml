@@ -2,7 +2,11 @@
 
 owner_timezone: America/Chicago
 dashboard_slug: 24accd17-df79-4cf5-a42f-e6451a61b8a0   # Probate Pipeline Dashboard (claude.ai artifact)
-outreach_mode: drafts_only        # drafts_only | research_only. Never send anything automatically.
+autonomy:
+  outreach: drafts_only           # drafts_only | autonomous. Switch to autonomous once mail/email sending services are connected and the attorney has approved the state templates.
+  negotiation_limit: mao          # the Negotiator negotiates all the way up to each deal's max offer; nothing binds until the owner signs
+  engage_professionals: request_quotes   # email attorneys/title companies for quotes; the owner signs any engagement
+  # Always the owner, not configurable: signatures, earnest-money wires (confirmed by phone with title), phone calls.
 max_new_leads_per_day: 10         # deep-dive cap per run (controls depth vs. cost)
 lookback_days_first_run: 90       # first run searches filings from the last N days
 legal_recheck_days: 30            # re-verify each state's legal file after N days
@@ -50,7 +54,7 @@ markets:
     last_checked: 2026-11-19
 
 # Market expansion: each run tries the next counties in this queue (see daily-run step 3b).
-expansion_per_run: 2
+expansion_per_run: 3
 expansion_queue:   # large metros first; legal status per state is checked before any lead is worked
   - {county: Cuyahoga, state: OH, city: Cleveland}
   - {county: Hamilton, state: OH, city: Cincinnati}
@@ -78,3 +82,38 @@ expansion_queue:   # large metros first; legal status per state is checked befor
   - {county: Milwaukee, state: WI, city: Milwaukee}
   - {county: Cook, state: IL, city: Chicago}
   - {county: Baltimore City, state: MD, city: Baltimore}
+  # Remaining states (one major metro each) so every state gets evaluated
+  - {county: King, state: WA, city: Seattle}
+  - {county: Multnomah, state: OR, city: Portland}
+  - {county: Los Angeles, state: CA, city: Los Angeles}
+  - {county: Clark, state: NV, city: Las Vegas}
+  - {county: Salt Lake, state: UT, city: Salt Lake City}
+  - {county: Ada, state: ID, city: Boise}
+  - {county: Yellowstone, state: MT, city: Billings}
+  - {county: Laramie, state: WY, city: Cheyenne}
+  - {county: Denver, state: CO, city: Denver}
+  - {county: Bernalillo, state: NM, city: Albuquerque}
+  - {county: Cass, state: ND, city: Fargo}
+  - {county: Minnehaha, state: SD, city: Sioux Falls}
+  - {county: Douglas, state: NE, city: Omaha}
+  - {county: Sedgwick, state: KS, city: Wichita}
+  - {county: Hennepin, state: MN, city: Minneapolis}
+  - {county: Polk, state: IA, city: Des Moines}
+  - {county: Pulaski, state: AR, city: Little Rock}
+  - {county: East Baton Rouge, state: LA, city: Baton Rouge}
+  - {county: Hinds, state: MS, city: Jackson}
+  - {county: Richland, state: SC, city: Columbia}
+  - {county: Henrico, state: VA, city: Richmond}
+  - {county: Kanawha, state: WV, city: Charleston}
+  - {county: New Castle, state: DE, city: Wilmington}
+  - {county: Essex, state: NJ, city: Newark}
+  - {county: Erie, state: NY, city: Buffalo}
+  - {county: Hartford, state: CT, city: Hartford}
+  - {county: Providence, state: RI, city: Providence}
+  - {county: Suffolk, state: MA, city: Boston}
+  - {county: Hillsborough, state: NH, city: Manchester}
+  - {county: Chittenden, state: VT, city: Burlington}
+  - {county: Cumberland, state: ME, city: Portland}
+  - {county: Anchorage, state: AK, city: Anchorage}
+  - {county: Honolulu, state: HI, city: Honolulu}
+  - {county: District of Columbia, state: DC, city: Washington}

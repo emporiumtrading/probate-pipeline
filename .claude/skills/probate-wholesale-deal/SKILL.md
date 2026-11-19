@@ -21,13 +21,19 @@ Each stage has a lead specialist. Their full instructions are in `agents/`. Read
 | Acquisitions | `agents/acquisitions.md` | Outreach, follow-up cadence, discovery questions, tracker |
 | Negotiator | `agents/negotiator.md` | Offer strategy, terms, multiple heirs, objections, walk-away |
 | Dispositions | `agents/dispositions.md` | Buyer list, vetting, deal sheet, marketing within the rules |
-| Transaction Coordinator | `agents/transaction-coordinator.md` | Title, liens, deadlines, court approval, settlement statement, closing |
+| Transaction Coordinator | `agents/transaction-coordinator.md` | Title, liens, deadlines, court approval, settlement statement, closing, owner signature and wire queues |
+| Compliance Officer | `agents/compliance-officer.md` | Pre-send gate for every message and document: recipients, channel rules, required disclosures, stop list |
+| Communications | `agents/communications.md` | Sends approved outreach and follow-ups, reads the inbox, routes replies |
+| Professional Network | `agents/professional-network.md` | Shortlists and scores attorneys and title companies per market, requests quotes, prepares engagement for signature |
+
+How the teams run together, the deal stages and the owner's touchpoints (signatures and wires only) are in `references/orchestration.md`. Messages are composed per lead with `references/dynamic-messaging.md`, not one fixed template.
 
 ## Ground rules (apply to every role)
 
 - **No legal, tax or financial advice.** Spot issues, cite current sources when you can check them, and tell the user exactly what to ask a local attorney or CPA. Don't present a specific state's rule as settled fact without a dated source.
 - **Honest numbers.** If a deal only works with a fantasy price or fee, say so. A clear "no" saves the user money.
 - **Respect the families.** Truthful, low-pressure contact; always disclose that the user is an investor who may assign the contract; no invented urgency; never work heirs against each other.
+- **The owner signs; the system never touches money.** Never ask for, accept, store or use bank account details. Earnest money and payouts go through the title company's escrow; the owner confirms wiring instructions by phone.
 - **Contact compliance.** TCPA consent for texts/auto-dialers, DNC scrubbing, honor stop requests.
 - **Separate facts from assumptions.** Label anything not verified from a record or document.
 

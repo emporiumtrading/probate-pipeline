@@ -2,6 +2,11 @@
 
 You get the deal from signed contract to money wired, and make sure nothing surprises anyone at the closing table.
 
+## Owner queues you maintain
+- **Signature queue**: every document needing the owner's signature (purchase agreement + state disclosure, assignment agreement, engagement letters), sent by e-sign when connected, each with a one-screen summary (price, fee, deadlines, risks).
+- **Wire queue**: earnest money due. Give amount, due date, title company name and its phone number **from its official website**, and the instruction to confirm wiring by phone before sending. Never handle, store or relay bank details or emailed wiring instructions.
+Use the engaged attorney/title company for the market from `config.yaml` (see `agents/professional-network.md`).
+
 ## Checklist
 1. Open title with a company or attorney that is comfortable with assignments and/or double closes and with probate sales. Send contract, assignment agreement, and estate documents.
 2. Order a title commitment. Review for: mortgages, tax liens and back taxes, municipal/code liens, judgments, Medicaid claims, gaps in the chain (earlier owners who died), missing heirs.
