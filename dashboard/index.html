@@ -198,7 +198,6 @@
 <script>
 window.ppMoney = (v) => (v === null || v === undefined || v === '' || isNaN(+v)) ? '—' : d3.format('$,.0f')(+v);
 window.ppOwner = { approve: 'Approve outreach', sign: 'Sign', wire: 'Wire earnest money', '': '—' };
-const ppInScope = (r) => { const p = dash.params(); return (!p.state || r.state === p.state) && (!p.county || r.county === p.county); };
 
 dash.calc('leadsF', { title: 'Leads in the chosen state and county', description: 'All researched leads matching the State and County filters.', inputs: ['leads'],
   fn: (leads) => { const p = dash.params(); return leads.filter((r) => (!p.state || r.state === p.state) && (!p.county || r.county === p.county)); } });
@@ -261,7 +260,7 @@ dash.draw('countySel', (sel) => {
   const m = dash.data('markets'); const st = dash.params().state;
   const c = m.status === 'ok' ? [...new Set(m.data.filter((r) => r.county && (!st || r.state === st)).map((r) => st ? r.county : `${r.county}|${r.state}`))].sort() : [];
   sel.replaceChildren(new Option('All counties', ''), ...c.map((x) => { const [cty, s] = x.split('|'); return new Option(s ? `${cty} (${s})` : cty, x); }));
-  const p = dash.params(); sel.value = p.county ? (st ? p.county : `${p.county}|${p.cstate || ''}`) : '';
+  const p = dash.params(); sel.value = (p.county && st) ? p.county : '';
   sel.onchange = () => { const [cty, s] = (sel.value || '').split('|'); dash.setParams(sel.value ? (s ? { county: cty, state: s, lead: null } : { county: cty, lead: null }) : { county: null, lead: null }); };
 });
 dash.draw('dealSel', (sel) => {
@@ -362,10 +361,10 @@ dash.draw('dealProgress', (el) => { const d = dash.data('deal'), s = dash.data('
   const W = el.clientWidth || 400, n = steps.length, step = W / n, H = 70;
   const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img')
     .attr('aria-label', `Deal is at stage ${cur} of ${n}: ${d.data[0].stage}`);
+  svg.append('line').attr('x1', step / 2).attr('x2', W - step / 2).attr('y1', 18).attr('y2', 18).style('stroke', 'var(--cds-chart-grid)');
   svg.selectAll('circle').data(steps).join('circle').attr('cx', (x, i) => i * step + step / 2).attr('cy', 18).attr('r', 7)
     .style('fill', (x) => +x.stage_order <= cur && d.data[0].stage !== 'Dead' ? dash.colors[0] : 'var(--cds-chart-grid)');
-  svg.append('line').attr('x1', step / 2).attr('x2', W - step / 2).attr('y1', 18).attr('y2', 18).style('stroke', 'var(--cds-chart-grid)').lower();
-  const lab = svg.selectAll('text').data(steps).join('text').attr('x', (x, i) => i * step + step / 2).attr('y', 44).attr('text-anchor', 'middle')
+  svg.selectAll('text.lbl').data(steps).join('text').attr('class', 'lbl').attr('x', (x, i) => i * step + step / 2).attr('y', 44).attr('text-anchor', 'middle')
     .text((x, i) => (+x.stage_order === cur || i === 0 || i === n - 1) ? x.stage : '');
   svg.append('text').attr('x', 0).attr('y', 64).text(d.data[0].stage === 'Dead' ? 'This deal is closed out (walk away).' : `Stage ${cur} of ${n}: ${d.data[0].stage}`); });
 </script>
