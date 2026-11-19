@@ -7,7 +7,17 @@ autonomy:
   negotiation_limit: mao          # the Negotiator negotiates all the way up to each deal's max offer; nothing binds until the owner signs
   engage_professionals: request_quotes   # email attorneys/title companies for quotes; the owner signs any engagement
   # Always the owner, not configurable: signatures, earnest-money wires (confirmed by phone with title), phone calls.
-max_new_leads_per_day: 10         # deep-dive cap per run (controls depth vs. cost)
+max_new_leads_per_day: 25         # deep-dive cap per run; raised automatically toward targets.max_leads_per_day
+
+targets:
+  closings_per_month: 115
+  max_leads_per_day: 200          # upper bound the planner may raise max_new_leads_per_day to
+  max_expansion_per_run: 6        # upper bound on new counties tried per run
+  assumed_rates:                  # starting guesses until 3 months of real data replace them
+    researched_to_opportunity: 0.40
+    opportunity_to_conversation: 0.15
+    conversation_to_contract: 0.30
+    contract_to_close: 0.75
 lookback_days_first_run: 90       # first run searches filings from the last N days
 legal_recheck_days: 30            # re-verify each state's legal file after N days
 

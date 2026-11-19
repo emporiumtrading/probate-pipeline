@@ -33,6 +33,13 @@ The goal is coverage across as many US states as can be worked legally and reach
 3. If both work, add the market to `markets` with its source URLs and `last_checked: null` so step 3 picks it up next run. If not, record why in `pipeline/sources-log.md` and mark it `status: blocked` in the queue so it isn't retried for 30 days.
 Remove processed counties from the queue. Never bypass blocks, logins or CAPTCHAs to make a county work.
 
+### 3c. Plan to the monthly target
+`config.yaml` → `targets.closings_per_month` sets the goal (currently 115). Each run:
+1. Measure the funnel from the tracker: leads researched → opportunities → contacted → in conversation → offers → verbal → under contract → closed, per month, and the conversion rate between each step (use the defaults in `targets.assumed_rates` until there are 3 months of real data).
+2. Work backwards from the target to what this run must produce: new qualified leads needed per day, counties needed, letters/emails needed, buyers needed.
+3. Raise throughput to close the gap, in this order: open more markets (step 3b, up to `targets.max_expansion_per_run`), raise `max_new_leads_per_day` up to `targets.max_leads_per_day`, quick-screen everything and deep-dive only the top-ranked, and add follow-up touches up to the compliance caps. Never loosen the compliance gate, the frequency caps or the owner-signature rule to hit a number.
+4. Report the gap honestly in the report's top section: "Pace: X closings vs 115 target; need N more qualified leads/day; bottleneck: <stage>".
+
 ### 4. Deep-dive each new lead
 Create `leads/<lead_id>/` (lead_id = `<market-id>-<case number or parcel>`), then run the team in order, each writing its own file:
 - `research.md` — `agents/researcher.md`
@@ -91,7 +98,8 @@ If `config.yaml` has `dashboard_slug`, update the dashboard artifact (use the cl
 1. Write four CSVs to a scratch folder, keeping these exact columns:
    - `leads.csv`: **only leads whose verdict is GO or NEGOTIATE** (walk-aways and research-only leads stay in the repo), sorted by potential_earnings descending, with columns lead_id,address,city,market,state,stage,verdict,arv_mid,repairs_mid,buyer_max,target_price,mao,potential_earnings,asking,letters_issued,court_confirmation,next_action,next_action_date,touch_count,last_touch_date. `buyer_max` = ARV × buyer_pct − repairs; `target_price` = the Negotiator's target contract price (never above MAO; use MAO if no lower target); `potential_earnings` = buyer_max − target_price. City is the property's city, title case. Leave out executor/heir names and contact details, because anyone who can open the dashboard can read its files. Stage is one of: New, Researched, Outreach drafted, Contacted, Negotiating, Under contract, Assigned, Closed, Dead.
    - `approvals.csv`: lead_id,item,file,created (everything listed under "Needs your approval")
-   - `sources.csv`: date,market,source,status,note (latest status per source)
+   - `sources.csv`: date,market,source,status,note: **only sources that worked** on their latest check (leave out blocked, rate-limited, no-response and unusable ones; those stay in `pipeline/sources-log.md` and the report).
+   - `pace.csv`: month,target_closings,closed,under_contract,verbal_agreements,offers_out,in_conversation,outreach_sent,opportunities,leads_researched,markets_live, with counts for the current month from the tracker. Upload it and update `datasets/pace` like the others.
    - `runs.csv`: date,new_leads,updated_leads,approvals_waiting,legal_changes,pushed (append today's row to the previous history kept in `pipeline/runs.csv`)
 2. `upload_asset` the four files to the dashboard slug.
 3. For each of `datasets/leads`, `datasets/approvals`, `datasets/sources`, `datasets/runs`: `db_get` it for its version, then `db_write` an `update` with `ifVersion`, setting `source.url` to the new upload URL and `updated` to `{at: <now ISO>, by: "Daily run"}`. On the first real run also set the titles "Pipeline leads" and "Approvals queue" and drop the word "sample" from their descriptions.
