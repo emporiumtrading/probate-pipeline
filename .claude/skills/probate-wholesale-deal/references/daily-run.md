@@ -26,6 +26,13 @@ When matching a decedent to a parcel owner, don't treat Jr./Sr./II/III as interc
 
 If a source can't be searched automatically, say so plainly in the report with the manual search URL. Don't invent leads.
 
+### 3b. Expand to new markets
+The goal is coverage across as many US states as can be worked legally and reached through public records. Each run, take the next `expansion_per_run` counties from `expansion_queue` in `config.yaml`:
+1. Legal Advisor first: if `legal/<STATE>.md` is missing, write it (step 2). If the state requires a license to wholesale and `licensed_or_partnered` isn't true for that state, add the market as research-only (`outreach_allowed: false`); its leads can never be GO/NEGOTIATE and won't show on the dashboard.
+2. Researcher: find a public, no-login probate filing index for the county (court case search by filing date, or published Notices to Creditors) and a public parcel source with owner names (county ArcGIS REST parcel layer, assessor open data). Test one small query each, slowly.
+3. If both work, add the market to `markets` with its source URLs and `last_checked: null` so step 3 picks it up next run. If not, record why in `pipeline/sources-log.md` and mark it `status: blocked` in the queue so it isn't retried for 30 days.
+Remove processed counties from the queue. Never bypass blocks, logins or CAPTCHAs to make a county work.
+
 ### 4. Deep-dive each new lead
 Create `leads/<lead_id>/` (lead_id = `<market-id>-<case number or parcel>`), then run the team in order, each writing its own file:
 - `research.md` — `agents/researcher.md`
@@ -69,7 +76,7 @@ Keep the report short enough to read on a phone in five minutes; details live in
 ### 7. Refresh the dashboard
 If `config.yaml` has `dashboard_slug`, update the dashboard artifact (use the claude-artifacts tools):
 1. Write four CSVs to a scratch folder, keeping these exact columns:
-   - `leads.csv`: lead_id,address,market,state,stage,verdict,arv_mid,repairs_mid,mao,asking,letters_issued,court_confirmation,next_action,next_action_date,touch_count,last_touch_date (from the tracker; leave out executor/heir names and contact details, because anyone who can open the dashboard can read its files). Stage is one of: New, Researched, Outreach drafted, Contacted, Negotiating, Under contract, Assigned, Closed, Dead.
+   - `leads.csv`: **only leads whose verdict is GO or NEGOTIATE** (walk-aways and research-only leads stay in the repo), sorted by potential_earnings descending, with columns lead_id,address,city,market,state,stage,verdict,arv_mid,repairs_mid,buyer_max,target_price,mao,potential_earnings,asking,letters_issued,court_confirmation,next_action,next_action_date,touch_count,last_touch_date. `buyer_max` = ARV × buyer_pct − repairs; `target_price` = the Negotiator's target contract price (never above MAO; use MAO if no lower target); `potential_earnings` = buyer_max − target_price. City is the property's city, title case. Leave out executor/heir names and contact details, because anyone who can open the dashboard can read its files. Stage is one of: New, Researched, Outreach drafted, Contacted, Negotiating, Under contract, Assigned, Closed, Dead.
    - `approvals.csv`: lead_id,item,file,created (everything listed under "Needs your approval")
    - `sources.csv`: date,market,source,status,note (latest status per source)
    - `runs.csv`: date,new_leads,updated_leads,approvals_waiting,legal_changes,pushed (append today's row to the previous history kept in `pipeline/runs.csv`)
