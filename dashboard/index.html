@@ -297,7 +297,7 @@ const ppRows = (tbody, src, cols, emptyText, onRow) => {
   });
 };
 const ppV = (v) => v === 'GO' ? 'pp-go' : v === 'NEGOTIATE' ? 'pp-neg' : v === 'WALK AWAY' ? 'pp-bad' : 'pp-muted';
-const ppOpenDeal = (r) => { dash.setParams({ lead: r.lead_id }); window.ppShow('deal'); };
+const ppOpenDeal = window.ppOpenDeal = (r) => { dash.setParams({ lead: r.lead_id }); window.ppShow('deal'); };
 const M = window.ppMoney;
 
 dash.draw('oppRows', (tb) => ppRows(tb, 'opps', [{ f: 'address' }, { f: 'city' }, { f: 'county' }, { f: 'state' }, { f: 'verdict', cls: ppV },
@@ -347,7 +347,7 @@ const ppNotReady = (el, d) => { el.replaceChildren(); const p = document.createE
 
 dash.draw('earnChart', (el) => { const d = dash.data('opps'); if (d.status !== 'ok' || !d.data) return ppNotReady(el, d);
   ppBars(el, d.data.slice(0, 10), (r) => `${r.address} · ${r.city} ${r.state}`, (r) => +r.potential_earnings || 0, window.ppMoney,
-    { title: 'Top potential earnings', empty: 'No opportunities in this state or county yet.', onClick: ppOpenDeal, tip: (r) => `${r.address}: earn ${window.ppMoney(r.potential_earnings)} (target ${window.ppMoney(r.target_price)}, buyer max ${window.ppMoney(r.buyer_max)})` }); });
+    { title: 'Top potential earnings', empty: 'No opportunities in this state or county yet.', onClick: window.ppOpenDeal, tip: (r) => `${r.address}: earn ${window.ppMoney(r.potential_earnings)} (target ${window.ppMoney(r.target_price)}, buyer max ${window.ppMoney(r.buyer_max)})` }); });
 dash.draw('stageChart', (el) => { const d = dash.data('stageCounts'); if (d.status !== 'ok' || !d.data) return ppNotReady(el, d);
   ppBars(el, d.data.filter((r) => r.count > 0), (r) => r.stage, (r) => r.count, (v) => String(v),
     { title: 'Deals by stage', empty: 'No deals in this state or county yet.', onClick: (r) => { dash.setParams({ stage: r.stage }); window.ppShow('pipeline'); } }); });
