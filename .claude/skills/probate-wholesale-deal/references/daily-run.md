@@ -93,17 +93,12 @@ counts by stage and market
 
 Keep the report short enough to read on a phone in five minutes; details live in `leads/`.
 
-### 7. Refresh the dashboard
-If `config.yaml` has `dashboard_slug`, update the dashboard artifact (use the claude-artifacts tools):
-1. Write four CSVs to a scratch folder, keeping these exact columns:
-   - `leads.csv`: **only leads whose verdict is GO or NEGOTIATE** (walk-aways and research-only leads stay in the repo), sorted by potential_earnings descending, with columns lead_id,address,city,market,state,stage,verdict,arv_mid,repairs_mid,buyer_max,target_price,mao,potential_earnings,asking,letters_issued,court_confirmation,next_action,next_action_date,touch_count,last_touch_date. `buyer_max` = ARV × buyer_pct − repairs; `target_price` = the Negotiator's target contract price (never above MAO; use MAO if no lower target); `potential_earnings` = buyer_max − target_price. City is the property's city, title case. Leave out executor/heir names and contact details, because anyone who can open the dashboard can read its files. Stage is one of: New, Researched, Outreach drafted, Contacted, Negotiating, Under contract, Assigned, Closed, Dead.
-   - `approvals.csv`: lead_id,item,file,created (everything listed under "Needs your approval")
-   - `sources.csv`: date,market,source,status,note: **only sources that worked** on their latest check (leave out blocked, rate-limited, no-response and unusable ones; those stay in `pipeline/sources-log.md` and the report).
-   - `pace.csv`: month,target_closings,closed,under_contract,verbal_agreements,offers_out,in_conversation,outreach_sent,opportunities,leads_researched,markets_live, with counts for the current month from the tracker. Upload it and update `datasets/pace` like the others.
-   - `runs.csv`: date,new_leads,updated_leads,approvals_waiting,legal_changes,pushed (append today's row to the previous history kept in `pipeline/runs.csv`)
-2. `upload_asset` the four files to the dashboard slug.
-3. For each of `datasets/leads`, `datasets/approvals`, `datasets/sources`, `datasets/runs`: `db_get` it for its version, then `db_write` an `update` with `ifVersion`, setting `source.url` to the new upload URL and `updated` to `{at: <now ISO>, by: "Daily run"}`. On the first real run also set the titles "Pipeline leads" and "Approvals queue" and drop the word "sample" from their descriptions.
-Don't touch `files/index.html`. If the dashboard update fails, note it in the report and carry on.
+### 7. QA, then refresh the dashboard
+1. Build the dashboard data with the repo's builder (never hand-write the CSVs): `python3 scripts/build_dashboard_data.py <scratch>/dd`. It writes leads, queues, markets (all 50 states + DC), stages, sources (working only), runs and pace, with names and contact details left out.
+2. Run the regression gate: `python3 scripts/qa_checks.py <scratch>/dd`. If it exits non-zero, **don't publish**. Fix the underlying lead files or tracker rows (or, if a check is wrong, fix the check and say why in the report), rebuild and re-run. Report every WARN line in the report's Notes section.
+3. Self-review before publishing (meta-check): compare today's numbers to yesterday's report. Any opportunity count, total earnings or stage count that moved by more than 50% without a matching explanation in today's work is investigated before publishing.
+4. If `config.yaml` has `dashboard_slug`: `upload_asset` the CSVs, then for each `datasets/<name>` (leads, queues, markets, stages, sources, runs, pace) `db_get` its version and `db_write` an `update` with `ifVersion`, setting `source.url` and `updated: {at, by: "Daily run"}` (use `set` for a dataset that doesn't exist yet). Don't touch `files/index.html`; the page lives in `dashboard/index.html` in the repo and changes only when the owner asks.
+5. After writing, read `data/users/<your id>/check` and `runs` (via `db_whoami`) if present and fix any failure they name.
 
 ### 8. Save
 `git add -A && git commit -m "Daily run YYYY-MM-DD: N new leads, M updates"` and push to the default branch, retrying network errors up to 4 times with backoff. If the push fails, say so at the top of your final message.

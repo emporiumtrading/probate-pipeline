@@ -1,0 +1,371 @@
+<meta name="dash-one-writer">
+<style>
+.pp { font-family: var(--font-anthropic-sans); color: var(--color-fg); display: flex; flex-direction: column; gap: var(--cds-gap-lg); }
+.pp h1 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0; }
+.pp h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0 0 var(--cds-gap-sm); }
+.pp p { margin: 0; }
+.pp .pp-lede { margin-top: var(--cds-gap-xs); color: var(--color-fg-muted); }
+.pp-bar { display: flex; flex-wrap: wrap; gap: var(--cds-gap-md); align-items: end; justify-content: space-between; }
+.pp-filters { display: flex; flex-wrap: wrap; gap: var(--cds-gap-md); align-items: end; }
+.pp-filters label { display: flex; flex-direction: column; gap: 4px; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.pp-tabs { display: flex; flex-wrap: wrap; gap: 4px; border-bottom: 1px solid var(--color-border-line); }
+.pp-tab { font: inherit; font-size: var(--cds-font-size-caption); background: none; border: 0; border-bottom: 2px solid transparent; padding: 8px 10px; color: var(--color-fg-muted); cursor: pointer; }
+.pp-tab[aria-selected="true"] { color: var(--color-fg); border-bottom-color: var(--color-fg); font-weight: var(--cds-font-weight-medium); }
+.pp-page { display: flex; flex-direction: column; gap: var(--cds-gap-lg); }
+.pp-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--cds-gap-md); }
+.pp-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); }
+.pp-tile .pp-num { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: 2rem; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.pp-tile .pp-lbl { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.pp-two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--cds-gap-md); }
+.pp-wrap { overflow-x: auto; }
+.pp table { border-collapse: collapse; width: 100%; font-size: var(--cds-font-size-caption); }
+.pp th, .pp td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--color-border-line); white-space: nowrap; }
+.pp td.pp-wrapcell { white-space: normal; min-width: 220px; }
+.pp th { color: var(--color-fg-muted); font-weight: var(--cds-font-weight-medium); }
+.pp td.pp-n, .pp th.pp-n { text-align: right; font-variant-numeric: tabular-nums; }
+.pp tr.pp-click { cursor: pointer; }
+.pp tr.pp-click:hover td { background: var(--color-bg); }
+.pp tr.pp-sel td { font-weight: var(--cds-font-weight-medium); }
+.pp .pp-go { color: var(--color-ok); font-weight: var(--cds-font-weight-medium); }
+.pp .pp-neg { color: var(--color-warn); font-weight: var(--cds-font-weight-medium); }
+.pp .pp-bad { color: var(--color-bad); font-weight: var(--cds-font-weight-medium); }
+.pp .pp-muted { color: var(--color-fg-muted); }
+.pp-chart { position: relative; min-height: 180px; }
+.pp-chart text { fill: var(--cds-text-secondary); font-size: var(--cds-font-size-caption); }
+.pp-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); box-shadow: var(--cds-shadow-popover); border-radius: var(--cds-radius); padding: 4px 8px; font-size: var(--cds-font-size-caption); white-space: nowrap; z-index: 2; }
+.pp dl { display: grid; grid-template-columns: minmax(140px, max-content) 1fr; gap: 6px 16px; margin: 0; font-size: var(--cds-font-size-caption); }
+.pp dt { color: var(--color-fg-muted); }
+.pp dd { margin: 0; }
+.pp details summary { cursor: pointer; color: var(--color-fg-muted); }
+@media print { .pp-tabs, .pp-filters { display: none; } }
+</style>
+
+<div class="pp">
+  <header id="top">
+    <h1>Probate Operations</h1>
+    <p class="pp-lede"><b data-draw="tOpps" data-source="kpis" data-field="opps" data-row="0">—</b> opportunities worth <b data-draw="tEarn" data-source="kpis" data-field="earnings" data-row="0">—</b> in potential earnings across <b data-draw="tMk" data-source="kpis" data-field="markets_live" data-row="0">—</b> live counties; <b data-draw="tQ" data-source="kpis" data-field="queue" data-row="0">—</b> items are waiting on you.</p>
+  </header>
+
+  <div class="pp-bar">
+    <nav class="pp-tabs" role="tablist" aria-label="Pages">
+      <button class="pp-tab" role="tab" data-page="overview" aria-selected="true">Overview</button>
+      <button class="pp-tab" role="tab" data-page="opportunities" aria-selected="false">Opportunities</button>
+      <button class="pp-tab" role="tab" data-page="pipeline" aria-selected="false">Pipeline</button>
+      <button class="pp-tab" role="tab" data-page="deal" aria-selected="false">Deal detail</button>
+      <button class="pp-tab" role="tab" data-page="queues" aria-selected="false">Your queues</button>
+      <button class="pp-tab" role="tab" data-page="markets" aria-selected="false">Markets &amp; legal</button>
+      <button class="pp-tab" role="tab" data-page="operations" aria-selected="false">Operations</button>
+    </nav>
+    <div class="pp-filters" id="filters">
+      <label>State<select class="dash-select" data-draw="stateSel" aria-label="State" data-source="markets"></select></label>
+      <label>County<select class="dash-select" data-draw="countySel" aria-label="County" data-source="markets"></select></label>
+    </div>
+  </div>
+
+  <section class="pp-page" id="overview">
+    <div class="pp-tiles">
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="kOpps" data-source="kpis" data-field="opps" data-row="0">—</div><div class="pp-lbl">Opportunities (GO / NEGOTIATE)</div></div>
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="kEarn" data-source="kpis" data-field="earnings" data-row="0">—</div><div class="pp-lbl">Total potential earnings</div></div>
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="kBest" data-source="kpis" data-field="best" data-row="0">—</div><div class="pp-lbl">Highest single deal</div></div>
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="kQ" data-source="kpis" data-field="queue" data-row="0">—</div><div class="pp-lbl">Waiting on you (approve, sign, wire)</div></div>
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="kContract" data-source="kpis" data-field="under_contract" data-row="0">—</div><div class="pp-lbl">Under contract</div></div>
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="kClosed" data-source="pace" data-field="closed" data-row="0">—</div><div class="pp-lbl">Closed this month, of <span data-draw="kTarget" data-source="pace" data-field="target_closings" data-row="0">—</span> target</div></div>
+    </div>
+    <div class="pp-two">
+      <div class="pp-card" id="ov-earn"><h2>Top potential earnings</h2><div class="pp-chart" data-draw="earnChart" data-source="opps"></div></div>
+      <div class="pp-card" id="ov-stage"><h2>Deals by stage</h2><div class="pp-chart" data-draw="stageChart" data-source="stageCounts"></div></div>
+    </div>
+    <div class="pp-card" id="ov-pace"><h2>Pace to <span data-draw="pTarget" data-source="pace" data-field="target_closings" data-row="0">—</span> closings this month (all markets)</h2><div class="pp-chart" data-draw="paceChart" data-source="pace"></div></div>
+  </section>
+
+  <section class="pp-page" id="opportunities" hidden>
+    <p class="pp-muted">Only GO and NEGOTIATE deals, highest potential earnings first. Click a row to open the deal. Potential earnings = cash-buyer max − target contract price.</p>
+    <div class="pp-card pp-wrap">
+      <table data-source="opps" data-row-key="lead_id">
+        <thead><tr><th data-field="address">Property</th><th data-field="city">City</th><th data-field="county">County</th><th data-field="state">State</th><th data-field="verdict">Verdict</th><th class="pp-n" data-field="potential_earnings">Potential earnings</th><th class="pp-n" data-field="target_price">Target price</th><th class="pp-n" data-field="buyer_max">Cash-buyer max</th><th class="pp-n" data-field="arv_mid">After-repair value</th><th data-field="stage">Stage</th><th data-field="next_action_date">Next step due</th></tr></thead>
+        <tbody data-draw="oppRows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="pp-page" id="pipeline" hidden>
+    <p class="pp-muted">Every stage from research to getting paid. The team named runs that stage on its own; "Your action" marks where only you can act. Click a stage to see its deals.</p>
+    <div class="pp-card pp-wrap">
+      <table data-source="stageCounts" data-row-key="stage">
+        <thead><tr><th class="pp-n" data-field="stage_order">#</th><th data-field="stage">Stage</th><th data-field="team">Team responsible</th><th data-field="owner_action">Your action</th><th class="pp-n" data-field="count">Deals</th><th class="pp-n" data-field="earnings">Potential earnings</th></tr></thead>
+        <tbody data-draw="stageRows"></tbody>
+      </table>
+    </div>
+    <div class="pp-card pp-wrap" id="stage-deals">
+      <h2>Deals in <span data-draw="stageName">—</span></h2>
+      <table data-source="stageDeals" data-row-key="lead_id">
+        <thead><tr><th data-field="address">Property</th><th data-field="city">City</th><th data-field="county">County</th><th data-field="state">State</th><th data-field="verdict">Verdict</th><th class="pp-n" data-field="potential_earnings">Potential earnings</th><th data-field="next_action">Next action</th><th data-field="next_action_date">Due</th></tr></thead>
+        <tbody data-draw="stageDealRows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="pp-page" id="deal" hidden>
+    <div class="pp-filters"><label>Deal<select class="dash-select" data-draw="dealSel" aria-label="Deal" data-source="leadsF"></select></label></div>
+    <div class="pp-two">
+      <div class="pp-card" id="deal-numbers"><h2>Numbers</h2>
+        <dl>
+          <dt>Property</dt><dd data-draw="dAddr" data-source="deal" data-field="address" data-row="0">—</dd>
+          <dt>City, county, state</dt><dd data-draw="dLoc">—</dd>
+          <dt>Verdict</dt><dd data-draw="dVerdict" data-source="deal" data-field="verdict" data-row="0">—</dd>
+          <dt>Stage</dt><dd data-draw="dStage" data-source="deal" data-field="stage" data-row="0">—</dd>
+          <dt>After-repair value</dt><dd data-draw="dArv" data-source="deal" data-field="arv_mid" data-row="0">—</dd>
+          <dt>Repairs (estimate)</dt><dd data-draw="dRep" data-source="deal" data-field="repairs_mid" data-row="0">—</dd>
+          <dt>Cash-buyer max</dt><dd data-draw="dBmax" data-source="deal" data-field="buyer_max" data-row="0">—</dd>
+          <dt>Max offer to estate</dt><dd data-draw="dMao" data-source="deal" data-field="mao" data-row="0">—</dd>
+          <dt>Target contract price</dt><dd data-draw="dTgt" data-source="deal" data-field="target_price" data-row="0">—</dd>
+          <dt>Potential earnings</dt><dd data-draw="dEarn" data-source="deal" data-field="potential_earnings" data-row="0">—</dd>
+        </dl>
+      </div>
+      <div class="pp-card" id="deal-status"><h2>Status and next step</h2>
+        <dl>
+          <dt>Team responsible</dt><dd data-draw="dTeam" data-source="deal" data-field="team" data-row="0">—</dd>
+          <dt>Your action</dt><dd data-draw="dOwner" data-source="deal" data-field="owner_action" data-row="0">—</dd>
+          <dt>Authority to sell</dt><dd data-draw="dAuth" data-source="deal" data-field="authority" data-row="0">—</dd>
+          <dt>Court step / price floor</dt><dd data-draw="dCourt" data-source="deal" data-field="court_step" data-row="0">—</dd>
+          <dt>Occupancy</dt><dd data-draw="dOcc" data-source="deal" data-field="occupancy" data-row="0">—</dd>
+          <dt>Next action</dt><dd data-draw="dNext" data-source="deal" data-field="next_action" data-row="0">—</dd>
+          <dt>Due</dt><dd data-draw="dDue" data-source="deal" data-field="next_action_date" data-row="0">—</dd>
+          <dt>Contacts so far</dt><dd data-draw="dTouch" data-source="deal" data-field="touch_count" data-row="0">—</dd>
+          <dt>Deal team summary</dt><dd data-draw="dSum" data-source="deal" data-field="summary" data-row="0">—</dd>
+        </dl>
+      </div>
+    </div>
+    <div class="pp-card" id="deal-progress"><h2>Progress to closing</h2><div class="pp-chart" data-draw="dealProgress" data-source="deal stages" style="min-height:90px"></div></div>
+    <p class="pp-muted">Full files (research, numbers, legal, title, plan, drafts) are in the private repo under leads/&lt;lead id&gt;/.</p>
+  </section>
+
+  <section class="pp-page" id="queues" hidden>
+    <p class="pp-muted">Everything only you can do. Nothing is sent, signed or paid without you. Wires go only to the title company's escrow after you confirm instructions by phone at the number on its official website.</p>
+    <div class="pp-tiles">
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="qApprove" data-source="queueCounts" data-field="approve" data-row="0">—</div><div class="pp-lbl">Approve outreach</div></div>
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="qSign" data-source="queueCounts" data-field="sign" data-row="0">—</div><div class="pp-lbl">Sign</div></div>
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="qWire" data-source="queueCounts" data-field="wire" data-row="0">—</div><div class="pp-lbl">Wire earnest money</div></div>
+    </div>
+    <div class="pp-card pp-wrap">
+      <table data-source="queuesF" data-row-key="queue,lead_id">
+        <thead><tr><th data-field="queue">Queue</th><th data-field="address">Property</th><th data-field="city">City</th><th data-field="county">County</th><th data-field="state">State</th><th data-field="item">What</th><th data-field="due">Due</th><th data-field="file">File in repo</th></tr></thead>
+        <tbody data-draw="queueRows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="pp-page" id="markets" hidden>
+    <p class="pp-muted">Every state and its target counties. Live = public records work and outreach is allowed. Research only = a license is required. Blocked = records not reachable without a login. Queued / Not started = the daily run will open it.</p>
+    <div class="pp-tiles">
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="mLive" data-source="marketCounts" data-field="live" data-row="0">—</div><div class="pp-lbl">Live counties</div></div>
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="mResearch" data-source="marketCounts" data-field="research" data-row="0">—</div><div class="pp-lbl">Research only</div></div>
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="mBlocked" data-source="marketCounts" data-field="blocked" data-row="0">—</div><div class="pp-lbl">Blocked</div></div>
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="mQueued" data-source="marketCounts" data-field="queued" data-row="0">—</div><div class="pp-lbl">Queued or not started</div></div>
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="mLegal" data-source="marketCounts" data-field="legal" data-row="0">—</div><div class="pp-lbl">States with legal file</div></div>
+    </div>
+    <div class="pp-card pp-wrap">
+      <table data-source="marketsF" data-row-key="state,county">
+        <thead><tr><th data-field="state">State</th><th data-field="county">County</th><th data-field="city">City</th><th data-field="status">Status</th><th data-field="legal_file">Legal file</th><th class="pp-n" data-field="leads">Leads</th><th class="pp-n" data-field="opportunities">Opportunities</th><th data-field="last_checked">Last checked</th></tr></thead>
+        <tbody data-draw="marketRows"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="pp-page" id="operations" hidden>
+    <div class="pp-card pp-wrap" id="ops-teams"><h2>Worker teams</h2>
+      <table data-source="teamLoad" data-row-key="team">
+        <thead><tr><th data-field="team">Team</th><th class="pp-n" data-field="deals">Deals in its stages</th><th data-field="does">What it does on its own</th></tr></thead>
+        <tbody data-draw="teamRows"></tbody>
+      </table>
+    </div>
+    <div class="pp-card pp-wrap" id="ops-runs"><h2>Daily runs</h2>
+      <table data-source="runs" data-row-key="date">
+        <thead><tr><th data-field="date">Date</th><th class="pp-n" data-field="new_leads">New leads</th><th class="pp-n" data-field="updated_leads">Updated</th><th class="pp-n" data-field="approvals_waiting">Waiting on you</th><th data-field="legal_changes">Legal changes</th><th data-field="pushed">Saved</th></tr></thead>
+        <tbody data-draw="runRows"></tbody>
+      </table>
+    </div>
+    <div class="pp-card pp-wrap" id="ops-sources"><h2>Working county sources</h2>
+      <table data-source="sources" data-row-key="market,source">
+        <thead><tr><th data-field="date">Checked</th><th data-field="market">Market</th><th data-field="source">Source</th><th data-field="status">Status</th><th data-field="note">Note</th></tr></thead>
+        <tbody data-draw="srcRows"></tbody>
+      </table>
+    </div>
+    <details><summary>How the numbers are worked out</summary><p>Cash-buyer max = after-repair value × 70% − repairs. Max offer = cash-buyer max − $10,000 fee. Target price = the Negotiator's aim, normally at or below max offer; where a legal price floor is higher, the fee shrinks. Potential earnings = cash-buyer max − target price. All figures are estimates from public records and comps, checked by automated QA before publishing. Not legal or tax advice.</p></details>
+  </section>
+</div>
+
+<script>
+window.ppMoney = (v) => (v === null || v === undefined || v === '' || isNaN(+v)) ? '—' : d3.format('$,.0f')(+v);
+window.ppOwner = { approve: 'Approve outreach', sign: 'Sign', wire: 'Wire earnest money', '': '—' };
+const ppInScope = (r) => { const p = dash.params(); return (!p.state || r.state === p.state) && (!p.county || r.county === p.county); };
+
+dash.calc('leadsF', { title: 'Leads in the chosen state and county', description: 'All researched leads matching the State and County filters.', inputs: ['leads'],
+  fn: (leads) => { const p = dash.params(); return leads.filter((r) => (!p.state || r.state === p.state) && (!p.county || r.county === p.county)); } });
+dash.calc('opps', { title: 'Opportunities', description: 'GO and NEGOTIATE deals in the filters, highest potential earnings first.', inputs: ['leadsF'],
+  fn: (leadsF) => leadsF.filter((r) => r.is_opportunity === 'yes').sort((a, b) => (+b.potential_earnings || 0) - (+a.potential_earnings || 0)) });
+dash.calc('stageCounts', { title: 'Deals by stage', description: 'Every pipeline stage with its team, your action, deal count and potential earnings, within the filters.', inputs: ['stages', 'leadsF'],
+  fn: (stages, leadsF) => stages.map((s) => { const d = leadsF.filter((r) => r.stage === s.stage); return { stage_order: +s.stage_order, stage: s.stage, team: s.team, owner_action: s.owner_action, count: d.length, earnings: d3.sum(d, (r) => +r.potential_earnings || 0) }; }) });
+dash.calc('stageDeals', { title: 'Deals in the chosen stage', description: 'Deals in the stage picked on the Pipeline page, within the filters.', inputs: ['leadsF'],
+  fn: (leadsF) => { const s = dash.params().stage || 'Outreach drafted'; return leadsF.filter((r) => r.stage === s); } });
+dash.calc('deal', { title: 'Chosen deal', description: 'The one deal picked on the Deal detail page (or the top opportunity).', inputs: ['leadsF', 'opps'],
+  fn: (leadsF, opps) => { const id = dash.params().lead; const r = leadsF.find((x) => x.lead_id === id) || opps[0] || leadsF[0]; return r ? [r] : []; } });
+dash.calc('queuesF', { title: 'Your queues', description: 'Approve, sign and wire items within the filters.', inputs: ['queues'],
+  fn: (queues) => { const p = dash.params(); return queues.filter((r) => (!p.state || r.state === p.state) && (!p.county || r.county === p.county)); } });
+dash.calc('queueCounts', { title: 'Queue counts', description: 'Items per queue within the filters.', inputs: ['queuesF'],
+  fn: (q) => [{ approve: q.filter((r) => r.queue === 'Approve outreach').length, sign: q.filter((r) => r.queue === 'Sign').length, wire: q.filter((r) => r.queue === 'Wire').length }] });
+dash.calc('marketsF', { title: 'Markets in the filters', description: 'States and counties with their status, within the filters.', inputs: ['markets'],
+  fn: (markets) => { const p = dash.params(); return markets.filter((r) => (!p.state || r.state === p.state) && (!p.county || r.county === p.county)); } });
+dash.calc('marketCounts', { title: 'Market status counts', description: 'Counties by status, and states with a legal file, within the filters.', inputs: ['marketsF'],
+  fn: (m) => [{ live: m.filter((r) => r.status.startsWith('Live')).length, research: m.filter((r) => r.status === 'Research only').length, blocked: m.filter((r) => r.status === 'Blocked').length,
+    queued: m.filter((r) => r.status === 'Queued' || r.status === 'Not started').length, legal: new Set(m.filter((r) => r.legal_file === 'yes').map((r) => r.state)).size }] });
+dash.calc('kpis', { title: 'Headline totals', description: 'Opportunities, potential earnings, best deal, items waiting on you, deals under contract and live counties, within the filters.', inputs: ['opps', 'leadsF', 'queuesF', 'marketsF'],
+  fn: (opps, leadsF, queuesF, marketsF) => [{ opps: opps.length, earnings: d3.sum(opps, (r) => +r.potential_earnings || 0), best: opps.length ? +opps[0].potential_earnings || 0 : 0,
+    queue: queuesF.length, under_contract: leadsF.filter((r) => +r.stage_order >= 7 && +r.stage_order <= 13).length, markets_live: marketsF.filter((r) => r.status.startsWith('Live')).length }] });
+dash.calc('teamLoad', { title: 'Worker team load', description: 'How many deals sit in the stages each team runs, within the filters.', inputs: ['stageCounts'],
+  fn: (sc) => { const does = { 'Deal team': 'Research, numbers, legal, title, plan for each new lead', 'Communications': 'Sends outreach and follow-ups, reads replies, routes them', 'Negotiation desk': 'Makes and answers offers up to the max offer', 'Closing desk': 'Contracts, title, deadlines, signature and wire queues', 'Dispositions': 'Finds and vets cash buyers, assigns the contract', 'Done': 'Closed, paid or dead' };
+    return Object.keys(does).map((t) => ({ team: t, deals: d3.sum(sc.filter((s) => s.team === t), (s) => s.count), does: does[t] })); } });
+</script>
+
+<script>
+const ppK = (src, field, fmt) => (el) => {
+  const k = dash.data(src);
+  if (k.status === 'loading') { el.classList.add('dash-skeleton'); return; }
+  el.classList.remove('dash-skeleton');
+  const v = (k.status === 'ok' && k.data && k.data[0]) ? k.data[0][field] : null;
+  el.textContent = (v === null || v === undefined || v === '') ? '—' : fmt(v);
+};
+const ppInt = (v) => d3.format(',')(+v);
+const ppTxt = (v) => String(v);
+[['tOpps', 'kpis', 'opps', ppInt], ['tEarn', 'kpis', 'earnings', window.ppMoney], ['tMk', 'kpis', 'markets_live', ppInt], ['tQ', 'kpis', 'queue', ppInt],
+ ['kOpps', 'kpis', 'opps', ppInt], ['kEarn', 'kpis', 'earnings', window.ppMoney], ['kBest', 'kpis', 'best', window.ppMoney], ['kQ', 'kpis', 'queue', ppInt],
+ ['kContract', 'kpis', 'under_contract', ppInt], ['kClosed', 'pace', 'closed', ppInt], ['kTarget', 'pace', 'target_closings', ppInt], ['pTarget', 'pace', 'target_closings', ppInt],
+ ['qApprove', 'queueCounts', 'approve', ppInt], ['qSign', 'queueCounts', 'sign', ppInt], ['qWire', 'queueCounts', 'wire', ppInt],
+ ['mLive', 'marketCounts', 'live', ppInt], ['mResearch', 'marketCounts', 'research', ppInt], ['mBlocked', 'marketCounts', 'blocked', ppInt], ['mQueued', 'marketCounts', 'queued', ppInt], ['mLegal', 'marketCounts', 'legal', ppInt],
+ ['dAddr', 'deal', 'address', ppTxt], ['dVerdict', 'deal', 'verdict', ppTxt], ['dStage', 'deal', 'stage', ppTxt], ['dArv', 'deal', 'arv_mid', window.ppMoney], ['dRep', 'deal', 'repairs_mid', window.ppMoney],
+ ['dBmax', 'deal', 'buyer_max', window.ppMoney], ['dMao', 'deal', 'mao', window.ppMoney], ['dTgt', 'deal', 'target_price', window.ppMoney], ['dEarn', 'deal', 'potential_earnings', window.ppMoney],
+ ['dTeam', 'deal', 'team', ppTxt], ['dOwner', 'deal', 'owner_action', (v) => window.ppOwner[v] || v], ['dAuth', 'deal', 'authority', ppTxt], ['dCourt', 'deal', 'court_step', ppTxt],
+ ['dOcc', 'deal', 'occupancy', ppTxt], ['dNext', 'deal', 'next_action', ppTxt], ['dDue', 'deal', 'next_action_date', ppTxt], ['dTouch', 'deal', 'touch_count', ppTxt], ['dSum', 'deal', 'summary', ppTxt],
+].forEach(([name, src, f, fmt]) => dash.draw(name, ppK(src, f, fmt)));
+dash.draw('dLoc', (el) => { const d = dash.data('deal'); const r = d.status === 'ok' && d.data && d.data[0]; el.textContent = r ? `${r.city}, ${r.county} County, ${r.state}` : '—'; });
+dash.draw('stageName', (el) => { el.textContent = dash.params().stage || 'Outreach drafted'; });
+
+dash.draw('stateSel', (sel) => {
+  const m = dash.data('markets');
+  const states = m.status === 'ok' ? [...new Set(m.data.map((r) => r.state).filter(Boolean))].sort() : [];
+  sel.replaceChildren(new Option('All states', ''), ...states.map((s) => new Option(s, s)));
+  sel.value = dash.params().state ?? '';
+  sel.onchange = () => dash.setParams({ state: sel.value || null, county: null, lead: null });
+});
+dash.draw('countySel', (sel) => {
+  const m = dash.data('markets'); const st = dash.params().state;
+  const c = m.status === 'ok' ? [...new Set(m.data.filter((r) => r.county && (!st || r.state === st)).map((r) => st ? r.county : `${r.county}|${r.state}`))].sort() : [];
+  sel.replaceChildren(new Option('All counties', ''), ...c.map((x) => { const [cty, s] = x.split('|'); return new Option(s ? `${cty} (${s})` : cty, x); }));
+  const p = dash.params(); sel.value = p.county ? (st ? p.county : `${p.county}|${p.cstate || ''}`) : '';
+  sel.onchange = () => { const [cty, s] = (sel.value || '').split('|'); dash.setParams(sel.value ? (s ? { county: cty, state: s, lead: null } : { county: cty, lead: null }) : { county: null, lead: null }); };
+});
+dash.draw('dealSel', (sel) => {
+  const l = dash.data('leadsF');
+  const rows = l.status === 'ok' ? [...l.data].sort((a, b) => (b.is_opportunity === 'yes') - (a.is_opportunity === 'yes') || (+b.potential_earnings || 0) - (+a.potential_earnings || 0)) : [];
+  sel.replaceChildren(...rows.map((r) => new Option(`${r.address}, ${r.city} ${r.state} · ${r.verdict}`, r.lead_id)));
+  const d = dash.data('deal'); sel.value = (d.status === 'ok' && d.data[0]) ? d.data[0].lead_id : '';
+  sel.onchange = () => dash.setParams({ lead: sel.value || null });
+});
+
+window.ppShow = (id) => {
+  document.querySelectorAll('.pp-page').forEach((s) => { s.hidden = s.id !== id; });
+  document.querySelectorAll('.pp-tab').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.page === id)));
+  dash.setLink(id);
+};
+document.querySelectorAll('.pp-tab').forEach((b) => b.addEventListener('click', () => window.ppShow(b.dataset.page)));
+const ppStart = (location.hash || '').slice(1);
+if (ppStart && document.getElementById(ppStart) && document.getElementById(ppStart).classList.contains('pp-page')) window.ppShow(ppStart);
+window.addEventListener('beforeprint', () => document.querySelectorAll('.pp-page').forEach((s) => { s.dataset.wasHidden = s.hidden ? '1' : ''; s.hidden = false; }));
+window.addEventListener('afterprint', () => document.querySelectorAll('.pp-page').forEach((s) => { s.hidden = s.dataset.wasHidden === '1'; }));
+</script>
+
+<script>
+const ppRows = (tbody, src, cols, emptyText, onRow) => {
+  const d = dash.data(src);
+  tbody.replaceChildren();
+  const msg = (t) => { const tr = tbody.insertRow(); const td = tr.insertCell(); td.colSpan = cols.length; td.textContent = t; td.className = 'pp-muted'; };
+  if (d.status !== 'ok' || !d.data) { msg(d.status === 'loading' ? 'Loading…' : (d.status === 'error' ? 'Failed to load' : '—')); return; }
+  if (!d.data.length) { msg(emptyText); return; }
+  d.data.forEach((r) => {
+    const tr = tbody.insertRow();
+    cols.forEach((c) => { const td = tr.insertCell(); const v = r[c.f]; td.textContent = c.fmt ? c.fmt(v, r) : (v ?? ''); if (c.cls) td.className = typeof c.cls === 'function' ? c.cls(v, r) : c.cls; });
+    if (onRow) { tr.className = 'pp-click'; tr.tabIndex = 0; tr.onclick = () => onRow(r); tr.onkeydown = (e) => { if (e.key === 'Enter') onRow(r); }; }
+  });
+};
+const ppV = (v) => v === 'GO' ? 'pp-go' : v === 'NEGOTIATE' ? 'pp-neg' : v === 'WALK AWAY' ? 'pp-bad' : 'pp-muted';
+const ppOpenDeal = (r) => { dash.setParams({ lead: r.lead_id }); window.ppShow('deal'); };
+const M = window.ppMoney;
+
+dash.draw('oppRows', (tb) => ppRows(tb, 'opps', [{ f: 'address' }, { f: 'city' }, { f: 'county' }, { f: 'state' }, { f: 'verdict', cls: ppV },
+  { f: 'potential_earnings', fmt: M, cls: 'pp-n pp-go' }, { f: 'target_price', fmt: M, cls: 'pp-n' }, { f: 'buyer_max', fmt: M, cls: 'pp-n' }, { f: 'arv_mid', fmt: M, cls: 'pp-n' },
+  { f: 'stage' }, { f: 'next_action_date' }], 'No opportunities in this state or county yet.', ppOpenDeal));
+dash.draw('stageRows', (tb) => { const sel = dash.params().stage || 'Outreach drafted';
+  ppRows(tb, 'stageCounts', [{ f: 'stage_order', cls: 'pp-n' }, { f: 'stage' }, { f: 'team' }, { f: 'owner_action', fmt: (v) => window.ppOwner[v] || v, cls: (v) => v ? 'pp-neg' : 'pp-muted' },
+    { f: 'count', cls: 'pp-n' }, { f: 'earnings', fmt: (v) => +v ? M(v) : '—', cls: 'pp-n' }], 'No stages.', (r) => dash.setParams({ stage: r.stage }));
+  tb.querySelectorAll('tr').forEach((tr) => { if (tr.cells[1] && tr.cells[1].textContent === sel) tr.classList.add('pp-sel'); }); });
+dash.draw('stageDealRows', (tb) => ppRows(tb, 'stageDeals', [{ f: 'address' }, { f: 'city' }, { f: 'county' }, { f: 'state' }, { f: 'verdict', cls: ppV },
+  { f: 'potential_earnings', fmt: M, cls: 'pp-n' }, { f: 'next_action', cls: 'pp-wrapcell' }, { f: 'next_action_date' }], 'No deals in this stage right now.', ppOpenDeal));
+dash.draw('queueRows', (tb) => ppRows(tb, 'queuesF', [{ f: 'queue', cls: 'pp-neg' }, { f: 'address' }, { f: 'city' }, { f: 'county' }, { f: 'state' }, { f: 'item', cls: 'pp-wrapcell' }, { f: 'due' }, { f: 'file', cls: 'pp-muted' }],
+  'Nothing waiting on you here.', (r) => ppOpenDeal(r)));
+dash.draw('marketRows', (tb) => ppRows(tb, 'marketsF', [{ f: 'state' }, { f: 'county' }, { f: 'city' },
+  { f: 'status', cls: (v) => v.startsWith('Live') ? 'pp-go' : v === 'Research only' ? 'pp-neg' : v === 'Blocked' ? 'pp-bad' : 'pp-muted' },
+  { f: 'legal_file' }, { f: 'leads', cls: 'pp-n' }, { f: 'opportunities', cls: 'pp-n' }, { f: 'last_checked' }], 'No markets match.',
+  (r) => r.county && dash.setParams({ state: r.state, county: r.county, lead: null })));
+dash.draw('teamRows', (tb) => ppRows(tb, 'teamLoad', [{ f: 'team' }, { f: 'deals', cls: 'pp-n' }, { f: 'does', cls: 'pp-wrapcell' }], '—'));
+dash.draw('runRows', (tb) => ppRows(tb, 'runs', [{ f: 'date' }, { f: 'new_leads', cls: 'pp-n' }, { f: 'updated_leads', cls: 'pp-n' }, { f: 'approvals_waiting', cls: 'pp-n' }, { f: 'legal_changes', cls: 'pp-wrapcell' }, { f: 'pushed' }], 'No daily runs yet.'));
+dash.draw('srcRows', (tb) => ppRows(tb, 'sources', [{ f: 'date' }, { f: 'market' }, { f: 'source', cls: 'pp-wrapcell' }, { f: 'status', cls: 'pp-go' }, { f: 'note', cls: 'pp-wrapcell pp-muted' }], 'No working sources yet.'));
+</script>
+
+<script>
+const ppBars = (el, rows, label, value, fmt, opts = {}) => {
+  el.replaceChildren();
+  if (!rows.length) { const p = document.createElement('p'); p.className = 'pp-muted'; p.textContent = opts.empty || 'Nothing to show for these filters.'; el.appendChild(p); return; }
+  const W = el.clientWidth || 400, rowH = 26, H = rows.length * rowH + (opts.target ? 26 : 6);
+  const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img')
+    .attr('aria-label', (opts.title || '') + ': ' + rows.map((r) => `${label(r)} ${fmt(value(r))}`).join(', '));
+  const labs = svg.append('g').selectAll('text').data(rows).join('text').attr('x', 0).attr('y', (r, i) => i * rowH + rowH / 2 + 4).text(label);
+  let lw = 0; labs.each(function () { lw = Math.max(lw, this.getComputedTextLength()); });
+  lw = Math.min((lw || 120) + 10, W * 0.5);
+  const max = Math.max(opts.target || 0, d3.max(rows, value) || 0) || 1;
+  const x = d3.scaleLinear().domain([0, max]).range([0, Math.max(40, W - lw - 70)]);
+  const tip = document.createElement('div'); tip.className = 'pp-tip'; tip.hidden = true; el.appendChild(tip);
+  svg.append('g').selectAll('rect').data(rows).join('rect').attr('x', lw).attr('y', (r, i) => i * rowH + 6).attr('height', rowH - 12).attr('rx', 3)
+    .attr('width', (r) => value(r) ? Math.max(2, x(value(r))) : 0).style('fill', dash.colors[0]).style('cursor', opts.onClick ? 'pointer' : 'default')
+    .on('pointermove', (ev, r) => { const b = el.getBoundingClientRect(); tip.hidden = false; tip.textContent = opts.tip ? opts.tip(r) : `${label(r)}: ${fmt(value(r))}`; tip.style.left = Math.max(0, Math.min(ev.clientX - b.left + 10, W - 300)) + 'px'; tip.style.top = (ev.clientY - b.top - 32) + 'px'; })
+    .on('pointerleave', () => { tip.hidden = true; })
+    .on('click', (ev, r) => opts.onClick && opts.onClick(r));
+  svg.append('g').selectAll('text').data(rows).join('text').attr('x', (r) => lw + (value(r) ? Math.max(2, x(value(r))) : 0) + 6).attr('y', (r, i) => i * rowH + rowH / 2 + 4).text((r) => fmt(value(r)));
+  if (opts.target) { const tx = lw + x(opts.target);
+    svg.append('line').attr('x1', tx).attr('x2', tx).attr('y1', 0).attr('y2', rows.length * rowH).style('stroke', 'var(--cds-chart-reference)').style('stroke-dasharray', '4 3');
+    svg.append('text').attr('x', Math.min(tx, W - 130)).attr('y', rows.length * rowH + 18).text(`Target: ${opts.target}`); }
+};
+const ppNotReady = (el, d) => { el.replaceChildren(); const p = document.createElement('p'); p.className = 'pp-muted'; p.textContent = d.status === 'error' ? 'Failed to load' : (d.status === 'loading' ? 'Loading…' : '—'); el.appendChild(p); };
+
+dash.draw('earnChart', (el) => { const d = dash.data('opps'); if (d.status !== 'ok' || !d.data) return ppNotReady(el, d);
+  ppBars(el, d.data.slice(0, 10), (r) => `${r.address} · ${r.city} ${r.state}`, (r) => +r.potential_earnings || 0, window.ppMoney,
+    { title: 'Top potential earnings', empty: 'No opportunities in this state or county yet.', onClick: ppOpenDeal, tip: (r) => `${r.address}: earn ${window.ppMoney(r.potential_earnings)} (target ${window.ppMoney(r.target_price)}, buyer max ${window.ppMoney(r.buyer_max)})` }); });
+dash.draw('stageChart', (el) => { const d = dash.data('stageCounts'); if (d.status !== 'ok' || !d.data) return ppNotReady(el, d);
+  ppBars(el, d.data.filter((r) => r.count > 0), (r) => r.stage, (r) => r.count, (v) => String(v),
+    { title: 'Deals by stage', empty: 'No deals in this state or county yet.', onClick: (r) => { dash.setParams({ stage: r.stage }); window.ppShow('pipeline'); } }); });
+dash.draw('paceChart', (el) => { const d = dash.data('pace'); if (d.status !== 'ok' || !d.data || !d.data[0]) return ppNotReady(el, d);
+  const r = d.data[0];
+  const rows = [['Leads researched', 'leads_researched'], ['Opportunities', 'opportunities'], ['Outreach sent', 'outreach_sent'], ['In conversation', 'in_conversation'], ['Offers out', 'offers_out'], ['Verbal agreements', 'verbal_agreements'], ['Under contract', 'under_contract'], ['Closed this month', 'closed']].map(([label, f]) => ({ label, v: +r[f] || 0 }));
+  ppBars(el, rows, (x) => x.label, (x) => x.v, (v) => String(v), { title: 'Deals at each stage this month', target: +r.target_closings || 0 }); });
+dash.draw('dealProgress', (el) => { const d = dash.data('deal'), s = dash.data('stages');
+  if (d.status !== 'ok' || s.status !== 'ok' || !d.data || !d.data[0]) return ppNotReady(el, d.status !== 'ok' ? d : s);
+  el.replaceChildren(); const cur = +d.data[0].stage_order; const steps = s.data.filter((x) => x.stage !== 'Dead');
+  const W = el.clientWidth || 400, n = steps.length, step = W / n, H = 70;
+  const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img')
+    .attr('aria-label', `Deal is at stage ${cur} of ${n}: ${d.data[0].stage}`);
+  svg.selectAll('circle').data(steps).join('circle').attr('cx', (x, i) => i * step + step / 2).attr('cy', 18).attr('r', 7)
+    .style('fill', (x) => +x.stage_order <= cur && d.data[0].stage !== 'Dead' ? dash.colors[0] : 'var(--cds-chart-grid)');
+  svg.append('line').attr('x1', step / 2).attr('x2', W - step / 2).attr('y1', 18).attr('y2', 18).style('stroke', 'var(--cds-chart-grid)').lower();
+  const lab = svg.selectAll('text').data(steps).join('text').attr('x', (x, i) => i * step + step / 2).attr('y', 44).attr('text-anchor', 'middle')
+    .text((x, i) => (+x.stage_order === cur || i === 0 || i === n - 1) ? x.stage : '');
+  svg.append('text').attr('x', 0).attr('y', 64).text(d.data[0].stage === 'Dead' ? 'This deal is closed out (walk away).' : `Stage ${cur} of ${n}: ${d.data[0].stage}`); });
+</script>
