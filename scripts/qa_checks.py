@@ -71,6 +71,15 @@ for q in queues:
     if q["queue"] == "Approve outreach" and not os.path.exists(os.path.join(ROOT, q["file"])):
         fails.append(f"{q['lead_id']}: approval points at missing file {q['file']}")
 
+# Every expansion file's status is reflected on the dashboard (regression: status parse)
+for f in glob.glob(os.path.join(ROOT, "pipeline", "expansion", "*.yaml")):
+    m = re.search(r"^\s*status:\s*(\w+)", open(f).read(), re.M)
+    if m and m.group(1) in ("blocked", "partial", "research_only", "workable", "live"):
+        st_cty = os.path.basename(f)[:-5].split("-", 1)
+        hit = [x for x in markets if x["state"].lower() == st_cty[0] and x["status"] == "Queued" and x["county"].lower().replace(" ", "-").replace(".", "") == st_cty[1]]
+        if hit:
+            fails.append(f"{os.path.basename(f)} says {m.group(1)} but dashboard shows Queued")
+
 # Every state appears in markets
 st = {m["state"] for m in markets}
 if len(st) < 51:

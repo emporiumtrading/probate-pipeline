@@ -63,6 +63,17 @@ markets:
       courts_portal: https://ujsportal.pacourts.us
     last_checked: 2026-11-19
 
+  - id: tx-harris
+    county: Harris
+    state: TX
+    city: Houston
+    outreach_allowed: true        # Texas: written assignment disclosure to seller + contract-interest disclosure to buyers (Prop. Code 5.0205); mail only until attorney answers SB 140 texting question
+    sources:
+      probate_court: https://www.cclerk.hctx.net/applications/websearch/CourtSearch.aspx?CaseType=Probate
+      parcels: https://www.gis.hctx.net/arcgis/rest/services/HCAD/Parcels/MapServer/0
+      deeds: https://www.cclerk.hctx.net/applications/websearch/RP.aspx
+    last_checked: 2026-11-19
+
 # Market expansion: each run tries the next counties in this queue (see daily-run step 3b).
 expansion_per_run: 3
 expansion_queue:   # large metros first; legal status per state is checked before any lead is worked
@@ -78,7 +89,6 @@ expansion_queue:   # large metros first; legal status per state is checked befor
   - {county: Knox, state: TN, city: Knoxville}
   - {county: Jackson, state: MO, city: Kansas City}
   - {county: St. Louis City, state: MO, city: St. Louis}
-  - {county: Harris, state: TX, city: Houston}
   - {county: Dallas, state: TX, city: Dallas}
   - {county: Tarrant, state: TX, city: Fort Worth}
   - {county: Bexar, state: TX, city: San Antonio}

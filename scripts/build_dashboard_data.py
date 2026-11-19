@@ -140,7 +140,7 @@ legal = {os.path.basename(f)[:-3]: f for f in glob.glob(os.path.join(ROOT, "lega
 exp = {}
 for f in glob.glob(os.path.join(ROOT, "pipeline", "expansion", "*.yaml")):
     t = open(f).read()
-    st = (re.search(r"\nstatus: (\w+)", "\n" + t) or [None, ""])[1]
+    st = (re.search(r"^\s*status:\s*(\w+)", t, re.M) or [None, ""])[1]
     exp[os.path.basename(f)[:-5]] = st
 markets, seen = [], set()
 for m in live:
@@ -159,7 +159,8 @@ for q in queue:
         continue
     mid = f"{q['state'].lower()}-{q['county'].lower().replace(' ', '-').replace('.', '')}"
     st = exp.get(mid, "")
-    status = {"workable": "Live", "research_only": "Research only", "blocked": "Blocked"}.get(st, "Queued")
+    status = {"workable": "Live", "live": "Live", "research_only": "Research only", "blocked": "Blocked",
+              "partial": "Partial: records limited"}.get(st, "Queued")
     markets.append({"state": q["state"], "county": q["county"], "city": q.get("city", ""), "status": status,
                     "legal_file": "yes" if q["state"] in legal else "no", "leads": 0, "opportunities": 0, "last_checked": ""})
     seen.add(key)
