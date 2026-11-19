@@ -26,6 +26,9 @@ When matching a decedent to a parcel owner, don't treat Jr./Sr./II/III as interc
 
 If a source can't be searched automatically, say so plainly in the report with the manual search URL. Don't invent leads.
 
+### 3a. Manual name feeds
+Where probate notices can only be read by hand (robots.txt or terms forbid automation), the owner or an assistant may paste names into `pipeline/manual-feeds/<market-id>.csv` with columns `case_number,decedent,date_of_death,notice_date,personal_rep,attorney,source_url`. Each run, for every market with a feed file: take rows not yet processed, match each decedent against that market's working parcel layer by owner name (same rules as step 3: last name + first name/initial, Jr/Sr distinct, skip common-name collisions and deeds after death), and treat confirmed matches as new leads for step 4. Mark processed rows by appending `processed: <date>` to `pipeline/manual-feeds/<market-id>.log`. A market with a feed file and a working parcel layer counts as Live even if its notice source is manual only.
+
 ### 3b. Expand to new markets
 The goal is coverage across as many US states as can be worked legally and reached through public records. Each run, take the next `expansion_per_run` counties from `expansion_queue` in `config.yaml`:
 1. Legal Advisor first: if `legal/<STATE>.md` is missing, write it (step 2). If the state requires a license to wholesale and `licensed_or_partnered` isn't true for that state, add the market as research-only (`outreach_allowed: false`); its leads can never be GO/NEGOTIATE and won't show on the dashboard.

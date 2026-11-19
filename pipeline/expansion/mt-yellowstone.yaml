@@ -1,0 +1,14 @@
+# Market block (state sweep 2026-11-19). Not merged into config.yaml.
+- id: mt-yellowstone
+  county: Yellowstone
+  state: MT
+  city: Billings
+  status: blocked               # no automatable probate filing source; state parcel API disallowed by robots.txt
+  outreach_allowed: true        # drafts only; license question open (legal/MT.md)
+  license_required: unclear
+  sources:
+    probate_notices: {url: "https://www.montanapublicnotices.com/mna/legals/", result: "manual only - JS search app; test query (creditors, 10/20-11/18) indexed only Yellowstone County News, no results; Billings Gazette legals not in index"}
+    probate_court: {url: "Yellowstone County Clerk of District Court, 217 N 27th St, Billings", result: "no public online case search found"}
+    parcels_state: {url: "https://gisservice.mt.gov/ArcGIS/rest/services/msdi_cadastral_map_v1/MapServer/1", result: "manual only - has OwnerName, but robots.txt disallows /arcgis/*; manual: https://svc.mt.gov/msl/cadastral"}
+  last_checked: 2026-11-19
+  notes: Retry in 30 days. Workable path would need a manual weekly read of Billings Gazette / Yellowstone County News notices to creditors.

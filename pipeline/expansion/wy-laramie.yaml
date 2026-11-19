@@ -1,0 +1,15 @@
+# Market block (state sweep 2026-11-19). Not merged into config.yaml.
+- id: wy-laramie
+  county: Laramie
+  state: WY
+  city: Cheyenne
+  status: blocked               # parcels work; no automatable probate filing source
+  outreach_allowed: true        # drafts only; license question open (legal/WY.md); estate sales need court confirmation
+  license_required: unclear
+  sources:
+    probate_notices: {url: "https://wyopublicnotices.com/", result: "manual only - terms: personal, non-commercial use only"}
+    probate_court: {url: "Laramie County Clerk of District Court (Cheyenne)", result: "no public online case search found"}
+    parcels: {url: "https://gis2.statelands.wyo.gov/arcgis/rest/services/oslisde/Parcels2025/MapServer/0/query", result: "worked - jurisdicti='LARAMIE', 44,406 parcels with ownername1, locationad, actualvalu (tax year 2025)"}
+    parcel_viewer_manual: {url: "https://www.laramiecountywy.gov/Resident-Services/GISMaps/Parcel-Viewer", result: "manual"}
+  last_checked: 2026-11-19
+  notes: Parcel layer is ready if a probate source is found (e.g., owner manually supplies names from Wyoming Tribune Eagle notices to creditors).

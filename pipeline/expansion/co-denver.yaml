@@ -1,0 +1,15 @@
+# Market block (state sweep 2026-11-19). Not merged into config.yaml.
+- id: co-denver
+  county: Denver
+  state: CO
+  city: Denver
+  status: blocked               # parcels work; no automatable probate filing source
+  outreach_allowed: true        # drafts only; license question open under C.R.S. 12-10-201(6) (legal/CO.md)
+  license_required: unclear
+  sources:
+    probate_notices: {url: "https://www.publicnoticecolorado.com/", result: "manual only - terms bar bulk extraction / compiling notices into a database"}
+    probate_notices_column: {url: "https://colorado.column.us/search/", result: "manual only - JS app"}
+    probate_court: {url: "https://www.coloradojudicial.gov/court/denver-probate-court", result: "no free public docket search (state record search is paid)"}
+    parcels: {url: "https://services1.arcgis.com/zdB7qR0BtYrg0Xpl/arcgis/rest/services/ODC_PROP_PARCELS_A/FeatureServer/245/query", result: "worked - OWNER_NAME, situs address, appraised value, year built, sqft, last sale date/price/instrument"}
+  last_checked: 2026-11-19
+  notes: Denver parcel layer is excellent (includes last sale + deed type). Needs a probate list - owner could pull "Notice to Creditors" for Denver manually and drop names into the pipeline.

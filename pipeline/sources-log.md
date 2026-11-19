@@ -73,3 +73,18 @@
 | 2026-11-19 | nc-mecklenburg | portal-nc.tylertech.cloud (NC eCourts) | manual only | CAPTCHA; search estates by hand |
 | 2026-11-19 | nc-mecklenburg | www.nccourts.gov | blocked (CloudFront 403) | |
 | 2026-11-19 | nc-mecklenburg | meckgis TaxParcel_Camaownershipvalues/FeatureServer/0 | worked | owner name, situs address, values, last sale |
+| 2026-11-19 | ut-salt-lake | utahlegals.com (Utah Press Assn notices) | manual only | terms ban scraping/automated means and commercial use; manual: https://www.utahlegals.com/ |
+| 2026-11-19 | ut-salt-lake | Utah courts XChange | not tested (paid subscription) | https://www.utcourts.gov/en/court-records-publications/records/xchange.html |
+| 2026-11-19 | ut-salt-lake | UGRC Parcels_SaltLake_LIR FeatureServer | worked, no owner names | values/year built only; manual owner lookup https://slco.org/assessor/ |
+| 2026-11-19 | mt-yellowstone | montanapublicnotices.com (MNA) | manual only | JS search app; one query found only Yellowstone County News indexed, 0 results; manual: https://www.montanapublicnotices.com/mna/legals/ |
+| 2026-11-19 | mt-yellowstone | gisservice.mt.gov msdi_cadastral_map_v1 (state parcels w/ OwnerName) | manual only | robots.txt disallows /arcgis/*; manual: https://svc.mt.gov/msl/cadastral |
+| 2026-11-19 | mt-yellowstone | Yellowstone County District Court | no online search | |
+| 2026-11-19 | wy-laramie | wyopublicnotices.com (WY Press Assn) | manual only | terms: personal non-commercial use only; manual: https://wyopublicnotices.com/ |
+| 2026-11-19 | wy-laramie | gis2.statelands.wyo.gov Parcels2025 MapServer | worked | Laramie: 44,406 parcels with owner names (TY2025) |
+| 2026-11-19 | co-denver | publicnoticecolorado.com (CO Press Assn) | manual only | terms bar bulk extraction/compilation; manual: https://www.publicnoticecolorado.com/ |
+| 2026-11-19 | co-denver | colorado.column.us | manual only | JS app |
+| 2026-11-19 | co-denver | Denver Probate Court / CO court records | no free search | state record search is paid |
+| 2026-11-19 | co-denver | Denver ODC_PROP_PARCELS_A FeatureServer/245 | worked | owner, situs, appraised value, last sale date/price/deed type |
+| 2026-11-19 | nm-bernalillo | caselookup.nmcourts.gov | manual only | disclaimer bars non-individual use/multi-record download (NMSA 14-3-15.1); manual: https://caselookup.nmcourts.gov/caselookup/ |
+| 2026-11-19 | nm-bernalillo | newmexicopublicnotices.com (NM Press Assn) | manual only | terms: personal non-commercial use only; manual: https://www.newmexicopublicnotices.com/ |
+| 2026-11-19 | nm-bernalillo | abqgis01.cabq.gov BaseMapLayers/5 (Bernalillo Assessor parcels) | worked | TAXYR 2026 owner/situs/value |

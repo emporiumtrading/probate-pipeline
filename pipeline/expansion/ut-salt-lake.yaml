@@ -1,0 +1,15 @@
+# Market block (state sweep 2026-11-19). Not merged into config.yaml.
+- id: ut-salt-lake
+  county: Salt Lake
+  state: UT
+  city: Salt Lake City
+  status: blocked               # license required AND no automatable probate or owner-name parcel source
+  outreach_allowed: false       # Utah DRE: wholesaling as a business model = unlicensed activity (legal/UT.md)
+  license_required: yes
+  sources:
+    probate_notices: {url: "https://www.utahlegals.com/", result: "manual only - terms ban scraping/automated collection and commercial use"}
+    probate_court: {url: "https://www.utcourts.gov/en/court-records-publications/records/xchange.html", result: "not tested - XChange is a paid subscription"}
+    parcels_ugrc: {url: "https://services1.arcgis.com/99lidPhWCzftIe9K/ArcGIS/rest/services/Parcels_SaltLake_LIR/FeatureServer/0", result: "worked but no owner-name field (values, sqft, year built only)"}
+    assessor_manual: {url: "https://slco.org/assessor/", result: "manual owner lookup"}
+  last_checked: 2026-11-19
+  notes: Research only even if sources open up, until licensed or partnered with a Utah principal broker.

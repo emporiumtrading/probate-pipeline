@@ -1,0 +1,14 @@
+# Market block (state sweep 2026-11-19). Not merged into config.yaml.
+- id: nm-bernalillo
+  county: Bernalillo
+  state: NM
+  city: Albuquerque
+  status: blocked               # parcels work; probate sources restrict bulk/commercial use
+  outreach_allowed: true        # drafts only; license question open (legal/NM.md)
+  license_required: unclear
+  sources:
+    probate_court: {url: "https://caselookup.nmcourts.gov/caselookup/", result: "manual only - disclaimer prohibits any use other than viewing individual records and downloading multiple records; NMSA 14-3-15.1"}
+    probate_notices: {url: "https://www.newmexicopublicnotices.com/", result: "manual only - terms: personal, non-commercial use only"}
+    parcels: {url: "https://abqgis01.cabq.gov/arcgis/rest/services/agis/BaseMapLayers/MapServer/5/query", result: "worked - Bernalillo County Assessor parcels, TAXYR 2026, OWNER, SITUSADD, TOTVALUE, PROPCLASS"}
+  last_checked: 2026-11-19
+  notes: Parcel layer ready; needs a permitted probate source.
