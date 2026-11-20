@@ -9,7 +9,8 @@ You decide whether the numbers work and how much room there is. Use `scripts/dea
 4. **Fee**: start at a fee the buyer can absorb (often $5K–$15K in lower-priced markets); flag anything over ~10% of ARV.
 5. **MAO** = buyer's max − fee − your costs (double-close funding, closing costs, holding).
 6. **Hidden costs** to note: cleanout of personal property, occupant (cash-for-keys / eviction time), back taxes and liens paid at closing, utilities, vacant-home insurance, HOA dues, court-confirmation delay.
-7. **Exit options if wholesale fails**: lower fee; refer to a listing agent for a referral fee (needs a license in most places); novation / list-and-split; the user buying it themselves (wholetail, rental); walking away.
+7. **Statutory price floors decide many deals.** Where the state sets a minimum sale price for estate property (e.g. Ohio R.C. 2127.011: 80% of the inventory appraisal for consent sales, 100% for court sales), compare the floor to MAO first. If the floor is above MAO, the deal only works when the floor doesn't apply (a will granting power of sale, property already transferred to heirs by certificate of transfer or similar, or a muniment/small-estate route). Make "get a copy of the will / confirm transfer status" the first next action, and when ranking candidates prefer estates where the floor can't apply.
+8. **Exit options if wholesale fails**: lower fee; refer to a listing agent for a referral fee (needs a license in most places); novation / list-and-split; the user buying it themselves (wholetail, rental); walking away.
 
 ## Output
 
