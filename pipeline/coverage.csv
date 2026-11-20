@@ -132,13 +132,13 @@ tn-shelby,deed_index,,untested,,,,
 tn-shelby,civil_docket,,untested,,,,
 tn-shelby,tax_status,,untested,,,,
 tn-shelby,death_date,,untested,,,,
-tx-harris,probate_docket,cclerk.hctx.net CourtCaseDetail.aspx?ID= (parties + events),works,,,2026-11-19,seeded from sources-log: worked
+tx-harris,probate_docket,cclerk.hctx.net CourtCaseDetail.aspx?ID= (parties + events),works,,,2026-11-20,seeded from sources-log: worked; 2026-11-20: search unavailable (site message); not yet broken (1st day)
 tx-harris,legal_notices,,untested,,,,
 tx-harris,parcel_owner,download.hcad.org/data/CAMA/2026/Real_building_land.zip,works,,,2026-11-19,seeded from sources-log: worked
 tx-harris,deed_index,cclerk.hctx.net RP.aspx (real property index by grantor/grantee),works,,,2026-11-19,seeded from sources-log: worked
 tx-harris,civil_docket,,untested,,,,
 tx-harris,tax_status,,untested,,,,
-tx-harris,death_date,,untested,,,,
+tx-harris,death_date,cclerk.hctx.net CourtCaseDetail.aspx (DOD in event comments),works,,,2026-11-19,DOD captured in leads/<id>/research.md on 2026-11-19
 ut-salt-lake,probate_docket,,untested,,,,
 ut-salt-lake,legal_notices,utahlegals.com (Utah Press Assn notices),untested,,,2026-11-19,seeded from sources-log: manual only
 ut-salt-lake,parcel_owner,UGRC Parcels_SaltLake_LIR FeatureServer,works,,,2026-11-19,"seeded from sources-log: worked, no owner names"

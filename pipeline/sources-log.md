@@ -114,3 +114,5 @@
 | 2026-11-20 | fl-hillsborough | publicrec.hillsclerk.com/Probate/dailyfilings/ProbateFiling_20261119.csv | worked | daily run: 83 rows, 12 estate/trust decedents; date of death included |
 | 2026-11-20 | fl-hillsborough | maps.hillsboroughcounty.org PAO/HC_Properties MapServer/1 owner query | worked | OWNER is "First Middle Last" mixed case (e.g. "Estate Of Joseph L Simmons"): search UPPER(OWNER) LIKE '%LAST%' AND '%FIRST%'; NBHC is numeric; 7 of 12 decedents matched a parcel |
 | 2026-11-20 | fl-hillsborough | maps.hillsboroughcounty.org same layer, neighbourhood sales (NBHC + S_DATE >= DATE 'YYYY-MM-DD') | worked | comps for ARV; one connection reset, retried with backoff |
+| 2026-11-20 | tx-harris | cclerk.hctx.net CourtSearch.aspx?CaseType=Probate (search by File Date 11/19–11/20) | unavailable | "This Search is currently unavailable" on two tries (slice B); retry in slice C |
+| 2026-11-20 | tn-shelby | probatecourt.shelbycountytn.gov (www and bare) | no response | 3rd day down; manual: https://www.probatecourt.shelbycountytn.gov |
