@@ -74,6 +74,16 @@ markets:
       deeds: https://www.cclerk.hctx.net/applications/websearch/RP.aspx
     last_checked: 2026-11-19
 
+  - id: fl-hillsborough
+    county: Hillsborough
+    state: FL
+    city: Tampa
+    outreach_allowed: true        # drafts only; FL Ch. 475 broker-law risk: market the contract only to a private buyer list, never advertise the house; attorney must approve model first; no calls/texts until FL DNC process set up
+    sources:
+      probate_filings: https://publicrec.hillsclerk.com/Probate/dailyfilings/   # robots.txt on hillsclerk.com sets Crawl-delay 10 for ClaudeBot: wait >=10s between requests
+      parcels: https://maps.hillsboroughcounty.org/arcgis/rest/services/PAO/HC_Properties/MapServer/1
+    last_checked: 2026-11-19
+
 # Market expansion: each run tries the next counties in this queue (see daily-run step 3b).
 expansion_per_run: 3
 expansion_queue:   # large metros first; legal status per state is checked before any lead is worked
@@ -95,7 +105,6 @@ expansion_queue:   # large metros first; legal status per state is checked befor
   - {county: Maricopa, state: AZ, city: Phoenix}
   - {county: Fulton, state: GA, city: Atlanta}
   - {county: Duval, state: FL, city: Jacksonville}
-  - {county: Hillsborough, state: FL, city: Tampa}
   - {county: Mecklenburg, state: NC, city: Charlotte}
   - {county: Jefferson, state: AL, city: Birmingham}
   - {county: Oklahoma, state: OK, city: Oklahoma City}

@@ -1,0 +1,20 @@
+# Expansion worker 2026-11-19/20
+- id: fl-hillsborough
+  county: Hillsborough
+  state: FL
+  city: Tampa
+  status: live
+  outreach_allowed: true        # drafts only; no FL wholesaler license/statute found, but ch. 475 brokerage risk -> market the contract only, investor/assignment disclosure, attorney sign-off first (legal/FL.md)
+  license_required: no (unverified - confirm with FL attorney)
+  sources:
+    probate_filings: https://publicrec.hillsclerk.com/Probate/dailyfilings/   # worked: ProbateFiling_YYYYMMDD.csv, rolling ~30 days; decedent address + DOD + parties + attorney
+    parcels: https://maps.hillsboroughcounty.org/arcgis/rest/services/PAO/HC_Properties/MapServer/1/query   # worked: owner-name parcel layer (OWNER, SITE_ADDR, JUST, S_DATE/S_AMT, NBHC) - usable for manual name feeds too
+    flood: https://maps.hillsboroughcounty.org/arcgis/rest/services/InfoLayers/Flood_Zone_Only/MapServer/0/query
+    case_docket_manual: https://hover.hillsclerk.com   # blocked to automation (empty reply/503); manual only
+    notices_manual: https://floridapublicnotices.com   # manual only - User Agreement requires written authorization for any content use
+    tax_collector_manual: https://hillsborough.county-taxes.com/public/search/property_tax
+    official_records_manual: https://publicaccess.hillsclerk.com/oripublicaccess/
+    property_appraiser_manual: https://gis.hcpafl.org/propertysearch/
+  owner_name_parcel_layer: true
+  last_checked: 2026-11-19
+  notes: 221 estate cases filed 10/21-11/18; 48 confirmed decedent-owned residential parcels; 4 deep-dived (all NEGOTIATE).
