@@ -4,6 +4,20 @@ Use this when the skill runs on a schedule inside the pipeline repo (it has `con
 
 Work in depth, not breadth: a few leads researched properly beat fifty half-checked names. Respect `max_new_leads_per_day`.
 
+## Staggered schedule (three runs a day)
+The full daily run is split into three scheduled slices so each stays within usage limits. Every slice starts with step 0 (sync), runs QA before publishing anything, and ends with step 8 (save and push), so a slice that stops early loses nothing.
+
+| Slice | Time (owner time, America/Chicago) | Steps | Markets |
+|---|---|---|---|
+| **A: morning** | 5:39 AM | 0, 1, 2 (legal refresh), 2b (source map, all live markets), 3 + 3a + 4 (sourcing and deep-dives), 5a (dates of death), 7 (QA + dashboard), 8 | Hillsborough (Tampa), Franklin (Columbus) |
+| **B: midday** | 12:23 PM | 0, 1, 3 + 3a + 4, 3b (expansion), 5a, 7, 8 | Harris (Houston), Shelby (Memphis), Philadelphia, plus any market added since |
+| **C: evening** | 5:41 PM | 0, 1, 3-types, 3c (plan to target), 5 (maintain pipeline), 5b (communications, negotiation, professional network, buyer list, reply desk, closing), 6 (the day's report, covering all three slices), 7, 7b (learn), 8 | All live markets |
+
+- New markets go to slice B unless a slice is over 3 markets; then put them in whichever slice has fewer.
+- A slice writes only its own part of `reports/YYYY-MM-DD.md` under a heading "Slice A / B / C"; slice C writes the top summary (Top of mind, queues, pace) for the whole day.
+- `pipeline/runs.csv` gets one row per day: slice A creates it, B and C update the counts.
+- If a slice finds an earlier slice didn't finish (no push that day), it runs that slice's markets first, then its own.
+
 ## Hard limits (every run)
 - **Contact only as `config.yaml` → `autonomy` allows**, and only after the Compliance Officer passes the item. With `outreach: drafts_only`, nothing is sent. With `autonomous`, the Communications worker sends mail/email through connected services. Never phone or text automatically. Nothing binding is ever signed for the owner, and no money or bank details are ever handled.
 - Public records only. Don't create accounts, bypass logins, CAPTCHAs, paywalls or rate limits, and don't automate any site whose robots.txt disallows the pages you need or whose terms of use ban automated or commercial use. Honor any `Crawl-delay` in robots.txt (including one set for ClaudeBot or other AI crawlers) and apply a parent domain's robots.txt to its subdomains when the subdomain has none. Mark such sources `manual only` in the sources log and give the owner the manual search link. If a site blocks or rate-limits you, back off, log it in `pipeline/sources-log.md`, and move on.
