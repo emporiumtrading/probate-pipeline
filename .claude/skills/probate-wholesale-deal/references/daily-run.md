@@ -13,6 +13,14 @@ Work in depth, not breadth: a few leads researched properly beat fifty half-chec
 
 ## Steps
 
+### 0. Sync with GitHub
+Before reading anything:
+1. `git fetch origin main`.
+2. If `git log origin/main..HEAD` shows commits, an earlier run saved work but its push failed. Rebase them onto the latest `main` (`git pull --rebase origin main`) and push them now. Put "Recovered unpushed work from <date>" at the top of today's report.
+3. If there are uncommitted changes (`git status --porcelain`), an earlier run stopped before saving. Commit them as `Recovered partial run <date>` and push them the same way.
+4. Otherwise `git pull --rebase origin main`, so today's run starts from what you and the owner's other sessions last pushed.
+If a rebase hits a conflict, `git rebase --abort`, leave the work as it is, and report the conflicting files at the top of the report and of your final message. Don't force-push, and don't resolve a conflict by discarding someone else's changes.
+
 ### 1. Load state
 Read `config.yaml`, `pipeline/deal-tracker.csv`, the latest file in `reports/`, `pipeline/sources-log.md`, and `legal/*.md`. Note today's date in the owner's timezone.
 
@@ -104,4 +112,6 @@ Keep the report short enough to read on a phone in five minutes; details live in
 5. After writing, read `data/users/<your id>/check` and `runs` (via `db_whoami`) if present and fix any failure they name.
 
 ### 8. Save
-`git add -A && git commit -m "Daily run YYYY-MM-DD: N new leads, M updates"` and push to the default branch, retrying network errors up to 4 times with backoff. If the push fails, say so at the top of your final message. Never create or push other branches: the session proxy blocks branch deletion, so any branch you push stays behind as clutter. If the push to the default branch is rejected (not a network error), `git pull --rebase` once and retry; if it still fails, leave the commit local and report the exact error instead of pushing to a fallback branch.
+`git add -A && git commit -m "Daily run YYYY-MM-DD: N new leads, M updates"` and push to the default branch, retrying network errors up to 4 times with backoff. If the push fails, say so at the top of your final message. Never create or push other branches: the session proxy blocks branch deletion, so any branch you push stays behind as clutter. If the push to the default branch is rejected because `main` moved (someone else pushed first), `git pull --rebase origin main` and push again, up to 3 times. On a rebase conflict, follow the conflict rule in step 0. If the push is refused for any other reason, or still fails, leave the commit local (step 0 of the next run pushes it) and report the exact error rather than pushing to a fallback branch.
+
+Also save midway: after step 5, commit `Daily run YYYY-MM-DD (checkpoint)` and push the same way, so a run that stops partway doesn't lose its research. Run the dashboard step (7) only on the final save.
