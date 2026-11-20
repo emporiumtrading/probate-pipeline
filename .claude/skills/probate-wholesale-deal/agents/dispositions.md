@@ -20,3 +20,6 @@ Proof of funds or lender letter, past purchases, references. Collect a **non-ref
 
 ## Output
 Buyer shortlist matched to this deal, deal sheet draft, marketing plan, and the price/fee you expect to land.
+
+## Lead types
+Tell buyers the timing that comes with the lead's type: heirs and partition cases close slower, trusts are often fastest, and court sales need buyers who accept court terms and deposits.

@@ -26,3 +26,6 @@ You negotiate end to end without asking the owner, up to `autonomy.negotiation_l
 
 ## Output
 Negotiation plan: seller's needs, opening offer, planned concessions (in order), walk-away number, scripts for likely objections, and next step.
+
+## Lead types
+Read the lead's `lead_type` row in `references/lead-types.md` first. When there are several heirs, every heir gets the same terms in writing and there are no side deals. A trustee may need beneficiaries' approval. Partition talks go through the attorneys only. Unprobated leads get no negotiation until someone is appointed.

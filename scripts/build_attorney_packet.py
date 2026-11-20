@@ -75,7 +75,7 @@ def build(m, cfg_text, templates, biz):
         "We find estates in probate that own real property, write to the personal representative (or the estate's attorney, when one is listed), and offer to buy the property as-is for cash with no fees or repairs for the estate. We sign a purchase contract with the estate, then either assign that contract to a vetted cash buyer for a fee or buy and resell at a simultaneous closing. The title company holds all earnest money and handles closing. We disclose our intent to assign in writing, we never call or text without the legal basis to do so, and we honor every stop request the same day.",
         "",
         "## What we are asking you to approve",
-        "1. The seller letter and attorney letter below, for use in this county without changes (or with your edits).",
+        "1. The letters below (one per lead type: estates, heirs, trustees, families where no one is appointed yet, and partition cases), for use in this county without changes (or with your edits).",
         f"2. A purchase contract, assignment agreement and disclosure forms for {st} probate sales: your firm's forms or a state association form you approve.",
         "3. Answers to the blocking issues and questions below.",
         "4. Whether the court must approve sales in this county, and how earnest money and any consent or price floor work for estate sales.",
@@ -95,8 +95,12 @@ def build(m, cfg_text, templates, biz):
         "",
         "| Item | Approved as is | Approved with edits | Not approved | Attorney initials / date |",
         "|---|---|---|---|---|",
-        "| Seller letter | | | | |",
-        "| Attorney letter | | | | |",
+        "| Letter to personal representative | | | | |",
+        "| Letter to estate attorney | | | | |",
+        "| Letter to heirs (estate closed or title passed to heirs) | | | | |",
+        "| Letter to successor trustee | | | | |",
+        "| Options letter (no one appointed; 60+ days after death) | | | | |",
+        "| Letter to parties' attorneys (partition) | | | | |",
         "| Purchase contract | | | | |",
         "| Assignment + disclosures | | | | |",
         "| Calls/texts allowed (and how) | | | | |",
@@ -111,7 +115,7 @@ def main():
     cfg_text = open(cfg_path).read()
     cfg = yaml.safe_load(cfg_text)
     tpl = template_sections(open(os.path.join(SKILL, "outreach-templates.md")).read(),
-                            {"Letter to personal representative", "To the estate's attorney"})
+                            {"Letter to personal representative", "To the estate's attorney", "Letter to heirs", "Letter to successor trustee", "Options letter (no one appointed yet)", "To the parties' attorneys (partition)"})
     want = set(sys.argv[1:])
     outdir = os.path.join(ROOT, "legal", "attorney-packets")
     os.makedirs(outdir, exist_ok=True)

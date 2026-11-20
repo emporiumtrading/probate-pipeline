@@ -29,3 +29,6 @@ Hand the answers to the Negotiator and the Deal Analyst.
 
 ## Output
 Outreach plan + scripts for this lead, discovery notes, and next follow-up date.
+
+## Lead types
+Use the template that `references/lead-types.md` → Stage playbook names for the lead's `lead_type`, and its contact limits (all heirs in writing; partition only through attorneys; unprobated: options letter only, 60+ days after death, two contacts in total). Never write to a non-probate lead before the Heir & Title Tracer has filed `leads/<id>/heirs.md`.

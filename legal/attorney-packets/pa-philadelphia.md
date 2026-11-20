@@ -14,7 +14,7 @@ Prepared 2026-11-20 from `legal/PA.md` (last verified 2026-11-19). This packet a
 We find estates in probate that own real property, write to the personal representative (or the estate's attorney, when one is listed), and offer to buy the property as-is for cash with no fees or repairs for the estate. We sign a purchase contract with the estate, then either assign that contract to a vetted cash buyer for a fee or buy and resell at a simultaneous closing. The title company holds all earnest money and handles closing. We disclose our intent to assign in writing, we never call or text without the legal basis to do so, and we honor every stop request the same day.
 
 ## What we are asking you to approve
-1. The seller letter and attorney letter below, for use in this county without changes (or with your edits).
+1. The letters below (one per lead type: estates, heirs, trustees, families where no one is appointed yet, and partition cases), for use in this county without changes (or with your edits).
 2. A purchase contract, assignment agreement and disclosure forms for PA probate sales: your firm's forms or a state association form you approve.
 3. Answers to the blocking issues and questions below.
 4. Whether the court must approve sales in this county, and how earnest money and any consent or price floor work for estate sales.
@@ -79,12 +79,57 @@ Sincerely,
 ## To the estate's attorney
 "I'm a local investor interested in purchasing [address] from the [Decedent] estate, as-is, cash, with a closing timed to the court's schedule. I disclose up front that I may assign the contract. Could you share whether the representative is open to offers and whether court confirmation will be required?"
 
+## Letter to heirs
+Dear [Name],
+
+I'm sorry for the loss of [Decedent's name]. I understand [address] may now belong to you and your family.
+
+My name is [Your name] with [company]. I'm a real-estate investor; I buy houses as-is for cash, and I may assign my purchase contract to another investor. If the family would like to sell, I can buy it as-is, cover normal closing costs at a local title company, and work around everyone's schedule, including heirs who live out of state. I send the same written offer to every owner.
+
+If now isn't the right time, that's fine. You can reach me at [phone/email]. If you'd prefer not to hear from me again, tell me and I'll remove you from my list.
+
+Sincerely,
+[Name, company, address, license # if any]
+
+## Letter to successor trustee
+Dear [Name],
+
+I'm sorry for the loss of [Decedent's name]. I understand you may be serving as trustee for the trust that holds [address].
+
+My name is [Your name] with [company]. I'm a real-estate investor; I buy houses as-is for cash, and I may assign my purchase contract to another investor. If selling would help with the trust administration, I can buy as-is, cover normal closing costs at a local title company, and close when it suits the trust. I'm glad to work through the trust's attorney if you prefer.
+
+If you'd prefer not to hear from me again, tell me and I'll remove you from my list.
+
+Sincerely,
+[Name, company, address, license # if any]
+
+## Options letter (no one appointed yet)
+Dear [Name],
+
+I'm sorry for the loss of [Decedent's name].
+
+I'm writing only to share information. Public records show [address] is still in [Decedent's name]. Before a house like this can be sold, someone usually has to be appointed through the probate court, or the heirs' ownership has to be recorded. A local probate attorney can explain which applies and what it costs; many offer a free first consultation.
+
+My name is [Your name] with [company]. I'm a real-estate investor and I buy houses as-is for cash; I may assign my purchase contract to another investor. If the family ever decides to sell, I'd be glad to talk. If not, I won't write again more than once.
+
+If you'd prefer not to hear from me at all, tell me and I'll remove you from my list.
+
+Sincerely,
+[Name, company, address, license # if any]
+
+## To the parties' attorneys (partition)
+"I'm a local investor interested in purchasing [address], which I understand is the subject of [case name/number]. I would buy as-is for cash, either the whole property or a party's interest, and I disclose up front that I may assign the contract. If your client would consider an offer, or if the court will order a sale, I'd appreciate knowing the process and timing."
+
 ## Sign-off
 
 | Item | Approved as is | Approved with edits | Not approved | Attorney initials / date |
 |---|---|---|---|---|
-| Seller letter | | | | |
-| Attorney letter | | | | |
+| Letter to personal representative | | | | |
+| Letter to estate attorney | | | | |
+| Letter to heirs (estate closed or title passed to heirs) | | | | |
+| Letter to successor trustee | | | | |
+| Options letter (no one appointed; 60+ days after death) | | | | |
+| Letter to parties' attorneys (partition) | | | | |
 | Purchase contract | | | | |
 | Assignment + disclosures | | | | |
 | Calls/texts allowed (and how) | | | | |

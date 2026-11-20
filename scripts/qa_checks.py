@@ -126,6 +126,30 @@ for r in rows("replies.csv"):
 if "outreach: autonomous" in cfg and not re.search(r"attorney_approved:\s*\d", cfg):
     warns.append("outreach is autonomous but no market has attorney_approved: nothing will send")
 
+# ---- lead types ----
+TYPES = ("probate", "post_probate_heirs", "small_estate", "trust", "ancillary", "partition", "tax_delinquent_inherited", "unprobated", "guardianship")
+lt_block = re.search(r"\nlead_types:[^\n]*\n((?:  [^\n]*\n)+)", cfg)
+enabled = {k for k, v in re.findall(r"^  (\w+):\s*(true|false)", lt_block.group(1) if lt_block else "", re.M) if v == "true"}
+if not lt_block:
+    fails.append("config.yaml missing lead_types")
+if "guardianship" in enabled:
+    warns.append("guardianship leads are enabled: confirm the attorney approved a separate process")
+trk = list(csv.DictReader(open(os.path.join(ROOT, "pipeline", "deal-tracker.csv"))))
+for r in trk:
+    t = (r.get("lead_type") or "probate").strip()
+    if t not in TYPES:
+        fails.append(f"{r['lead_id']}: unknown lead_type '{t}'")
+        continue
+    moved = r.get("stage") not in ("Researched", "Dead", "")
+    if moved and t not in enabled:
+        fails.append(f"{r['lead_id']}: lead_type {t} is disabled but the lead is at stage '{r['stage']}'")
+    if moved and t != "probate" and not os.path.exists(os.path.join(ROOT, "leads", r["lead_id"], "heirs.md")):
+        fails.append(f"{r['lead_id']}: {t} lead past Researched without leads/<id>/heirs.md from the Heir & Title Tracer")
+    if t == "unprobated" and r.get("stage") not in ("Researched", "Outreach drafted", "Outreach sent", "Dead", "") :
+        fails.append(f"{r['lead_id']}: unprobated lead at '{r['stage']}': no offer until someone has authority (convert its lead_type first)")
+    if t == "unprobated" and (n(r.get("touch_count")) or 0) > 2:
+        fails.append(f"{r['lead_id']}: unprobated lead contacted {r['touch_count']} times (cap is 2)")
+
 # ---- guardrails: learning may not change the hard limits or the autonomy block ----
 import hashlib
 def guard_parts():

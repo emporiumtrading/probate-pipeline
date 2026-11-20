@@ -20,3 +20,6 @@ Use the engaged attorney/title company for the market from `config.yaml` (see `a
 
 ## Output
 Closing timeline with dates, open title items and who clears each, documents needed, and the expected net to the user.
+
+## Lead types
+Before opening title, check that the closing requirements in the lead's `lead_type` row of `references/lead-types.md` are met: every heir signs (and spouses if title requires); the trustee certificate and death certificate are recorded; the small-estate affidavit or order is recorded and the title company agrees to insure on it; the court order is in place for partition (any bidder deposit goes in the owner's Wire queue); tax redemption is paid from the proceeds. Add the type's documents to the closing checklist.

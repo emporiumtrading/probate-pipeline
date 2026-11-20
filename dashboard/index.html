@@ -86,7 +86,7 @@
     <p class="pp-muted">Only GO and NEGOTIATE deals, highest potential earnings first. Click a row to open the deal. Potential earnings = cash-buyer max − target contract price.</p>
     <div class="pp-card pp-wrap">
       <table data-source="opps" data-row-key="lead_id">
-        <thead><tr><th data-field="address">Property</th><th data-field="city">City</th><th data-field="county">County</th><th data-field="state">State</th><th data-field="verdict">Verdict</th><th class="pp-n" data-field="potential_earnings">Potential earnings</th><th class="pp-n" data-field="target_price">Target price</th><th class="pp-n" data-field="buyer_max">Cash-buyer max</th><th class="pp-n" data-field="arv_mid">After-repair value</th><th data-field="stage">Stage</th><th data-field="next_action_date">Next step due</th></tr></thead>
+        <thead><tr><th data-field="address">Property</th><th data-field="city">City</th><th data-field="county">County</th><th data-field="state">State</th><th data-field="lead_type">Lead type</th><th data-field="verdict">Verdict</th><th class="pp-n" data-field="potential_earnings">Potential earnings</th><th class="pp-n" data-field="target_price">Target price</th><th class="pp-n" data-field="buyer_max">Cash-buyer max</th><th class="pp-n" data-field="arv_mid">After-repair value</th><th data-field="stage">Stage</th><th data-field="next_action_date">Next step due</th></tr></thead>
         <tbody data-draw="oppRows"></tbody>
       </table>
     </div>
@@ -339,7 +339,7 @@ const ppV = (v) => v === 'GO' ? 'pp-go' : v === 'NEGOTIATE' ? 'pp-neg' : v === '
 const ppOpenDeal = window.ppOpenDeal = (r) => { dash.setParams({ lead: r.lead_id }); window.ppShow('deal'); };
 const M = window.ppMoney;
 
-dash.draw('oppRows', (tb) => ppRows(tb, 'opps', [{ f: 'address' }, { f: 'city' }, { f: 'county' }, { f: 'state' }, { f: 'verdict', cls: ppV },
+dash.draw('oppRows', (tb) => ppRows(tb, 'opps', [{ f: 'address' }, { f: 'city' }, { f: 'county' }, { f: 'state' }, { f: 'lead_type', fmt: (v) => String(v || 'probate').replace(/_/g, ' ') }, { f: 'verdict', cls: ppV },
   { f: 'potential_earnings', fmt: M, cls: 'pp-n pp-go' }, { f: 'target_price', fmt: M, cls: 'pp-n' }, { f: 'buyer_max', fmt: M, cls: 'pp-n' }, { f: 'arv_mid', fmt: M, cls: 'pp-n' },
   { f: 'stage' }, { f: 'next_action_date' }], 'No opportunities in this state or county yet.', ppOpenDeal));
 dash.draw('stageRows', (tb) => { const sel = dash.params().stage || 'Outreach drafted';

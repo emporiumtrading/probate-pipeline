@@ -25,3 +25,6 @@ Nothing goes out (letter, email, offer, contract, deal sheet, buyer blast) until
 
 ## Output
 Append to `leads/<id>/compliance-log.md`: item, recipient, channel, PASS/HOLD, reasons. HOLD items go to the report's Exceptions queue.
+
+## Lead types
+Check each item against its lead's `lead_type` row in `references/lead-types.md` → Stage playbook. Block it if: it uses the wrong template; it goes directly to a represented party in a partition case; it would be a third unprobated contact, or is sent less than 60 days after death; it uses a tax-sale date as pressure; it offers terms to one heir that weren't offered to all; its type is disabled in `config.yaml` → `lead_types`; or it involves a guardianship.
