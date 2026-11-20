@@ -24,6 +24,8 @@ Each stage has a lead specialist. Their full instructions are in `agents/`. Read
 | Transaction Coordinator | `agents/transaction-coordinator.md` | Title, liens, deadlines, court approval, settlement statement, closing, owner signature and wire queues |
 | Compliance Officer | `agents/compliance-officer.md` | Pre-send gate for every message and document: recipients, channel rules, required disclosures, stop list |
 | Communications | `agents/communications.md` | Sends approved outreach and follow-ups, reads the inbox, routes replies |
+| Buyer-List Builder | `agents/buyer-list.md` | Cash buyers per market from public deed records, buy boxes, vetting status, `buyer_pct` reality check |
+| Reply Desk | `agents/reply-desk.md` | Replies by mail, voicemail and notes in `pipeline/inbox/`, stop requests, call queue, one-business-day response check |
 | Professional Network | `agents/professional-network.md` | Shortlists and scores attorneys and title companies per market, requests quotes, prepares engagement for signature |
 
 How the teams run together, the deal stages and the owner's touchpoints (signatures and wires only) are in `references/orchestration.md`. Messages are composed per lead with `references/dynamic-messaging.md`, not one fixed template.

@@ -9,6 +9,7 @@ Work in depth, not breadth: a few leads researched properly beat fifty half-chec
 - Public records only. Don't create accounts, bypass logins, CAPTCHAs, paywalls or rate limits, and don't automate any site whose robots.txt disallows the pages you need or whose terms of use ban automated or commercial use. Honor any `Crawl-delay` in robots.txt (including one set for ClaudeBot or other AI crawlers) and apply a parent domain's robots.txt to its subdomains when the subdomain has none. Mark such sources `manual only` in the sources log and give the owner the manual search link. If a site blocks or rate-limits you, back off, log it in `pipeline/sources-log.md`, and move on.
 - Personal data (names, addresses, phone numbers of executors/heirs) stays in this private repo. Don't paste it into outside services beyond the searches needed to research it.
 - Markets with `outreach_allowed: false` get research and underwriting only; no outreach drafts.
+- Autonomous sending needs both `autonomy.outreach: autonomous` and `attorney_approved: <date>` on the market. Any market without that date stays drafts-only, whatever the global setting says.
 - Label everything verified (with source + date) or assumed.
 
 ## Steps
@@ -45,7 +46,7 @@ The goal is coverage across as many US states as can be worked legally and reach
 Remove processed counties from the queue. Never bypass blocks, logins or CAPTCHAs to make a county work.
 
 ### 3c. Plan to the monthly target
-`config.yaml` → `targets.closings_per_month` sets the goal (currently 115). Each run:
+`config.yaml` → `targets.closings_per_month` sets the goal (currently 3 for the first 90 days). Each run:
 1. Measure the funnel from the tracker: leads researched → opportunities → contacted → in conversation → offers → verbal → under contract → closed, per month, and the conversion rate between each step (use the defaults in `targets.assumed_rates` until there are 3 months of real data).
 2. Work backwards from the target to what this run must produce: new qualified leads needed per day, counties needed, letters/emails needed, buyers needed.
 3. Raise throughput to close the gap, in this order: open more markets (step 3b, up to `targets.max_expansion_per_run`), raise `max_new_leads_per_day` up to `targets.max_leads_per_day`, quick-screen everything and deep-dive only the top-ranked, and add follow-up touches up to the compliance caps. Never loosen the compliance gate, the frequency caps or the owner-signature rule to hit a number.
@@ -74,10 +75,14 @@ Following `references/orchestration.md`, run these workers (in parallel where po
 - **Communications**: send what's due (compliance-gated), read the inbox, route replies.
 - **Negotiation desk**: answer counters within authority; re-price with the Deal Analyst when facts change; move agreed deals to "Contract out for signature" with the contract built from the attorney-approved state template.
 - **Professional Network**: for any market with an active deal and no engaged attorney/title company, build or refresh `network/<market>.md` and request quotes if allowed.
+- **Buyer-list builder** (`agents/buyer-list.md`): every live market, every run, keep `pipeline/buyers/buyers.csv` growing from public deed records; warn when a market with a deal under contract has fewer than 5 vetted buyers.
+- **Reply desk** (`agents/reply-desk.md`): process `pipeline/inbox/`, log to `pipeline/inbox-log.csv`, and list every reply waiting more than one business day under Top of mind.
 - **Dispositions desk**: for deals under contract, match and contact vetted buyers (compliance-gated).
 - **Closing desk**: for every contract, track deadlines and update the signature and wire queues.
 
 ### 6. Daily report
+If `legal/<STATE>.md` changed this run, rebuild that market's attorney packet: `python3 scripts/build_attorney_packet.py <market-id>`.
+
 Write `reports/YYYY-MM-DD.md`:
 
 ```

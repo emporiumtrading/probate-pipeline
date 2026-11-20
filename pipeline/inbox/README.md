@@ -1,0 +1,1 @@
+Drop replies that didn't come by email here: photos or scans of letters, voicemail transcripts, call notes, returned mail. Name them `YYYY-MM-DD-<anything>`. The daily run's Reply Desk reads, matches, logs and files them in `processed/`.
