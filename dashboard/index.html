@@ -12,7 +12,8 @@
 .pp-tab { font: inherit; font-size: var(--cds-font-size-caption); background: none; border: 0; border-bottom: 2px solid transparent; padding: 8px 10px; color: var(--color-fg-muted); cursor: pointer; }
 .pp-tab[aria-selected="true"] { color: var(--color-fg); border-bottom-color: var(--color-fg); font-weight: var(--cds-font-weight-medium); }
 .pp-page { display: flex; flex-direction: column; gap: var(--cds-gap-lg); }
-.pp-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--cds-gap-md); }
+.pp-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: var(--cds-gap-md); }
+.pp-page[hidden] { display: none; }
 .pp-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); }
 .pp-tile .pp-num { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: 2rem; font-variant-numeric: tabular-nums; line-height: 1.1; }
 .pp-tile .pp-lbl { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
@@ -37,6 +38,23 @@
 .pp dt { color: var(--color-fg-muted); }
 .pp dd { margin: 0; }
 .pp details summary { cursor: pointer; color: var(--color-fg-muted); }
+.pp thead th { position: sticky; top: 0; background: var(--color-panel); z-index: 1; }
+.pp tbody tr:hover td { background: var(--color-bg); }
+#mk-coverage, #setup-list, #ops-sources { max-height: 560px; overflow: auto; }
+.pp-chip { display: inline-block; padding: 1px 8px; border-radius: 999px; line-height: 1.6; background: color-mix(in srgb, currentColor 12%, transparent); }
+.pp-badge { display: inline-block; min-width: 18px; margin-left: 6px; padding: 0 6px; border-radius: 999px; font-size: 11px; line-height: 18px; text-align: center; background: var(--color-warn); color: var(--color-panel); font-weight: var(--cds-font-weight-medium); }
+.pp-actions ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm); }
+.pp-action { font: inherit; font-size: var(--cds-font-size-caption); cursor: pointer; border: 1px solid var(--color-border-line); border-left: 3px solid var(--color-fg-muted); background: var(--color-bg); color: var(--color-fg); border-radius: var(--cds-radius); padding: 6px 10px; text-align: left; }
+.pp-action-warn { border-left-color: var(--color-warn); }
+.pp-action-bad { border-left-color: var(--color-bad); }
+.pp-action:hover { background: var(--color-panel); }
+.pp-toggles { display: flex; flex-wrap: wrap; gap: var(--cds-gap-md); align-items: center; margin: 0 0 var(--cds-gap-sm); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.pp-toggles label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
+.pp-progress { height: 8px; border-radius: 999px; background: var(--color-bg); overflow: hidden; border: 1px solid var(--color-border-line); margin: var(--cds-gap-sm) 0 4px; }
+.pp-progress > div { height: 100%; width: 0; background: var(--color-ok); transition: width .3s; }
+.pp-tile.pp-click:hover, .pp-tile.pp-click:focus-visible { border-color: var(--color-fg-muted); cursor: pointer; }
+.pp-tab:focus-visible, .pp-action:focus-visible, .pp tr.pp-click:focus-visible td { outline: 2px solid var(--color-fg); outline-offset: -2px; }
+@media (max-width: 640px) { .pp-bar { flex-direction: column; align-items: stretch; } .pp-tile .pp-num { font-size: 1.6rem; } .pp-card { padding: var(--cds-pad-md, 12px); } }
 @media print { .pp-tabs, .pp-filters { display: none; } }
 </style>
 
@@ -53,10 +71,10 @@
       <button class="pp-tab" role="tab" data-page="opportunities" aria-selected="false">Opportunities</button>
       <button class="pp-tab" role="tab" data-page="pipeline" aria-selected="false">Pipeline</button>
       <button class="pp-tab" role="tab" data-page="deal" aria-selected="false">Deal detail</button>
-      <button class="pp-tab" role="tab" data-page="queues" aria-selected="false">Your queues</button>
+      <button class="pp-tab" role="tab" data-page="queues" aria-selected="false">Your queues<span class="pp-badge" data-draw="badgeQueues" data-source="queueCounts" hidden></span></button>
       <button class="pp-tab" role="tab" data-page="markets" aria-selected="false">Markets &amp; legal</button>
       <button class="pp-tab" role="tab" data-page="operations" aria-selected="false">Operations</button>
-      <button class="pp-tab" role="tab" data-page="setup" aria-selected="false">Setup &amp; health</button>
+      <button class="pp-tab" role="tab" data-page="setup" aria-selected="false">Setup &amp; health<span class="pp-badge" data-draw="badgeSetup" data-source="health" hidden></span></button>
     </nav>
     <div class="pp-filters" id="filters">
       <label>State<select class="dash-select" data-draw="stateSel" aria-label="State" data-source="markets"></select></label>
@@ -65,6 +83,7 @@
   </div>
 
   <section class="pp-page" id="overview">
+    <div class="pp-card pp-actions" id="ov-actions"><h2>Needs you today</h2><ul data-draw="actionList" data-source="health queueCounts"></ul></div>
     <div class="pp-tiles">
       <div class="pp-card pp-tile"><div class="pp-num" data-draw="kOpps" data-source="kpis" data-field="opps" data-row="0">—</div><div class="pp-lbl">Opportunities (GO / NEGOTIATE)</div></div>
       <div class="pp-card pp-tile"><div class="pp-num" data-draw="kEarn" data-source="kpis" data-field="earnings" data-row="0">—</div><div class="pp-lbl">Total potential earnings</div></div>
@@ -176,7 +195,8 @@
     </div>
     <div class="pp-card pp-wrap" id="mk-coverage"><h2>Public-record coverage by county</h2>
       <p class="pp-muted">Which public source works for each record type. Live counties first. "Fragile" means no backup for a source the pipeline depends on.</p>
-      <table data-source="coverage" data-row-key="market,record_type">
+      <div class="pp-toggles"><label><input type="checkbox" data-draw="covAllChk" data-source="coverage"> Include queued counties</label><label><input type="checkbox" data-draw="covGapsChk" data-source="coverage"> Gaps only</label><span data-draw="covSummary" data-source="coverageF"></span></div>
+      <table data-source="coverageF" data-row-key="market,record_type">
         <thead><tr><th data-field="market">Market</th><th data-field="live">Live</th><th data-field="record_type">Record type</th><th data-field="status">Status</th><th data-field="source">Source</th><th data-field="backup">Backup</th><th data-field="fragile">Fragile</th><th data-field="last_checked">Checked</th></tr></thead>
         <tbody data-draw="covRows"></tbody>
       </table>
@@ -221,6 +241,7 @@
     <div class="pp-card"><h2>What still stands between the pipeline and running on its own</h2>
       <p class="pp-muted">Every "missing" row is something only you can provide. Fill in <code>config.yaml</code> (business and channels), send each market's attorney packet, then record approvals. Signatures, wire confirmations and calls always stay with you.</p>
     </div>
+    <div class="pp-card"><div class="pp-progress" role="progressbar" aria-label="Setup progress" aria-valuemin="0" aria-valuemax="100"><div data-draw="setupBar" data-source="health"></div></div><p class="pp-muted" id="setup-bar-label">—</p></div>
     <div class="pp-card pp-wrap" id="setup-list">
       <table data-source="readiness" data-row-key="area,item">
         <thead><tr><th data-field="area">Area</th><th data-field="item">Item</th><th data-field="status">Status</th><th data-field="how_to_fix">How to fix</th><th data-field="unlocks">Unlocks</th></tr></thead>
@@ -259,6 +280,8 @@ dash.calc('kpis', { title: 'Headline totals', description: 'Opportunities, poten
 dash.calc('teamLoad', { title: 'Worker team load', description: 'How many deals sit in the stages each team runs, within the filters.', inputs: ['stageCounts'],
   fn: (sc) => { const does = { 'Deal team': 'Research, numbers, legal, title, plan for each new lead', 'Communications': 'Sends outreach and follow-ups, reads replies, routes them', 'Negotiation desk': 'Makes and answers offers up to the max offer', 'Closing desk': 'Contracts, title, deadlines, signature and wire queues', 'Dispositions': 'Finds and vets cash buyers, assigns the contract', 'Done': 'Closed, paid or dead' };
     return Object.keys(does).map((t) => ({ team: t, deals: d3.sum(sc.filter((s) => s.team === t), (s) => s.count), does: does[t] })); } });
+dash.calc('coverageF', { title: 'Coverage in view', description: 'Public-record coverage rows after the Include-queued and Gaps-only toggles and the State filter.', inputs: ['coverage'],
+  fn: (cov) => { const p = dash.params(); return cov.filter((r) => (p.covAll === '1' || r.live === 'yes') && (p.covGaps !== '1' || r.gap === 'yes') && (!p.state || String(r.market).startsWith(String(p.state).toLowerCase() + '-'))); } });
 </script>
 
 <script>
@@ -338,7 +361,8 @@ const ppRows = (tbody, src, cols, emptyText, onRow) => {
   if (!d.data.length) { msg(emptyText); return; }
   d.data.forEach((r) => {
     const tr = tbody.insertRow();
-    cols.forEach((c) => { const td = tr.insertCell(); const v = r[c.f]; td.textContent = c.fmt ? c.fmt(v, r) : (v ?? ''); if (c.cls) td.className = typeof c.cls === 'function' ? c.cls(v, r) : c.cls; });
+    cols.forEach((c) => { const td = tr.insertCell(); const v = r[c.f]; const txt = c.fmt ? c.fmt(v, r) : (v ?? ''); const cl = c.cls ? (typeof c.cls === 'function' ? c.cls(v, r) : c.cls) : '';
+      if (['verdict', 'status', 'queue'].includes(c.f) && txt !== '' && /pp-(go|neg|bad)/.test(cl)) { const s = document.createElement('span'); s.className = 'pp-chip ' + cl; s.textContent = txt; td.appendChild(s); } else { td.textContent = txt; if (cl) td.className = cl; } });
     if (onRow) { tr.className = 'pp-click'; tr.tabIndex = 0; tr.onclick = () => onRow(r); tr.onkeydown = (e) => { if (e.key === 'Enter') onRow(r); }; }
   });
 };
@@ -364,7 +388,7 @@ dash.draw('marketRows', (tb) => ppRows(tb, 'marketsF', [{ f: 'state' }, { f: 'co
 dash.draw('teamRows', (tb) => ppRows(tb, 'teamLoad', [{ f: 'team' }, { f: 'deals', cls: 'pp-n' }, { f: 'does', cls: 'pp-wrapcell' }], '—'));
 dash.draw('buyerRows', (tb) => ppRows(tb, 'buyers', [{ f: 'county' }, { f: 'state' }, { f: 'found', cls: 'pp-n' }, { f: 'confirmed', cls: 'pp-n' }, { f: 'vetted', cls: 'pp-n' }, { f: 'deals_under_contract', cls: 'pp-n' }, { f: 'warning', cls: (v) => v ? 'pp-neg pp-wrapcell' : 'pp-muted' }], 'No live markets yet.'));
 dash.draw('replyRows', (tb) => ppRows(tb, 'replies', [{ f: 'received_date' }, { f: 'channel' }, { f: 'lead_id' }, { f: 'label' }, { f: 'routed_to' }, { f: 'age_days', cls: 'pp-n' }, { f: 'status', cls: (v) => v === 'late' ? 'pp-bad' : 'pp-muted' }], 'No replies waiting.'));
-dash.draw('covRows', (tb) => ppRows(tb, 'coverage', [{ f: 'market' }, { f: 'live' }, { f: 'record_type', fmt: (v) => String(v).replace(/_/g, ' ') }, { f: 'status', cls: (v) => v === 'works' ? 'pp-go' : (v === 'blocked' || v === 'broken') ? 'pp-bad' : 'pp-muted' }, { f: 'source', cls: 'pp-wrapcell' }, { f: 'backup' }, { f: 'fragile', cls: (v) => v === 'yes' ? 'pp-neg' : 'pp-muted' }, { f: 'last_checked' }], 'No coverage mapped yet.'));
+dash.draw('covRows', (tb) => ppRows(tb, 'coverageF', [{ f: 'market' }, { f: 'live' }, { f: 'record_type', fmt: (v) => String(v).replace(/_/g, ' ') }, { f: 'status', cls: (v) => v === 'works' ? 'pp-go' : (v === 'blocked' || v === 'broken') ? 'pp-bad' : 'pp-muted' }, { f: 'source', cls: 'pp-wrapcell' }, { f: 'backup' }, { f: 'fragile', cls: (v) => v === 'yes' ? 'pp-neg' : 'pp-muted' }, { f: 'last_checked' }], 'No coverage mapped yet.'));
 dash.draw('readyRows', (tb) => ppRows(tb, 'readiness', [{ f: 'area' }, { f: 'item' }, { f: 'status', cls: (v) => v === 'done' ? 'pp-go' : 'pp-bad' }, { f: 'how_to_fix', cls: 'pp-wrapcell' }, { f: 'unlocks', cls: 'pp-wrapcell pp-muted' }], 'Nothing to set up.'));
 dash.draw('runRows', (tb) => ppRows(tb, 'runs', [{ f: 'date' }, { f: 'new_leads', cls: 'pp-n' }, { f: 'updated_leads', cls: 'pp-n' }, { f: 'approvals_waiting', cls: 'pp-n' }, { f: 'legal_changes', cls: 'pp-wrapcell' }, { f: 'pushed' }], 'No daily runs yet.'));
 dash.draw('srcRows', (tb) => ppRows(tb, 'sources', [{ f: 'date' }, { f: 'market' }, { f: 'source', cls: 'pp-wrapcell' }, { f: 'status', cls: 'pp-go' }, { f: 'note', cls: 'pp-wrapcell pp-muted' }], 'No working sources yet.'));
@@ -379,7 +403,8 @@ const ppBars = (el, rows, label, value, fmt, opts = {}) => {
     .attr('aria-label', (opts.title || '') + ': ' + rows.map((r) => `${label(r)} ${fmt(value(r))}`).join(', '));
   const labs = svg.append('g').selectAll('text').data(rows).join('text').attr('x', 0).attr('y', (r, i) => i * rowH + rowH / 2 + 4).text(label);
   let lw = 0; labs.each(function () { lw = Math.max(lw, this.getComputedTextLength()); });
-  lw = Math.min((lw || 120) + 10, W * 0.5);
+  lw = Math.min((lw || 120) + 10, W * 0.42);
+  labs.each(function () { const full = this.textContent; let t = full; while (this.getComputedTextLength() > lw - 12 && t.length > 6) { t = t.slice(0, -2); this.textContent = t + '…'; } if (t !== full) d3.select(this).append('title').text(full); });
   const max = Math.max(opts.target || 0, d3.max(rows, value) || 0) || 1;
   const x = d3.scaleLinear().domain([0, max]).range([0, Math.max(40, W - lw - 70)]);
   const tip = document.createElement('div'); tip.className = 'pp-tip'; tip.hidden = true; el.appendChild(tip);
@@ -417,4 +442,35 @@ dash.draw('dealProgress', (el) => { const d = dash.data('deal'), s = dash.data('
   svg.selectAll('text.lbl').data(steps).join('text').attr('class', 'lbl').attr('x', (x, i) => i * step + step / 2).attr('y', 44).attr('text-anchor', 'middle')
     .text((x, i) => (+x.stage_order === cur || i === 0 || i === n - 1) ? x.stage : '');
   svg.append('text').attr('x', 0).attr('y', 64).text(d.data[0].stage === 'Dead' ? 'This deal is closed out (walk away).' : `Stage ${cur} of ${n}: ${d.data[0].stage}`); });
+
+const ppBadge = (el, n) => { el.textContent = n > 0 ? String(n) : ''; el.hidden = !(n > 0); };
+const ppFirst = (name) => { const d = dash.data(name); return d.status === 'ok' && d.data && d.data[0] ? d.data[0] : null; };
+dash.draw('badgeQueues', (el) => { const c = ppFirst('queueCounts'); ppBadge(el, c ? (+c.approve || 0) + (+c.sign || 0) + (+c.wire || 0) : 0); });
+dash.draw('badgeSetup', (el) => { const r = ppFirst('health'); ppBadge(el, r ? (+r.readiness_total || 0) - (+r.readiness_done || 0) : 0); });
+dash.draw('actionList', (ul) => {
+  const h = dash.data('health'), q = dash.data('queueCounts'); ul.replaceChildren();
+  const r = ppFirst('health'), c = ppFirst('queueCounts');
+  if (!r || !c) { const li = document.createElement('li'); li.className = 'pp-muted'; li.textContent = (h.status === 'error' || q.status === 'error') ? 'Could not load.' : 'Loading…'; ul.appendChild(li); return; }
+  const s = (n, one, many) => `${n} ${+n === 1 ? one : many}`; const items = [];
+  if (+c.sign) items.push([s(c.sign, 'document to sign', 'documents to sign'), 'queues', 'bad']);
+  if (+c.wire) items.push([s(c.wire, 'earnest-money wire to confirm by phone', 'earnest-money wires to confirm by phone'), 'queues', 'bad']);
+  if (r.last_run && +r.days_since_run > 1) items.push([`The daily run hasn't run for ${r.days_since_run} days`, 'operations', 'bad']);
+  if (String(r.last_run_saved || '').toLowerCase().startsWith('no')) items.push(['The last daily run did not save to GitHub', 'operations', 'bad']);
+  if (+c.approve) items.push([s(c.approve, 'outreach letter to approve', 'outreach letters to approve'), 'queues', 'warn']);
+  if (+r.replies_waiting) items.push([s(r.replies_waiting, 'reply waiting for an answer', 'replies waiting for an answer'), 'operations', 'warn']);
+  const miss = (+r.readiness_total || 0) - (+r.readiness_done || 0);
+  if (miss > 0) items.push([s(miss, 'setup step left before it can run on its own', 'setup steps left before it can run on its own'), 'setup', 'muted']);
+  if (!items.length) { const li = document.createElement('li'); li.className = 'pp-muted'; li.textContent = 'Nothing needs you today.'; ul.appendChild(li); return; }
+  items.forEach(([t, page, tone]) => { const li = document.createElement('li'); const b = document.createElement('button'); b.className = 'pp-action pp-action-' + tone; b.textContent = t + ' →'; b.onclick = () => window.ppShow(page); li.appendChild(b); ul.appendChild(li); });
+});
+dash.draw('covAllChk', (inp) => { inp.checked = dash.params().covAll === '1'; inp.onchange = () => dash.setParams({ covAll: inp.checked ? '1' : null }); });
+dash.draw('covGapsChk', (inp) => { inp.checked = dash.params().covGaps === '1'; inp.onchange = () => dash.setParams({ covGaps: inp.checked ? '1' : null }); });
+dash.draw('covSummary', (el) => { const d = dash.data('coverageF'); if (d.status !== 'ok' || !d.data) { el.textContent = ''; return; }
+  const w = d.data.filter((r) => r.status === 'works').length, f = d.data.filter((r) => r.fragile === 'yes').length;
+  el.textContent = `${d.data.length} rows · ${w} working · ${d.data.length - w} gaps · ${f} without a backup`; });
+dash.draw('setupBar', (el) => { const r = ppFirst('health'); const lab = document.getElementById('setup-bar-label');
+  if (!r) { el.style.width = '0'; if (lab) lab.textContent = '—'; return; }
+  const done = +r.readiness_done || 0, total = +r.readiness_total || 0, pct = total ? Math.round(100 * done / total) : 0;
+  el.style.width = pct + '%'; el.parentElement.setAttribute('aria-valuenow', String(pct));
+  if (lab) lab.textContent = `${done} of ${total} setup steps done (${pct}%). Each one you finish turns its row green.`; });
 </script>
