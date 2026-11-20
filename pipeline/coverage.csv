@@ -29,7 +29,7 @@ co-denver,tax_status,,untested,,,,
 co-denver,death_date,,untested,,,,
 fl-hillsborough,probate_docket,publicrec.hillsclerk.com/Probate/dailyfilings/ (Clerk daily probate filing CSVs),works,,,2026-11-20,seeded from sources-log: worked
 fl-hillsborough,legal_notices,floridapublicnotices.com (Florida Press Service) Notice to Creditors search,untested,,,2026-11-19,seeded from sources-log: manual only
-fl-hillsborough,parcel_owner,maps.hillsboroughcounty.org PAO/HC_Properties MapServer/1 (parcels),works,,,2026-11-20,seeded from sources-log: worked
+fl-hillsborough,parcel_owner,maps.hillsboroughcounty.org PAO/HC_Properties MapServer/1 (parcels),works,,,2026-11-20,"Owner names: First Middle Last, mixed case; estates 'Estate Of First Last'; trusts 'First Last/trustee'. Search UPPER(OWNER) LIKE '%LAST%' AND '%FIRST%'. NBHC is numeric (no quotes). Dates: S_DATE >= DATE 'YYYY-MM-DD'."
 fl-hillsborough,deed_index,,untested,,,,
 fl-hillsborough,civil_docket,,untested,,,,
 fl-hillsborough,tax_status,,untested,,,,

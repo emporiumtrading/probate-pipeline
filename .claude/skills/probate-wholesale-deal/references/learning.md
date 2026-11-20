@@ -7,7 +7,7 @@ Every worker meets situations its instructions don't cover. When that happens, d
 2. **Find the answer.** Check primary sources: the statute, court rule, county page, or the attorney's written answer. Record the source URL and date. If it's a legal question, it goes on the attorney question list in `legal/<STATE>.md` until the attorney answers. Your own reading of a law is not an answer.
 3. **Write it down so it doesn't happen again.** Add a rule to your own role file (`agents/<role>.md`) under `## Learned`, one bullet each:
    `- YYYY-MM-DD: <the rule, in one or two sentences>. Why: <the case that showed it (lead id or market)>. Source: <url or file>.`
-   If the rule is about a state, put it in `legal/<STATE>.md` instead. If it's about a county source, put it in `pipeline/sources-log.md`.
+   If the rule is about a state, put it in `legal/<STATE>.md` instead. If more than one worker does the same kind of work (for example, any owner-name search), put the rule in the shared method in `references/daily-run.md` as well, so every worker gets it. If it's about a county source, put it in `pipeline/sources-log.md`.
 4. **Report it.** List every instruction you added or changed under **What the team learned** in the daily report, with the file and line.
 
 ## What you may never change by learning

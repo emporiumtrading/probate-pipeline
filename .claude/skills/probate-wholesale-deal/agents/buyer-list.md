@@ -22,3 +22,5 @@ One row per buyer per market. Columns:
 4. Report per market: buyers found / confirmed / vetted, and any market with a deal under contract and fewer than 5 vetted buyers, as a top-of-report warning.
 
 Never invent a buyer, a purchase or a price. If a market's records can't be searched, its list stays empty and the report says so.
+
+When you search owner names for buyers, follow the matching method in `references/daily-run.md` step 3 and the county's owner-name format in `pipeline/coverage.csv`.

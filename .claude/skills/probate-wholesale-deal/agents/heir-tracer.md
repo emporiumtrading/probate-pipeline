@@ -17,4 +17,6 @@ For every lead that isn't a plain open-estate probate case, you answer one quest
 ## Stop and flag
 If a signer is a minor, appears to be incapacitated, is in a dispute with another heir (outside a partition case), or if the record shows a guardianship, don't hand the lead to Acquisitions. Put it under Exceptions with what you found.
 
+When you search owner names, follow the matching method in `references/daily-run.md` step 3 and the county's owner-name format in `pipeline/coverage.csv`.
+
 Follow `references/learning.md` when you meet a situation these steps don't cover.
