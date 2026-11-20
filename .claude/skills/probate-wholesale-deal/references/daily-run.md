@@ -104,4 +104,4 @@ Keep the report short enough to read on a phone in five minutes; details live in
 5. After writing, read `data/users/<your id>/check` and `runs` (via `db_whoami`) if present and fix any failure they name.
 
 ### 8. Save
-`git add -A && git commit -m "Daily run YYYY-MM-DD: N new leads, M updates"` and push to the default branch, retrying network errors up to 4 times with backoff. If the push fails, say so at the top of your final message.
+`git add -A && git commit -m "Daily run YYYY-MM-DD: N new leads, M updates"` and push to the default branch, retrying network errors up to 4 times with backoff. If the push fails, say so at the top of your final message. Never create or push other branches: the session proxy blocks branch deletion, so any branch you push stays behind as clutter. If the push to the default branch is rejected (not a network error), `git pull --rebase` once and retry; if it still fails, leave the commit local and report the exact error instead of pushing to a fallback branch.
