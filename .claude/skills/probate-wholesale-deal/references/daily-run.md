@@ -73,6 +73,9 @@ For every open lead in the tracker (not WALK AWAY / CLOSED / DEAD):
 - If the owner left notes in the tracker `notes` column or in `leads/<id>/owner-notes.md`, act on them (e.g. "spoke to executor, wants $80k" → re-run negotiator plan).
 - Mark leads stale after 6 months with no movement.
 
+### 5a. Date of death
+Every lead needs `date_of_death` in the tracker, taken from the case file, the death notice in the docket, an obituary or a recorded affidavit (note the source in `leads/<id>/research.md`). Each run, fill it in for any lead that's missing it, starting with leads that have drafted outreach. No first letter goes out until `lead_types.min_days_after_death` (90) days after that date. If the date can't be found, the filing date is used.
+
 ### 5b. Communications, negotiation, professionals, closing
 Following `references/orchestration.md`, run these workers (in parallel where possible):
 - **Communications**: send what's due (compliance-gated), read the inbox, route replies.

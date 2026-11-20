@@ -150,6 +150,25 @@ for r in trk:
     if t == "unprobated" and (n(r.get("touch_count")) or 0) > 2:
         fails.append(f"{r['lead_id']}: unprobated lead contacted {r['touch_count']} times (cap is 2)")
 
+# ---- grief wait: first contact only after min_days_after_death ----
+import datetime as _dt
+wait = int((re.search(r"min_days_after_death:\s*(\d+)", cfg) or [None, "90"])[1])
+today = _dt.date.today()
+for r in trk:
+    if r.get("stage") in ("Researched", "Dead", ""):
+        continue
+    m = re.search(r"\d{4}-\d{2}-\d{2}", r.get("date_of_death") or "") or re.search(r"\d{4}-\d{2}-\d{2}", r.get("filing_date") or "")
+    sent = (n(r.get("touch_count")) or 0) > 0
+    if not m:
+        (fails if sent else warns).append(f"{r['lead_id']}: no date of death or filing date; no letter may go out")
+        continue
+    ok_on = _dt.date.fromisoformat(m.group(0)) + _dt.timedelta(days=wait)
+    if sent and (r.get("last_touch_date") or "") and r["last_touch_date"][:10] < ok_on.isoformat() and (n(r.get("touch_count")) or 0) == 1:
+        fails.append(f"{r['lead_id']}: first contact {r['last_touch_date']} came before the {wait}-day wait ended ({ok_on})")
+missing_dod = sum(1 for r in trk if r.get("stage") not in ("Researched", "Dead", "") and not (r.get("date_of_death") or "").strip())
+if missing_dod:
+    warns.append(f"{missing_dod} active leads have no date_of_death yet (the wait is counted from the filing date until it's found)")
+
 # ---- guardrails: learning may not change the hard limits or the autonomy block ----
 import hashlib
 def guard_parts():
