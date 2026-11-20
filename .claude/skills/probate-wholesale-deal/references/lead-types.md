@@ -2,6 +2,8 @@
 
 Standard probate (an open estate that owns a house) is one of several public-record paths to inherited property. Each type below says where it's found, who can sign, and the rules that are specific to it. `config.yaml` → `lead_types` switches each type on or off. Record the type in the tracker's `lead_type` column.
 
+**Respect for grieving families comes first.** The owner has switched off `unprobated` and `tax_delinquent_inherited` because they mean writing to families too soon after a death. No worker turns them back on. For every type, no first contact goes out until at least `lead_types.min_days_after_death` days (90) after the date of death. If the date of death isn't known, use the probate filing date, and if neither is known, don't write.
+
 The usual rules still apply to every type: public records only, robots.txt and terms respected, the Compliance Officer's gate, the stop list, and the frequency caps.
 
 | Type (`lead_type`) | What it is | Where it's found | Who can sign |

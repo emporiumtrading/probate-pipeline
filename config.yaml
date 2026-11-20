@@ -29,8 +29,9 @@ lead_types:                       # see .claude/skills/probate-wholesale-deal/re
   trust: true
   ancillary: true
   partition: true
-  tax_delinquent_inherited: true
-  unprobated: true                # gentlest rules: 60+ days after death, one letter + one follow-up
+  tax_delinquent_inherited: false   # off by owner decision 2026-11-20: too close to a death; families are still mourning
+  unprobated: false               # off by owner decision 2026-11-20: too close to a death; families are still mourning
+  min_days_after_death: 90        # no first contact for any type until this many days after the date of death (owner decision)
   guardianship: false             # vulnerable adults; only the owner may enable, after the attorney approves a process
 max_new_leads_per_day: 25         # deep-dive cap per run; raised automatically toward targets.max_leads_per_day
 

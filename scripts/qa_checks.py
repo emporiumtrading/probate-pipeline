@@ -156,7 +156,8 @@ def guard_parts():
     dr = open(os.path.join(ROOT, ".claude/skills/probate-wholesale-deal/references/daily-run.md")).read()
     hl = re.search(r"## Hard limits.*?(?=\n## )", dr, re.S)
     au = re.search(r"\nautonomy:\n(?:  [^\n]*\n)+", cfg)
-    return {"hard_limits": hl.group(0) if hl else "", "autonomy": au.group(0) if au else ""}
+    lt = re.search(r"\nlead_types:[^\n]*\n(?:  [^\n]*\n)+", cfg)
+    return {"hard_limits": hl.group(0) if hl else "", "autonomy": au.group(0) if au else "", "lead_types": lt.group(0) if lt else ""}
 gpath = os.path.join(ROOT, "scripts", "guardrails.sha256")
 cur = {k: hashlib.sha256(v.encode()).hexdigest() for k, v in guard_parts().items()}
 if len(sys.argv) > 2 and sys.argv[2] == "--owner-approve-guardrails":
@@ -168,7 +169,7 @@ else:
     saved = dict(l.split() for l in open(gpath).read().splitlines() if l.strip())
     for k, v in cur.items():
         if not cur[k] or saved.get(k) != v:
-            fails.append(f"guardrail changed: {k} (Hard limits / autonomy) differs from the owner-approved version")
+            fails.append(f"guardrail changed: {k} differs from the owner-approved version (Hard limits, autonomy and lead_types change only with the owner)")
 
 for w in warns:
     print("WARN ", w)
