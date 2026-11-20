@@ -55,6 +55,30 @@
 .pp-tile.pp-click:hover, .pp-tile.pp-click:focus-visible { border-color: var(--color-fg-muted); cursor: pointer; }
 .pp-tab:focus-visible, .pp-action:focus-visible, .pp tr.pp-click:focus-visible td { outline: 2px solid var(--color-fg); outline-offset: -2px; }
 @media (max-width: 640px) { .pp-bar { flex-direction: column; align-items: stretch; } .pp-tile .pp-num { font-size: 1.6rem; } .pp-card { padding: var(--cds-pad-md, 12px); } }
+.pp, .pp-card, .pp-page { min-width: 0; }
+.pp-two { grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); align-items: start; }
+.pp-tiles { grid-template-columns: repeat(auto-fit, minmax(min(100%, 128px), 1fr)); }
+.pp-tile .pp-num { font-size: clamp(1.4rem, 0.9rem + 1.3vw, 2rem); overflow-wrap: anywhere; }
+.pp-tile .pp-lbl, .pp p, .pp dd, .pp h2 { overflow-wrap: anywhere; }
+.pp th, .pp td { white-space: normal; overflow-wrap: break-word; vertical-align: top; }
+.pp th { white-space: nowrap; }
+.pp td.pp-n, .pp th.pp-n { white-space: nowrap; }
+.pp td.pp-wrapcell { min-width: 180px; }
+.pp td .pp-chip { white-space: nowrap; }
+.pp-chart { min-height: 0; }
+.pp-chart:empty { min-height: 120px; }
+.pp-chart svg { display: block; max-width: 100%; height: auto; }
+.pp .dash-select { max-width: 100%; }
+@media (max-width: 760px) {
+  .pp-bar > * { min-width: 0; max-width: 100%; }
+  .pp-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; width: 100%; }
+  .pp-tab { white-space: nowrap; }
+  .pp dl { grid-template-columns: 1fr; gap: 2px 0; }
+  .pp dd { margin-bottom: 6px; }
+  .pp-filters { width: 100%; }
+  .pp-filters label { flex: 1 1 140px; min-width: 0; }
+  .pp-filters select { width: 100%; min-width: 0; }
+}
 @media print { .pp-tabs, .pp-filters { display: none; } }
 </style>
 
@@ -397,8 +421,11 @@ dash.draw('srcRows', (tb) => ppRows(tb, 'sources', [{ f: 'date' }, { f: 'market'
 <script>
 const ppBars = (el, rows, label, value, fmt, opts = {}) => {
   el.replaceChildren();
+  el._ppArgs = [el, rows, label, value, fmt, opts];
+  if (!el._ppRO && window.ResizeObserver) { el._ppRO = new ResizeObserver(() => { if (el._ppArgs && Math.abs(el.clientWidth - (el._ppW || 0)) > 24) ppBars(...el._ppArgs); }); el._ppRO.observe(el); }
   if (!rows.length) { const p = document.createElement('p'); p.className = 'pp-muted'; p.textContent = opts.empty || 'Nothing to show for these filters.'; el.appendChild(p); return; }
   const W = el.clientWidth || 400, rowH = 26, H = rows.length * rowH + (opts.target ? 26 : 6);
+  el._ppW = W;
   const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img')
     .attr('aria-label', (opts.title || '') + ': ' + rows.map((r) => `${label(r)} ${fmt(value(r))}`).join(', '));
   const labs = svg.append('g').selectAll('text').data(rows).join('text').attr('x', 0).attr('y', (r, i) => i * rowH + rowH / 2 + 4).text(label);
@@ -439,8 +466,12 @@ dash.draw('dealProgress', (el) => { const d = dash.data('deal'), s = dash.data('
   svg.append('line').attr('x1', step / 2).attr('x2', W - step / 2).attr('y1', 18).attr('y2', 18).style('stroke', 'var(--cds-chart-grid)');
   svg.selectAll('circle').data(steps).join('circle').attr('cx', (x, i) => i * step + step / 2).attr('cy', 18).attr('r', 7)
     .style('fill', (x) => +x.stage_order <= cur && d.data[0].stage !== 'Dead' ? dash.colors[0] : 'var(--cds-chart-grid)');
-  svg.selectAll('text.lbl').data(steps).join('text').attr('class', 'lbl').attr('x', (x, i) => i * step + step / 2).attr('y', 44).attr('text-anchor', 'middle')
-    .text((x, i) => (+x.stage_order === cur || i === 0 || i === n - 1) ? x.stage : '');
+  const ci = steps.findIndex((x) => +x.stage_order === cur);
+  const show = (i) => W >= 600 && (i === ci || ((i === 0 || i === n - 1) && Math.abs(i - ci) * step > 110));
+  svg.selectAll('text.lbl').data(steps).join('text').attr('class', 'lbl')
+    .attr('x', (x, i) => i === 0 ? 0 : i === n - 1 ? W : i * step + step / 2).attr('y', 44)
+    .attr('text-anchor', (x, i) => i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle')
+    .text((x, i) => show(i) ? x.stage : '');
   svg.append('text').attr('x', 0).attr('y', 64).text(d.data[0].stage === 'Dead' ? 'This deal is closed out (walk away).' : `Stage ${cur} of ${n}: ${d.data[0].stage}`); });
 
 const ppBadge = (el, n) => { el.textContent = n > 0 ? String(n) : ''; el.hidden = !(n > 0); };
