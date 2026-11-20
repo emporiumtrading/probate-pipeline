@@ -22,6 +22,16 @@ channels:                         # set each to true only once it is actually wo
   inbox_connected: false          # the business mailbox is readable by the daily run
   mail_scanning: false            # a virtual mailbox scans mailed replies and emails them to the business inbox
   voicemail_to_email: false       # the business phone emails voicemail transcripts to the business inbox
+lead_types:                       # see .claude/skills/probate-wholesale-deal/references/lead-types.md
+  probate: true
+  post_probate_heirs: true
+  small_estate: true
+  trust: true
+  ancillary: true
+  partition: true
+  tax_delinquent_inherited: true
+  unprobated: true                # gentlest rules: 60+ days after death, one letter + one follow-up
+  guardianship: false             # vulnerable adults; only the owner may enable, after the attorney approves a process
 max_new_leads_per_day: 25         # deep-dive cap per run; raised automatically toward targets.max_leads_per_day
 
 targets:

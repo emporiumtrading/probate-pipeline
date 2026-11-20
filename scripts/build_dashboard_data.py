@@ -103,7 +103,7 @@ for r in tracker:
     owner = STAGE_OWNER.get(stage, "")
     leads.append({
         "lead_id": r["lead_id"], "address": r["address"].split(",")[0], "city": r.get("city", ""),
-        "county": r["county"], "state": r["state"], "stage": stage, "stage_order": STAGE_ORDER.get(stage, 99),
+        "county": r["county"], "state": r["state"], "lead_type": r.get("lead_type") or "probate", "stage": stage, "stage_order": STAGE_ORDER.get(stage, 99),
         "team": STAGE_TEAM.get(stage, ""), "owner_action": owner, "verdict": v,
         "is_opportunity": "yes" if v in ("GO", "NEGOTIATE") and stage not in ("Dead", "Paid") else "no",
         "arv_mid": r["arv_mid"], "repairs_mid": r["repairs_mid"], "buyer_max": int(bmax) if bmax is not None else "",
@@ -207,7 +207,7 @@ biz, chan = cfg_block("business"), cfg_block("channels")
 autonomy = cfg_block("autonomy")
 ready = []
 def item(area, name, done, fix, unlocks):
-    ready.append({"area": area, "item": name, "status": "done" if done else "missing", "how_to_fix": fix, "unlocks": unlocks})
+    ready.append({"area": area, "item": name, "status": "done" if done else "missing", "how_to_fix": fix + " (steps: docs/owner-setup.md)", "unlocks": unlocks})
 BIZ_LABEL = {"legal_name": "Company legal name", "entity_state": "State of formation", "mailing_address": "Business mailing address",
              "phone": "Business phone answered by a person", "email": "Business email", "website": "Website",
              "signer": "Who signs contracts", "title_company": "Title company for earnest money"}

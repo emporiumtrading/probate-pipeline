@@ -31,9 +31,12 @@ For each market's state: if `legal/<STATE>.md` is missing or its "Last verified"
 ### 3. Lead sourcing (Researcher)
 For each market, search the probate source for estate filings since `last_checked` (or `lookback_days_first_run` on the first run). For each filing, check the auditor/assessor/property site for real property in the decedent's name. Keep only filings with real property in the county. Skip any lead already in the tracker (match case number or parcel). Rank new candidates by: equity signals, vacancy/distress, out-of-state representative, filing age 1–12 months. Take the top `max_new_leads_per_day` across all markets. Update each market's `last_checked` in `config.yaml`. Log each source's result (worked / blocked / changed layout / no results) in `pipeline/sources-log.md`.
 
-When matching a decedent to a parcel owner, don't treat Jr./Sr./II/III as interchangeable (a "Sr." decedent and a "Jr." owner are different people), and drop any parcel whose deed history shows a certificate of transfer or sale to someone else after the date of death.
+When matching a decedent to a parcel owner, don't treat Jr./Sr./II/III as interchangeable (a "Sr." decedent and a "Jr." owner are different people), If the deed history shows a sale to an unrelated buyer after the date of death, drop the parcel. If it shows a transfer to heirs (certificate of transfer, affidavit of heirship, deed of distribution), keep it as a `post_probate_heirs` lead when that type is enabled.
 
 If a source can't be searched automatically, say so plainly in the report with the manual search URL. Don't invent leads.
+
+### 3-types. Other lead types
+For each type enabled in `config.yaml` → `lead_types`, search its sources (see `references/lead-types.md`) in each live market and add candidates to the same ranking. Every candidate that isn't type `probate` goes to the Heir & Title Tracer (`agents/heir-tracer.md`) before the deep-dive. A type whose state legal file doesn't cover its signing authority is research only until the Legal Advisor adds that section.
 
 ### 3a. Manual name feeds
 Where probate notices can only be read by hand (robots.txt or terms forbid automation), the owner or an assistant may paste names into `pipeline/manual-feeds/<market-id>.csv` with columns `case_number,decedent,date_of_death,notice_date,personal_rep,attorney,source_url`. Each run, for every market with a feed file: take rows not yet processed, match each decedent against that market's working parcel layer by owner name (same rules as step 3: last name + first name/initial, Jr/Sr distinct, skip common-name collisions and deeds after death), and treat confirmed matches as new leads for step 4. Mark processed rows by appending `processed: <date>` to `pipeline/manual-feeds/<market-id>.log`. A market with a feed file and a working parcel layer counts as Live even if its notice source is manual only.
@@ -74,7 +77,7 @@ For every open lead in the tracker (not WALK AWAY / CLOSED / DEAD):
 Following `references/orchestration.md`, run these workers (in parallel where possible):
 - **Communications**: send what's due (compliance-gated), read the inbox, route replies.
 - **Negotiation desk**: answer counters within authority; re-price with the Deal Analyst when facts change; move agreed deals to "Contract out for signature" with the contract built from the attorney-approved state template.
-- **Professional Network**: for any market with an active deal and no engaged attorney/title company, build or refresh `network/<market>.md` and request quotes if allowed.
+- **Professional Network**: for every live market with no engaged attorney/title company (the attorney packet needs one before any deal does), build or refresh `network/<market>.md` and request quotes if allowed.
 - **Buyer-list builder** (`agents/buyer-list.md`): every live market, every run, keep `pipeline/buyers/buyers.csv` growing from public deed records; warn when a market with a deal under contract has fewer than 5 vetted buyers.
 - **Reply desk** (`agents/reply-desk.md`): process `pipeline/inbox/`, log to `pipeline/inbox-log.csv`, and list every reply waiting more than one business day under Top of mind.
 - **Dispositions desk**: for deals under contract, match and contact vetted buyers (compliance-gated).
