@@ -7,6 +7,21 @@ autonomy:
   negotiation_limit: mao          # the Negotiator negotiates all the way up to each deal's max offer; nothing binds until the owner signs
   engage_professionals: request_quotes   # email attorneys/title companies for quotes; the owner signs any engagement
   # Always the owner, not configurable: signatures, earnest-money wires (confirmed by phone with title), phone calls.
+business:                         # who we are. Fill these in once; attorney packets, letters and the dashboard checklist read them.
+  legal_name: ""                  # e.g. "Example Holdings LLC"
+  entity_state: ""                # state of formation
+  mailing_address: ""             # business address printed on letters
+  phone: ""                       # answered by a person or answering service
+  email: ""                       # business email used for outreach and replies
+  website: ""
+  signer: ""                      # person who signs contracts for the company
+  title_company: ""               # default title company that holds earnest money
+channels:                         # set each to true only once it is actually working
+  mail_sending: false             # print-and-mail service connected (letters go out without you)
+  email_sending: false            # email sending connected (e.g. the Resend connector)
+  inbox_connected: false          # the business mailbox is readable by the daily run
+  mail_scanning: false            # a virtual mailbox scans mailed replies and emails them to the business inbox
+  voicemail_to_email: false       # the business phone emails voicemail transcripts to the business inbox
 max_new_leads_per_day: 25         # deep-dive cap per run; raised automatically toward targets.max_leads_per_day
 
 targets:

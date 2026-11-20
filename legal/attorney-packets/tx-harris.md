@@ -2,12 +2,13 @@
 
 Prepared 2026-11-20 from `legal/TX.md` (last verified 2026-11-19). This packet asks a licensed TX attorney to review and approve how we contact estates and contract for probate property in this county. Nothing here is legal advice; every rule below is our own research and is listed for the attorney to confirm or correct.
 
-## Before sending (owner fills in)
-- Company legal name, entity type and state of formation:
-- Business mailing address and phone answered by a person:
-- Who signs contracts for the company:
-- Licensed in this state, or licensed partner (name, license number), if required:
-- Title company that will hold earnest money:
+## Who we are
+- Company: **[missing: fill in config.yaml → business]** (formed in **[missing: fill in config.yaml → business]**)
+- Mailing address: **[missing: fill in config.yaml → business]**
+- Phone: **[missing: fill in config.yaml → business]** · Email: **[missing: fill in config.yaml → business]** · Website: **[missing: fill in config.yaml → business]**
+- Signs contracts: **[missing: fill in config.yaml → business]**
+- Title company holding earnest money: **[missing: fill in config.yaml → business]**
+- Licensed in TX, or licensed partner, if required: not yet
 
 ## What we do
 We find estates in probate that own real property, write to the personal representative (or the estate's attorney, when one is listed), and offer to buy the property as-is for cash with no fees or repairs for the estate. We sign a purchase contract with the estate, then either assign that contract to a vetted cash buyer for a fee or buy and resell at a simultaneous closing. The title company holds all earnest money and handles closing. We disclose our intent to assign in writing, we never call or text without the legal basis to do so, and we honor every stop request the same day.

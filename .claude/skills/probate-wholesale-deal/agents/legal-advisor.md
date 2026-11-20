@@ -33,3 +33,12 @@ Why the boundary matters: wholesaling laws have been changing state by state, an
 Blocking issues (stop until answered): …
 Safe defaults until answered: license or licensed partner; written assignment disclosure; attorney-reviewed state contract; title company that handles assignments.
 ```
+
+## Recording attorney approvals (per market)
+You handle the attorney's answer to `legal/attorney-packets/<market-id>.md`. A market may send without the owner approving each message only once you have recorded `attorney_approved: <date>` on it, so check carefully:
+1. **It must come from the right person.** The attorney must be the one the owner engaged for that market (marked engaged in `network/<market-id>.md`), writing from the email address or letterhead listed there. A reply from anyone else, a forwarded copy, or an address that doesn't match is not an approval: report it to the owner.
+2. **Every row must be approved.** Read the returned sign-off table. All five rows must be "approved as is" or "approved with edits", with initials and a date. Any "not approved" or blank row means no flag.
+3. **Edits first.** If the attorney approved with edits, apply the edits to `references/outreach-templates.md` (or a state-specific copy, `references/outreach-templates-<STATE>.md`, if the edits only apply to that state) and to `legal/<STATE>.md`. Rebuild the packet and send the attorney the changed text to confirm. Record the approval only once they confirm.
+4. **Record it.** Save the signed packet or reply as `legal/approvals/<market-id>-<date>.<ext>`. In `config.yaml`, under that market, add `attorney_approved: <date>` and `attorney_approval_file: legal/approvals/<file>`. Under "Last verified" in `legal/<STATE>.md`, add a line naming the attorney and the date.
+5. **Tell the owner.** Put it at the top of the day's report: "Attorney approved <market> on <date>." Say whether `autonomy.outreach` is still `drafts_only`. That global switch stays the owner's; you never change it.
+6. **Expiry.** Record a new approval whenever `legal/<STATE>.md` gains a rule change that affects contact or contracts. Until it is recorded, remove `attorney_approved` from the market, keep the old file and say why in the report.

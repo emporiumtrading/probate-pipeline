@@ -92,6 +92,60 @@ for need in ("negotiation_limit", "outreach:", "closings_per_month"):
 if re.search(r"(routing|account)_number|iban|swift", cfg, re.I):
     fails.append("config.yaml appears to contain bank details: remove them")
 
+# ---- readiness / buyers / replies / health datasets ----
+for name, need in (("readiness.csv", ["area", "item", "status"]), ("buyers.csv", ["market", "found", "vetted"]),
+                   ("replies.csv", ["received_date", "status"]), ("health.csv", ["built", "last_run", "days_since_run"])):
+    p = os.path.join(D, name)
+    if not os.path.exists(p):
+        fails.append(f"{name} missing: rebuild with scripts/build_dashboard_data.py")
+        continue
+    head = open(p).readline().strip().split(",")
+    for c in need:
+        if c not in head:
+            fails.append(f"{name} missing column {c}")
+    # privacy: these datasets carry counts and ids only, never names or contact details
+    for bad in ("name", "mailing_address", "public_email", "public_phone", "personal_rep", "rep_contact"):
+        if bad in head:
+            fails.append(f"{name} exposes {bad}: dashboard datasets must not carry names or contact details")
+rd = rows("readiness.csv")
+if rd and any(r["status"] not in ("done", "missing") for r in rd):
+    fails.append("readiness.csv has a status other than done/missing")
+hl = rows("health.csv")
+if hl:
+    h = hl[0]
+    if h.get("days_since_run") not in ("", None) and n(h["days_since_run"]) is not None and n(h["days_since_run"]) > 2:
+        warns.append(f"last daily run was {h['days_since_run']} days ago ({h['last_run']})")
+    if h.get("last_run_saved", "").lower().startswith("no"):
+        warns.append("last daily run did not save to GitHub")
+for b in rows("buyers.csv"):
+    if b.get("warning", "").startswith("Deal under contract"):
+        warns.append(f"{b['market']}: deal under contract with only {b['vetted']} vetted buyers")
+for r in rows("replies.csv"):
+    if r.get("status") == "late":
+        warns.append(f"reply from {r['received_date']} ({r['channel']}) waiting {r['age_days']} days")
+if "outreach: autonomous" in cfg and not re.search(r"attorney_approved:\s*\d", cfg):
+    warns.append("outreach is autonomous but no market has attorney_approved: nothing will send")
+
+# ---- guardrails: learning may not change the hard limits or the autonomy block ----
+import hashlib
+def guard_parts():
+    dr = open(os.path.join(ROOT, ".claude/skills/probate-wholesale-deal/references/daily-run.md")).read()
+    hl = re.search(r"## Hard limits.*?(?=\n## )", dr, re.S)
+    au = re.search(r"\nautonomy:\n(?:  [^\n]*\n)+", cfg)
+    return {"hard_limits": hl.group(0) if hl else "", "autonomy": au.group(0) if au else ""}
+gpath = os.path.join(ROOT, "scripts", "guardrails.sha256")
+cur = {k: hashlib.sha256(v.encode()).hexdigest() for k, v in guard_parts().items()}
+if len(sys.argv) > 2 and sys.argv[2] == "--owner-approve-guardrails":
+    open(gpath, "w").write("".join(f"{k} {v}\n" for k, v in cur.items()))
+    print("guardrails.sha256 updated (owner approval)")
+if not os.path.exists(gpath):
+    fails.append("scripts/guardrails.sha256 missing: the owner runs qa_checks.py <dir> --owner-approve-guardrails")
+else:
+    saved = dict(l.split() for l in open(gpath).read().splitlines() if l.strip())
+    for k, v in cur.items():
+        if not cur[k] or saved.get(k) != v:
+            fails.append(f"guardrail changed: {k} (Hard limits / autonomy) differs from the owner-approved version")
+
 for w in warns:
     print("WARN ", w)
 for f in fails:

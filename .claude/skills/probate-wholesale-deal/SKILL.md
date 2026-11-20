@@ -11,7 +11,7 @@ Why this skill exists: pitches like "click Probate, click Flip This Contract, ti
 
 ## The deal team
 
-Each stage has a lead specialist. Their full instructions are in `agents/`. Read a role's file before doing that role's work. If you can run subagents, you may hand a role its file plus the deal facts and run independent roles in parallel (e.g. Researcher and Legal Advisor at the start); otherwise play the role yourself.
+Every role learns: when something isn't covered, it handles it cautiously, finds the answer from a primary source, and writes the rule into its own file (`references/learning.md`). Each stage has a lead specialist. Their full instructions are in `agents/`. Read a role's file before doing that role's work. If you can run subagents, you may hand a role its file plus the deal facts and run independent roles in parallel (e.g. Researcher and Legal Advisor at the start); otherwise play the role yourself.
 
 | Role | File | Owns |
 |---|---|---|

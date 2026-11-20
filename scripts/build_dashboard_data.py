@@ -195,4 +195,91 @@ write("pace.csv", ["month", "target_closings", "closed", "under_contract", "verb
     "outreach_sent": cnt(("Outreach sent",)), "opportunities": sum(1 for l in leads if l["is_opportunity"] == "yes"),
     "leads_researched": len(leads), "markets_live": sum(1 for m in markets if m["status"].startswith("Live")),
 }])
-print(f"wrote {OUT}: {len(leads)} leads, {len(queues)} queue items, {len(markets)} market rows, {len(ok)} sources")
+# ---- readiness: what still stands between the pipeline and running on its own ----
+cfg_txt = open(os.path.join(ROOT, "config.yaml")).read()
+def cfg_block(name):
+    b = re.search(rf"\n{name}:[^\n]*\n((?:  [^\n]*\n)+)", cfg_txt)
+    out = {}
+    for k, v in re.findall(r"^  (\w+):\s*([^\n#]*)", b.group(1) if b else "", re.M):
+        out[k] = v.strip().strip('"').strip("'")
+    return out
+biz, chan = cfg_block("business"), cfg_block("channels")
+autonomy = cfg_block("autonomy")
+ready = []
+def item(area, name, done, fix, unlocks):
+    ready.append({"area": area, "item": name, "status": "done" if done else "missing", "how_to_fix": fix, "unlocks": unlocks})
+BIZ_LABEL = {"legal_name": "Company legal name", "entity_state": "State of formation", "mailing_address": "Business mailing address",
+             "phone": "Business phone answered by a person", "email": "Business email", "website": "Website",
+             "signer": "Who signs contracts", "title_company": "Title company for earnest money"}
+for k, lbl in BIZ_LABEL.items():
+    item("Business identity", lbl, bool(biz.get(k)), f"config.yaml → business.{k}", "Attorney packets, letters, trust with attorneys")
+CH = {"mail_sending": ("Letters sent without you", "Connect a print-and-mail service, then set channels.mail_sending: true"),
+      "email_sending": ("Email sent without you", "Finish connecting the Resend connector in claude.ai settings, then set channels.email_sending: true"),
+      "inbox_connected": ("Replies read automatically", "Connect the business mailbox, then set channels.inbox_connected: true"),
+      "mail_scanning": ("Mailed replies arrive by email", "Virtual mailbox that scans mail to the business email, then set channels.mail_scanning: true"),
+      "voicemail_to_email": ("Voicemails arrive by email", "Phone service with voicemail-to-email, then set channels.voicemail_to_email: true")}
+for k, (lbl, fix) in CH.items():
+    item("Channels", lbl, chan.get(k) == "true", fix, "Reply desk and sending with no manual steps")
+item("Autonomy", "Outreach set to autonomous", autonomy.get("outreach") == "autonomous", "config.yaml → autonomy.outreach: autonomous (after the items above)", "Letters go out without per-message approval")
+for m in live:
+    body = (re.search(rf"\n  - id: {re.escape(m['market'])}\n(.*?)(?=\n  - id: |\n\S|\Z)", cfg_txt, re.S) or [None, ""])
+    body = body.group(1) if hasattr(body, "group") else ""
+    appr = (re.search(r"attorney_approved:\s*([0-9-]+)", body) or [None, ""])[1]
+    pk = os.path.exists(os.path.join(ROOT, "legal", "attorney-packets", f"{m['market']}.md"))
+    lbl = f"{m['county']} County, {m['state']}"
+    if m["outreach_allowed"] != "True" and m["outreach_allowed"] != "true":
+        item(lbl, "Outreach allowed by state rules", False, f"legal/{m['state']}.md blocking issues (license or licensed partner)", "Any outreach in this market")
+    item(lbl, "Attorney packet built", pk, "python3 scripts/build_attorney_packet.py", "Attorney review")
+    item(lbl, "Attorney approved templates", bool(appr), f"Send legal/attorney-packets/{m['market']}.md; then add attorney_approved: <date> to the market", "Autonomous sending here")
+
+write("readiness.csv", ["area", "item", "status", "how_to_fix", "unlocks"], ready)
+
+# ---- buyers per market (counts only, no names) ----
+bpath = os.path.join(ROOT, "pipeline", "buyers", "buyers.csv")
+brows = list(csv.DictReader(open(bpath))) if os.path.exists(bpath) else []
+under = {}
+for l in leads:
+    if 7 <= l["stage_order"] <= 13:
+        under[f"{l['county']}|{l['state']}"] = under.get(f"{l['county']}|{l['state']}", 0) + 1
+bstats = []
+for m in live:
+    rows_m = [b for b in brows if b.get("market_id") == m["market"] and b.get("stop") != "yes"]
+    c = lambda st: sum(1 for b in rows_m if b.get("status") in st)
+    vetted = c(("vetted",))
+    uc = under.get(f"{m['county']}|{m['state']}", 0)
+    bstats.append({"market": m["market"], "county": m["county"], "state": m["state"], "found": len(rows_m),
+                   "confirmed": c(("confirmed", "vetted")), "vetted": vetted, "deals_under_contract": uc,
+                   "warning": "Deal under contract with fewer than 5 vetted buyers" if uc and vetted < 5 else ("No buyers yet" if not rows_m else "")})
+write("buyers.csv", ["market", "county", "state", "found", "confirmed", "vetted", "deals_under_contract", "warning"], bstats)
+
+# ---- replies waiting (no names) ----
+ipath = os.path.join(ROOT, "pipeline", "inbox-log.csv")
+irows = list(csv.DictReader(open(ipath))) if os.path.exists(ipath) else []
+pending_files = [f for f in glob.glob(os.path.join(ROOT, "pipeline", "inbox", "*")) if os.path.isfile(f) and not f.endswith("README.md")]
+replies = []
+for r in irows:
+    if not r.get("responded_date") and r.get("label") not in ("stop", "returned mail"):
+        try:
+            age = (datetime.date.fromisoformat(TODAY) - datetime.date.fromisoformat(r["received_date"])).days
+        except Exception:
+            age = ""
+        replies.append({"received_date": r["received_date"], "channel": r["channel"], "lead_id": r.get("matched_id", ""),
+                        "label": r["label"], "routed_to": r.get("routed_to", ""), "age_days": age, "status": "late" if age != "" and age > 1 else "open"})
+for f in pending_files:
+    replies.append({"received_date": "", "channel": "inbox drop", "lead_id": "", "label": "not yet read", "routed_to": "Reply desk",
+                    "age_days": "", "status": "unread"})
+write("replies.csv", ["received_date", "channel", "lead_id", "label", "routed_to", "age_days", "status"],
+      sorted(replies, key=lambda r: -(r["age_days"] if r["age_days"] != "" else 999)))
+
+# ---- health: freshness of the data itself ----
+last_run = runs[-1]["date"] if runs else ""
+try:
+    stale_days = (datetime.date.fromisoformat(TODAY) - datetime.date.fromisoformat(last_run)).days if last_run else ""
+except Exception:
+    stale_days = ""
+write("health.csv", ["built", "last_run", "days_since_run", "last_run_saved", "readiness_done", "readiness_total", "replies_waiting", "buyers_vetted"], [{
+    "built": TODAY, "last_run": last_run, "days_since_run": stale_days, "last_run_saved": runs[-1].get("pushed", "") if runs else "",
+    "readiness_done": sum(1 for r in ready if r["status"] == "done"), "readiness_total": len(ready),
+    "replies_waiting": len(replies), "buyers_vetted": sum(b["vetted"] for b in bstats)}])
+
+print(f"wrote {OUT}: {len(leads)} leads, {len(queues)} queue items, {len(markets)} market rows, {len(ok)} sources, {len(ready)} readiness items, {len(replies)} replies waiting")

@@ -116,6 +116,9 @@ Keep the report short enough to read on a phone in five minutes; details live in
 4. If `config.yaml` has `dashboard_slug`: `upload_asset` the CSVs, then for each `datasets/<name>` (leads, queues, markets, stages, sources, runs, pace) `db_get` its version and `db_write` an `update` with `ifVersion`, setting `source.url` and `updated: {at, by: "Daily run"}` (use `set` for a dataset that doesn't exist yet). Don't touch `files/index.html`; the page lives in `dashboard/index.html` in the repo and changes only when the owner asks.
 5. After writing, read `data/users/<your id>/check` and `runs` (via `db_whoami`) if present and fix any failure they name.
 
+### 7b. Learn
+Follow `references/learning.md`: every worker that met something its instructions didn't cover today writes the rule into its own file under `## Learned`, and the report lists it under **What the team learned**. The Legal Advisor also processes any attorney reply to a packet (its section "Recording attorney approvals").
+
 ### 8. Save
 `git add -A && git commit -m "Daily run YYYY-MM-DD: N new leads, M updates"` and push to the default branch, retrying network errors up to 4 times with backoff. If the push fails, say so at the top of your final message. Never create or push other branches: the session proxy blocks branch deletion, so any branch you push stays behind as clutter. If the push to the default branch is rejected because `main` moved (someone else pushed first), `git pull --rebase origin main` and push again, up to 3 times. On a rebase conflict, follow the conflict rule in step 0. If the push is refused for any other reason, or still fails, leave the commit local (step 0 of the next run pushes it) and report the exact error rather than pushing to a fallback branch.
 

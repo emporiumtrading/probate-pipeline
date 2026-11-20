@@ -41,8 +41,9 @@ def template_sections(text, names):
     return "\n".join(out).strip()
 
 
-def build(m, cfg_text, templates):
+def build(m, cfg_text, templates, biz):
     st = m["state"]
+    b = lambda k: (biz.get(k) or "").strip() or "**[missing: fill in config.yaml → business]**"
     path = os.path.join(ROOT, "legal", f"{st}.md")
     if not os.path.exists(path):
         return None, f"{m['id']}: no legal/{st}.md yet (skipped)"
@@ -62,12 +63,13 @@ def build(m, cfg_text, templates):
         "",
         f"Prepared {today} from `legal/{st}.md` (last verified {verified}). This packet asks a licensed {st} attorney to review and approve how we contact estates and contract for probate property in this county. Nothing here is legal advice; every rule below is our own research and is listed for the attorney to confirm or correct.",
         "",
-        "## Before sending (owner fills in)",
-        "- Company legal name, entity type and state of formation:",
-        "- Business mailing address and phone answered by a person:",
-        "- Who signs contracts for the company:",
-        "- Licensed in this state, or licensed partner (name, license number), if required:",
-        "- Title company that will hold earnest money:",
+        "## Who we are",
+        f"- Company: {b('legal_name')} (formed in {b('entity_state')})",
+        f"- Mailing address: {b('mailing_address')}",
+        f"- Phone: {b('phone')} · Email: {b('email')} · Website: {b('website')}",
+        f"- Signs contracts: {b('signer')}",
+        f"- Title company holding earnest money: {b('title_company')}",
+        f"- Licensed in {st}, or licensed partner, if required: {'yes' if m.get('licensed_or_partnered') else 'not yet'}",
         "",
         "## What we do",
         "We find estates in probate that own real property, write to the personal representative (or the estate's attorney, when one is listed), and offer to buy the property as-is for cash with no fees or repairs for the estate. We sign a purchase contract with the estate, then either assign that contract to a vetted cash buyer for a fee or buy and resell at a simultaneous closing. The title company holds all earnest money and handles closing. We disclose our intent to assign in writing, we never call or text without the legal basis to do so, and we honor every stop request the same day.",
@@ -116,10 +118,12 @@ def main():
     for m in cfg["markets"]:
         if want and m["id"] not in want:
             continue
-        text, err = build(m, cfg_text, tpl)
+        text, err = build(m, cfg_text, tpl, cfg.get("business") or {})
         if err:
             print(err)
             continue
+        if "[missing:" in text:
+            print(f"{m['id']}: business details missing in config.yaml; packet marked, not ready to send")
         out = os.path.join(outdir, f"{m['id']}.md")
         open(out, "w").write(text)
         print(f"wrote {os.path.relpath(out, ROOT)}")
