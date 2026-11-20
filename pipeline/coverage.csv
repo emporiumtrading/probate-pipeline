@@ -33,7 +33,7 @@ fl-hillsborough,parcel_owner,maps.hillsboroughcounty.org PAO/HC_Properties MapSe
 fl-hillsborough,deed_index,,untested,,,,
 fl-hillsborough,civil_docket,,untested,,,,
 fl-hillsborough,tax_status,,untested,,,,
-fl-hillsborough,death_date,,untested,,,,
+fl-hillsborough,death_date,publicrec.hillsclerk.com/Probate/dailyfilings/ (DateofDeath column),works,,,2026-11-20,daily run 2026-11-20
 ga-fulton,probate_docket,fultoncountyga.gov Probate Court pages,untested,,,2026-11-19,seeded from sources-log: failed (404)
 ga-fulton,legal_notices,www.georgiapublicnotice.com (GA Press),untested,,,2026-11-19,seeded from sources-log: manual only
 ga-fulton,parcel_owner,gismaps.fultoncountyga.gov Tax/Tyler_TaxParcels/MapServer/0,works,,,2026-11-19,seeded from sources-log: worked

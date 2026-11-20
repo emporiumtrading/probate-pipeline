@@ -39,3 +39,6 @@ Comps table: address | date | price | sqft | $/sqft | condition | distance
 Cash buyers seen nearby: …
 Open questions for the team: …
 ```
+
+## Learned
+- 2026-11-20: Owner names on county parcel layers can be stored first-name-first and in mixed case (Hillsborough: "Estate Of Joseph L Simmons"). Match with a case-insensitive search for both the last and first name in any order, then confirm by site address. Why: a last-name-first search returned 0 of 12 decedents; the corrected search matched 7. Source: pipeline/sources-log.md 2026-11-20.

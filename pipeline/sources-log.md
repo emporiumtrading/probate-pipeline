@@ -111,3 +111,6 @@
 | 2026-11-20 | fl-hillsborough | Tax Collector (hillsborough.county-taxes.com), Official Records, HCPA property card | not checked | manual: https://hillsborough.county-taxes.com/public/search/property_tax ; https://publicaccess.hillsclerk.com/oripublicaccess/ ; https://gis.hcpafl.org/propertysearch/ |
 | 2026-11-20 | tx-harris | cclerk.hctx.net probate search by party name | unavailable | "This Search is currently unavailable"; case-number lookup works |
 | 2026-11-20 | tx-harris | cclerk.hctx.net RP related-documents view | unavailable | releases of old deeds of trust can't be confirmed online |
+| 2026-11-20 | fl-hillsborough | publicrec.hillsclerk.com/Probate/dailyfilings/ProbateFiling_20261119.csv | worked | daily run: 83 rows, 12 estate/trust decedents; date of death included |
+| 2026-11-20 | fl-hillsborough | maps.hillsboroughcounty.org PAO/HC_Properties MapServer/1 owner query | worked | OWNER is "First Middle Last" mixed case (e.g. "Estate Of Joseph L Simmons"): search UPPER(OWNER) LIKE '%LAST%' AND '%FIRST%'; NBHC is numeric; 7 of 12 decedents matched a parcel |
+| 2026-11-20 | fl-hillsborough | maps.hillsboroughcounty.org same layer, neighbourhood sales (NBHC + S_DATE >= DATE 'YYYY-MM-DD') | worked | comps for ARV; one connection reset, retried with backoff |
