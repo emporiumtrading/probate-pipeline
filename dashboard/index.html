@@ -174,6 +174,13 @@
         <tbody data-draw="marketRows"></tbody>
       </table>
     </div>
+    <div class="pp-card pp-wrap" id="mk-coverage"><h2>Public-record coverage by county</h2>
+      <p class="pp-muted">Which public source works for each record type. Live counties first. "Fragile" means no backup for a source the pipeline depends on.</p>
+      <table data-source="coverage" data-row-key="market,record_type">
+        <thead><tr><th data-field="market">Market</th><th data-field="live">Live</th><th data-field="record_type">Record type</th><th data-field="status">Status</th><th data-field="source">Source</th><th data-field="backup">Backup</th><th data-field="fragile">Fragile</th><th data-field="last_checked">Checked</th></tr></thead>
+        <tbody data-draw="covRows"></tbody>
+      </table>
+    </div>
   </section>
 
   <section class="pp-page" id="operations" hidden>
@@ -357,6 +364,7 @@ dash.draw('marketRows', (tb) => ppRows(tb, 'marketsF', [{ f: 'state' }, { f: 'co
 dash.draw('teamRows', (tb) => ppRows(tb, 'teamLoad', [{ f: 'team' }, { f: 'deals', cls: 'pp-n' }, { f: 'does', cls: 'pp-wrapcell' }], '—'));
 dash.draw('buyerRows', (tb) => ppRows(tb, 'buyers', [{ f: 'county' }, { f: 'state' }, { f: 'found', cls: 'pp-n' }, { f: 'confirmed', cls: 'pp-n' }, { f: 'vetted', cls: 'pp-n' }, { f: 'deals_under_contract', cls: 'pp-n' }, { f: 'warning', cls: (v) => v ? 'pp-neg pp-wrapcell' : 'pp-muted' }], 'No live markets yet.'));
 dash.draw('replyRows', (tb) => ppRows(tb, 'replies', [{ f: 'received_date' }, { f: 'channel' }, { f: 'lead_id' }, { f: 'label' }, { f: 'routed_to' }, { f: 'age_days', cls: 'pp-n' }, { f: 'status', cls: (v) => v === 'late' ? 'pp-bad' : 'pp-muted' }], 'No replies waiting.'));
+dash.draw('covRows', (tb) => ppRows(tb, 'coverage', [{ f: 'market' }, { f: 'live' }, { f: 'record_type', fmt: (v) => String(v).replace(/_/g, ' ') }, { f: 'status', cls: (v) => v === 'works' ? 'pp-go' : (v === 'blocked' || v === 'broken') ? 'pp-bad' : 'pp-muted' }, { f: 'source', cls: 'pp-wrapcell' }, { f: 'backup' }, { f: 'fragile', cls: (v) => v === 'yes' ? 'pp-neg' : 'pp-muted' }, { f: 'last_checked' }], 'No coverage mapped yet.'));
 dash.draw('readyRows', (tb) => ppRows(tb, 'readiness', [{ f: 'area' }, { f: 'item' }, { f: 'status', cls: (v) => v === 'done' ? 'pp-go' : 'pp-bad' }, { f: 'how_to_fix', cls: 'pp-wrapcell' }, { f: 'unlocks', cls: 'pp-wrapcell pp-muted' }], 'Nothing to set up.'));
 dash.draw('runRows', (tb) => ppRows(tb, 'runs', [{ f: 'date' }, { f: 'new_leads', cls: 'pp-n' }, { f: 'updated_leads', cls: 'pp-n' }, { f: 'approvals_waiting', cls: 'pp-n' }, { f: 'legal_changes', cls: 'pp-wrapcell' }, { f: 'pushed' }], 'No daily runs yet.'));
 dash.draw('srcRows', (tb) => ppRows(tb, 'sources', [{ f: 'date' }, { f: 'market' }, { f: 'source', cls: 'pp-wrapcell' }, { f: 'status', cls: 'pp-go' }, { f: 'note', cls: 'pp-wrapcell pp-muted' }], 'No working sources yet.'));

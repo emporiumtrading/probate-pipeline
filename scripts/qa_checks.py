@@ -169,6 +169,24 @@ missing_dod = sum(1 for r in trk if r.get("stage") not in ("Researched", "Dead",
 if missing_dod:
     warns.append(f"{missing_dod} active leads have no date_of_death yet (the wait is counted from the filing date until it's found)")
 
+# ---- coverage map ----
+RT = ("probate_docket", "legal_notices", "parcel_owner", "deed_index", "civil_docket", "tax_status", "death_date")
+CS = ("works", "manual_only", "blocked", "broken", "none_found", "untested", "")
+cp = os.path.join(ROOT, "pipeline", "coverage.csv")
+if not os.path.exists(cp):
+    fails.append("pipeline/coverage.csv missing")
+else:
+    for r in csv.DictReader(open(cp)):
+        if r["record_type"] not in RT:
+            fails.append(f"coverage: {r['market_id']} unknown record_type {r['record_type']}")
+        if r["primary_status"] not in CS or r.get("backup_status", "") not in CS:
+            fails.append(f"coverage: {r['market_id']}/{r['record_type']} bad status")
+        if r["primary_status"] == "works" and not r["primary_source"].strip():
+            fails.append(f"coverage: {r['market_id']}/{r['record_type']} marked works with no source")
+for c in rows("coverage.csv"):
+    if c.get("live") == "yes" and c.get("record_type") in ("probate_docket", "parcel_owner") and c.get("status") != "works":
+        warns.append(f"coverage: live market {c['market']} has no working {c['record_type']} source")
+
 # ---- guardrails: learning may not change the hard limits or the autonomy block ----
 import hashlib
 def guard_parts():

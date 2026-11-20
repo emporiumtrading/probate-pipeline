@@ -1,0 +1,155 @@
+market_id,record_type,primary_source,primary_status,backup_source,backup_status,last_checked,notes
+al-jefferson,probate_docket,www.jccal.org (Probate Court),blocked,,,2026-11-19,seeded from sources-log: blocked (Cloudflare)
+al-jefferson,legal_notices,www.alabamapublicnotices.com (AL Press),untested,,,2026-11-19,seeded from sources-log: manual only
+al-jefferson,parcel_owner,jccgis.jccal.org BOE/JCParcelsWMS/MapServer/0,works,,,2026-11-19,seeded from sources-log: worked
+al-jefferson,deed_index,,untested,,,,
+al-jefferson,civil_docket,,untested,,,,
+al-jefferson,tax_status,,untested,,,,
+al-jefferson,death_date,,untested,,,,
+ar-pulaski,probate_docket,,untested,,,,
+ar-pulaski,legal_notices,arkansaspublicnotices.com,untested,,,2026-11-19,seeded from sources-log: manual only
+ar-pulaski,parcel_owner,pagis.org MAPS/OperationalLayers_Basic MapServer/40 (Parcels),works,,,2026-11-19,seeded from sources-log: worked
+ar-pulaski,deed_index,,untested,,,,
+ar-pulaski,civil_docket,,untested,,,,
+ar-pulaski,tax_status,,untested,,,,
+ar-pulaski,death_date,,untested,,,,
+az-maricopa,probate_docket,superiorcourt.maricopa.gov/docket/ProbateCourtCases/ (case search by name or case no.; no filing-date search),untested,,,2026-11-19,seeded from sources-log: manual only
+az-maricopa,legal_notices,"arizonapublicnotices.com (AZ Newspapers Assn) keyword ""creditors Maricopa"", 10/20-11/18",untested,,,2026-11-19,seeded from sources-log: manual only
+az-maricopa,parcel_owner,mcassessor.maricopa.gov parcel search,untested,,,2026-11-19,seeded from sources-log: manual only
+az-maricopa,deed_index,gis.mcassessor.maricopa.gov/arcgis/rest/services/Parcels/MapServer/0,works,,,2026-11-19,seeded from sources-log: worked
+az-maricopa,civil_docket,,untested,,,,
+az-maricopa,tax_status,,untested,,,,
+az-maricopa,death_date,,untested,,,,
+co-denver,probate_docket,Denver Probate Court / CO court records,untested,,,2026-11-19,seeded from sources-log: no free search
+co-denver,legal_notices,publicnoticecolorado.com (CO Press Assn),untested,,,2026-11-19,seeded from sources-log: manual only
+co-denver,parcel_owner,,untested,,,,
+co-denver,deed_index,Denver ODC_PROP_PARCELS_A FeatureServer/245,works,,,2026-11-19,seeded from sources-log: worked
+co-denver,civil_docket,,untested,,,,
+co-denver,tax_status,,untested,,,,
+co-denver,death_date,,untested,,,,
+fl-hillsborough,probate_docket,publicrec.hillsclerk.com/Probate/dailyfilings/ (Clerk daily probate filing CSVs),works,,,2026-11-20,seeded from sources-log: worked
+fl-hillsborough,legal_notices,floridapublicnotices.com (Florida Press Service) Notice to Creditors search,untested,,,2026-11-19,seeded from sources-log: manual only
+fl-hillsborough,parcel_owner,maps.hillsboroughcounty.org PAO/HC_Properties MapServer/1 (parcels),works,,,2026-11-20,seeded from sources-log: worked
+fl-hillsborough,deed_index,,untested,,,,
+fl-hillsborough,civil_docket,,untested,,,,
+fl-hillsborough,tax_status,,untested,,,,
+fl-hillsborough,death_date,,untested,,,,
+ga-fulton,probate_docket,fultoncountyga.gov Probate Court pages,untested,,,2026-11-19,seeded from sources-log: failed (404)
+ga-fulton,legal_notices,www.georgiapublicnotice.com (GA Press),untested,,,2026-11-19,seeded from sources-log: manual only
+ga-fulton,parcel_owner,gismaps.fultoncountyga.gov Tax/Tyler_TaxParcels/MapServer/0,works,,,2026-11-19,seeded from sources-log: worked
+ga-fulton,deed_index,,untested,,,,
+ga-fulton,civil_docket,,untested,,,,
+ga-fulton,tax_status,,untested,,,,
+ga-fulton,death_date,,untested,,,,
+ia-polk,probate_docket,,untested,,,,
+ia-polk,legal_notices,iowapublicnotices.com (Iowa Newspaper Assn),untested,,,2026-11-19,seeded from sources-log: manual only
+ia-polk,parcel_owner,gis.polkcountyiowa.gov ArcGIS,untested,,,2026-11-19,seeded from sources-log: no response (502)
+ia-polk,deed_index,,untested,,,,
+ia-polk,civil_docket,,untested,,,,
+ia-polk,tax_status,,untested,,,,
+ia-polk,death_date,,untested,,,,
+in-marion,probate_docket,Marion County Assessor / Treasurer property search (manual),untested,,,2026-11-19,seeded from sources-log: not tried
+in-marion,legal_notices,ibj.com/public-notices -> notices.courtcommercialrecord.com/api (IBJ Court & Commercial Record),works,,,2026-11-19,seeded from sources-log: worked
+in-marion,parcel_owner,gisdata.in.gov (IndianaMap statewide Parcel_Boundaries_of_Indiana_Current),untested,,,2026-11-19,seeded from sources-log: no response (timeout 30s)
+in-marion,deed_index,,untested,,,,
+in-marion,civil_docket,,untested,,,,
+in-marion,tax_status,,untested,,,,
+in-marion,death_date,,untested,,,,
+la-east-baton-rouge,probate_docket,ebrclerkofcourt.org,untested,,,2026-11-19,seeded from sources-log: manual only
+la-east-baton-rouge,legal_notices,theadvocate.com legal notices,untested,,,2026-11-19,seeded from sources-log: manual only
+la-east-baton-rouge,parcel_owner,maps.brla.gov Cadastral/Tax_Parcel MapServer/0,untested,,,2026-11-19,seeded from sources-log: partial / unusable
+la-east-baton-rouge,deed_index,,untested,,,,
+la-east-baton-rouge,civil_docket,,untested,,,,
+la-east-baton-rouge,tax_status,,untested,,,,
+la-east-baton-rouge,death_date,,untested,,,,
+mo-jackson,probate_docket,,untested,,,,
+mo-jackson,legal_notices,mopublicnotices.com (MO Press Assn),untested,,,2026-11-19,seeded from sources-log: manual only
+mo-jackson,parcel_owner,jcgis.jacksongov.org ParcelViewer/ParcelsAscendRelate MapServer/1,untested,,,2026-11-19,seeded from sources-log: unusable
+mo-jackson,deed_index,,untested,,,,
+mo-jackson,civil_docket,,untested,,,,
+mo-jackson,tax_status,,untested,,,,
+mo-jackson,death_date,,untested,,,,
+ms-hinds,probate_docket,www.hindscountyms.com (Chancery Clerk),blocked,,,2026-11-19,seeded from sources-log: blocked (403)
+ms-hinds,legal_notices,www.mspublicnotices.org (MS Press),untested,,,2026-11-19,seeded from sources-log: manual only
+ms-hinds,parcel_owner,gis.cmpdd.org (Hinds map viewer host),untested,,,2026-11-19,seeded from sources-log: no response
+ms-hinds,deed_index,,untested,,,,
+ms-hinds,civil_docket,,untested,,,,
+ms-hinds,tax_status,,untested,,,,
+ms-hinds,death_date,,untested,,,,
+mt-yellowstone,probate_docket,,untested,,,,
+mt-yellowstone,legal_notices,montanapublicnotices.com (MNA),untested,,,2026-11-19,seeded from sources-log: manual only
+mt-yellowstone,parcel_owner,gisservice.mt.gov msdi_cadastral_map_v1 (state parcels w/ OwnerName),untested,,,2026-11-19,seeded from sources-log: manual only
+mt-yellowstone,deed_index,,untested,,,,
+mt-yellowstone,civil_docket,,untested,,,,
+mt-yellowstone,tax_status,,untested,,,,
+mt-yellowstone,death_date,,untested,,,,
+nc-mecklenburg,probate_docket,portal-nc.tylertech.cloud (NC eCourts),untested,,,2026-11-19,seeded from sources-log: manual only
+nc-mecklenburg,legal_notices,www.ncnotices.com (NC Press),untested,,,2026-11-19,seeded from sources-log: manual only
+nc-mecklenburg,parcel_owner,meckgis TaxParcel_Camaownershipvalues/FeatureServer/0,works,,,2026-11-19,seeded from sources-log: worked
+nc-mecklenburg,deed_index,,untested,,,,
+nc-mecklenburg,civil_docket,,untested,,,,
+nc-mecklenburg,tax_status,,untested,,,,
+nc-mecklenburg,death_date,,untested,,,,
+nm-bernalillo,probate_docket,,untested,,,,
+nm-bernalillo,legal_notices,newmexicopublicnotices.com (NM Press Assn),untested,,,2026-11-19,seeded from sources-log: manual only
+nm-bernalillo,parcel_owner,abqgis01.cabq.gov BaseMapLayers/5 (Bernalillo Assessor parcels),works,,,2026-11-19,seeded from sources-log: worked
+nm-bernalillo,deed_index,,untested,,,,
+nm-bernalillo,civil_docket,,untested,,,,
+nm-bernalillo,tax_status,,untested,,,,
+nm-bernalillo,death_date,,untested,,,,
+oh-franklin,probate_docket,probatesearch PBFidy / PBDocket pages,works,,,2026-11-19,seeded from sources-log: worked
+oh-franklin,legal_notices,,untested,,,,
+oh-franklin,parcel_owner,gis Sales_Information FeatureServer,works,,,2026-11-19,"seeded from sources-log: worked, stale"
+oh-franklin,deed_index,,untested,,,,
+oh-franklin,civil_docket,,untested,,,,
+oh-franklin,tax_status,,untested,,,,
+oh-franklin,death_date,probatesearch ESTATE_DETAIL pages,works,,,2026-11-19,seeded from sources-log: date of death on estate detail page
+ok-oklahoma,probate_docket,,untested,,,,
+ok-oklahoma,legal_notices,oklahomanotices.com (OK Press Assn),blocked,,,2026-11-19,seeded from sources-log: blocked (403)
+ok-oklahoma,parcel_owner,okcountyassessor.org,untested,,,2026-11-19,seeded from sources-log: no response (502)
+ok-oklahoma,deed_index,,untested,,,,
+ok-oklahoma,civil_docket,,untested,,,,
+ok-oklahoma,tax_status,,untested,,,,
+ok-oklahoma,death_date,,untested,,,,
+pa-philadelphia,probate_docket,phl.carto.com opa_properties_public,works,,,2026-11-19,seeded from sources-log: worked
+pa-philadelphia,legal_notices,"publicnoticepa.com (PA NewsMedia Assn) ""estate Philadelphia letters"" / ""deceased Philadelphia""",untested,,,2026-11-19,seeded from sources-log: partial
+pa-philadelphia,parcel_owner,property.phila.gov / api.phila.gov,untested,,,2026-11-19,seeded from sources-log: reachable (200)
+pa-philadelphia,deed_index,,untested,,,,
+pa-philadelphia,civil_docket,,untested,,,,
+pa-philadelphia,tax_status,,untested,,,,
+pa-philadelphia,death_date,,untested,,,,
+sc-richland,probate_docket,www7.richlandcountysc.gov/EstateInquiry,works,,,2026-11-19,seeded from sources-log: worked (name only)
+sc-richland,legal_notices,www.scpublicnotices.com (SC Press),untested,,,2026-11-19,seeded from sources-log: manual only
+sc-richland,parcel_owner,Richland County GIS parcels,untested,,,2026-11-19,seeded from sources-log: failed
+sc-richland,deed_index,,untested,,,,
+sc-richland,civil_docket,,untested,,,,
+sc-richland,tax_status,,untested,,,,
+sc-richland,death_date,,untested,,,,
+tn-shelby,probate_docket,probatecourt.shelbycountytn.gov (www and bare),untested,,,2026-11-19,seeded from sources-log: no response (proxy: upstream dial failed)
+tn-shelby,legal_notices,"tnpublicnotice.com (TN Press Assn) search ""creditors Shelby"", 10/20-11/18",works,,,2026-11-19,seeded from sources-log: worked (search results list)
+tn-shelby,parcel_owner,TN Comptroller statewide parcels (services1.arcgis.com Tennessee_Property_Boundaries_Public_Use),untested,,,2026-11-19,seeded from sources-log: no Shelby data
+tn-shelby,deed_index,,untested,,,,
+tn-shelby,civil_docket,,untested,,,,
+tn-shelby,tax_status,,untested,,,,
+tn-shelby,death_date,,untested,,,,
+tx-harris,probate_docket,cclerk.hctx.net CourtCaseDetail.aspx?ID= (parties + events),works,,,2026-11-19,seeded from sources-log: worked
+tx-harris,legal_notices,,untested,,,,
+tx-harris,parcel_owner,download.hcad.org/data/CAMA/2026/Real_building_land.zip,works,,,2026-11-19,seeded from sources-log: worked
+tx-harris,deed_index,cclerk.hctx.net RP.aspx (real property index by grantor/grantee),works,,,2026-11-19,seeded from sources-log: worked
+tx-harris,civil_docket,,untested,,,,
+tx-harris,tax_status,,untested,,,,
+tx-harris,death_date,,untested,,,,
+ut-salt-lake,probate_docket,,untested,,,,
+ut-salt-lake,legal_notices,utahlegals.com (Utah Press Assn notices),untested,,,2026-11-19,seeded from sources-log: manual only
+ut-salt-lake,parcel_owner,UGRC Parcels_SaltLake_LIR FeatureServer,works,,,2026-11-19,"seeded from sources-log: worked, no owner names"
+ut-salt-lake,deed_index,,untested,,,,
+ut-salt-lake,civil_docket,,untested,,,,
+ut-salt-lake,tax_status,,untested,,,,
+ut-salt-lake,death_date,,untested,,,,
+wy-laramie,probate_docket,,untested,,,,
+wy-laramie,legal_notices,wyopublicnotices.com (WY Press Assn),untested,,,2026-11-19,seeded from sources-log: manual only
+wy-laramie,parcel_owner,gis2.statelands.wyo.gov Parcels2025 MapServer,works,,,2026-11-19,seeded from sources-log: worked
+wy-laramie,deed_index,,untested,,,,
+wy-laramie,civil_docket,,untested,,,,
+wy-laramie,tax_status,,untested,,,,
+wy-laramie,death_date,,untested,,,,

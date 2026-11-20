@@ -271,15 +271,31 @@ for f in pending_files:
 write("replies.csv", ["received_date", "channel", "lead_id", "label", "routed_to", "age_days", "status"],
       sorted(replies, key=lambda r: -(r["age_days"] if r["age_days"] != "" else 999)))
 
+# ---- coverage: which public sources work per county and record type ----
+cpath = os.path.join(ROOT, "pipeline", "coverage.csv")
+crows = list(csv.DictReader(open(cpath))) if os.path.exists(cpath) else []
+live_ids = {m["market"] for m in live}
+cov = []
+for r in crows:
+    st_ = r["primary_status"]
+    backup = r.get("backup_status") == "works"
+    cov.append({"market": r["market_id"], "live": "yes" if r["market_id"] in live_ids else "no", "record_type": r["record_type"],
+                "status": st_, "source": r["primary_source"][:80], "backup": "yes" if backup else "no",
+                "last_checked": r["last_checked"], "gap": "no" if st_ == "works" else "yes",
+                "fragile": "yes" if st_ == "works" and not backup and r["record_type"] in ("probate_docket", "parcel_owner") else "no"})
+cov.sort(key=lambda x: (x["live"] != "yes", x["market"], x["record_type"]))
+write("coverage.csv", ["market", "live", "record_type", "status", "source", "backup", "last_checked", "gap", "fragile"], cov)
+
 # ---- health: freshness of the data itself ----
 last_run = runs[-1]["date"] if runs else ""
 try:
     stale_days = (datetime.date.fromisoformat(TODAY) - datetime.date.fromisoformat(last_run)).days if last_run else ""
 except Exception:
     stale_days = ""
-write("health.csv", ["built", "last_run", "days_since_run", "last_run_saved", "readiness_done", "readiness_total", "replies_waiting", "buyers_vetted"], [{
+write("health.csv", ["built", "last_run", "days_since_run", "last_run_saved", "readiness_done", "readiness_total", "replies_waiting", "buyers_vetted", "coverage_works", "coverage_total"], [{
     "built": TODAY, "last_run": last_run, "days_since_run": stale_days, "last_run_saved": runs[-1].get("pushed", "") if runs else "",
     "readiness_done": sum(1 for r in ready if r["status"] == "done"), "readiness_total": len(ready),
-    "replies_waiting": len(replies), "buyers_vetted": sum(b["vetted"] for b in bstats)}])
+    "replies_waiting": len(replies), "buyers_vetted": sum(b["vetted"] for b in bstats),
+    "coverage_works": sum(1 for c in cov if c["live"] == "yes" and c["status"] == "works"), "coverage_total": sum(1 for c in cov if c["live"] == "yes")}])
 
 print(f"wrote {OUT}: {len(leads)} leads, {len(queues)} queue items, {len(markets)} market rows, {len(ok)} sources, {len(ready)} readiness items, {len(replies)} replies waiting")

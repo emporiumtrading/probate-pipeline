@@ -28,6 +28,9 @@ Read `config.yaml`, `pipeline/deal-tracker.csv`, the latest file in `reports/`, 
 ### 2. Legal refresh (Legal Advisor)
 For each market's state: if `legal/<STATE>.md` is missing or its "Last verified" date is older than `legal_recheck_days`, follow `agents/legal-advisor.md` to research current wholesaling, probate-sale and contact rules, with priority on laws passed or effective in the last two years. Write `legal/<STATE>.md` with: Last verified date, rules table (rule, source URL, date, verified/unverified), blocking issues, required contract disclosures. If something changed since the last version, put it at the top of today's report.
 
+### 2b. Source map (Source Mapper)
+Follow `agents/source-mapper.md`: fill gaps and re-test sources in `pipeline/coverage.csv` for live markets and the next queued counties, preferring open data and bulk downloads, with statewide public-notice sites as backups. The Researcher and Heir & Title Tracer use the sources marked `works` there.
+
 ### 3. Lead sourcing (Researcher)
 For each market, search the probate source for estate filings since `last_checked` (or `lookback_days_first_run` on the first run). For each filing, check the auditor/assessor/property site for real property in the decedent's name. Keep only filings with real property in the county. Skip any lead already in the tracker (match case number or parcel). Rank new candidates by: equity signals, vacancy/distress, out-of-state representative, filing age 1–12 months. Take the top `max_new_leads_per_day` across all markets. Update each market's `last_checked` in `config.yaml`. Log each source's result (worked / blocked / changed layout / no results) in `pipeline/sources-log.md`.
 
@@ -44,7 +47,7 @@ Where probate notices can only be read by hand (robots.txt or terms forbid autom
 ### 3b. Expand to new markets
 The goal is coverage across as many US states as can be worked legally and reached through public records. Each run, take the next `expansion_per_run` counties from `expansion_queue` in `config.yaml`:
 1. Legal Advisor first: if `legal/<STATE>.md` is missing, write it (step 2). If the state requires a license to wholesale and `licensed_or_partnered` isn't true for that state, add the market as research-only (`outreach_allowed: false`); its leads can never be GO/NEGOTIATE and won't show on the dashboard.
-2. Researcher: find a public, no-login probate filing index for the county (court case search by filing date, or published Notices to Creditors) and a public parcel source with owner names (county ArcGIS REST parcel layer, assessor open data). Test one small query each, slowly.
+2. Source Mapper (`agents/source-mapper.md`) fills this county's rows in `pipeline/coverage.csv`, open data first. Researcher: find a public, no-login probate filing index for the county (court case search by filing date, or published Notices to Creditors) and a public parcel source with owner names (county ArcGIS REST parcel layer, assessor open data). Test one small query each, slowly.
 3. If both work, add the market to `markets` with its source URLs and `last_checked: null` so step 3 picks it up next run. If not, record why in `pipeline/sources-log.md` and mark it `status: blocked` in the queue so it isn't retried for 30 days.
 Remove processed counties from the queue. Never bypass blocks, logins or CAPTCHAs to make a county work.
 

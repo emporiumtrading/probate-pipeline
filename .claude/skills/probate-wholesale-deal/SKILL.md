@@ -24,6 +24,7 @@ Every role learns: when something isn't covered, it handles it cautiously, finds
 | Transaction Coordinator | `agents/transaction-coordinator.md` | Title, liens, deadlines, court approval, settlement statement, closing, owner signature and wire queues |
 | Compliance Officer | `agents/compliance-officer.md` | Pre-send gate for every message and document: recipients, channel rules, required disclosures, stop list |
 | Communications | `agents/communications.md` | Sends approved outreach and follow-ups, reads the inbox, routes replies |
+| Source Mapper | `agents/source-mapper.md` | Per-county map of working public sources for each record type, open data first, backups, re-tests, gaps (`pipeline/coverage.csv`) |
 | Heir & Title Tracer | `agents/heir-tracer.md` | Signers, chain of title and what's missing for heirs, trusts, small estates, partition and unprobated leads (`references/lead-types.md`) |
 | Buyer-List Builder | `agents/buyer-list.md` | Cash buyers per market from public deed records, buy boxes, vetting status, `buyer_pct` reality check |
 | Reply Desk | `agents/reply-desk.md` | Replies by mail, voicemail and notes in `pipeline/inbox/`, stop requests, call queue, one-business-day response check |
