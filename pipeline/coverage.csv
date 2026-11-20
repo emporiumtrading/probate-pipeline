@@ -132,7 +132,7 @@ tn-shelby,deed_index,,untested,,,,
 tn-shelby,civil_docket,,untested,,,,
 tn-shelby,tax_status,,untested,,,,
 tn-shelby,death_date,,untested,,,,
-tx-harris,probate_docket,cclerk.hctx.net CourtCaseDetail.aspx?ID= (parties + events),works,,,2026-11-20,seeded from sources-log: worked; 2026-11-20: search unavailable (site message); not yet broken (1st day)
+tx-harris,probate_docket,cclerk.hctx.net CourtCaseDetail.aspx?ID= (parties + events),broken,,,2026-11-20,"seeded from sources-log: worked; 2026-11-20: search unavailable (site message); not yet broken (1st day); unavailable in slices B and C on 2026-11-20: marked broken, no backup yet (Source Mapper: find one, e.g. Houston newspaper notices to creditors)"
 tx-harris,legal_notices,,untested,,,,
 tx-harris,parcel_owner,download.hcad.org/data/CAMA/2026/Real_building_land.zip,works,,,2026-11-19,seeded from sources-log: worked
 tx-harris,deed_index,cclerk.hctx.net RP.aspx (real property index by grantor/grantee),works,,,2026-11-19,seeded from sources-log: worked
