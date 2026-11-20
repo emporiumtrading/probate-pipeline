@@ -1,0 +1,15 @@
+# State sweep 2026-11-19. Blocked: probate search not automatable; license status unclear.
+- id: ar-pulaski
+  county: Pulaski
+  state: AR
+  city: Little Rock
+  status: blocked
+  outreach_allowed: false       # no AR wholesaling statute; AREC (Dec 2025) says wholesaling generally needs a license -> conservative until attorney approves (legal/AR.md)
+  license_required: unclear
+  licensed_or_partnered: false
+  sources:
+    probate_case_search_manual: https://caseinfo.arcourts.gov/opad   # Search ARCourts (JS app, has filing-date + case-type filters); undocumented API not automated; manual only
+    probate_notices_manual: https://www.arkansaspublicnotices.com/   # robots.txt disallows anthropic-ai/ClaudeBot; manual only
+    parcels: https://www.pagis.org/arcgis/rest/services/MAPS/OperationalLayers_Basic/MapServer/40/query   # works: OWNERNAME, ADRLABEL, ADRCITY, TOTALVALUE, owner mailing address
+  last_checked: 2026-11-19
+  notes: Parcel source is good. Needs (1) attorney view on licensing, (2) manual or permitted probate filing list.

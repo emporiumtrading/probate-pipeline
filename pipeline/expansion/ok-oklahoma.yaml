@@ -1,0 +1,15 @@
+# State sweep 2026-11-19. Blocked: OSCN (only court docket source) disallows all robots.
+- id: ok-oklahoma
+  county: Oklahoma
+  state: OK
+  city: Oklahoma City
+  status: blocked
+  outreach_allowed: true        # no license unless publicly marketing the equitable interest (59 O.S. 858-301); 858-314 disclosures + 2-business-day cancel (legal/OK.md); drafts only
+  license_required: no
+  licensed_or_partnered: false
+  sources:
+    probate_case_search_manual: https://www.oscn.net/dockets/Search.aspx   # robots.txt "User-agent: * Disallow: /"; manual only
+    probate_notices_manual: https://www.oklahomanotices.com/   # OK Press Assn; robots.txt returned 403; not used
+    parcels_manual: https://assessor.oklahomacounty.org/   # okcountyassessor.org unreachable (502); no ArcGIS owner layer tested
+  last_checked: 2026-11-19
+  notes: Revisit with manual OSCN pulls (case type PB, Oklahoma County, filed date range) and an assessor parcel layer.

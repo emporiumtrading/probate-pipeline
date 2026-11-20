@@ -88,3 +88,18 @@
 | 2026-11-19 | nm-bernalillo | caselookup.nmcourts.gov | manual only | disclaimer bars non-individual use/multi-record download (NMSA 14-3-15.1); manual: https://caselookup.nmcourts.gov/caselookup/ |
 | 2026-11-19 | nm-bernalillo | newmexicopublicnotices.com (NM Press Assn) | manual only | terms: personal non-commercial use only; manual: https://www.newmexicopublicnotices.com/ |
 | 2026-11-19 | nm-bernalillo | abqgis01.cabq.gov BaseMapLayers/5 (Bernalillo Assessor parcels) | worked | TAXYR 2026 owner/situs/value |
+| 2026-11-19 | ia-polk | iowapublicnotices.com (Iowa Newspaper Assn) | manual only | robots.txt disallows anthropic-ai/ClaudeBot/Claude-Web; not queried. Manual: https://www.iowapublicnotices.com/ |
+| 2026-11-19 | ia-polk | iowacourts.state.ia.us Iowa Courts Online (ESAWebApp) | manual only | framed app, name/case-no. search only (no filing-date list); iowacourts.gov robots disallows ClaudeBot. Manual: https://www.iowacourts.state.ia.us/ESAWebApp/SelectFrame |
+| 2026-11-19 | ia-polk | gis.polkcountyiowa.gov ArcGIS | no response (502) | Manual: https://www.assess.co.polk.ia.us |
+| 2026-11-19 | mo-jackson | courts.mo.gov Case.net | manual only | robots.txt: automated/repetitive querying "expressly prohibited"; not queried. Manual: https://www.courts.mo.gov/cnet/welcome.do |
+| 2026-11-19 | mo-jackson | mopublicnotices.com (MO Press Assn) | manual only | robots.txt disallows anthropic-ai/ClaudeBot; not queried. Manual: https://www.mopublicnotices.com/ |
+| 2026-11-19 | mo-jackson | jcgis.jacksongov.org ParcelViewer/ParcelsAscendRelate MapServer/1 | unusable | reachable, but no owner-name field; Parcels_Testing_ForBeta timed out. Manual: https://ascendweb.jacksongov.org/ |
+| 2026-11-19 | ar-pulaski | caseinfo.arcourts.gov/opad (Search ARCourts) | manual only | JS app with filing-date + case-type filters; backend API undocumented, not automated. Manual: https://caseinfo.arcourts.gov/opad |
+| 2026-11-19 | ar-pulaski | arkansaspublicnotices.com | manual only | robots.txt disallows anthropic-ai/ClaudeBot; not queried. Manual: https://www.arkansaspublicnotices.com/ |
+| 2026-11-19 | ar-pulaski | pagis.org MAPS/OperationalLayers_Basic MapServer/40 (Parcels) | worked | OWNERNAME LIKE query returned owners, situs, city, total value, owner mailing address |
+| 2026-11-19 | la-east-baton-rouge | ebrclerkofcourt.org | manual only | robots.txt disallows ClaudeBot/anthropic-ai; online records subscription. Manual: https://www.ebrclerkofcourt.org/ |
+| 2026-11-19 | la-east-baton-rouge | theadvocate.com legal notices | manual only | robots.txt disallows ClaudeBot/Claude-Web; not queried |
+| 2026-11-19 | la-east-baton-rouge | maps.brla.gov Cadastral/Tax_Parcel MapServer/0 | partial / unusable | returnCountOnly works (2,073 owners like SMITH) but OWNER/PHYSICAL_ADDRESS come back null. Manual: https://www.ebrpa.org/ |
+| 2026-11-19 | ok-oklahoma | oscn.net dockets | manual only | robots.txt "User-agent: * Disallow: /"; not queried. Manual: https://www.oscn.net/dockets/Search.aspx |
+| 2026-11-19 | ok-oklahoma | oklahomanotices.com (OK Press Assn) | blocked (403) | robots.txt itself returned 403; not used |
+| 2026-11-19 | ok-oklahoma | okcountyassessor.org | no response (502) | Manual: https://assessor.oklahomacounty.org/ |

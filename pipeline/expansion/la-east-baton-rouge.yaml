@@ -1,0 +1,17 @@
+# State sweep 2026-11-19. Blocked: no automatable succession filing source; parcel owner data suppressed.
+- id: la-east-baton-rouge
+  county: East Baton Rouge Parish
+  state: LA
+  city: Baton Rouge
+  status: blocked
+  outreach_allowed: true        # no license; Act 807 (2026) disclosures + LREC cancellation notice + 1% escrowed deposit (legal/LA.md); drafts only
+  license_required: no
+  licensed_or_partnered: false
+  sources:
+    succession_records_manual: https://www.ebrclerkofcourt.org/   # Clerk of Court; robots.txt disallows ClaudeBot/anthropic-ai; online records are subscription; manual only
+    succession_notices_manual: https://www.theadvocate.com/   # legal notices; robots.txt disallows ClaudeBot/Claude-Web; manual only
+    parcels: https://maps.brla.gov/gis/rest/services/Cadastral/Tax_Parcel/MapServer/0/query   # partial: counts work (OWNER LIKE), but returned OWNER/address attributes are null
+    parcels_manual: https://www.ebrpa.org/   # EBR Assessor (not tested)
+    open_data: https://data.brla.gov/   # Socrata; robots allows, crawl-delay 1; parcel-owner dataset not checked
+  last_checked: 2026-11-19
+  notes: Louisiana rarely publishes creditor notices; successions are found at the clerk. Revisit with data.brla.gov parcel dataset + manual clerk pulls.

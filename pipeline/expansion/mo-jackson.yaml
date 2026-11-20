@@ -1,0 +1,16 @@
+# State sweep 2026-11-19. Blocked: no automatable probate filing source.
+- id: mo-jackson
+  county: Jackson
+  state: MO
+  city: Kansas City
+  status: blocked
+  outreach_allowed: true        # no license; RSMo 407.3600 disclosure >=14 days before contract (legal/MO.md); drafts only
+  license_required: no
+  licensed_or_partnered: false
+  sources:
+    probate_case_search_manual: https://www.courts.mo.gov/cnet/welcome.do   # Case.net; robots.txt expressly prohibits scrapers/automated querying; manual only
+    probate_notices_manual: https://www.mopublicnotices.com/   # robots.txt disallows anthropic-ai/ClaudeBot; manual only
+    parcels: https://jcgis.jacksongov.org/arcgis/rest/services/ParcelViewer/ParcelsAscendRelate/MapServer/1   # reachable; NO owner-name field; Parcels_Testing_ForBeta timed out
+    parcels_manual: https://ascendweb.jacksongov.org/   # Jackson County parcel/owner lookup (not tested)
+  last_checked: 2026-11-19
+  notes: Retry in 30 days only with a permitted probate data feed (e.g. paid/licensed docket data) or manual Case.net pulls.

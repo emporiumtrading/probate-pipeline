@@ -1,0 +1,16 @@
+# State sweep 2026-11-19. Not workable: license required AND probate sources manual only.
+- id: ia-polk
+  county: Polk
+  state: IA
+  city: Des Moines
+  status: blocked               # research_only at best (license); no automatable probate source
+  outreach_allowed: false       # Iowa Code 543B.6A: wholesaler must be a licensed broker or broker-represented (legal/IA.md)
+  license_required: yes
+  licensed_or_partnered: false
+  sources:
+    probate_case_search_manual: https://www.iowacourts.state.ia.us/ESAWebApp/SelectFrame   # Iowa Courts Online; name/case no. search; manual only
+    probate_notices_manual: https://www.iowapublicnotices.com/   # robots.txt disallows anthropic-ai/ClaudeBot; manual only
+    court_info_site: https://www.iowacourts.gov   # robots.txt disallows ClaudeBot/anthropic-ai
+    parcels_manual: https://www.assess.co.polk.ia.us   # Polk County Assessor; gis.polkcountyiowa.gov unreachable (502) on 2026-11-19
+  last_checked: 2026-11-19
+  notes: No leads pulled. Reopen only if owner gets an Iowa broker license/partner AND a permitted probate filing feed exists.
