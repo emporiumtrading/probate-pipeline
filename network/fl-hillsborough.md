@@ -1,0 +1,23 @@
+# Professional network: Hillsborough County (Tampa), FL
+
+Status 2026-11-21: **starting shortlist, nothing verified or scored yet.** No attorney or title company is engaged. Inquiries can't be sent until an email or mail channel works (see the Setup page); until then the owner can call or email these directly.
+
+## Title companies (candidates to verify)
+Source: HouseCashin "investor-friendly title companies, Tampa" directory (https://housecashin.com/title/fl/tampa/), a lead-generation site, so its ranking is not independent. Office address and phone must come from each company's own website before use.
+
+| Company | Why listed | Verified? | Score |
+|---|---|---|---|
+| CLOSED Title | named investor-friendly in the directory above | no | not scored |
+| Blueprint Title | named investor-friendly in the directory above | no | not scored |
+| AMT Title Services | named investor-friendly in the directory above | no | not scored |
+
+Ask each the title questions in `agents/professional-network.md` (assignments vs double closes, how the fee shows on the settlement statement, probate documents required, escrow of earnest money and wire-fraud verification). Investor forum reports are mixed on whether Tampa title companies close assignments and double closes; get the answer in writing before the first contract.
+
+## Attorneys (not yet identified)
+The public directories searched (Justia, Avvo, Oyez/Cornell listings for Tampa and Hillsborough real estate lawyers) do not show which attorneys handle wholesale assignments or probate property sales, so no names are listed here rather than guesses. Next steps:
+1. **Florida Bar member search** for Hillsborough attorneys board-certified in Real Estate or in Wills, Trusts & Estates: https://www.floridabar.org/directories/find-mbr/
+2. **Florida Bar Lawyer Referral Service**: https://www.floridabar.org/public/lrs/
+3. Florida firms that publish on simultaneous closings (for example Lowndes, "Could your flip be a flop?": https://www.lowndes-law.com/newsroom/insights/could-your-flip-be-a-flop-addressing-the-complexities-of-simultaneous-closings-in-florida) know the issue; ask whether they take Hillsborough wholesale clients or can refer one.
+Ask each the attorney questions in `agents/professional-network.md`. The engaged attorney reviews `legal/attorney-packets/fl-hillsborough.md`.
+
+Sources searched 2026-11-21: web search "Tampa real estate attorney … wholesale assignment … probate" and "Tampa title company … assignment … double closing".
