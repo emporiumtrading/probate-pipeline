@@ -66,6 +66,26 @@
 .pp-step-note { font-size: 11px; color: var(--color-fg-muted); margin: 4px 0 0; }
 .pp-step-note.pp-step-assumed { font-style: italic; }
 .pp-step-floor { position: absolute; top: -3px; bottom: -3px; width: 2px; margin-left: -1px; background: var(--cds-chart-reference); }
+.pp-cards { display: grid; gap: var(--cds-gap-md); grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr)); }
+.pp-area-card { display: flex; flex-direction: column; gap: 8px; }
+.pp-area-card .pp-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.pp-area-card ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; font-size: var(--cds-font-size-caption); }
+.pp-area-card li { display: flex; justify-content: space-between; gap: 8px; }
+.pp-btn-primary { background: var(--color-fg); color: var(--color-bg); border-color: var(--color-fg); }
+.pp-dlg { border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); background: var(--color-panel); color: var(--color-fg); padding: 0; width: min(640px, 94vw); max-height: 88vh; }
+.pp-dlg::backdrop { background: rgb(0 0 0 / 0.35); }
+.pp-dlg form { display: flex; flex-direction: column; gap: 12px; padding: var(--cds-pad-lg); font-family: var(--font-anthropic-sans); }
+.pp-dlg-head, .pp-dlg-foot { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.pp-dlg-foot { justify-content: flex-end; position: sticky; bottom: 0; background: var(--color-panel); padding-top: 8px; }
+.pp-area { display: flex; flex-direction: column; gap: 10px; }
+.pp-dlg label { display: flex; flex-direction: column; gap: 4px; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.pp-dlg label.pp-check { flex-direction: row; align-items: center; gap: 8px; color: var(--color-fg); }
+.pp-dlg input[type=text], .pp-dlg input[type=tel], .pp-dlg input[type=email], .pp-dlg input[type=url], .pp-dlg input[type=date], .pp-dlg select { font: inherit; font-size: var(--cds-font-size-body); color: var(--color-fg); background: var(--color-bg); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: 7px 9px; }
+.pp-dlg fieldset { border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: 10px 12px; display: flex; flex-direction: column; gap: 8px; margin: 0; }
+.pp-dlg legend { font-weight: var(--cds-font-weight-medium); padding: 0 4px; }
+.pp-dlg-items { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
+.pp-dlg-msg:empty { display: none; }
+.pp-dlg-msg { font-size: var(--cds-font-size-caption); padding: 8px 10px; border-radius: var(--cds-radius); border: 1px solid currentColor; }
 .pp-ok { color: var(--color-ok); } .pp-warn { color: var(--color-warn); } .pp-bad { color: var(--color-bad); }
 .pp-dbar { display: inline-block; height: 8px; border-radius: 0 4px 4px 0; vertical-align: middle; margin-right: 6px; }
 .pp dl { display: grid; grid-template-columns: minmax(130px, max-content) 1fr; gap: 6px 14px; margin: 0; font-size: var(--cds-font-size-caption); }
@@ -245,17 +265,97 @@
   </section>
 
   <section class="pp-page" id="setup" hidden>
-    <div class="pp-card pp-tile" id="setup-head"><h2>What still stands between the pipeline and running on its own</h2><p class="pp-sub">Every "missing" row is something only you can provide: business details and channels in config.yaml, each market's attorney approval. Signatures, wire confirmations and calls always stay with you.</p>
+    <div class="pp-card pp-tile" id="setup-head"><h2>What still stands between the pipeline and running on its own</h2><p class="pp-sub">Click <b>Configure</b> on any area to enter its details or connect its services. What you save is kept in this dashboard, private to you, and the daily run applies it, so pushes to the repo never clear it. Signatures, wire confirmations and calls always stay with you.</p>
       <div class="pp-meter" role="progressbar" aria-label="Setup progress"><div data-draw="setupBar" data-source="health"></div></div><p class="pp-sub" style="margin-top:6px" data-draw="setupBarLabel" data-source="health">—</p></div>
-    <div class="pp-card" id="setup-areas"><h2>Progress by area</h2><p class="pp-sub">Done vs missing steps in each area.</p><div class="pp-chart" data-draw="setupChart" data-source="setupByArea"></div></div>
-    <div class="pp-card pp-wrap" id="setup-list">
+    <div class="pp-cards" id="setup-areas" data-draw="setupCards" data-source="readiness ownerSettings"></div>
+    <details class="pp-card" id="setup-list"><summary>Every setup step</summary><div class="pp-wrap">
       <table data-source="readiness" data-row-key="area,item">
         <thead><tr><th data-field="area">Area</th><th data-field="item">Item</th><th data-field="status">Status</th><th data-field="how_to_fix">How to fix</th><th data-field="unlocks">Unlocks</th></tr></thead>
         <tbody data-draw="readyRows"></tbody>
-      </table>
-    </div>
+      </table></div>
+    </details>
+
+    <dialog class="pp-dlg" id="pp-cfg" aria-labelledby="pp-cfg-h">
+      <form id="pp-cfg-form" novalidate>
+        <div class="pp-dlg-head"><h2 id="pp-cfg-h" data-draw="cfgTitle">—</h2><button type="button" class="pp-btn" id="pp-cfg-close" aria-label="Close">Close</button></div>
+        <p class="pp-sub">Saved in this dashboard, private to you. The next daily run applies it. Never enter bank details, card numbers, passwords or API keys here: the form refuses them.</p>
+        <ul class="pp-dlg-items" data-draw="cfgItems" data-source="readiness"></ul>
+
+        <div class="pp-area" data-area="business" hidden>
+          <label>Company legal name<input type="text" name="legal_name" maxlength="200" autocomplete="organization"></label>
+          <label>State of formation<select name="entity_state"><option value="">Choose…</option><option value="AL">AL</option><option value="AK">AK</option><option value="AZ">AZ</option><option value="AR">AR</option><option value="CA">CA</option><option value="CO">CO</option><option value="CT">CT</option><option value="DE">DE</option><option value="DC">DC</option><option value="FL">FL</option><option value="GA">GA</option><option value="HI">HI</option><option value="ID">ID</option><option value="IL">IL</option><option value="IN">IN</option><option value="IA">IA</option><option value="KS">KS</option><option value="KY">KY</option><option value="LA">LA</option><option value="ME">ME</option><option value="MD">MD</option><option value="MA">MA</option><option value="MI">MI</option><option value="MN">MN</option><option value="MS">MS</option><option value="MO">MO</option><option value="MT">MT</option><option value="NE">NE</option><option value="NV">NV</option><option value="NH">NH</option><option value="NJ">NJ</option><option value="NM">NM</option><option value="NY">NY</option><option value="NC">NC</option><option value="ND">ND</option><option value="OH">OH</option><option value="OK">OK</option><option value="OR">OR</option><option value="PA">PA</option><option value="RI">RI</option><option value="SC">SC</option><option value="SD">SD</option><option value="TN">TN</option><option value="TX">TX</option><option value="UT">UT</option><option value="VT">VT</option><option value="VA">VA</option><option value="WA">WA</option><option value="WV">WV</option><option value="WI">WI</option><option value="WY">WY</option></select></label>
+          <label>Business mailing address<input type="text" name="mailing_address" maxlength="200" autocomplete="street-address"></label>
+          <label>Business phone (answered by a person)<input type="tel" name="phone" maxlength="20" autocomplete="tel"></label>
+          <label>Business email<input type="email" name="email" maxlength="200" autocomplete="email"></label>
+          <label>Website<input type="url" name="website" maxlength="200" placeholder="https://"></label>
+          <label>Who signs contracts<input type="text" name="signer" maxlength="200" autocomplete="name"></label>
+          <label>Title company that holds earnest money<input type="text" name="title_company" maxlength="200"></label>
+        </div>
+
+        <div class="pp-area" data-area="channels" hidden>
+        <fieldset class="pp-ch"><legend>Letters sent without you</legend><p class="pp-sub">A print-and-mail service (for example Lob, PostGrid or Click2Mail) prints and posts approved letters. Enter the service and your account email. Its API key is never typed here: the daily run asks for it in Claude's secure credential form, then sends itself a test.</p>
+          <div class="pp-ch-status" data-draw="chStatus" data-ch="mail_sending" data-source="readiness">—</div>
+          
+          <label>Service<input type="text" name="mail_sending_provider" maxlength="200" autocomplete="off"></label>
+          <label>Address or account email<input type="text" name="mail_sending_address" maxlength="200" autocomplete="off"></label>
+          <label class="pp-check"><input type="checkbox" name="mail_sending_ready"> I've set this up. Please test it.</label>
+        </fieldset>
+        <fieldset class="pp-ch"><legend>Email sent without you</legend><p class="pp-sub">Sending through the Resend connector in Claude. Connect it, then enter the address emails come from (on your business domain).</p>
+          <div class="pp-ch-status" data-draw="chStatus" data-ch="email_sending" data-source="readiness">—</div>
+          <p><a class="pp-btn" href="https://claude.ai/settings/connectors" target="_blank" rel="noopener">Connect in Claude settings ↗</a></p>
+          <label>Service<input type="text" name="email_sending_provider" maxlength="200" autocomplete="off"></label>
+          <label>Address or account email<input type="text" name="email_sending_address" maxlength="200" autocomplete="off"></label>
+          <label class="pp-check"><input type="checkbox" name="email_sending_ready"> I've set this up. Please test it.</label>
+        </fieldset>
+        <fieldset class="pp-ch"><legend>Replies read automatically</legend><p class="pp-sub">The business mailbox's connector (for example Gmail) lets the reply desk read replies. Connect it, then enter the mailbox address.</p>
+          <div class="pp-ch-status" data-draw="chStatus" data-ch="inbox_connected" data-source="readiness">—</div>
+          <p><a class="pp-btn" href="https://claude.ai/settings/connectors" target="_blank" rel="noopener">Connect in Claude settings ↗</a></p>
+          <label>Service<input type="text" name="inbox_connected_provider" maxlength="200" autocomplete="off"></label>
+          <label>Address or account email<input type="text" name="inbox_connected_address" maxlength="200" autocomplete="off"></label>
+          <label class="pp-check"><input type="checkbox" name="inbox_connected_ready"> I've set this up. Please test it.</label>
+        </fieldset>
+        <fieldset class="pp-ch"><legend>Mailed replies arrive by email</legend><p class="pp-sub">A virtual mailbox (for example Earth Class Mail or iPostal1) scans letters sent to the business address and emails them to the business inbox. Enter the service and the address scans go to.</p>
+          <div class="pp-ch-status" data-draw="chStatus" data-ch="mail_scanning" data-source="readiness">—</div>
+          
+          <label>Service<input type="text" name="mail_scanning_provider" maxlength="200" autocomplete="off"></label>
+          <label>Address or account email<input type="text" name="mail_scanning_address" maxlength="200" autocomplete="off"></label>
+          <label class="pp-check"><input type="checkbox" name="mail_scanning_ready"> I've set this up. Please test it.</label>
+        </fieldset>
+        <fieldset class="pp-ch"><legend>Voicemails arrive by email</legend><p class="pp-sub">A phone service with voicemail-to-email (for example Google Voice or OpenPhone) sends transcripts to the business inbox. Enter the service and the business number.</p>
+          <div class="pp-ch-status" data-draw="chStatus" data-ch="voicemail_to_email" data-source="readiness">—</div>
+          
+          <label>Service<input type="text" name="voicemail_to_email_provider" maxlength="200" autocomplete="off"></label>
+          <label>Business number<input type="text" name="voicemail_to_email_address" maxlength="200" autocomplete="off"></label>
+          <label class="pp-check"><input type="checkbox" name="voicemail_to_email_ready"> I've set this up. Please test it.</label>
+        </fieldset>
+        </div>
+
+        <div class="pp-area" data-area="autonomy" hidden>
+          <label>Outreach<select name="outreach"><option value="drafts_only">Drafts only: you approve every letter</option><option value="autonomous">Autonomous: letters go out without per-message approval</option></select></label>
+          <p class="pp-sub">Even when autonomous, a market sends on its own only once a local attorney has approved its templates and the sending channels pass their test. The compliance check and contact limits always apply.</p>
+          <label class="pp-check"><input type="checkbox" name="confirmed"> I authorize autonomous outreach under those conditions.</label>
+          <label>Type AUTHORIZE to confirm<input type="text" name="confirm_text" maxlength="20" autocomplete="off"></label>
+          <p class="pp-sub">Not configurable, always you: signing, earnest-money wires (confirmed by phone with the title company), phone calls and texts. The system never holds bank details or moves money.</p>
+        </div>
+
+        <div class="pp-area" data-area="market" hidden>
+          <label>Attorney who reviewed the packet<input type="text" name="attorney_name" maxlength="200"></label>
+          <label>Law firm<input type="text" name="attorney_firm" maxlength="200"></label>
+          <label>Date the templates were approved<input type="date" name="approved_on" min="2026-01-01" max="2099-12-31"></label>
+          <label>Where the written approval is (email subject, or file in the repo)<input type="text" name="approval_doc" maxlength="200"></label>
+          <fieldset class="pp-licence" hidden><legend>State licence</legend><p class="pp-sub">This state requires a licence (or a licensed partner) for wholesaling. The Legal Advisor checks what you enter against the state's legal file before outreach is allowed.</p>
+            <label class="pp-check"><input type="checkbox" name="licensed_or_partnered"> I hold the licence or work with a licensed partner here.</label>
+            <label>Licence number or partner name<input type="text" name="license_ref" maxlength="200"></label>
+          </fieldset>
+        </div>
+
+        <p class="pp-dlg-msg" data-draw="cfgMsg" role="status"></p>
+        <div class="pp-dlg-foot"><button type="button" class="pp-btn" id="pp-cfg-cancel">Cancel</button><button type="submit" class="pp-btn pp-btn-primary">Save</button></div>
+      </form>
+    </dialog>
   </section>
 </div>
 
 <script src="app.js"></script>
 <script src="charts.js"></script>
+<script src="setup.js"></script>

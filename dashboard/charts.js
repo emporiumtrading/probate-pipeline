@@ -310,6 +310,4 @@
       if (r.note) { const nt = document.createElement('div'); nt.className = 'pp-lbl'; nt.textContent = r.note; card.appendChild(nt); }
       grid.appendChild(card); });
     el.appendChild(grid); });
-  dash.draw('setupChart', (el) => { const d = dash.data('setupByArea'); if (!ok(d)) return C.notReady(el, d);
-    C.stack2(el, d.data, { title: 'Setup progress by area', label: (r) => r.area, a: { key: 'done', label: 'Done', color: 'var(--color-ok)' }, b: { key: 'missing', label: 'Missing', color: 'var(--color-warn)' } }); });
 })();

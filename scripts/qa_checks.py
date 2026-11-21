@@ -144,7 +144,7 @@ for name, need in (("readiness.csv", ["area", "item", "status"]), ("buyers.csv",
         if bad in head:
             fails.append(f"{name} exposes {bad}: dashboard datasets must not carry names or contact details")
 rd = rows("readiness.csv")
-if rd and any(r["status"] not in ("done", "missing") for r in rd):
+if rd and any(r["status"] not in ("done", "missing", "waiting for check") for r in rd):
     fails.append("readiness.csv has a status other than done/missing")
 hl = rows("health.csv")
 if hl:
@@ -234,6 +234,13 @@ if os.path.exists(_srp):
 for _f in glob.glob(os.path.join(ROOT, ".claude/skills/probate-wholesale-deal/agents/*.md")):
     if "## Self-review" not in open(_f).read():
         fails.append(f"{os.path.relpath(_f, ROOT)}: missing the '## Self-review' section (references/self-review.md)")
+# owner settings from the dashboard's Setup page: only known fields, never bank details or secrets
+sys.path.insert(0, os.path.join(ROOT, "scripts"))
+import owner_settings as _os_
+try:
+    _os_.load()
+except _os_.Refused as e:
+    fails.append(f"pipeline/owner-settings.json: {e}")
 def guard_parts():
     dr = open(os.path.join(ROOT, ".claude/skills/probate-wholesale-deal/references/daily-run.md")).read()
     hl = re.search(r"## Hard limits.*?(?=\n## )", dr, re.S)

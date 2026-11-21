@@ -245,34 +245,47 @@ def cfg_block(name):
     return out
 biz, chan = cfg_block("business"), cfg_block("channels")
 autonomy = cfg_block("autonomy")
+# Owner settings saved on the dashboard's Setup page override config.yaml (scripts/owner_settings.py).
+sys.path.insert(0, os.path.join(ROOT, "scripts"))
+import owner_settings
+OV = owner_settings.load()
+biz.update({k: v for k, v in OV.get("business", {}).items() if v and k in owner_settings.SCHEMA["business"]})
+_och = OV.get("channels", {})
+if OV.get("autonomy", {}).get("outreach"):
+    autonomy["outreach"] = OV["autonomy"]["outreach"]
 ready = []
-def item(area, name, done, fix, unlocks):
-    ready.append({"area": area, "item": name, "status": "done" if done else "missing", "how_to_fix": fix + " (steps: docs/owner-setup.md)", "unlocks": unlocks})
+def item(area, name, status, fix, unlocks, area_id, key):
+    st = status if isinstance(status, str) else ("done" if status else "missing")
+    ready.append({"area": area, "item": name, "status": st, "how_to_fix": fix, "unlocks": unlocks, "area_id": area_id, "item_key": key})
 BIZ_LABEL = {"legal_name": "Company legal name", "entity_state": "State of formation", "mailing_address": "Business mailing address",
              "phone": "Business phone answered by a person", "email": "Business email", "website": "Website",
              "signer": "Who signs contracts", "title_company": "Title company for earnest money"}
 for k, lbl in BIZ_LABEL.items():
-    item("Business identity", lbl, bool(biz.get(k)), f"config.yaml → business.{k}", "Attorney packets, letters, trust with attorneys")
-CH = {"mail_sending": ("Letters sent without you", "Connect a print-and-mail service, then set channels.mail_sending: true"),
-      "email_sending": ("Email sent without you", "Finish connecting the Resend connector in claude.ai settings, then set channels.email_sending: true"),
-      "inbox_connected": ("Replies read automatically", "Connect the business mailbox, then set channels.inbox_connected: true"),
-      "mail_scanning": ("Mailed replies arrive by email", "Virtual mailbox that scans mail to the business email, then set channels.mail_scanning: true"),
-      "voicemail_to_email": ("Voicemails arrive by email", "Phone service with voicemail-to-email, then set channels.voicemail_to_email: true")}
+    item("Business identity", lbl, bool(biz.get(k)), "Setup page → Business identity → Configure", "Attorney packets, letters, trust with attorneys", "business", k)
+CH = {"mail_sending": ("Letters sent without you", "Open a print-and-mail account, enter it under Setup → Channels; the runner then asks for its API key in Claude's secure form and tests it"),
+      "email_sending": ("Email sent without you", "Connect the Resend connector (Setup → Channels → Connect), enter the sending address; the runner tests it"),
+      "inbox_connected": ("Replies read automatically", "Connect the business mailbox's connector (Setup → Channels → Connect); the runner tests it"),
+      "mail_scanning": ("Mailed replies arrive by email", "Virtual mailbox that scans mail to the business email; enter it under Setup → Channels"),
+      "voicemail_to_email": ("Voicemails arrive by email", "Phone service with voicemail-to-email; enter it under Setup → Channels")}
 for k, (lbl, fix) in CH.items():
-    item("Channels", lbl, chan.get(k) == "true", fix, "Reply desk and sending with no manual steps")
-item("Autonomy", "Outreach set to autonomous", autonomy.get("outreach") == "autonomous", "config.yaml → autonomy.outreach: autonomous (after the items above)", "Letters go out without per-message approval")
+    st = "done" if chan.get(k) == "true" else ("waiting for check" if _och.get(f"{k}_ready") else "missing")
+    item("Channels", lbl, st, fix, "Reply desk and sending with no manual steps", "channels", k)
+item("Autonomy", "Outreach set to autonomous", autonomy.get("outreach") == "autonomous", "Setup page → Autonomy → Configure (after the items above)", "Letters go out without per-message approval", "autonomy", "outreach")
 for m in live:
     body = (re.search(rf"\n  - id: {re.escape(m['market'])}\n(.*?)(?=\n  - id: |\n\S|\Z)", cfg_txt, re.S) or [None, ""])
     body = body.group(1) if hasattr(body, "group") else ""
-    appr = (re.search(r"attorney_approved:\s*([0-9-]+)", body) or [None, ""])[1]
+    mo = OV.get(f"market-{m['market']}", {})
+    appr = (re.search(r"attorney_approved:\s*([0-9-]+)", body) or [None, ""])[1]  # recorded by the Legal Advisor after checking the signed approval
     pk = os.path.exists(os.path.join(ROOT, "legal", "attorney-packets", f"{m['market']}.md"))
     lbl = f"{m['county']} County, {m['state']}"
+    aid = f"market-{m['market']}"
     if m["outreach_allowed"] != "True" and m["outreach_allowed"] != "true":
-        item(lbl, "Outreach allowed by state rules", False, f"legal/{m['state']}.md blocking issues (license or licensed partner)", "Any outreach in this market")
-    item(lbl, "Attorney packet built", pk, "python3 scripts/build_attorney_packet.py", "Attorney review")
-    item(lbl, "Attorney approved templates", bool(appr), f"Send legal/attorney-packets/{m['market']}.md; then add attorney_approved: <date> to the market", "Autonomous sending here")
+        item(lbl, "Outreach allowed by state rules", "waiting for check" if mo.get("licensed_or_partnered") else False,
+             f"Setup page → {lbl} → Configure: licence or licensed partner (Legal Advisor confirms against legal/{m['state']}.md)", "Any outreach in this market", aid, "licensed_or_partnered")
+    item(lbl, "Attorney packet built", pk, "Built automatically by the runner (scripts/build_attorney_packet.py)", "Attorney review", aid, "packet")
+    item(lbl, "Attorney approved templates", True if appr else ("waiting for check" if mo.get("approved_on") else False), f"Send legal/attorney-packets/{m['market']}.md to a local attorney; record the approval on Setup page → {lbl} → Configure", "Autonomous sending here", aid, "approved_on")
 
-write("readiness.csv", ["area", "item", "status", "how_to_fix", "unlocks"], ready)
+write("readiness.csv", ["area", "item", "status", "how_to_fix", "unlocks", "area_id", "item_key"], ready)
 
 # ---- buyers per market (counts only, no names) ----
 bpath = os.path.join(ROOT, "pipeline", "buyers", "buyers.csv")
@@ -393,7 +406,7 @@ _contract = sum(1 for l in leads if 8 <= _order(l["stage"]) <= 15)
 _buyerfound = sum(1 for l in leads if 11 <= _order(l["stage"]) <= 15)
 _closed = sum(1 for l in leads if l["stage"] in ("Closed", "Paid"))
 _vetted = sum(1 for b in _buy if (b.get("status") or "").lower() in ("vetted", "active", "confirmed"))
-_outreach_mode = (re.search(r"outreach:\s*(\w+)", open(os.path.join(ROOT, "config.yaml")).read()) or [None, "drafts_only"])[1]
+_outreach_mode = autonomy.get("outreach", "drafts_only")  # effective: Setup page overrides config.yaml
 def W(worker, does, done, done_label, result, result_label, last, status, note=""):
     rate = f"{round(100 * result / done)}%" if done else ""
     return {"worker": worker, "does": does, "done": done, "done_label": done_label, "result": result, "result_label": result_label,
