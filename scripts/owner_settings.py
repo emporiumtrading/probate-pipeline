@@ -108,6 +108,8 @@ def parse_db_list(text):
         j = json.loads(text)
         if isinstance(j, dict) and "areas" in j:
             return j["areas"]
+        if isinstance(j, dict) and isinstance(j.get("docs"), list):  # db_list's raw {"docs": [...]} envelope
+            return {d["id"]: d["data"] for d in j["docs"] if isinstance(d, dict) and "id" in d and isinstance(d.get("data"), dict)}
         if isinstance(j, dict) and "id" in j and isinstance(j.get("data"), dict):
             return {j["id"]: j["data"]}  # a db_list output with a single document
         if isinstance(j, dict) and all(isinstance(v, dict) for v in j.values()):

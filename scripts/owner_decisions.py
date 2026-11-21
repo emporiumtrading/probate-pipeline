@@ -46,6 +46,12 @@ def clean(queue, lead_id, d):
 
 def parse(text):
     docs = {}
+    try:  # db_list's raw {"docs": [...]} envelope (one JSON document)
+        j = json.loads(text)
+        if isinstance(j, dict) and isinstance(j.get("docs"), list):
+            return {d["id"]: d["data"] for d in j["docs"] if isinstance(d, dict) and "id" in d and isinstance(d.get("data"), dict)}
+    except ValueError:
+        pass
     for line in text.splitlines():
         line = line.strip()
         if line.startswith("{"):

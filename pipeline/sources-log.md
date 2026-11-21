@@ -121,3 +121,5 @@
 | 2026-11-21 | fl-hillsborough | publicrec.hillsclerk.com/Probate/dailyfilings/ProbateFiling_20261120.csv | worked | 52 rows; 4 estate decedents; 2 parcel matches |
 | 2026-11-21 | oh-franklin | probatesearch.franklincountyohio.gov case-by-open-date index | not found | exact URL was never recorded; site root 403, /netdata/ index error; court's General Case Search page has no direct link. Source Mapper to rediscover and record the exact URL |
 | 2026-11-21 | oh-franklin | probatesearch PBODateInx.ndm (case-by-open-date) | worked | exact pattern recorded in pipeline/coverage.csv (string=YYYYMMDD, pagination via stringf) |
+| 2026-11-21 | tx-harris | cclerk.hctx.net/applications/websearch/CourtSearch.aspx?CaseType=Probate (txtFrom/txtTo 11/19–11/21) | unavailable | 3rd run in a row; still broken |
+| 2026-11-21 | tn-shelby | www.probatecourt.shelbycountytn.gov | no response | 4th day down |
