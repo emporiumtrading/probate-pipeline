@@ -1,174 +1,148 @@
 <meta name="dash-one-writer">
 <style>
-.pp { font-family: var(--font-anthropic-sans); color: var(--color-fg); display: flex; flex-direction: column; gap: var(--cds-gap-lg); }
+.pp { --pp-accent: var(--color-fg); font-family: var(--font-anthropic-sans); color: var(--color-fg); display: flex; flex-direction: column; gap: var(--cds-gap-lg); }
 .pp h1 { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: var(--cds-font-size-title); margin: 0; }
-.pp h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0 0 var(--cds-gap-sm); }
+.pp h2 { font-size: var(--cds-font-size-heading); font-weight: var(--cds-font-weight-medium); margin: 0 0 4px; }
+.pp h3 { font-size: var(--cds-font-size-body); font-weight: var(--cds-font-weight-medium); margin: 0; }
 .pp p { margin: 0; }
-.pp .pp-lede { margin-top: var(--cds-gap-xs); color: var(--color-fg-muted); }
-.pp-bar { display: flex; flex-wrap: wrap; gap: var(--cds-gap-md); align-items: end; justify-content: space-between; }
-.pp-filters { display: flex; flex-wrap: wrap; gap: var(--cds-gap-md); align-items: end; }
-.pp-filters label { display: flex; flex-direction: column; gap: 4px; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
-.pp-tabs { display: flex; flex-wrap: wrap; gap: 4px; border-bottom: 1px solid var(--color-border-line); }
-.pp-tab { font: inherit; font-size: var(--cds-font-size-caption); background: none; border: 0; border-bottom: 2px solid transparent; padding: 8px 10px; color: var(--color-fg-muted); cursor: pointer; }
-.pp-tab[aria-selected="true"] { color: var(--color-fg); border-bottom-color: var(--color-fg); font-weight: var(--cds-font-weight-medium); }
-.pp-page { display: flex; flex-direction: column; gap: var(--cds-gap-lg); }
-.pp-tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(128px, 1fr)); gap: var(--cds-gap-md); }
-.pp-page[hidden] { display: none; }
-.pp-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); }
-.pp-tile .pp-num { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: 2rem; font-variant-numeric: tabular-nums; line-height: 1.1; }
-.pp-tile .pp-lbl { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
-.pp-two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: var(--cds-gap-md); }
+.pp .pp-sub { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin: 0 0 var(--cds-gap-sm); }
+.pp .pp-muted { color: var(--color-fg-muted); }
+.pp-hero { display: flex; flex-direction: column; gap: 6px; padding: var(--cds-pad-lg); border-radius: var(--cds-radius); border: 1px solid var(--color-border-line);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--pp-accent) 12%, var(--color-panel)), var(--color-panel) 70%); }
+.pp-hero .pp-lede { color: var(--color-fg-muted); }
+.pp-fresh { font-size: var(--cds-font-size-caption); padding: 4px 10px; border-radius: 999px; align-self: flex-start; background: var(--color-bg); border: 1px solid var(--color-border-line); }
+.pp-fresh.pp-bad { color: var(--color-bad); border-color: var(--color-bad); }
+.pp-fresh.pp-neg { color: var(--color-warn); border-color: var(--color-warn); }
+.pp-bar { display: flex; flex-wrap: wrap; gap: var(--cds-gap-md); align-items: end; justify-content: space-between; position: sticky; top: 0; z-index: 3; background: var(--color-bg); padding: 6px 0; }
+.pp-tabs { display: flex; gap: 2px; overflow-x: auto; scrollbar-width: none; border-bottom: 1px solid var(--color-border-line); max-width: 100%; }
+.pp-tab { font: inherit; font-size: var(--cds-font-size-caption); background: none; border: 0; border-bottom: 2px solid transparent; padding: 8px 10px; color: var(--color-fg-muted); cursor: pointer; white-space: nowrap; display: inline-flex; gap: 6px; align-items: center; }
+.pp-tab[aria-selected="true"] { color: var(--color-fg); border-bottom-color: var(--pp-accent); font-weight: var(--cds-font-weight-medium); }
+.pp-badge { font-size: 11px; line-height: 16px; min-width: 16px; padding: 0 5px; border-radius: 999px; background: var(--color-warn); color: var(--color-bg); text-align: center; }
+.pp-badge:empty { display: none; }
+.pp-filters { display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm); align-items: end; }
+.pp-filters label { display: flex; flex-direction: column; gap: 3px; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.pp-btn { font: inherit; font-size: var(--cds-font-size-caption); padding: 6px 10px; border-radius: var(--cds-radius); border: 1px solid var(--color-border-line); background: var(--color-panel); color: var(--color-fg); cursor: pointer; }
+.pp-page { display: flex; flex-direction: column; gap: var(--cds-gap-md); }
+.pp-page[hidden], .pp [hidden] { display: none !important; }
+.pp-grid { display: grid; gap: var(--cds-gap-md); grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); }
+.pp-tiles { display: grid; gap: var(--cds-gap-md); grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); }
+.pp-card { background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: var(--cds-pad-lg); min-width: 0; }
+.pp-tile { position: relative; overflow: hidden; display: flex; flex-direction: column; gap: 4px; }
+.pp-tile::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 3px; background: var(--pp-tile, var(--pp-accent)); }
+.pp-tile.pp-t-ok { --pp-tile: var(--color-ok); } .pp-tile.pp-t-warn { --pp-tile: var(--color-warn); } .pp-tile.pp-t-bad { --pp-tile: var(--color-bad); } .pp-tile.pp-t-muted { --pp-tile: var(--color-border-line); }
+.pp-num { font-family: var(--font-anthropic-serif); font-weight: 400; font-size: 1.9rem; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.pp-lbl { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.pp-meter { height: 8px; border-radius: 999px; background: color-mix(in srgb, var(--pp-tile, var(--pp-accent)) 18%, transparent); overflow: hidden; margin-top: 4px; }
+.pp-meter > div { height: 100%; border-radius: 999px; background: var(--pp-tile, var(--pp-accent)); width: 0; }
+.pp-chart { position: relative; min-height: 160px; }
+.pp-chart svg { display: block; overflow: visible; }
+.pp-chart text { fill: var(--cds-text-secondary); font-size: var(--cds-font-size-caption); }
+.pp-chart text.pp-val { fill: var(--color-fg); }
+.pp-legend { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); margin-top: 6px; }
+.pp-legend span { display: inline-flex; align-items: center; gap: 5px; }
+.pp-legend i { width: 10px; height: 10px; border-radius: 3px; display: inline-block; }
+.pp-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); box-shadow: var(--cds-shadow-popover); border-radius: var(--cds-radius); padding: 5px 8px; font-size: var(--cds-font-size-caption); white-space: nowrap; z-index: 4; color: var(--color-fg); }
 .pp-wrap { overflow-x: auto; }
 .pp table { border-collapse: collapse; width: 100%; font-size: var(--cds-font-size-caption); }
-.pp th, .pp td { text-align: left; padding: 6px 8px; border-bottom: 1px solid var(--color-border-line); white-space: nowrap; }
-.pp td.pp-wrapcell { white-space: normal; min-width: 220px; }
-.pp th { color: var(--color-fg-muted); font-weight: var(--cds-font-weight-medium); }
+.pp th, .pp td { text-align: left; padding: 7px 8px; border-bottom: 1px solid var(--color-border-line); white-space: nowrap; vertical-align: top; }
+.pp thead th { position: sticky; top: 0; background: var(--color-panel); color: var(--color-fg-muted); font-weight: var(--cds-font-weight-medium); }
 .pp td.pp-n, .pp th.pp-n { text-align: right; font-variant-numeric: tabular-nums; }
+.pp td.pp-w { white-space: normal; min-width: 200px; }
 .pp tr.pp-click { cursor: pointer; }
-.pp tr.pp-click:hover td { background: var(--color-bg); }
-.pp tr.pp-sel td { font-weight: var(--cds-font-weight-medium); }
-.pp .pp-go { color: var(--color-ok); font-weight: var(--cds-font-weight-medium); }
-.pp .pp-neg { color: var(--color-warn); font-weight: var(--cds-font-weight-medium); }
-.pp .pp-bad { color: var(--color-bad); font-weight: var(--cds-font-weight-medium); }
-.pp .pp-muted { color: var(--color-fg-muted); }
-.pp-chart { position: relative; min-height: 180px; }
-.pp-chart text { fill: var(--cds-text-secondary); font-size: var(--cds-font-size-caption); }
-.pp-tip { position: absolute; pointer-events: none; background: var(--cds-surface-popover); border: 1px solid var(--cds-border); box-shadow: var(--cds-shadow-popover); border-radius: var(--cds-radius); padding: 4px 8px; font-size: var(--cds-font-size-caption); white-space: nowrap; z-index: 2; }
-.pp dl { display: grid; grid-template-columns: minmax(140px, max-content) 1fr; gap: 6px 16px; margin: 0; font-size: var(--cds-font-size-caption); }
-.pp dt { color: var(--color-fg-muted); }
-.pp dd { margin: 0; }
-.pp details summary { cursor: pointer; color: var(--color-fg-muted); }
-.pp thead th { position: sticky; top: 0; background: var(--color-panel); z-index: 1; }
-.pp tbody tr:hover td { background: var(--color-bg); }
-#mk-coverage, #setup-list, #ops-sources { max-height: 560px; overflow: auto; }
-.pp-chip { display: inline-block; padding: 1px 8px; border-radius: 999px; line-height: 1.6; background: color-mix(in srgb, currentColor 12%, transparent); }
-.pp-badge { display: inline-block; min-width: 18px; margin-left: 6px; padding: 0 6px; border-radius: 999px; font-size: 11px; line-height: 18px; text-align: center; background: var(--color-warn); color: var(--color-panel); font-weight: var(--cds-font-weight-medium); }
-.pp-actions ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm); }
-.pp-action { font: inherit; font-size: var(--cds-font-size-caption); cursor: pointer; border: 1px solid var(--color-border-line); border-left: 3px solid var(--color-fg-muted); background: var(--color-bg); color: var(--color-fg); border-radius: var(--cds-radius); padding: 6px 10px; text-align: left; }
-.pp-action-warn { border-left-color: var(--color-warn); }
-.pp-action-bad { border-left-color: var(--color-bad); }
-.pp-action:hover { background: var(--color-panel); }
-.pp-toggles { display: flex; flex-wrap: wrap; gap: var(--cds-gap-md); align-items: center; margin: 0 0 var(--cds-gap-sm); font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
-.pp-toggles label { display: inline-flex; gap: 6px; align-items: center; cursor: pointer; }
-.pp-progress { height: 8px; border-radius: 999px; background: var(--color-bg); overflow: hidden; border: 1px solid var(--color-border-line); margin: var(--cds-gap-sm) 0 4px; }
-.pp-progress > div { height: 100%; width: 0; background: var(--color-ok); transition: width .3s; }
-.pp-tile.pp-click:hover, .pp-tile.pp-click:focus-visible { border-color: var(--color-fg-muted); cursor: pointer; }
-.pp-tab:focus-visible, .pp-action:focus-visible, .pp tr.pp-click:focus-visible td { outline: 2px solid var(--color-fg); outline-offset: -2px; }
-@media (max-width: 640px) { .pp-bar { flex-direction: column; align-items: stretch; } .pp-tile .pp-num { font-size: 1.6rem; } .pp-card { padding: var(--cds-pad-md, 12px); } }
-.pp, .pp-card, .pp-page { min-width: 0; }
-.pp-two { grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr)); align-items: start; }
-.pp-tiles { grid-template-columns: repeat(auto-fit, minmax(min(100%, 128px), 1fr)); }
-.pp-tile .pp-num { font-size: clamp(1.4rem, 0.9rem + 1.3vw, 2rem); overflow-wrap: anywhere; }
-.pp-tile .pp-lbl, .pp p, .pp dd, .pp h2 { overflow-wrap: anywhere; }
-.pp th, .pp td { white-space: normal; overflow-wrap: break-word; vertical-align: top; }
-.pp th { white-space: nowrap; }
-.pp td.pp-n, .pp th.pp-n { white-space: nowrap; }
-.pp td.pp-wrapcell { min-width: 180px; }
-.pp td .pp-chip { white-space: nowrap; }
-.pp-chart { min-height: 0; }
-.pp-chart:empty { min-height: 120px; }
-.pp-chart svg { display: block; max-width: 100%; height: auto; }
-.pp .dash-select { max-width: 100%; }
-@media (max-width: 760px) {
-  .pp-bar > * { min-width: 0; max-width: 100%; }
-  .pp-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: thin; width: 100%; }
-  .pp-tab { white-space: nowrap; }
-  .pp dl { grid-template-columns: 1fr; gap: 2px 0; }
-  .pp dd { margin-bottom: 6px; }
-  .pp-filters { width: 100%; }
-  .pp-filters label { flex: 1 1 140px; min-width: 0; }
-  .pp-filters select { width: 100%; min-width: 0; }
-}
-@media print { .pp-tabs, .pp-filters { display: none; } }
+.pp tr.pp-click:hover td { background: color-mix(in srgb, var(--pp-accent) 6%, transparent); }
+.pp tr.pp-sel td { background: color-mix(in srgb, var(--pp-accent) 10%, transparent); font-weight: var(--cds-font-weight-medium); }
+.pp-chip { display: inline-flex; align-items: center; gap: 5px; padding: 1px 8px; border-radius: 999px; font-size: 11px; border: 1px solid currentColor; white-space: nowrap; }
+.pp-chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+.pp-tile .pp-chip { white-space: normal; max-width: 100%; }
+.pp-chart:has(> p.pp-sub:only-child) { min-height: 0; }
+.pp-ok { color: var(--color-ok); } .pp-warn { color: var(--color-warn); } .pp-bad { color: var(--color-bad); }
+.pp-dbar { display: inline-block; height: 8px; border-radius: 0 4px 4px 0; vertical-align: middle; margin-right: 6px; }
+.pp dl { display: grid; grid-template-columns: minmax(130px, max-content) 1fr; gap: 6px 14px; margin: 0; font-size: var(--cds-font-size-caption); }
+.pp dt { color: var(--color-fg-muted); } .pp dd { margin: 0; }
+.pp details summary { cursor: pointer; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
+@media (prefers-reduced-motion: no-preference) { .pp-meter > div { transition: width var(--cds-dur-slow) var(--cds-ease-out); } }
+@media print { .pp-bar { position: static; } .pp-tabs, .pp-filters { display: none; } }
 </style>
 
 <div class="pp">
-  <header id="top">
+  <header class="pp-hero" id="top">
     <h1>Probate Operations</h1>
-    <p class="pp-lede"><b data-draw="tOpps" data-source="kpis" data-field="opps" data-row="0">—</b> opportunities worth <b data-draw="tEarn" data-source="kpis" data-field="earnings" data-row="0">—</b> in potential earnings across <b data-draw="tMk" data-source="kpis" data-field="markets_live" data-row="0">—</b> live counties; <b data-draw="tQ" data-source="kpis" data-field="queue" data-row="0">—</b> items are waiting on you.</p>
-    <p class="pp-lede pp-muted" data-draw="freshness" data-source="health">—</p>
+    <p class="pp-lede"><b data-draw="tOpps" data-source="kpis" data-field="opps" data-row="0">—</b> opportunities worth <b data-draw="tEarn" data-source="kpis" data-field="earnings" data-row="0">—</b> in potential earnings across <b data-draw="tMk" data-source="kpis" data-field="markets_live" data-row="0">—</b> live counties. <b data-draw="tQ" data-source="kpis" data-field="queue" data-row="0">—</b> items are waiting on you.</p>
+    <p class="pp-fresh" data-draw="freshness" data-source="health">—</p>
   </header>
 
   <div class="pp-bar">
     <nav class="pp-tabs" role="tablist" aria-label="Pages">
       <button class="pp-tab" role="tab" data-page="overview" aria-selected="true">Overview</button>
-      <button class="pp-tab" role="tab" data-page="opportunities" aria-selected="false">Opportunities</button>
+      <button class="pp-tab" role="tab" data-page="opportunities" aria-selected="false">Opportunities <span class="pp-badge" data-draw="bOpps" data-source="kpis" data-field="opps" data-row="0"></span></button>
       <button class="pp-tab" role="tab" data-page="pipeline" aria-selected="false">Pipeline</button>
       <button class="pp-tab" role="tab" data-page="deal" aria-selected="false">Deal detail</button>
-      <button class="pp-tab" role="tab" data-page="queues" aria-selected="false">Your queues<span class="pp-badge" data-draw="badgeQueues" data-source="queueCounts" hidden></span></button>
+      <button class="pp-tab" role="tab" data-page="queues" aria-selected="false">Your queues <span class="pp-badge" data-draw="bQueue" data-source="kpis" data-field="queue" data-row="0"></span></button>
       <button class="pp-tab" role="tab" data-page="markets" aria-selected="false">Markets &amp; legal</button>
       <button class="pp-tab" role="tab" data-page="operations" aria-selected="false">Operations</button>
-      <button class="pp-tab" role="tab" data-page="setup" aria-selected="false">Setup &amp; health<span class="pp-badge" data-draw="badgeSetup" data-source="health" hidden></span></button>
+      <button class="pp-tab" role="tab" data-page="setup" aria-selected="false">Setup <span class="pp-badge" data-draw="bSetup" data-source="setupCounts" data-field="missing" data-row="0"></span></button>
     </nav>
     <div class="pp-filters" id="filters">
       <label>State<select class="dash-select" data-draw="stateSel" aria-label="State" data-source="markets"></select></label>
       <label>County<select class="dash-select" data-draw="countySel" aria-label="County" data-source="markets"></select></label>
+      <button class="pp-btn" id="pp-reset" type="button">Clear filters</button>
     </div>
   </div>
 
   <section class="pp-page" id="overview">
-    <div class="pp-card pp-actions" id="ov-actions"><h2>Needs you today</h2><ul data-draw="actionList" data-source="health queueCounts"></ul></div>
     <div class="pp-tiles">
       <div class="pp-card pp-tile"><div class="pp-num" data-draw="kOpps" data-source="kpis" data-field="opps" data-row="0">—</div><div class="pp-lbl">Opportunities (GO / NEGOTIATE)</div></div>
-      <div class="pp-card pp-tile"><div class="pp-num" data-draw="kEarn" data-source="kpis" data-field="earnings" data-row="0">—</div><div class="pp-lbl">Total potential earnings</div></div>
+      <div class="pp-card pp-tile pp-t-ok"><div class="pp-num" data-draw="kEarn" data-source="kpis" data-field="earnings" data-row="0">—</div><div class="pp-lbl">Total potential earnings</div></div>
       <div class="pp-card pp-tile"><div class="pp-num" data-draw="kBest" data-source="kpis" data-field="best" data-row="0">—</div><div class="pp-lbl">Highest single deal</div></div>
-      <div class="pp-card pp-tile"><div class="pp-num" data-draw="kQ" data-source="kpis" data-field="queue" data-row="0">—</div><div class="pp-lbl">Waiting on you (approve, sign, wire)</div></div>
+      <div class="pp-card pp-tile pp-t-warn"><div class="pp-num" data-draw="kQ" data-source="kpis" data-field="queue" data-row="0">—</div><div class="pp-lbl">Waiting on you</div></div>
       <div class="pp-card pp-tile"><div class="pp-num" data-draw="kContract" data-source="kpis" data-field="under_contract" data-row="0">—</div><div class="pp-lbl">Under contract</div></div>
-      <div class="pp-card pp-tile"><div class="pp-num" data-draw="kClosed" data-source="pace" data-field="closed" data-row="0">—</div><div class="pp-lbl">Closed this month, of <span data-draw="kTarget" data-source="pace" data-field="target_closings" data-row="0">—</span> target</div></div>
-      <div class="pp-card pp-tile pp-click" tabindex="0" onclick="window.ppShow('setup')"><div class="pp-num" data-draw="kReady" data-source="health" data-field="readiness_done" data-row="0">—</div><div class="pp-lbl">Setup steps done toward running on its own</div></div>
-      <div class="pp-card pp-tile"><div class="pp-num" data-draw="kReplies" data-source="health" data-field="replies_waiting" data-row="0">—</div><div class="pp-lbl">Replies waiting for an answer</div></div>
+      <div class="pp-card pp-tile pp-t-ok"><div class="pp-num" data-draw="kClosed" data-source="pace" data-field="closed" data-row="0">—</div><div class="pp-lbl">Closed this month, of <span data-draw="kTarget" data-source="pace" data-field="target_closings" data-row="0">—</span> target</div><div class="pp-meter" role="progressbar" aria-label="Closings toward monthly target"><div data-draw="paceMeter" data-source="pace"></div></div></div>
     </div>
-    <div class="pp-two">
-      <div class="pp-card" id="ov-earn"><h2>Top potential earnings</h2><div class="pp-chart" data-draw="earnChart" data-source="opps"></div></div>
-      <div class="pp-card" id="ov-stage"><h2>Deals by stage</h2><div class="pp-chart" data-draw="stageChart" data-source="stageCounts"></div></div>
+    <div class="pp-grid">
+      <div class="pp-card" id="ov-funnel"><h2>Where every deal is</h2><p class="pp-sub">Active deals at each stage, research to paid. Click a bar to open that stage.</p><div class="pp-chart" data-draw="funnelChart" data-source="stageCounts"></div></div>
+      <div class="pp-card" id="ov-state"><h2>Potential earnings by state</h2><p class="pp-sub">Sum of potential earnings on GO and NEGOTIATE deals.</p><div class="pp-chart" data-draw="stateEarnChart" data-source="earnByState"></div></div>
     </div>
-    <div class="pp-card" id="ov-pace"><h2>Pace to <span data-draw="pTarget" data-source="pace" data-field="target_closings" data-row="0">—</span> closings this month (all markets)</h2><div class="pp-chart" data-draw="paceChart" data-source="pace"></div></div>
+    <div class="pp-card" id="ov-top"><h2>Top 10 deals by potential earnings</h2><p class="pp-sub">Click a bar to open the deal.</p><div class="pp-chart" data-draw="topChart" data-source="opps"></div></div>
+    <div class="pp-card" id="ov-pace"><h2>Pace to <span data-draw="pTarget" data-source="pace" data-field="target_closings" data-row="0">—</span> closings this month</h2><p class="pp-sub">All markets. The dashed line is the monthly target.</p><div class="pp-chart" data-draw="paceChart" data-source="pace"></div></div>
   </section>
 
   <section class="pp-page" id="opportunities" hidden>
-    <p class="pp-muted">Only GO and NEGOTIATE deals, highest potential earnings first. Click a row to open the deal. Potential earnings = cash-buyer max − target contract price.</p>
-    <div class="pp-card pp-wrap">
+    <div class="pp-grid">
+      <div class="pp-card" id="op-scatter"><h2>Value vs earnings</h2><p class="pp-sub">Each dot is a deal: after-repair value across, potential earnings up. Click a dot to open it.</p><div class="pp-chart" data-draw="scatterChart" data-source="opps"></div></div>
+      <div class="pp-card" id="op-city"><h2>Opportunities by city</h2><p class="pp-sub">Count of GO and NEGOTIATE deals.</p><div class="pp-chart" data-draw="cityChart" data-source="oppsByCity"></div></div>
+    </div>
+    <div class="pp-card pp-wrap" id="op-table"><h2>All opportunities</h2><p class="pp-sub">Highest potential earnings first. Click a row to open the deal.</p>
       <table data-source="opps" data-row-key="lead_id">
-        <thead><tr><th data-field="address">Property</th><th data-field="city">City</th><th data-field="county">County</th><th data-field="state">State</th><th data-field="lead_type">Lead type</th><th data-field="verdict">Verdict</th><th class="pp-n" data-field="potential_earnings">Potential earnings</th><th class="pp-n" data-field="target_price">Target price</th><th class="pp-n" data-field="buyer_max">Cash-buyer max</th><th class="pp-n" data-field="arv_mid">After-repair value</th><th data-field="stage">Stage</th><th data-field="next_action_date">Next step due</th></tr></thead>
+        <thead><tr><th data-field="address">Property</th><th data-field="city">City</th><th data-field="state">State</th><th data-field="lead_type">Type</th><th class="pp-n" data-field="potential_earnings">Potential earnings</th><th class="pp-n" data-field="target_price">Target price</th><th class="pp-n" data-field="buyer_max">Cash-buyer max</th><th class="pp-n" data-field="arv_mid">After-repair value</th><th data-field="stage">Stage</th><th data-field="next_action_date">Next step due</th></tr></thead>
         <tbody data-draw="oppRows"></tbody>
       </table>
     </div>
   </section>
 
   <section class="pp-page" id="pipeline" hidden>
-    <p class="pp-muted">Every stage from research to getting paid. The team named runs that stage on its own; "Your action" marks where only you can act. Click a stage to see its deals.</p>
-    <div class="pp-card pp-wrap">
-      <table data-source="stageCounts" data-row-key="stage">
-        <thead><tr><th class="pp-n" data-field="stage_order">#</th><th data-field="stage">Stage</th><th data-field="team">Team responsible</th><th data-field="owner_action">Your action</th><th class="pp-n" data-field="count">Deals</th><th class="pp-n" data-field="earnings">Potential earnings</th></tr></thead>
-        <tbody data-draw="stageRows"></tbody>
-      </table>
+    <div class="pp-grid">
+      <div class="pp-card" id="pl-stages"><h2>Deals at every stage</h2><p class="pp-sub">All 16 stages, including empty ones. Click a bar to list its deals below.</p><div class="pp-chart" data-draw="stageChart" data-source="stageCounts"></div></div>
+      <div class="pp-card" id="pl-teams"><h2>Workload by team</h2><p class="pp-sub">Deals sitting in the stages each team runs.</p><div class="pp-chart" data-draw="teamChart" data-source="teamLoad"></div></div>
     </div>
-    <div class="pp-card pp-wrap" id="stage-deals">
-      <h2>Deals in <span data-draw="stageName">—</span></h2>
+    <div class="pp-card pp-wrap" id="stage-deals"><h2>Deals in <span data-draw="stageName">—</span></h2>
       <table data-source="stageDeals" data-row-key="lead_id">
-        <thead><tr><th data-field="address">Property</th><th data-field="city">City</th><th data-field="county">County</th><th data-field="state">State</th><th data-field="verdict">Verdict</th><th class="pp-n" data-field="potential_earnings">Potential earnings</th><th data-field="next_action">Next action</th><th data-field="next_action_date">Due</th></tr></thead>
+        <thead><tr><th data-field="address">Property</th><th data-field="city">City</th><th data-field="state">State</th><th data-field="verdict">Verdict</th><th class="pp-n" data-field="potential_earnings">Potential earnings</th><th data-field="next_action">Next action</th><th data-field="next_action_date">Due</th></tr></thead>
         <tbody data-draw="stageDealRows"></tbody>
       </table>
     </div>
+    <details class="pp-card"><summary>Stage table</summary>
+      <div class="pp-wrap"><table data-source="stageCounts" data-row-key="stage">
+        <thead><tr><th class="pp-n" data-field="stage_order">#</th><th data-field="stage">Stage</th><th data-field="team">Team</th><th data-field="owner_action">Your action</th><th class="pp-n" data-field="count">Deals</th><th class="pp-n" data-field="earnings">Potential earnings</th></tr></thead>
+        <tbody data-draw="stageRows"></tbody>
+      </table></div>
+    </details>
   </section>
 
   <section class="pp-page" id="deal" hidden>
     <div class="pp-filters"><label>Deal<select class="dash-select" data-draw="dealSel" aria-label="Deal" data-source="leadsF"></select></label></div>
-    <div class="pp-two">
-      <div class="pp-card" id="deal-numbers"><h2>Numbers</h2>
-        <dl>
-          <dt>Property</dt><dd data-draw="dAddr" data-source="deal" data-field="address" data-row="0">—</dd>
-          <dt>City, county, state</dt><dd data-draw="dLoc">—</dd>
-          <dt>Verdict</dt><dd data-draw="dVerdict" data-source="deal" data-field="verdict" data-row="0">—</dd>
-          <dt>Stage</dt><dd data-draw="dStage" data-source="deal" data-field="stage" data-row="0">—</dd>
-          <dt>After-repair value</dt><dd data-draw="dArv" data-source="deal" data-field="arv_mid" data-row="0">—</dd>
-          <dt>Repairs (estimate)</dt><dd data-draw="dRep" data-source="deal" data-field="repairs_mid" data-row="0">—</dd>
-          <dt>Cash-buyer max</dt><dd data-draw="dBmax" data-source="deal" data-field="buyer_max" data-row="0">—</dd>
-          <dt>Max offer to estate</dt><dd data-draw="dMao" data-source="deal" data-field="mao" data-row="0">—</dd>
-          <dt>Target contract price</dt><dd data-draw="dTgt" data-source="deal" data-field="target_price" data-row="0">—</dd>
-          <dt>Potential earnings</dt><dd data-draw="dEarn" data-source="deal" data-field="potential_earnings" data-row="0">—</dd>
-        </dl>
-      </div>
+    <div class="pp-card" id="deal-head"><h2 data-draw="dTitle" data-source="deal" data-field="address" data-row="0">—</h2><p class="pp-sub" data-draw="dLoc">—</p><div data-draw="dChips"></div></div>
+    <div class="pp-grid">
+      <div class="pp-card" id="deal-ladder"><h2>The price ladder</h2><p class="pp-sub">From after-repair value down to your fee. Potential earnings = cash-buyer max − target price.</p><div class="pp-chart" data-draw="ladderChart" data-source="deal"></div></div>
       <div class="pp-card" id="deal-status"><h2>Status and next step</h2>
         <dl>
           <dt>Team responsible</dt><dd data-draw="dTeam" data-source="deal" data-field="team" data-row="0">—</dd>
@@ -183,103 +157,86 @@
         </dl>
       </div>
     </div>
-    <div class="pp-card" id="deal-progress"><h2>Progress to closing</h2><div class="pp-chart" data-draw="dealProgress" data-source="deal stages" style="min-height:90px"></div></div>
-    <p class="pp-muted">Full files (research, numbers, legal, title, plan, drafts) are in the private repo under leads/&lt;lead id&gt;/.</p>
+    <div class="pp-card" id="deal-progress"><h2>Progress to closing</h2><div class="pp-chart" data-draw="dealProgress" data-source="deal stages" style="min-height:96px"></div></div>
+    <p class="pp-sub">Full files (research, numbers, legal, liens, title, contacts, audit, plan, drafts) are in the private repo under leads/&lt;lead id&gt;/.</p>
   </section>
 
   <section class="pp-page" id="queues" hidden>
-    <p class="pp-muted">Everything only you can do. Nothing is sent, signed or paid without you. Wires go only to the title company's escrow after you confirm instructions by phone at the number on its official website.</p>
+    <p class="pp-sub">Everything only you can do. Nothing is sent, signed or paid without you. Wires go only to the title company's escrow, after you confirm instructions by phone at the number on its official website.</p>
     <div class="pp-tiles">
-      <div class="pp-card pp-tile"><div class="pp-num" data-draw="qApprove" data-source="queueCounts" data-field="approve" data-row="0">—</div><div class="pp-lbl">Approve outreach</div></div>
-      <div class="pp-card pp-tile"><div class="pp-num" data-draw="qSign" data-source="queueCounts" data-field="sign" data-row="0">—</div><div class="pp-lbl">Sign</div></div>
-      <div class="pp-card pp-tile"><div class="pp-num" data-draw="qWire" data-source="queueCounts" data-field="wire" data-row="0">—</div><div class="pp-lbl">Wire earnest money</div></div>
+      <div class="pp-card pp-tile pp-t-warn"><div class="pp-num" data-draw="qApprove" data-source="queueCounts" data-field="approve" data-row="0">—</div><div class="pp-lbl">Approve outreach</div></div>
+      <div class="pp-card pp-tile pp-t-warn"><div class="pp-num" data-draw="qSign" data-source="queueCounts" data-field="sign" data-row="0">—</div><div class="pp-lbl">Sign</div></div>
+      <div class="pp-card pp-tile pp-t-bad"><div class="pp-num" data-draw="qWire" data-source="queueCounts" data-field="wire" data-row="0">—</div><div class="pp-lbl">Wire earnest money</div></div>
     </div>
-    <div class="pp-card pp-wrap">
+    <div class="pp-grid">
+      <div class="pp-card" id="q-due"><h2>When items are due</h2><p class="pp-sub">Items per due date.</p><div class="pp-chart" data-draw="dueChart" data-source="queuesF"></div></div>
+      <div class="pp-card" id="q-state"><h2>Items by state</h2><div class="pp-chart" data-draw="queueStateChart" data-source="queuesF"></div></div>
+    </div>
+    <div class="pp-card pp-wrap" id="q-table">
       <table data-source="queuesF" data-row-key="queue,lead_id">
-        <thead><tr><th data-field="queue">Queue</th><th data-field="address">Property</th><th data-field="city">City</th><th data-field="county">County</th><th data-field="state">State</th><th data-field="item">What</th><th data-field="due">Due</th><th data-field="file">File in repo</th></tr></thead>
+        <thead><tr><th data-field="queue">Queue</th><th data-field="address">Property</th><th data-field="city">City</th><th data-field="state">State</th><th data-field="item">What</th><th data-field="due">Due</th><th data-field="file">File in repo</th></tr></thead>
         <tbody data-draw="queueRows"></tbody>
       </table>
     </div>
   </section>
 
   <section class="pp-page" id="markets" hidden>
-    <p class="pp-muted">Every state and its target counties. Live = public records work and outreach is allowed. Research only = a license is required. Blocked = records not reachable without a login. Queued / Not started = the daily run will open it.</p>
     <div class="pp-tiles">
-      <div class="pp-card pp-tile"><div class="pp-num" data-draw="mLive" data-source="marketCounts" data-field="live" data-row="0">—</div><div class="pp-lbl">Live counties</div></div>
-      <div class="pp-card pp-tile"><div class="pp-num" data-draw="mResearch" data-source="marketCounts" data-field="research" data-row="0">—</div><div class="pp-lbl">Research only</div></div>
-      <div class="pp-card pp-tile"><div class="pp-num" data-draw="mBlocked" data-source="marketCounts" data-field="blocked" data-row="0">—</div><div class="pp-lbl">Blocked</div></div>
-      <div class="pp-card pp-tile"><div class="pp-num" data-draw="mQueued" data-source="marketCounts" data-field="queued" data-row="0">—</div><div class="pp-lbl">Queued or not started</div></div>
-      <div class="pp-card pp-tile"><div class="pp-num" data-draw="mLegal" data-source="marketCounts" data-field="legal" data-row="0">—</div><div class="pp-lbl">States with legal file</div></div>
+      <div class="pp-card pp-tile pp-t-ok"><div class="pp-num" data-draw="mLive" data-source="marketCounts" data-field="live" data-row="0">—</div><div class="pp-lbl">Live counties</div></div>
+      <div class="pp-card pp-tile pp-t-warn"><div class="pp-num" data-draw="mResearch" data-source="marketCounts" data-field="research" data-row="0">—</div><div class="pp-lbl">Research only or limited</div></div>
+      <div class="pp-card pp-tile pp-t-bad"><div class="pp-num" data-draw="mBlocked" data-source="marketCounts" data-field="blocked" data-row="0">—</div><div class="pp-lbl">Blocked</div></div>
+      <div class="pp-card pp-tile pp-t-muted"><div class="pp-num" data-draw="mQueued" data-source="marketCounts" data-field="queued" data-row="0">—</div><div class="pp-lbl">Queued or not started</div></div>
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="mLegal" data-source="marketCounts" data-field="legal" data-row="0">—</div><div class="pp-lbl">States with a legal file</div></div>
     </div>
-    <div class="pp-card pp-wrap">
+    <div class="pp-card" id="mk-map"><h2>Every state at a glance</h2><p class="pp-sub">Best status of each state's markets. Click a state to filter the whole dashboard to it.</p><div class="pp-chart" data-draw="stateMap" data-source="stateStatus" style="min-height:300px"></div></div>
+    <div class="pp-card" id="mk-cov"><h2>Public-record coverage in live counties</h2><p class="pp-sub">Which record types each live county can be searched for automatically.</p><div class="pp-chart" data-draw="coverageHeat" data-source="coverageLive"></div></div>
+    <div class="pp-card pp-wrap" id="mk-table">
       <table data-source="marketsF" data-row-key="state,county">
         <thead><tr><th data-field="state">State</th><th data-field="county">County</th><th data-field="city">City</th><th data-field="status">Status</th><th data-field="legal_file">Legal file</th><th class="pp-n" data-field="leads">Leads</th><th class="pp-n" data-field="opportunities">Opportunities</th><th data-field="last_checked">Last checked</th></tr></thead>
         <tbody data-draw="marketRows"></tbody>
       </table>
     </div>
-    <div class="pp-card pp-wrap" id="mk-coverage"><h2>Public-record coverage by county</h2>
-      <p class="pp-muted">Which public source works for each record type. Live counties first. "Fragile" means no backup for a source the pipeline depends on.</p>
-      <div class="pp-toggles"><label><input type="checkbox" data-draw="covAllChk" data-source="coverage"> Include queued counties</label><label><input type="checkbox" data-draw="covGapsChk" data-source="coverage"> Gaps only</label><span data-draw="covSummary" data-source="coverageF"></span></div>
-      <table data-source="coverageF" data-row-key="market,record_type">
-        <thead><tr><th data-field="market">Market</th><th data-field="live">Live</th><th data-field="record_type">Record type</th><th data-field="status">Status</th><th data-field="source">Source</th><th data-field="backup">Backup</th><th data-field="fragile">Fragile</th><th data-field="last_checked">Checked</th></tr></thead>
-        <tbody data-draw="covRows"></tbody>
-      </table>
-    </div>
   </section>
 
   <section class="pp-page" id="operations" hidden>
-    <div class="pp-card pp-wrap" id="ops-money"><h2>Money</h2>
-      <p class="pp-muted" style="margin:0 0 var(--cds-gap-sm)">From the Bookkeeper's ledger. Earned and expenses count only entries backed by a document (settlement statement, invoice, receipt). Tax set-aside is an estimate for your CPA, not tax advice. The system never holds bank details or moves money.</p>
-      <table data-source="finance" data-row-key="month">
-        <thead><tr><th data-field="month">Month</th><th class="pp-n" data-field="potential_in_pipeline">Potential in pipeline</th><th class="pp-n" data-field="fees_forecast_contracted">Fees forecast (contracted)</th><th class="pp-n" data-field="fees_earned">Fees earned</th><th class="pp-n" data-field="expenses">Expenses</th><th class="pp-n" data-field="net">Net</th><th class="pp-n" data-field="tax_set_aside">Tax set-aside (est.)</th><th class="pp-n" data-field="earnest_money_outstanding">Earnest money out</th></tr></thead>
-        <tbody data-draw="moneyRows"></tbody>
-      </table>
+    <div class="pp-tiles">
+      <div class="pp-card pp-tile pp-t-ok"><div class="pp-num" data-draw="hCov" data-source="health" data-field="coverage_works" data-row="0">—</div><div class="pp-lbl">Working sources in live counties, of <span data-draw="hCovT" data-source="health" data-field="coverage_total" data-row="0">—</span></div><div class="pp-meter"><div data-draw="covMeter" data-source="health"></div></div></div>
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="hBuy" data-source="health" data-field="buyers_vetted" data-row="0">—</div><div class="pp-lbl">Vetted cash buyers</div></div>
+      <div class="pp-card pp-tile pp-t-warn"><div class="pp-num" data-draw="hRep" data-source="health" data-field="replies_waiting" data-row="0">—</div><div class="pp-lbl">Replies waiting</div></div>
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="hRun" data-source="health" data-field="last_run" data-row="0">—</div><div class="pp-lbl">Last daily run</div></div>
     </div>
-    <div class="pp-card pp-wrap" id="ops-workers"><h2>Worker performance</h2>
-      <p class="pp-muted" style="margin:0 0 var(--cds-gap-sm)">What each specialist has produced so far, measured from its own output in the pipeline repo. "Waiting" means it has nothing to act on yet, usually because an earlier step (or you) comes first.</p>
-      <table data-source="workers" data-row-key="worker">
+    <div class="pp-card" id="ops-money"><h2>Money</h2><p class="pp-sub">From the Bookkeeper's ledger. Earned and expenses count only document-backed entries. Tax set-aside is an estimate for your CPA, not tax advice. The system never holds bank details or moves money.</p>
+      <div class="pp-tiles">
+        <div class="pp-card pp-tile"><div class="pp-num" data-draw="fPipe" data-source="financeNow" data-field="potential_in_pipeline" data-row="0">—</div><div class="pp-lbl">Potential in pipeline</div></div>
+        <div class="pp-card pp-tile pp-t-ok"><div class="pp-num" data-draw="fEarned" data-source="financeNow" data-field="fees_earned" data-row="0">—</div><div class="pp-lbl">Fees earned this month</div></div>
+        <div class="pp-card pp-tile pp-t-bad"><div class="pp-num" data-draw="fExp" data-source="financeNow" data-field="expenses" data-row="0">—</div><div class="pp-lbl">Expenses this month</div></div>
+        <div class="pp-card pp-tile"><div class="pp-num" data-draw="fTax" data-source="financeNow" data-field="tax_set_aside" data-row="0">—</div><div class="pp-lbl">Tax set-aside (estimate)</div></div>
+        <div class="pp-card pp-tile pp-t-warn"><div class="pp-num" data-draw="fEsc" data-source="financeNow" data-field="earnest_money_outstanding" data-row="0">—</div><div class="pp-lbl">Earnest money out</div></div>
+      </div>
+      <div class="pp-chart" data-draw="moneyChart" data-source="finance" style="margin-top:var(--cds-gap-md)"></div>
+    </div>
+    <div class="pp-grid">
+      <div class="pp-card" id="ops-runs"><h2>Leads per daily run</h2><p class="pp-sub">New leads and leads updated in each run.</p><div class="pp-chart" data-draw="runsChart" data-source="runs"></div></div>
+      <div class="pp-card" id="ops-buyers"><h2>Cash buyers by market</h2><p class="pp-sub">Found from public deed records, and how many are vetted.</p><div class="pp-chart" data-draw="buyersChart" data-source="buyers"></div></div>
+    </div>
+    <div class="pp-card" id="ops-workers"><h2>Worker performance</h2><p class="pp-sub">What each specialist has produced, measured from its own output in the repo. Cards are sorted active first; the meter is its yield (results ÷ work done).</p><div class="pp-chart" data-draw="workersChart" data-source="workers"></div>
+      <details><summary>Worker table</summary><div class="pp-wrap"><table data-source="workers" data-row-key="worker">
         <thead><tr><th data-field="worker">Worker</th><th data-field="status">Status</th><th class="pp-n" data-field="done">Work done</th><th data-field="done_label">of what</th><th class="pp-n" data-field="result">Results</th><th data-field="result_label">of what</th><th class="pp-n" data-field="rate">Rate</th><th data-field="last_active">Last active</th><th data-field="note">Note</th><th data-field="does">Job</th></tr></thead>
-        <tbody data-draw="workerRows"></tbody>
-      </table>
+        <tbody data-draw="workerRows"></tbody></table></div></details>
     </div>
-    <div class="pp-card pp-wrap" id="ops-teams"><h2>Worker teams</h2>
-      <table data-source="teamLoad" data-row-key="team">
-        <thead><tr><th data-field="team">Team</th><th class="pp-n" data-field="deals">Deals in its stages</th><th data-field="does">What it does on its own</th></tr></thead>
-        <tbody data-draw="teamRows"></tbody>
-      </table>
-    </div>
-    <div class="pp-card pp-wrap" id="ops-buyers"><h2>Cash buyers by market</h2>
-      <table data-source="buyers" data-row-key="market">
-        <thead><tr><th data-field="county">County</th><th data-field="state">State</th><th class="pp-n" data-field="found">Found</th><th class="pp-n" data-field="confirmed">Confirmed</th><th class="pp-n" data-field="vetted">Vetted</th><th class="pp-n" data-field="deals_under_contract">Deals under contract</th><th data-field="warning">Warning</th></tr></thead>
-        <tbody data-draw="buyerRows"></tbody>
-      </table>
-    </div>
-    <div class="pp-card pp-wrap" id="ops-replies"><h2>Replies waiting</h2>
-      <table data-source="replies" data-row-key="received_date,channel,lead_id">
-        <thead><tr><th data-field="received_date">Received</th><th data-field="channel">Channel</th><th data-field="lead_id">Lead</th><th data-field="label">Type</th><th data-field="routed_to">With</th><th class="pp-n" data-field="age_days">Days waiting</th><th data-field="status">Status</th></tr></thead>
-        <tbody data-draw="replyRows"></tbody>
-      </table>
-    </div>
-    <div class="pp-card pp-wrap" id="ops-runs"><h2>Daily runs</h2>
-      <table data-source="runs" data-row-key="date">
-        <thead><tr><th data-field="date">Date</th><th class="pp-n" data-field="new_leads">New leads</th><th class="pp-n" data-field="updated_leads">Updated</th><th class="pp-n" data-field="approvals_waiting">Waiting on you</th><th data-field="legal_changes">Legal changes</th><th data-field="pushed">Saved</th></tr></thead>
-        <tbody data-draw="runRows"></tbody>
-      </table>
-    </div>
-    <div class="pp-card pp-wrap" id="ops-sources"><h2>Working county sources</h2>
-      <table data-source="sources" data-row-key="market,source">
-        <thead><tr><th data-field="date">Checked</th><th data-field="market">Market</th><th data-field="source">Source</th><th data-field="status">Status</th><th data-field="note">Note</th></tr></thead>
-        <tbody data-draw="srcRows"></tbody>
-      </table>
-    </div>
-    <details><summary>How the numbers are worked out</summary><p>Cash-buyer max = after-repair value × 70% − repairs. Max offer = cash-buyer max − $10,000 fee. Target price = the Negotiator's aim, normally at or below max offer; where a legal price floor is higher, the fee shrinks. Potential earnings = cash-buyer max − target price. All figures are estimates from public records and comps, checked by automated QA before publishing. Not legal or tax advice.</p></details>
+    <details class="pp-card" id="ops-sources"><summary>Working county sources</summary><div class="pp-wrap"><table data-source="sources" data-row-key="market,source">
+      <thead><tr><th data-field="date">Checked</th><th data-field="market">Market</th><th data-field="source">Source</th><th data-field="status">Status</th><th data-field="note">Note</th></tr></thead>
+      <tbody data-draw="srcRows"></tbody></table></div></details>
+    <details class="pp-card" id="ops-runs-table"><summary>Daily run log</summary><div class="pp-wrap"><table data-source="runs" data-row-key="date">
+      <thead><tr><th data-field="date">Date</th><th class="pp-n" data-field="new_leads">New leads</th><th class="pp-n" data-field="updated_leads">Updated</th><th class="pp-n" data-field="approvals_waiting">Waiting on you</th><th data-field="legal_changes">Legal changes</th><th data-field="pushed">Saved</th></tr></thead>
+      <tbody data-draw="runRows"></tbody></table></div></details>
+    <details class="pp-card"><summary>How the numbers are worked out</summary><p class="pp-sub" style="margin-top:6px">Cash-buyer max = after-repair value × 70% − repairs. Max offer = cash-buyer max − $10,000 fee. Target price = the Negotiator's aim, normally at or below the max offer; where a legal price floor is higher, the fee shrinks. Potential earnings = cash-buyer max − target price. Every figure is an estimate from public records and comps, checked by automated QA before publishing. Not legal or tax advice.</p></details>
   </section>
 
   <section class="pp-page" id="setup" hidden>
-    <div class="pp-card"><h2>What still stands between the pipeline and running on its own</h2>
-      <p class="pp-muted">Every "missing" row is something only you can provide. Fill in <code>config.yaml</code> (business and channels), send each market's attorney packet, then record approvals. Signatures, wire confirmations and calls always stay with you.</p>
-    </div>
-    <div class="pp-card"><div class="pp-progress" role="progressbar" aria-label="Setup progress" aria-valuemin="0" aria-valuemax="100"><div data-draw="setupBar" data-source="health"></div></div><p class="pp-muted" id="setup-bar-label" data-draw="setupBarLabel" data-source="health">—</p></div>
+    <div class="pp-card pp-tile" id="setup-head"><h2>What still stands between the pipeline and running on its own</h2><p class="pp-sub">Every "missing" row is something only you can provide: business details and channels in config.yaml, each market's attorney approval. Signatures, wire confirmations and calls always stay with you.</p>
+      <div class="pp-meter" role="progressbar" aria-label="Setup progress"><div data-draw="setupBar" data-source="health"></div></div><p class="pp-sub" style="margin-top:6px" data-draw="setupBarLabel" data-source="health">—</p></div>
+    <div class="pp-card" id="setup-areas"><h2>Progress by area</h2><p class="pp-sub">Done vs missing steps in each area.</p><div class="pp-chart" data-draw="setupChart" data-source="setupByArea"></div></div>
     <div class="pp-card pp-wrap" id="setup-list">
       <table data-source="readiness" data-row-key="area,item">
         <thead><tr><th data-field="area">Area</th><th data-field="item">Item</th><th data-field="status">Status</th><th data-field="how_to_fix">How to fix</th><th data-field="unlocks">Unlocks</th></tr></thead>
@@ -289,255 +246,5 @@
   </section>
 </div>
 
-<script>
-window.ppMoney = (v) => (v === null || v === undefined || v === '' || isNaN(+v)) ? '—' : d3.format('$,.0f')(+v);
-window.ppOwner = { approve: 'Approve outreach', sign: 'Sign', wire: 'Wire earnest money', '': '—' };
-
-dash.calc('leadsF', { title: 'Leads in the chosen state and county', description: 'All researched leads matching the State and County filters.', inputs: ['leads'],
-  fn: (leads) => { const p = dash.params(); return leads.filter((r) => (!p.state || r.state === p.state) && (!p.county || r.county === p.county)); } });
-dash.calc('opps', { title: 'Opportunities', description: 'GO and NEGOTIATE deals in the filters, highest potential earnings first.', inputs: ['leadsF'],
-  fn: (leadsF) => leadsF.filter((r) => r.is_opportunity === 'yes').sort((a, b) => (+b.potential_earnings || 0) - (+a.potential_earnings || 0)) });
-dash.calc('stageCounts', { title: 'Deals by stage', description: 'Every pipeline stage with its team, your action, deal count and potential earnings, within the filters.', inputs: ['stages', 'leadsF'],
-  fn: (stages, leadsF) => stages.map((s) => { const d = leadsF.filter((r) => r.stage === s.stage); return { stage_order: +s.stage_order, stage: s.stage, team: s.team, owner_action: s.owner_action, count: d.length, earnings: d3.sum(d, (r) => +r.potential_earnings || 0) }; }) });
-dash.calc('stageDeals', { title: 'Deals in the chosen stage', description: 'Deals in the stage picked on the Pipeline page, within the filters.', inputs: ['leadsF'],
-  fn: (leadsF) => { const s = dash.params().stage || 'Outreach drafted'; return leadsF.filter((r) => r.stage === s); } });
-dash.calc('deal', { title: 'Chosen deal', description: 'The one deal picked on the Deal detail page (or the top opportunity).', inputs: ['leadsF', 'opps'],
-  fn: (leadsF, opps) => { const id = dash.params().lead; const r = leadsF.find((x) => x.lead_id === id) || opps[0] || leadsF[0]; return r ? [r] : []; } });
-dash.calc('queuesF', { title: 'Your queues', description: 'Approve, sign and wire items within the filters.', inputs: ['queues'],
-  fn: (queues) => { const p = dash.params(); return queues.filter((r) => (!p.state || r.state === p.state) && (!p.county || r.county === p.county)); } });
-dash.calc('queueCounts', { title: 'Queue counts', description: 'Items per queue within the filters.', inputs: ['queuesF'],
-  fn: (q) => [{ approve: q.filter((r) => r.queue === 'Approve outreach').length, sign: q.filter((r) => r.queue === 'Sign').length, wire: q.filter((r) => r.queue === 'Wire').length }] });
-dash.calc('marketsF', { title: 'Markets in the filters', description: 'States and counties with their status, within the filters.', inputs: ['markets'],
-  fn: (markets) => { const p = dash.params(); return markets.filter((r) => (!p.state || r.state === p.state) && (!p.county || r.county === p.county)); } });
-dash.calc('marketCounts', { title: 'Market status counts', description: 'Counties by status, and states with a legal file, within the filters.', inputs: ['marketsF'],
-  fn: (m) => [{ live: m.filter((r) => r.status.startsWith('Live')).length, research: m.filter((r) => r.status === 'Research only').length, blocked: m.filter((r) => r.status === 'Blocked').length,
-    queued: m.filter((r) => r.status === 'Queued' || r.status === 'Not started').length, legal: new Set(m.filter((r) => r.legal_file === 'yes').map((r) => r.state)).size }] });
-dash.calc('kpis', { title: 'Headline totals', description: 'Opportunities, potential earnings, best deal, items waiting on you, deals under contract and live counties, within the filters.', inputs: ['opps', 'leadsF', 'queuesF', 'marketsF'],
-  fn: (opps, leadsF, queuesF, marketsF) => [{ opps: opps.length, earnings: d3.sum(opps, (r) => +r.potential_earnings || 0), best: opps.length ? +opps[0].potential_earnings || 0 : 0,
-    queue: queuesF.length, under_contract: leadsF.filter((r) => +r.stage_order >= 7 && +r.stage_order <= 13).length, markets_live: marketsF.filter((r) => r.status.startsWith('Live')).length }] });
-dash.calc('teamLoad', { title: 'Worker team load', description: 'How many deals sit in the stages each team runs, within the filters.', inputs: ['stageCounts'],
-  fn: (sc) => { const does = { 'Deal team': 'Research, numbers, legal, title, plan for each new lead', 'Communications': 'Sends outreach and follow-ups, reads replies, routes them', 'Negotiation desk': 'Makes and answers offers up to the max offer', 'Closing desk': 'Contracts, title, deadlines, signature and wire queues', 'Dispositions': 'Finds and vets cash buyers, assigns the contract', 'Done': 'Closed, paid or dead' };
-    return Object.keys(does).map((t) => ({ team: t, deals: d3.sum(sc.filter((s) => s.team === t), (s) => s.count), does: does[t] })); } });
-dash.calc('coverageF', { title: 'Coverage in view', description: 'Public-record coverage rows after the Include-queued and Gaps-only toggles and the State filter.', inputs: ['coverage'],
-  fn: (cov) => { const p = dash.params(); return cov.filter((r) => (p.covAll === '1' || r.live === 'yes') && (p.covGaps !== '1' || r.gap === 'yes') && (!p.state || String(r.market).startsWith(String(p.state).toLowerCase() + '-'))); } });
-</script>
-
-<script>
-const ppK = (src, field, fmt) => (el) => {
-  const k = dash.data(src);
-  if (k.status === 'loading') { el.classList.add('dash-skeleton'); return; }
-  el.classList.remove('dash-skeleton');
-  const v = (k.status === 'ok' && k.data && k.data[0]) ? k.data[0][field] : null;
-  el.textContent = (v === null || v === undefined || v === '') ? '—' : fmt(v);
-};
-const ppInt = (v) => d3.format(',')(+v);
-const ppTxt = (v) => String(v);
-[['tOpps', 'kpis', 'opps', ppInt], ['tEarn', 'kpis', 'earnings', window.ppMoney], ['tMk', 'kpis', 'markets_live', ppInt], ['tQ', 'kpis', 'queue', ppInt],
- ['kOpps', 'kpis', 'opps', ppInt], ['kEarn', 'kpis', 'earnings', window.ppMoney], ['kBest', 'kpis', 'best', window.ppMoney], ['kQ', 'kpis', 'queue', ppInt],
- ['kContract', 'kpis', 'under_contract', ppInt], ['kClosed', 'pace', 'closed', ppInt], ['kTarget', 'pace', 'target_closings', ppInt], ['pTarget', 'pace', 'target_closings', ppInt],
- ['qApprove', 'queueCounts', 'approve', ppInt], ['qSign', 'queueCounts', 'sign', ppInt], ['qWire', 'queueCounts', 'wire', ppInt],
- ['mLive', 'marketCounts', 'live', ppInt], ['mResearch', 'marketCounts', 'research', ppInt], ['mBlocked', 'marketCounts', 'blocked', ppInt], ['mQueued', 'marketCounts', 'queued', ppInt], ['mLegal', 'marketCounts', 'legal', ppInt],
- ['dAddr', 'deal', 'address', ppTxt], ['dVerdict', 'deal', 'verdict', ppTxt], ['dStage', 'deal', 'stage', ppTxt], ['dArv', 'deal', 'arv_mid', window.ppMoney], ['dRep', 'deal', 'repairs_mid', window.ppMoney],
- ['dBmax', 'deal', 'buyer_max', window.ppMoney], ['dMao', 'deal', 'mao', window.ppMoney], ['dTgt', 'deal', 'target_price', window.ppMoney], ['dEarn', 'deal', 'potential_earnings', window.ppMoney],
- ['dTeam', 'deal', 'team', ppTxt], ['dOwner', 'deal', 'owner_action', (v) => window.ppOwner[v] || v], ['dAuth', 'deal', 'authority', ppTxt], ['dCourt', 'deal', 'court_step', ppTxt],
- ['dOcc', 'deal', 'occupancy', ppTxt], ['dNext', 'deal', 'next_action', ppTxt], ['dDue', 'deal', 'next_action_date', ppTxt], ['dTouch', 'deal', 'touch_count', ppTxt], ['dSum', 'deal', 'summary', ppTxt],
-].forEach(([name, src, f, fmt]) => dash.draw(name, ppK(src, f, fmt)));
-dash.draw('kReady', (el) => { const h = dash.data('health'); if (h.status !== 'ok' || !h.data || !h.data[0]) { el.textContent = '—'; return; } el.textContent = `${h.data[0].readiness_done} of ${h.data[0].readiness_total}`; });
-dash.draw('kReplies', ppK('health', 'replies_waiting', ppInt));
-dash.draw('freshness', {
-  mount: () => setInterval(() => dash.draw('freshness'), 10 * 60 * 1000),
-  update: (el) => {
-    const h = dash.data('health');
-    if (h.status === 'error') { el.textContent = 'Could not load data health, so freshness is unknown.'; el.className = 'pp-lede pp-bad'; return; }
-    if (h.status !== 'ok' || !h.data || !h.data[0]) { el.textContent = 'Loading…'; el.className = 'pp-lede pp-muted'; return; }
-    const r = h.data[0];
-    const t = Date.parse(r.built_at || '');
-    const hrs = isNaN(t) ? null : (Date.now() - t) / 3600000;
-    const saved = String(r.last_run_saved || '').toLowerCase().startsWith('no');
-    const age = hrs === null ? `built ${r.built}` : hrs < 1 ? 'updated less than an hour ago' : hrs < 48 ? `updated ${Math.round(hrs)} hours ago` : `updated ${Math.round(hrs / 24)} days ago`;
-    let msg = `Data ${age} · last daily run ${r.last_run || 'none yet'}`;
-    let cls = 'pp-lede pp-muted';
-    if (hrs === null || hrs > 26) { msg = `⚠ Data is stale: ${age}. The daily runner refreshes this 3 times a day, so it is probably blocked. Open the "Probate pipeline daily runner" session and approve any waiting permission (choose always allow).`; cls = 'pp-lede pp-bad'; }
-    else if (hrs > 14) { msg = `Data ${age}: older than expected (refreshes about every 6 hours). If this persists, check the "Probate pipeline daily runner" session.`; cls = 'pp-lede pp-neg'; }
-    if (saved) msg += ' · last run was NOT saved to GitHub';
-    el.textContent = msg; el.className = saved && cls.endsWith('pp-muted') ? 'pp-lede pp-bad' : cls;
-  },
-  unmount: (el, timer) => clearInterval(timer),
-});
-dash.draw('dLoc', (el) => { const d = dash.data('deal'); const r = d.status === 'ok' && d.data && d.data[0]; el.textContent = r ? `${r.city}, ${r.county} County, ${r.state}` : '—'; });
-dash.draw('stageName', (el) => { el.textContent = dash.params().stage || 'Outreach drafted'; });
-
-dash.draw('stateSel', (sel) => {
-  const m = dash.data('markets');
-  const states = m.status === 'ok' ? [...new Set(m.data.map((r) => r.state).filter(Boolean))].sort() : [];
-  sel.replaceChildren(new Option('All states', ''), ...states.map((s) => new Option(s, s)));
-  sel.value = dash.params().state ?? '';
-  sel.onchange = () => dash.setParams({ state: sel.value || null, county: null, lead: null });
-});
-dash.draw('countySel', (sel) => {
-  const m = dash.data('markets'); const st = dash.params().state;
-  const c = m.status === 'ok' ? [...new Set(m.data.filter((r) => r.county && (!st || r.state === st)).map((r) => st ? r.county : `${r.county}|${r.state}`))].sort() : [];
-  sel.replaceChildren(new Option('All counties', ''), ...c.map((x) => { const [cty, s] = x.split('|'); return new Option(s ? `${cty} (${s})` : cty, x); }));
-  const p = dash.params(); sel.value = (p.county && st) ? p.county : '';
-  sel.onchange = () => { const [cty, s] = (sel.value || '').split('|'); dash.setParams(sel.value ? (s ? { county: cty, state: s, lead: null } : { county: cty, lead: null }) : { county: null, lead: null }); };
-});
-dash.draw('dealSel', (sel) => {
-  const l = dash.data('leadsF');
-  const rows = l.status === 'ok' ? [...l.data].sort((a, b) => (b.is_opportunity === 'yes') - (a.is_opportunity === 'yes') || (+b.potential_earnings || 0) - (+a.potential_earnings || 0)) : [];
-  sel.replaceChildren(...rows.map((r) => new Option(`${r.address}, ${r.city} ${r.state} · ${r.verdict}`, r.lead_id)));
-  const d = dash.data('deal'); sel.value = (d.status === 'ok' && d.data[0]) ? d.data[0].lead_id : '';
-  sel.onchange = () => dash.setParams({ lead: sel.value || null });
-});
-
-window.ppShow = (id) => {
-  document.querySelectorAll('.pp-page').forEach((s) => { s.hidden = s.id !== id; });
-  document.querySelectorAll('.pp-tab').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.page === id)));
-  dash.setLink(id);
-};
-document.querySelectorAll('.pp-tab').forEach((b) => b.addEventListener('click', () => window.ppShow(b.dataset.page)));
-const ppStart = (location.hash || '').slice(1);
-if (ppStart && document.getElementById(ppStart) && document.getElementById(ppStart).classList.contains('pp-page')) window.ppShow(ppStart);
-window.addEventListener('beforeprint', () => document.querySelectorAll('.pp-page').forEach((s) => { s.dataset.wasHidden = s.hidden ? '1' : ''; s.hidden = false; }));
-window.addEventListener('afterprint', () => document.querySelectorAll('.pp-page').forEach((s) => { s.hidden = s.dataset.wasHidden === '1'; }));
-</script>
-
-<script>
-const ppRows = (tbody, src, cols, emptyText, onRow) => {
-  const d = dash.data(src);
-  tbody.replaceChildren();
-  const msg = (t) => { const tr = tbody.insertRow(); const td = tr.insertCell(); td.colSpan = cols.length; td.textContent = t; td.className = 'pp-muted'; };
-  if (d.status !== 'ok' || !d.data) { msg(d.status === 'loading' ? 'Loading…' : (d.status === 'error' ? 'Failed to load' : '—')); return; }
-  if (!d.data.length) { msg(emptyText); return; }
-  d.data.forEach((r) => {
-    const tr = tbody.insertRow();
-    cols.forEach((c) => { const td = tr.insertCell(); const v = r[c.f]; const txt = c.fmt ? c.fmt(v, r) : (v ?? ''); const cl = c.cls ? (typeof c.cls === 'function' ? c.cls(v, r) : c.cls) : '';
-      if (['verdict', 'status', 'queue'].includes(c.f) && txt !== '' && /pp-(go|neg|bad)/.test(cl)) { const s = document.createElement('span'); s.className = 'pp-chip ' + cl; s.textContent = txt; td.appendChild(s); } else { td.textContent = txt; if (cl) td.className = cl; } });
-    if (onRow) { tr.className = 'pp-click'; tr.tabIndex = 0; tr.onclick = () => onRow(r); tr.onkeydown = (e) => { if (e.key === 'Enter') onRow(r); }; }
-  });
-};
-const ppV = (v) => v === 'GO' ? 'pp-go' : v === 'NEGOTIATE' ? 'pp-neg' : v === 'WALK AWAY' ? 'pp-bad' : 'pp-muted';
-const ppOpenDeal = window.ppOpenDeal = (r) => { dash.setParams({ lead: r.lead_id }); window.ppShow('deal'); };
-const M = window.ppMoney;
-
-dash.draw('oppRows', (tb) => ppRows(tb, 'opps', [{ f: 'address' }, { f: 'city' }, { f: 'county' }, { f: 'state' }, { f: 'lead_type', fmt: (v) => String(v || 'probate').replace(/_/g, ' ') }, { f: 'verdict', cls: ppV },
-  { f: 'potential_earnings', fmt: M, cls: 'pp-n pp-go' }, { f: 'target_price', fmt: M, cls: 'pp-n' }, { f: 'buyer_max', fmt: M, cls: 'pp-n' }, { f: 'arv_mid', fmt: M, cls: 'pp-n' },
-  { f: 'stage' }, { f: 'next_action_date' }], 'No opportunities in this state or county yet.', ppOpenDeal));
-dash.draw('stageRows', (tb) => { const sel = dash.params().stage || 'Outreach drafted';
-  ppRows(tb, 'stageCounts', [{ f: 'stage_order', cls: 'pp-n' }, { f: 'stage' }, { f: 'team' }, { f: 'owner_action', fmt: (v) => window.ppOwner[v] || v, cls: (v) => v ? 'pp-neg' : 'pp-muted' },
-    { f: 'count', cls: 'pp-n' }, { f: 'earnings', fmt: (v) => +v ? M(v) : '—', cls: 'pp-n' }], 'No stages.', (r) => dash.setParams({ stage: r.stage }));
-  tb.querySelectorAll('tr').forEach((tr) => { if (tr.cells[1] && tr.cells[1].textContent === sel) tr.classList.add('pp-sel'); }); });
-dash.draw('stageDealRows', (tb) => ppRows(tb, 'stageDeals', [{ f: 'address' }, { f: 'city' }, { f: 'county' }, { f: 'state' }, { f: 'verdict', cls: ppV },
-  { f: 'potential_earnings', fmt: M, cls: 'pp-n' }, { f: 'next_action', cls: 'pp-wrapcell' }, { f: 'next_action_date' }], 'No deals in this stage right now.', ppOpenDeal));
-dash.draw('queueRows', (tb) => ppRows(tb, 'queuesF', [{ f: 'queue', cls: 'pp-neg' }, { f: 'address' }, { f: 'city' }, { f: 'county' }, { f: 'state' }, { f: 'item', cls: 'pp-wrapcell' }, { f: 'due' }, { f: 'file', cls: 'pp-muted' }],
-  'Nothing waiting on you here.', (r) => ppOpenDeal(r)));
-dash.draw('marketRows', (tb) => ppRows(tb, 'marketsF', [{ f: 'state' }, { f: 'county' }, { f: 'city' },
-  { f: 'status', cls: (v) => v.startsWith('Live') ? 'pp-go' : v === 'Research only' ? 'pp-neg' : v === 'Blocked' ? 'pp-bad' : 'pp-muted' },
-  { f: 'legal_file' }, { f: 'leads', cls: 'pp-n' }, { f: 'opportunities', cls: 'pp-n' }, { f: 'last_checked' }], 'No markets match.',
-  (r) => r.county && dash.setParams({ state: r.state, county: r.county, lead: null })));
-dash.draw('moneyRows', (tb) => { const M = window.ppMoney; ppRows(tb, 'finance', [{ f: 'month' },
-  { f: 'potential_in_pipeline', fmt: (v) => v === '' || v === undefined ? '' : M(v), cls: 'pp-n' }, { f: 'fees_forecast_contracted', fmt: M, cls: 'pp-n' },
-  { f: 'fees_earned', fmt: M, cls: 'pp-n pp-go' }, { f: 'expenses', fmt: M, cls: 'pp-n' }, { f: 'net', fmt: M, cls: 'pp-n' },
-  { f: 'tax_set_aside', fmt: M, cls: 'pp-n' }, { f: 'earnest_money_outstanding', fmt: (v) => v === '' || v === undefined ? '' : M(v), cls: 'pp-n' }], 'No ledger entries yet.'); });
-dash.draw('workerRows', (tb) => ppRows(tb, 'workers', [{ f: 'worker' },
-  { f: 'status', cls: (v) => /^Active/.test(v || '') ? 'pp-go' : /you/i.test(v || '') ? 'pp-neg' : 'pp-muted' },
-  { f: 'done', cls: 'pp-n' }, { f: 'done_label', cls: 'pp-muted' }, { f: 'result', cls: 'pp-n' }, { f: 'result_label', cls: 'pp-muted' },
-  { f: 'rate', cls: 'pp-n' }, { f: 'last_active' }, { f: 'note', cls: 'pp-wrapcell' }, { f: 'does', cls: 'pp-wrapcell pp-muted' }], 'No worker data yet.'));
-dash.draw('teamRows', (tb) => ppRows(tb, 'teamLoad', [{ f: 'team' }, { f: 'deals', cls: 'pp-n' }, { f: 'does', cls: 'pp-wrapcell' }], '—'));
-dash.draw('buyerRows', (tb) => ppRows(tb, 'buyers', [{ f: 'county' }, { f: 'state' }, { f: 'found', cls: 'pp-n' }, { f: 'confirmed', cls: 'pp-n' }, { f: 'vetted', cls: 'pp-n' }, { f: 'deals_under_contract', cls: 'pp-n' }, { f: 'warning', cls: (v) => v ? 'pp-neg pp-wrapcell' : 'pp-muted' }], 'No live markets yet.'));
-dash.draw('replyRows', (tb) => ppRows(tb, 'replies', [{ f: 'received_date' }, { f: 'channel' }, { f: 'lead_id' }, { f: 'label' }, { f: 'routed_to' }, { f: 'age_days', cls: 'pp-n' }, { f: 'status', cls: (v) => v === 'late' ? 'pp-bad' : 'pp-muted' }], 'No replies waiting.'));
-dash.draw('covRows', (tb) => ppRows(tb, 'coverageF', [{ f: 'market' }, { f: 'live' }, { f: 'record_type', fmt: (v) => String(v).replace(/_/g, ' ') }, { f: 'status', cls: (v) => v === 'works' ? 'pp-go' : (v === 'blocked' || v === 'broken') ? 'pp-bad' : 'pp-muted' }, { f: 'source', cls: 'pp-wrapcell' }, { f: 'backup' }, { f: 'fragile', cls: (v) => v === 'yes' ? 'pp-neg' : 'pp-muted' }, { f: 'last_checked' }], 'No coverage mapped yet.'));
-dash.draw('readyRows', (tb) => ppRows(tb, 'readiness', [{ f: 'area' }, { f: 'item' }, { f: 'status', cls: (v) => v === 'done' ? 'pp-go' : 'pp-bad' }, { f: 'how_to_fix', cls: 'pp-wrapcell' }, { f: 'unlocks', cls: 'pp-wrapcell pp-muted' }], 'Nothing to set up.'));
-dash.draw('runRows', (tb) => ppRows(tb, 'runs', [{ f: 'date' }, { f: 'new_leads', cls: 'pp-n' }, { f: 'updated_leads', cls: 'pp-n' }, { f: 'approvals_waiting', cls: 'pp-n' }, { f: 'legal_changes', cls: 'pp-wrapcell' }, { f: 'pushed' }], 'No daily runs yet.'));
-dash.draw('srcRows', (tb) => ppRows(tb, 'sources', [{ f: 'date' }, { f: 'market' }, { f: 'source', cls: 'pp-wrapcell' }, { f: 'status', cls: 'pp-go' }, { f: 'note', cls: 'pp-wrapcell pp-muted' }], 'No working sources yet.'));
-</script>
-
-<script>
-const ppBars = (el, rows, label, value, fmt, opts = {}) => {
-  el.replaceChildren();
-  el._ppArgs = [el, rows, label, value, fmt, opts];
-  if (!el._ppRO && window.ResizeObserver) { el._ppRO = new ResizeObserver(() => { if (el._ppArgs && Math.abs(el.clientWidth - (el._ppW || 0)) > 24) ppBars(...el._ppArgs); }); el._ppRO.observe(el); }
-  if (!rows.length) { const p = document.createElement('p'); p.className = 'pp-muted'; p.textContent = opts.empty || 'Nothing to show for these filters.'; el.appendChild(p); return; }
-  const W = el.clientWidth || 400, rowH = 26, H = rows.length * rowH + (opts.target ? 26 : 6);
-  el._ppW = W;
-  const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img')
-    .attr('aria-label', (opts.title || '') + ': ' + rows.map((r) => `${label(r)} ${fmt(value(r))}`).join(', '));
-  const labs = svg.append('g').selectAll('text').data(rows).join('text').attr('x', 0).attr('y', (r, i) => i * rowH + rowH / 2 + 4).text(label);
-  let lw = 0; labs.each(function () { lw = Math.max(lw, this.getComputedTextLength()); });
-  lw = Math.min((lw || 120) + 10, W * 0.42);
-  labs.each(function () { const full = this.textContent; let t = full; while (this.getComputedTextLength() > lw - 12 && t.length > 6) { t = t.slice(0, -2); this.textContent = t + '…'; } if (t !== full) d3.select(this).append('title').text(full); });
-  const max = Math.max(opts.target || 0, d3.max(rows, value) || 0) || 1;
-  const x = d3.scaleLinear().domain([0, max]).range([0, Math.max(40, W - lw - 70)]);
-  const tip = document.createElement('div'); tip.className = 'pp-tip'; tip.hidden = true; el.appendChild(tip);
-  svg.append('g').selectAll('rect').data(rows).join('rect').attr('x', lw).attr('y', (r, i) => i * rowH + 6).attr('height', rowH - 12).attr('rx', 3)
-    .attr('width', (r) => value(r) ? Math.max(2, x(value(r))) : 0).style('fill', dash.colors[0]).style('cursor', opts.onClick ? 'pointer' : 'default')
-    .on('pointermove', (ev, r) => { const b = el.getBoundingClientRect(); tip.hidden = false; tip.textContent = opts.tip ? opts.tip(r) : `${label(r)}: ${fmt(value(r))}`; tip.style.left = Math.max(0, Math.min(ev.clientX - b.left + 10, W - 300)) + 'px'; tip.style.top = (ev.clientY - b.top - 32) + 'px'; })
-    .on('pointerleave', () => { tip.hidden = true; })
-    .on('click', (ev, r) => opts.onClick && opts.onClick(r));
-  svg.append('g').selectAll('text').data(rows).join('text').attr('x', (r) => lw + (value(r) ? Math.max(2, x(value(r))) : 0) + 6).attr('y', (r, i) => i * rowH + rowH / 2 + 4).text((r) => fmt(value(r)));
-  if (opts.target) { const tx = lw + x(opts.target);
-    svg.append('line').attr('x1', tx).attr('x2', tx).attr('y1', 0).attr('y2', rows.length * rowH).style('stroke', 'var(--cds-chart-reference)').style('stroke-dasharray', '4 3');
-    svg.append('text').attr('x', Math.min(tx, W - 130)).attr('y', rows.length * rowH + 18).text(`Target: ${opts.target}`); }
-};
-const ppNotReady = (el, d) => { el.replaceChildren(); const p = document.createElement('p'); p.className = 'pp-muted'; p.textContent = d.status === 'error' ? 'Failed to load' : (d.status === 'loading' ? 'Loading…' : '—'); el.appendChild(p); };
-
-dash.draw('earnChart', (el) => { const d = dash.data('opps'); if (d.status !== 'ok' || !d.data) return ppNotReady(el, d);
-  ppBars(el, d.data.slice(0, 10), (r) => `${r.address} · ${r.city} ${r.state}`, (r) => +r.potential_earnings || 0, window.ppMoney,
-    { title: 'Top potential earnings', empty: 'No opportunities in this state or county yet.', onClick: window.ppOpenDeal, tip: (r) => `${r.address}: earn ${window.ppMoney(r.potential_earnings)} (target ${window.ppMoney(r.target_price)}, buyer max ${window.ppMoney(r.buyer_max)})` }); });
-dash.draw('stageChart', (el) => { const d = dash.data('stageCounts'); if (d.status !== 'ok' || !d.data) return ppNotReady(el, d);
-  ppBars(el, d.data.filter((r) => r.count > 0), (r) => r.stage, (r) => r.count, (v) => String(v),
-    { title: 'Deals by stage', empty: 'No deals in this state or county yet.', onClick: (r) => { dash.setParams({ stage: r.stage }); window.ppShow('pipeline'); } }); });
-dash.draw('paceChart', (el) => { const d = dash.data('pace'); if (d.status !== 'ok' || !d.data || !d.data[0]) return ppNotReady(el, d);
-  const r = d.data[0];
-  const rows = [['Leads researched', 'leads_researched'], ['Opportunities', 'opportunities'], ['Outreach sent', 'outreach_sent'], ['In conversation', 'in_conversation'], ['Offers out', 'offers_out'], ['Verbal agreements', 'verbal_agreements'], ['Under contract', 'under_contract'], ['Closed this month', 'closed']].map(([label, f]) => ({ label, v: +r[f] || 0 }));
-  ppBars(el, rows, (x) => x.label, (x) => x.v, (v) => String(v), { title: 'Deals at each stage this month', target: +r.target_closings || 0 }); });
-dash.draw('dealProgress', (el) => { const d = dash.data('deal'), s = dash.data('stages');
-  if (d.status !== 'ok' || s.status !== 'ok' || !d.data || !d.data[0]) return ppNotReady(el, d.status !== 'ok' ? d : s);
-  el.replaceChildren(); const cur = +d.data[0].stage_order; const steps = s.data.filter((x) => x.stage !== 'Dead');
-  const W = el.clientWidth || 400, n = steps.length, step = W / n, H = 70;
-  const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img')
-    .attr('aria-label', `Deal is at stage ${cur} of ${n}: ${d.data[0].stage}`);
-  svg.append('line').attr('x1', step / 2).attr('x2', W - step / 2).attr('y1', 18).attr('y2', 18).style('stroke', 'var(--cds-chart-grid)');
-  svg.selectAll('circle').data(steps).join('circle').attr('cx', (x, i) => i * step + step / 2).attr('cy', 18).attr('r', 7)
-    .style('fill', (x) => +x.stage_order <= cur && d.data[0].stage !== 'Dead' ? dash.colors[0] : 'var(--cds-chart-grid)');
-  const ci = steps.findIndex((x) => +x.stage_order === cur);
-  const show = (i) => W >= 600 && (i === ci || ((i === 0 || i === n - 1) && Math.abs(i - ci) * step > 110));
-  svg.selectAll('text.lbl').data(steps).join('text').attr('class', 'lbl')
-    .attr('x', (x, i) => i === 0 ? 0 : i === n - 1 ? W : i * step + step / 2).attr('y', 44)
-    .attr('text-anchor', (x, i) => i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle')
-    .text((x, i) => show(i) ? x.stage : '');
-  svg.append('text').attr('x', 0).attr('y', 64).text(d.data[0].stage === 'Dead' ? 'This deal is closed out (walk away).' : `Stage ${cur} of ${n}: ${d.data[0].stage}`); });
-
-const ppBadge = (el, n) => { el.textContent = n > 0 ? String(n) : ''; el.hidden = !(n > 0); };
-const ppFirst = (name) => { const d = dash.data(name); return d.status === 'ok' && d.data && d.data[0] ? d.data[0] : null; };
-dash.draw('badgeQueues', (el) => { const c = ppFirst('queueCounts'); ppBadge(el, c ? (+c.approve || 0) + (+c.sign || 0) + (+c.wire || 0) : 0); });
-dash.draw('badgeSetup', (el) => { const r = ppFirst('health'); ppBadge(el, r ? (+r.readiness_total || 0) - (+r.readiness_done || 0) : 0); });
-dash.draw('actionList', (ul) => {
-  const h = dash.data('health'), q = dash.data('queueCounts'); ul.replaceChildren();
-  const r = ppFirst('health'), c = ppFirst('queueCounts');
-  if (!r || !c) { const li = document.createElement('li'); li.className = 'pp-muted'; li.textContent = (h.status === 'error' || q.status === 'error') ? 'Could not load.' : 'Loading…'; ul.appendChild(li); return; }
-  const s = (n, one, many) => `${n} ${+n === 1 ? one : many}`; const items = [];
-  if (+c.sign) items.push([s(c.sign, 'document to sign', 'documents to sign'), 'queues', 'bad']);
-  if (+c.wire) items.push([s(c.wire, 'earnest-money wire to confirm by phone', 'earnest-money wires to confirm by phone'), 'queues', 'bad']);
-  if (r.last_run && +r.days_since_run > 1) items.push([`The daily run hasn't run for ${r.days_since_run} days`, 'operations', 'bad']);
-  if (String(r.last_run_saved || '').toLowerCase().startsWith('no')) items.push(['The last daily run did not save to GitHub', 'operations', 'bad']);
-  if (+c.approve) items.push([s(c.approve, 'outreach letter to approve', 'outreach letters to approve'), 'queues', 'warn']);
-  if (+r.replies_waiting) items.push([s(r.replies_waiting, 'reply waiting for an answer', 'replies waiting for an answer'), 'operations', 'warn']);
-  const miss = (+r.readiness_total || 0) - (+r.readiness_done || 0);
-  if (miss > 0) items.push([s(miss, 'setup step left before it can run on its own', 'setup steps left before it can run on its own'), 'setup', 'muted']);
-  if (!items.length) { const li = document.createElement('li'); li.className = 'pp-muted'; li.textContent = 'Nothing needs you today.'; ul.appendChild(li); return; }
-  items.forEach(([t, page, tone]) => { const li = document.createElement('li'); const b = document.createElement('button'); b.className = 'pp-action pp-action-' + tone; b.textContent = t + ' →'; b.onclick = () => window.ppShow(page); li.appendChild(b); ul.appendChild(li); });
-});
-dash.draw('covAllChk', (inp) => { inp.checked = dash.params().covAll === '1'; inp.onchange = () => dash.setParams({ covAll: inp.checked ? '1' : null }); });
-dash.draw('covGapsChk', (inp) => { inp.checked = dash.params().covGaps === '1'; inp.onchange = () => dash.setParams({ covGaps: inp.checked ? '1' : null }); });
-dash.draw('covSummary', (el) => { const d = dash.data('coverageF'); if (d.status !== 'ok' || !d.data) { el.textContent = ''; return; }
-  const w = d.data.filter((r) => r.status === 'works').length, f = d.data.filter((r) => r.fragile === 'yes').length;
-  el.textContent = `${d.data.length} rows · ${w} working · ${d.data.length - w} gaps · ${f} without a backup`; });
-dash.draw('setupBar', (el) => { const r = ppFirst('health');
-  if (!r) { el.style.width = '0'; return; }
-  const done = +r.readiness_done || 0, total = +r.readiness_total || 0, pct = total ? Math.round(100 * done / total) : 0;
-  el.style.width = pct + '%'; el.parentElement.setAttribute('aria-valuenow', String(pct)); });
-dash.draw('setupBarLabel', (el) => { const r = ppFirst('health');
-  if (!r) { el.textContent = '—'; return; }
-  const done = +r.readiness_done || 0, total = +r.readiness_total || 0, pct = total ? Math.round(100 * done / total) : 0;
-  el.textContent = `${done} of ${total} setup steps done (${pct}%). Each one you finish turns its row green.`; });
-</script>
+<script src="app.js"></script>
+<script src="charts.js"></script>

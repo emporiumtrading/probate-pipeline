@@ -12,6 +12,13 @@ import os, re, subprocess, sys, tempfile
 p = sys.argv[1] if len(sys.argv) > 1 else os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "dashboard", "index.html")
 html = open(p).read()
 scripts = re.findall(r"<script>(.*?)</script>", html, re.S)
+# External scripts the page loads (<script src="name.js">) are checked too, and count toward draw/element matching.
+for src in re.findall(r'<script src="([^"]+)"></script>', html):
+    sp = os.path.join(os.path.dirname(p), src)
+    if not os.path.exists(sp):
+        print(f"FAIL  page loads {src} but {sp} does not exist"); sys.exit(1)
+    scripts.append(open(sp).read())
+html_all = html + "\n".join(scripts)
 fails = []
 defs = []
 for i, s in enumerate(scripts):
@@ -33,7 +40,7 @@ for i, s in enumerate(scripts):
             if re.search(rf"(?<![\w$.]){re.escape(n)}(?![\w$])", body):
                 fails.append(f"script {i} uses '{n}' defined only in script {j} (put it on window)")
 draw_el = set(re.findall(r'data-draw="(\w+)"', html))
-draw_fn = set(re.findall(r"dash\.draw\('(\w+)'", html)) | set(re.findall(r"\['(\w+)', '\w+', '\w+', (?!')", html))
+draw_fn = set(re.findall(r"dash\.draw\('(\w+)'", html_all)) | set(re.findall(r"\['(\w+)', '\w+', '\w+', (?!')", html_all))
 for n in sorted(draw_el - draw_fn):
     fails.append(f"element data-draw='{n}' has no dash.draw")
 for n in sorted(draw_fn - draw_el):
