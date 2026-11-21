@@ -286,6 +286,87 @@ for r in crows:
 cov.sort(key=lambda x: (x["live"] != "yes", x["market"], x["record_type"]))
 write("coverage.csv", ["market", "live", "record_type", "status", "source", "backup", "last_checked", "gap", "fragile"], cov)
 
+# ---- workers: what each specialist has produced (measured from its own output files) ----
+import subprocess
+def _last(*paths):
+    try:
+        out = subprocess.run(["git", "-C", ROOT, "log", "-1", "--format=%cs", "--"] + list(paths), capture_output=True, text=True, timeout=20).stdout.strip()
+        return out
+    except Exception:
+        return ""
+def _count(pattern):
+    return len(glob.glob(os.path.join(ROOT, pattern)))
+def _rows(path):
+    p = os.path.join(ROOT, path)
+    return list(csv.DictReader(open(p))) if os.path.exists(p) else []
+_cov = _rows("pipeline/coverage.csv")
+_buy = _rows("pipeline/buyers/buyers.csv")
+_inbox = _rows("pipeline/inbox-log.csv")
+_comp_pass = _comp_hold = 0
+for f in glob.glob(os.path.join(ROOT, "leads", "*", "compliance-log.md")):
+    t = open(f).read()
+    _comp_pass += len(re.findall(r"\bPASS\b", t)); _comp_hold += len(re.findall(r"\bHOLD\b", t))
+_legal = glob.glob(os.path.join(ROOT, "legal", "*.md"))
+_fresh_legal = 0
+for f in _legal:
+    m = re.search(r"Last verified:\s*(\d{4}-\d{2}-\d{2})", open(f).read())
+    if m and (datetime.date.fromisoformat(TODAY) - datetime.date.fromisoformat(m.group(1))).days <= 30:
+        _fresh_legal += 1
+_opps = [l for l in leads if l["is_opportunity"] == "yes"]
+_screened = 0
+for f in glob.glob(os.path.join(ROOT, "pipeline", "candidates", "*.tsv")):
+    _screened += max(0, sum(1 for _ in open(f)) - 1)
+_analyzed = _count("leads/*/underwriting.md")
+_drafts = _count("leads/*/outreach-drafts.md")
+_touches = sum(int(float(r.get("touch_count") or 0)) for r in tracker)
+_order = lambda st: STAGE_ORDER.get(st, 0)
+_offers = sum(1 for l in leads if 5 <= _order(l["stage"]) <= 15)
+_verbal = sum(1 for l in leads if 6 <= _order(l["stage"]) <= 15)
+_contract = sum(1 for l in leads if 8 <= _order(l["stage"]) <= 15)
+_buyerfound = sum(1 for l in leads if 11 <= _order(l["stage"]) <= 15)
+_closed = sum(1 for l in leads if l["stage"] in ("Closed", "Paid"))
+_vetted = sum(1 for b in _buy if (b.get("status") or "").lower() in ("vetted", "active", "confirmed"))
+_outreach_mode = (re.search(r"outreach:\s*(\w+)", open(os.path.join(ROOT, "config.yaml")).read()) or [None, "drafts_only"])[1]
+def W(worker, does, done, done_label, result, result_label, last, status, note=""):
+    rate = f"{round(100 * result / done)}%" if done else ""
+    return {"worker": worker, "does": does, "done": done, "done_label": done_label, "result": result, "result_label": result_label,
+            "rate": rate, "last_active": last, "status": status, "note": note}
+workers = [
+    W("Source Mapper", "Finds and maintains public record sources per county", sum(1 for c in _cov if (c.get("primary_status") or "untested") != "untested"), "sources checked",
+      sum(1 for c in _cov if c.get("primary_status") == "works"), "working", _last("pipeline/coverage.csv"), "Active"),
+    W("Researcher", "Pulls new probate filings and confirms who owns the house", _screened, "estates screened",
+      len(tracker), "leads confirmed and researched", _last("leads", "pipeline/candidates"), "Active"),
+    W("Heir & Title Tracer", "Works out who holds title and who must sign", _count("leads/*/heirs.md"), "heir traces",
+      _count("leads/*/heirs.md"), "completed", _last("leads/*/heirs.md"), "Active" if _count("leads/*/heirs.md") else "Not started"),
+    W("Legal & Tax Advisor", "Keeps each state's legal file current; flags deal issues", len(_legal), "state legal files",
+      _fresh_legal, "verified in last 30 days", _last("legal"), "Active"),
+    W("Deal Analyst", "Values, repairs, max offer, price floors, verdict", _analyzed, "deals analyzed",
+      len(_opps), "opportunities (GO/NEGOTIATE)", _last("leads/*/underwriting.md"), "Active",
+      f"${sum(int(float(l['potential_earnings'] or 0)) for l in _opps):,} potential earnings found"),
+    W("Acquisitions", "Writes each lead's letters and follow-up plan", _drafts, "outreach drafts",
+      sum(1 for q in queues if q["queue"] == "Approve outreach"), "waiting for your approval", _last("leads/*/outreach-drafts.md"), "Active"),
+    W("Compliance Officer", "Checks every message and document before it goes out", _comp_pass + _comp_hold, "items checked",
+      _comp_pass, "passed", _last("leads/*/compliance-log.md"), "Waiting: nothing sent yet" if not (_comp_pass + _comp_hold) else "Active",
+      f"{_comp_hold} held" if _comp_hold else ""),
+    W("Communications", "Sends approved outreach, reads replies, routes them", _touches, "contacts sent",
+      len(_inbox), "replies received", _last("pipeline/inbox-log.csv"),
+      "Waiting on you: outreach is drafts-only" if _outreach_mode == "drafts_only" and not _touches else "Active"),
+    W("Reply Desk", "Classifies and answers incoming replies", len(_inbox), "replies handled",
+      sum(1 for r in _inbox if r.get("responded_date")), "answered", _last("pipeline/inbox-log.csv"),
+      "Waiting: no replies yet" if not _inbox else "Active"),
+    W("Negotiator", "Makes and answers offers up to the max offer", _offers, "offers made",
+      _verbal, "verbal agreements", "", "Waiting: no conversations yet" if not _offers else "Active"),
+    W("Buyer-List Builder", "Finds cash buyers from public deed records", len(_buy), "buyers found",
+      _vetted, "vetted", _last("pipeline/buyers"), "Active" if _buy else "Not started"),
+    W("Dispositions", "Matches deals to buyers and assigns contracts", _contract, "deals under contract",
+      _buyerfound, "buyers matched", "", "Waiting: no contracts yet" if not _contract else "Active"),
+    W("Professional Network", "Shortlists attorneys and title companies", _count("network/*.md"), "market shortlists",
+      0, "engaged", _last("network"), "Active" if _count("network/*.md") else "Not started"),
+    W("Transaction Coordinator", "Title checks, deadlines, signature and wire queues, closing", _count("leads/*/title.md"), "title checks done",
+      _closed, "closed", _last("leads/*/title.md"), "Active", f"{_contract} under contract"),
+]
+write("workers.csv", ["worker", "does", "done", "done_label", "result", "result_label", "rate", "last_active", "status", "note"], workers)
+
 # ---- health: freshness of the data itself ----
 last_run = runs[-1]["date"] if runs else ""
 try:

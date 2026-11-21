@@ -228,6 +228,13 @@
   </section>
 
   <section class="pp-page" id="operations" hidden>
+    <div class="pp-card pp-wrap" id="ops-workers"><h2>Worker performance</h2>
+      <p class="pp-muted" style="margin:0 0 var(--cds-gap-sm)">What each specialist has produced so far, measured from its own output in the pipeline repo. "Waiting" means it has nothing to act on yet, usually because an earlier step (or you) comes first.</p>
+      <table data-source="workers" data-row-key="worker">
+        <thead><tr><th data-field="worker">Worker</th><th data-field="status">Status</th><th class="pp-n" data-field="done">Work done</th><th data-field="done_label">of what</th><th class="pp-n" data-field="result">Results</th><th data-field="result_label">of what</th><th class="pp-n" data-field="rate">Rate</th><th data-field="last_active">Last active</th><th data-field="note">Note</th><th data-field="does">Job</th></tr></thead>
+        <tbody data-draw="workerRows"></tbody>
+      </table>
+    </div>
     <div class="pp-card pp-wrap" id="ops-teams"><h2>Worker teams</h2>
       <table data-source="teamLoad" data-row-key="team">
         <thead><tr><th data-field="team">Team</th><th class="pp-n" data-field="deals">Deals in its stages</th><th data-field="does">What it does on its own</th></tr></thead>
@@ -420,6 +427,10 @@ dash.draw('marketRows', (tb) => ppRows(tb, 'marketsF', [{ f: 'state' }, { f: 'co
   { f: 'status', cls: (v) => v.startsWith('Live') ? 'pp-go' : v === 'Research only' ? 'pp-neg' : v === 'Blocked' ? 'pp-bad' : 'pp-muted' },
   { f: 'legal_file' }, { f: 'leads', cls: 'pp-n' }, { f: 'opportunities', cls: 'pp-n' }, { f: 'last_checked' }], 'No markets match.',
   (r) => r.county && dash.setParams({ state: r.state, county: r.county, lead: null })));
+dash.draw('workerRows', (tb) => ppRows(tb, 'workers', [{ f: 'worker' },
+  { f: 'status', cls: (v) => /^Active/.test(v || '') ? 'pp-go' : /you/i.test(v || '') ? 'pp-neg' : 'pp-muted' },
+  { f: 'done', cls: 'pp-n' }, { f: 'done_label', cls: 'pp-muted' }, { f: 'result', cls: 'pp-n' }, { f: 'result_label', cls: 'pp-muted' },
+  { f: 'rate', cls: 'pp-n' }, { f: 'last_active' }, { f: 'note', cls: 'pp-wrapcell' }, { f: 'does', cls: 'pp-wrapcell pp-muted' }], 'No worker data yet.'));
 dash.draw('teamRows', (tb) => ppRows(tb, 'teamLoad', [{ f: 'team' }, { f: 'deals', cls: 'pp-n' }, { f: 'does', cls: 'pp-wrapcell' }], '—'));
 dash.draw('buyerRows', (tb) => ppRows(tb, 'buyers', [{ f: 'county' }, { f: 'state' }, { f: 'found', cls: 'pp-n' }, { f: 'confirmed', cls: 'pp-n' }, { f: 'vetted', cls: 'pp-n' }, { f: 'deals_under_contract', cls: 'pp-n' }, { f: 'warning', cls: (v) => v ? 'pp-neg pp-wrapcell' : 'pp-muted' }], 'No live markets yet.'));
 dash.draw('replyRows', (tb) => ppRows(tb, 'replies', [{ f: 'received_date' }, { f: 'channel' }, { f: 'lead_id' }, { f: 'label' }, { f: 'routed_to' }, { f: 'age_days', cls: 'pp-n' }, { f: 'status', cls: (v) => v === 'late' ? 'pp-bad' : 'pp-muted' }], 'No replies waiting.'));

@@ -85,6 +85,13 @@ h = rows("health.csv")
 if not h or not re.match(r"\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$", h[0].get("built_at", "")):
     fails.append("health.csv missing a UTC built_at timestamp (page can't detect stale data)")
 
+# Worker performance sanity (regression: rates above 100% from mismatched counts)
+for w in rows("workers.csv"):
+    if w.get("rate") and int(w["rate"].rstrip("%")) > 100:
+        fails.append(f"workers.csv: {w['worker']} rate {w['rate']} > 100% (counts don't measure the same thing)")
+if rows("workers.csv") and len(rows("workers.csv")) < 14:
+    fails.append("workers.csv is missing workers")
+
 # Every state appears in markets
 st = {m["state"] for m in markets}
 if len(st) < 51:
