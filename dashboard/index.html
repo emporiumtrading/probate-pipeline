@@ -228,6 +228,13 @@
   </section>
 
   <section class="pp-page" id="operations" hidden>
+    <div class="pp-card pp-wrap" id="ops-money"><h2>Money</h2>
+      <p class="pp-muted" style="margin:0 0 var(--cds-gap-sm)">From the Bookkeeper's ledger. Earned and expenses count only entries backed by a document (settlement statement, invoice, receipt). Tax set-aside is an estimate for your CPA, not tax advice. The system never holds bank details or moves money.</p>
+      <table data-source="finance" data-row-key="month">
+        <thead><tr><th data-field="month">Month</th><th class="pp-n" data-field="potential_in_pipeline">Potential in pipeline</th><th class="pp-n" data-field="fees_forecast_contracted">Fees forecast (contracted)</th><th class="pp-n" data-field="fees_earned">Fees earned</th><th class="pp-n" data-field="expenses">Expenses</th><th class="pp-n" data-field="net">Net</th><th class="pp-n" data-field="tax_set_aside">Tax set-aside (est.)</th><th class="pp-n" data-field="earnest_money_outstanding">Earnest money out</th></tr></thead>
+        <tbody data-draw="moneyRows"></tbody>
+      </table>
+    </div>
     <div class="pp-card pp-wrap" id="ops-workers"><h2>Worker performance</h2>
       <p class="pp-muted" style="margin:0 0 var(--cds-gap-sm)">What each specialist has produced so far, measured from its own output in the pipeline repo. "Waiting" means it has nothing to act on yet, usually because an earlier step (or you) comes first.</p>
       <table data-source="workers" data-row-key="worker">
@@ -427,6 +434,10 @@ dash.draw('marketRows', (tb) => ppRows(tb, 'marketsF', [{ f: 'state' }, { f: 'co
   { f: 'status', cls: (v) => v.startsWith('Live') ? 'pp-go' : v === 'Research only' ? 'pp-neg' : v === 'Blocked' ? 'pp-bad' : 'pp-muted' },
   { f: 'legal_file' }, { f: 'leads', cls: 'pp-n' }, { f: 'opportunities', cls: 'pp-n' }, { f: 'last_checked' }], 'No markets match.',
   (r) => r.county && dash.setParams({ state: r.state, county: r.county, lead: null })));
+dash.draw('moneyRows', (tb) => { const M = window.ppMoney; ppRows(tb, 'finance', [{ f: 'month' },
+  { f: 'potential_in_pipeline', fmt: (v) => v === '' || v === undefined ? '' : M(v), cls: 'pp-n' }, { f: 'fees_forecast_contracted', fmt: M, cls: 'pp-n' },
+  { f: 'fees_earned', fmt: M, cls: 'pp-n pp-go' }, { f: 'expenses', fmt: M, cls: 'pp-n' }, { f: 'net', fmt: M, cls: 'pp-n' },
+  { f: 'tax_set_aside', fmt: M, cls: 'pp-n' }, { f: 'earnest_money_outstanding', fmt: (v) => v === '' || v === undefined ? '' : M(v), cls: 'pp-n' }], 'No ledger entries yet.'); });
 dash.draw('workerRows', (tb) => ppRows(tb, 'workers', [{ f: 'worker' },
   { f: 'status', cls: (v) => /^Active/.test(v || '') ? 'pp-go' : /you/i.test(v || '') ? 'pp-neg' : 'pp-muted' },
   { f: 'done', cls: 'pp-n' }, { f: 'done_label', cls: 'pp-muted' }, { f: 'result', cls: 'pp-n' }, { f: 'result_label', cls: 'pp-muted' },

@@ -32,6 +32,7 @@ New workers are created only through `references/new-worker.md`. Every role lear
 | Contact Finder | `agents/contact-finder.md` | Verified mailing address for each letter's recipient (attorney of record first) from public court and bar records (`leads/<id>/contacts.md`) |
 | Contract Desk | `agents/contract-desk.md` | Attorney-approved state templates; fills signature-ready packets at "Verbal agreement" (`leads/<id>/contract/`) |
 | Quality Auditor | `agents/quality-auditor.md` | Independently re-verifies a sample of each run's leads before they reach the owner (`leads/<id>/audit.md`) |
+| Bookkeeper | `agents/bookkeeper.md` | Document-backed ledger (`pipeline/ledger.csv`): forecast and actual fees, costs, earnest money outstanding, monthly roll-up, tax set-aside estimate. Never moves money or holds bank details |
 | Professional Network | `agents/professional-network.md` | Shortlists and scores attorneys and title companies per market, requests quotes, prepares engagement for signature |
 
 How the teams run together, the deal stages and the owner's touchpoints (signatures and wires only) are in `references/orchestration.md`. Messages are composed per lead with `references/dynamic-messaging.md`, not one fixed template.

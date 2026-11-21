@@ -100,6 +100,22 @@ for f in glob.glob(os.path.join(_sk, "agents", "*.md")):
     if rows("workers.csv") and slug not in _wfiles:
         fails.append(f"agents/{slug} is not measured in workers.csv (add a W(...) row and its role_file)")
 
+# Ledger integrity (Bookkeeper): numeric amounts, known types, actuals need a document, no bank details anywhere
+_lp = os.path.join(ROOT, "pipeline", "ledger.csv")
+if os.path.exists(_lp):
+    _lt = open(_lp).read()
+    if re.search(r"(?i)routing|account\s*(no|number|#)|\biban\b|\bswift\b|\b\d{9,17}\b", _lt):
+        fails.append("pipeline/ledger.csv appears to contain bank or account details: remove them (the ledger records amounts and documents only)")
+    for i, r in enumerate(csv.DictReader(open(_lp)), 2):
+        if r.get("type") not in ("income", "expense", "escrow_out", "escrow_back"):
+            fails.append(f"ledger.csv line {i}: unknown type '{r.get('type')}'")
+        if r.get("status") not in ("forecast", "actual"):
+            fails.append(f"ledger.csv line {i}: status must be forecast or actual")
+        if n(r.get("amount")) is None or (n(r.get("amount")) or 0) < 0:
+            fails.append(f"ledger.csv line {i}: amount must be a positive number")
+        if r.get("status") == "actual" and not (r.get("doc_ref") or "").strip():
+            fails.append(f"ledger.csv line {i}: actual entry without a doc_ref")
+
 # Every state appears in markets
 st = {m["state"] for m in markets}
 if len(st) < 51:

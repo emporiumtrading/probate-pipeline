@@ -35,6 +35,9 @@ lead_types:                       # see .claude/skills/probate-wholesale-deal/re
   guardianship: false             # vulnerable adults; only the owner may enable, after the attorney approves a process
 max_new_leads_per_day: 25         # deep-dive cap per run; raised automatically toward targets.max_leads_per_day
 
+finance:
+  tax_set_aside_pct: 0.30         # Bookkeeper's tax set-aside estimate on net earned (for the CPA; not tax advice)
+
 targets:
   closings_per_month: 3           # first-90-day goal (was 115). Raise it only after 3 months of real response and close rates replace assumed_rates.
   max_leads_per_day: 50           # upper bound the planner may raise max_new_leads_per_day to (was 200)

@@ -286,6 +286,33 @@ for r in crows:
 cov.sort(key=lambda x: (x["live"] != "yes", x["market"], x["record_type"]))
 write("coverage.csv", ["market", "live", "record_type", "status", "source", "backup", "last_checked", "gap", "fragile"], cov)
 
+# ---- finance: monthly roll-up of the Bookkeeper's ledger ----
+_ledger = []
+_lp = os.path.join(ROOT, "pipeline", "ledger.csv")
+if os.path.exists(_lp):
+    _ledger = list(csv.DictReader(open(_lp)))
+_tax_pct = float((re.search(r"tax_set_aside_pct:\s*([0-9.]+)", open(os.path.join(ROOT, "config.yaml")).read()) or [None, "0.30"])[1])
+def _amt(r):
+    try:
+        return float(r.get("amount") or 0)
+    except ValueError:
+        return 0.0
+_months = sorted({(r.get("date") or "")[:7] for r in _ledger if r.get("date")} | {TODAY[:7]})
+_fin_rows = []
+_pipeline_fees = sum(int(float(l["potential_earnings"] or 0)) for l in leads if l["is_opportunity"] == "yes")
+for m in _months:
+    inm = [r for r in _ledger if (r.get("date") or "").startswith(m)]
+    earned = sum(_amt(r) for r in inm if r["type"] == "income" and r["status"] == "actual")
+    spent = sum(_amt(r) for r in inm if r["type"] == "expense" and r["status"] == "actual")
+    fc_fee = sum(_amt(r) for r in inm if r["type"] == "income" and r["status"] == "forecast")
+    net = earned - spent
+    _fin_rows.append({"month": m, "fees_forecast_contracted": int(fc_fee), "fees_earned": int(earned), "expenses": int(spent), "net": int(net),
+                      "tax_set_aside": int(max(net, 0) * _tax_pct), "potential_in_pipeline": _pipeline_fees if m == TODAY[:7] else ""})
+_escrow_out = sum(_amt(r) for r in _ledger if r["type"] == "escrow_out" and r["status"] == "actual") - sum(_amt(r) for r in _ledger if r["type"] == "escrow_back" and r["status"] == "actual")
+for r in _fin_rows:
+    r["earnest_money_outstanding"] = int(_escrow_out) if r["month"] == TODAY[:7] else ""
+write("finance.csv", ["month", "potential_in_pipeline", "fees_forecast_contracted", "fees_earned", "expenses", "net", "tax_set_aside", "earnest_money_outstanding"], _fin_rows)
+
 # ---- workers: what each specialist has produced (measured from its own output files) ----
 import subprocess
 def _last(*paths):
@@ -372,6 +399,9 @@ workers = [
     W("Quality Auditor", "Re-verifies a sample of each run's leads before the owner sees them", _count("leads/*/audit.md"), "leads audited",
       sum(1 for f in glob.glob(os.path.join(ROOT, "leads", "*", "audit.md")) if "FAIL" not in open(f).read()), "passed",
       _last("leads/*/audit.md"), "Active" if _count("leads/*/audit.md") else "Not started"),
+    W("Bookkeeper", "Document-backed ledger, monthly roll-up, tax set-aside estimate", len(_ledger), "ledger entries",
+      sum(1 for r in _ledger if r.get("status") == "actual"), "backed by a document", _last("pipeline/ledger.csv"),
+      "Active" if _ledger else "Waiting: no money has moved yet"),
     W("Transaction Coordinator", "Title checks, deadlines, signature and wire queues, closing", _count("leads/*/title.md"), "title checks done",
       _closed, "closed", _last("leads/*/title.md"), "Active", f"{_contract} under contract"),
 ]
@@ -380,7 +410,7 @@ _ROLE_FILE = {"Source Mapper": "source-mapper.md", "Researcher": "researcher.md"
     "Compliance Officer": "compliance-officer.md", "Communications": "communications.md", "Reply Desk": "reply-desk.md",
     "Negotiator": "negotiator.md", "Buyer-List Builder": "buyer-list.md", "Dispositions": "dispositions.md",
     "Professional Network": "professional-network.md", "Tax & Lien Checker": "tax-lien-checker.md", "Contact Finder": "contact-finder.md",
-    "Contract Desk": "contract-desk.md", "Quality Auditor": "quality-auditor.md", "Transaction Coordinator": "transaction-coordinator.md"}
+    "Contract Desk": "contract-desk.md", "Quality Auditor": "quality-auditor.md", "Bookkeeper": "bookkeeper.md", "Transaction Coordinator": "transaction-coordinator.md"}
 for w in workers:
     w["role_file"] = _ROLE_FILE.get(w["worker"], "")
 write("workers.csv", ["worker", "role_file", "does", "done", "done_label", "result", "result_label", "rate", "last_active", "status", "note"], workers)
