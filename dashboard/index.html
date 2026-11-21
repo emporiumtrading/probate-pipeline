@@ -265,7 +265,7 @@
     <div class="pp-card"><h2>What still stands between the pipeline and running on its own</h2>
       <p class="pp-muted">Every "missing" row is something only you can provide. Fill in <code>config.yaml</code> (business and channels), send each market's attorney packet, then record approvals. Signatures, wire confirmations and calls always stay with you.</p>
     </div>
-    <div class="pp-card"><div class="pp-progress" role="progressbar" aria-label="Setup progress" aria-valuemin="0" aria-valuemax="100"><div data-draw="setupBar" data-source="health"></div></div><p class="pp-muted" id="setup-bar-label">—</p></div>
+    <div class="pp-card"><div class="pp-progress" role="progressbar" aria-label="Setup progress" aria-valuemin="0" aria-valuemax="100"><div data-draw="setupBar" data-source="health"></div></div><p class="pp-muted" id="setup-bar-label" data-draw="setupBarLabel" data-source="health">—</p></div>
     <div class="pp-card pp-wrap" id="setup-list">
       <table data-source="readiness" data-row-key="area,item">
         <thead><tr><th data-field="area">Area</th><th data-field="item">Item</th><th data-field="status">Status</th><th data-field="how_to_fix">How to fix</th><th data-field="unlocks">Unlocks</th></tr></thead>
@@ -499,9 +499,12 @@ dash.draw('covGapsChk', (inp) => { inp.checked = dash.params().covGaps === '1'; 
 dash.draw('covSummary', (el) => { const d = dash.data('coverageF'); if (d.status !== 'ok' || !d.data) { el.textContent = ''; return; }
   const w = d.data.filter((r) => r.status === 'works').length, f = d.data.filter((r) => r.fragile === 'yes').length;
   el.textContent = `${d.data.length} rows · ${w} working · ${d.data.length - w} gaps · ${f} without a backup`; });
-dash.draw('setupBar', (el) => { const r = ppFirst('health'); const lab = document.getElementById('setup-bar-label');
-  if (!r) { el.style.width = '0'; if (lab) lab.textContent = '—'; return; }
+dash.draw('setupBar', (el) => { const r = ppFirst('health');
+  if (!r) { el.style.width = '0'; return; }
   const done = +r.readiness_done || 0, total = +r.readiness_total || 0, pct = total ? Math.round(100 * done / total) : 0;
-  el.style.width = pct + '%'; el.parentElement.setAttribute('aria-valuenow', String(pct));
-  if (lab) lab.textContent = `${done} of ${total} setup steps done (${pct}%). Each one you finish turns its row green.`; });
+  el.style.width = pct + '%'; el.parentElement.setAttribute('aria-valuenow', String(pct)); });
+dash.draw('setupBarLabel', (el) => { const r = ppFirst('health');
+  if (!r) { el.textContent = '—'; return; }
+  const done = +r.readiness_done || 0, total = +r.readiness_total || 0, pct = total ? Math.round(100 * done / total) : 0;
+  el.textContent = `${done} of ${total} setup steps done (${pct}%). Each one you finish turns its row green.`; });
 </script>
