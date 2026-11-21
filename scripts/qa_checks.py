@@ -241,6 +241,24 @@ try:
     _os_.load()
 except _os_.Refused as e:
     fails.append(f"pipeline/owner-settings.json: {e}")
+# messages (Messages page): every listed attachment must exist; statuses from the known set
+_mp = os.path.join(D, "messages.json")
+if not os.path.exists(_mp):
+    fails.append("messages.json missing: rebuild with scripts/build_dashboard_data.py")
+else:
+    import json as _json
+    _ST = {"draft awaiting approval", "approved by you", "changes requested", "rejected", "sent", "withdrawn", "script for you"}
+    for _m in _json.load(open(_mp)):
+        if _m.get("status") not in _ST:
+            fails.append(f"messages.json {_m.get('msg_id')}: unknown status {_m.get('status')}")
+        for _a in _json.loads(_m.get("attachments") or "[]"):
+            if not _a.get("found"):
+                fails.append(f"{_m.get('msg_id')}: attachment {_a.get('file')} is listed but missing")
+import owner_decisions as _od
+try:
+    _od.load()
+except _od.Refused as e:
+    fails.append(f"pipeline/owner-decisions.csv: {e}")
 def guard_parts():
     dr = open(os.path.join(ROOT, ".claude/skills/probate-wholesale-deal/references/daily-run.md")).read()
     hl = re.search(r"## Hard limits.*?(?=\n## )", dr, re.S)

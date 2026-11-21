@@ -5,7 +5,7 @@ Usage: python3 scripts/build_dashboard_data.py OUT_DIR
 Writes leads.csv, queues.csv, markets.csv, sources.csv, runs.csv, pace.csv, stages.csv.
 Personal names and contact details are never written (anyone who can open the dashboard can read its files).
 """
-import csv, datetime, glob, math, os, re, sys
+import csv, datetime, glob, json, math, os, re, subprocess, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(ROOT, "dashboard-data")
@@ -122,13 +122,89 @@ queues = []
 for l in leads:
     if l["owner_action"] == "approve" and l["lead_id"] in approvals:
         queues.append({"queue": "Approve outreach", "lead_id": l["lead_id"], "address": l["address"], "city": l["city"],
-                       "county": l["county"], "state": l["state"], "item": approvals[l["lead_id"]],
+                       "county": l["county"], "state": l["state"], "item": (approvals[l["lead_id"]].split(" | ") + [""])[1] or approvals[l["lead_id"]],
                        "due": l["next_action_date"], "file": f"leads/{l['lead_id']}/outreach-drafts.md"})
     elif l["owner_action"] in ("sign", "wire"):
         queues.append({"queue": "Sign" if l["owner_action"] == "sign" else "Wire", "lead_id": l["lead_id"],
                        "address": l["address"], "city": l["city"], "county": l["county"], "state": l["state"],
                        "item": l["next_action"], "due": l["next_action_date"], "file": f"leads/{l['lead_id']}/"})
-write("queues.csv", ["queue", "lead_id", "address", "city", "county", "state", "item", "due", "file"], queues)
+# Owner decisions from the dashboard (scripts/owner_decisions.py): shown on the queue and message rows.
+sys.path.insert(0, os.path.join(ROOT, "scripts"))
+import owner_decisions
+DEC = owner_decisions.load()
+_QK = {"Approve outreach": "outreach", "Sign": "sign", "Wire": "wire"}
+for q in queues:
+    d = DEC.get((_QK.get(q["queue"], ""), q["lead_id"]))
+    q["decision"] = d["decision"] if d else ""
+    q["decision_note"] = d["note"] if d else ""
+write("queues.csv", ["queue", "lead_id", "address", "city", "county", "state", "item", "due", "file", "decision", "decision_note"], queues)
+
+# ---- messages: every drafted or sent message, with its body and attachments ----
+# Source: leads/<id>/outreach-drafts.md, one "## " section per message. Sections that aren't messages (the follow-up
+# plan, the compliance pre-check) go along as reference for the lead. A message lists what goes with it on a line
+# "Attachments: <file>, <file>" (files under leads/<id>/); each listed file's text is included.
+_SENT = set(s for s, _, _ in STAGES[STAGES.index(("Outreach sent", "Communications", "")):] ) - {"Dead"}
+def _kind(h):
+    hl = h.lower()
+    if "compliance" in hl: return "compliance"
+    if "cadence" in hl or "follow-up plan" in hl: return "plan"
+    if hl.startswith("call"): return "call script"
+    if hl.startswith("email") or "e-mail" in hl: return "email"
+    if hl.startswith("text") or "sms" in hl: return "text"
+    if hl.startswith("letter") or "postcard" in hl: return "letter"
+    return "note"
+def _first_commit(path):
+    try:
+        out = subprocess.run(["git", "-C", ROOT, "log", "--diff-filter=A", "--format=%cs", "--", path], capture_output=True, text=True, timeout=20).stdout.split()
+        return out[-1] if out else ""
+    except Exception:
+        return ""
+messages = []
+_lead_by_id = {l["lead_id"]: l for l in leads}
+for f in sorted(glob.glob(os.path.join(ROOT, "leads", "*", "outreach-drafts.md"))):
+    lid = os.path.basename(os.path.dirname(f)); l = _lead_by_id.get(lid)
+    if not l: continue
+    txt = open(f).read()
+    parts = re.split(r"\n(?=## )", txt)
+    intro = parts[0]
+    recip = (re.search(r"Recipient:\s*(.+?\))", intro) or re.search(r"Recipient:\s*([^.\n]+)", intro) or [None, ""])[1][:200]
+    intro_note = re.sub(r"^#[^\n]*\n", "", intro).strip()[:1500]
+    refs = [{"name": "Plan for this lead", "file": f"leads/{lid}/plan.md", "text": open(os.path.join(ROOT, "leads", lid, "plan.md")).read()[:6000]}] if os.path.exists(os.path.join(ROOT, "leads", lid, "plan.md")) else []
+    for sec in parts[1:]:
+        head, _, body = sec[3:].partition("\n")
+        k = _kind(head)
+        if k in ("compliance", "plan"):
+            refs.append({"name": head.strip(), "file": f"leads/{lid}/outreach-drafts.md", "text": body.strip()[:6000]})
+    n = 0
+    for sec in parts[1:]:
+        head, _, body = sec[3:].partition("\n")
+        k = _kind(head)
+        if k in ("compliance", "plan"): continue
+        n += 1
+        atts = []
+        for line in re.findall(r"^(?:Attachments?|Enclosures?):\s*(.+)$", body, re.M | re.I):
+            for a in [x.strip() for x in re.split(r"[,;]", line) if x.strip() and x.strip().lower() not in ("none", "n/a")]:
+                ap = os.path.normpath(os.path.join(ROOT, a if a.startswith("leads/") else os.path.join("leads", lid, a)))
+                ok_ = ap.startswith(os.path.join(ROOT, "leads", lid)) and os.path.isfile(ap)
+                atts.append({"name": os.path.basename(a), "file": os.path.relpath(ap, ROOT), "found": ok_,
+                             "text": open(ap, errors="replace").read()[:20000] if ok_ and ap.endswith((".md", ".txt", ".csv")) else ""})
+        d = DEC.get(("outreach", lid))
+        if l["stage"] in _SENT and k != "call script": status = "sent"
+        elif l["stage"] == "Dead": status = "withdrawn"
+        elif d: status = {"approved": "approved by you", "changes": "changes requested", "rejected": "rejected"}[d["decision"]]
+        elif k == "call script": status = "script for you"
+        else: status = "draft awaiting approval"
+        to = recip or (re.search(r"[-—]\s*to\s+(.+)$", head) or [None, ""])[1].strip()
+        messages.append({"msg_id": f"{lid}--{n}", "lead_id": lid, "address": l["address"], "city": l["city"], "county": l["county"],
+                         "state": l["state"], "stage": l["stage"], "channel": k, "title": head.strip()[:160], "to": to[:160],
+                         "status": status, "created": (re.search(r"created (\d{4}-\d\d-\d\d)", approvals.get(lid, "")) or [None, ""])[1] or _first_commit(f),
+                         "sent_on": l["last_touch_date"] if status == "sent" else "", "words": len(body.split()),
+                         "body": body.strip()[:12000], "attachments": json.dumps(atts), "attachment_count": len(atts),
+                         "references": json.dumps(refs if n == 1 else []), "lead_note": intro_note if n == 1 else "", "decision_note": d["note"] if d else "",
+                         "potential_earnings": l["potential_earnings"]})
+with open(os.path.join(OUT, "messages.json"), "w") as fh:
+    json.dump(messages, fh)
+
 
 # ---- stages (full list, so empty stages still show) ----
 write("stages.csv", ["stage_order", "stage", "team", "owner_action"],

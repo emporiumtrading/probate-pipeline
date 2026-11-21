@@ -86,6 +86,21 @@
 .pp-dlg-items { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px; }
 .pp-dlg-msg:empty { display: none; }
 .pp-dlg-msg { font-size: var(--cds-font-size-caption); padding: 8px 10px; border-radius: var(--cds-radius); border: 1px solid currentColor; }
+.pp-dlg-wide { width: min(860px, 96vw); }
+.pp-dlg-body { display: flex; flex-direction: column; gap: 10px; padding: var(--cds-pad-lg); font-family: var(--font-anthropic-sans); }
+.pp-msg-body { white-space: pre-wrap; font-family: var(--font-anthropic-serif); font-size: var(--cds-font-size-body); line-height: 1.55; background: var(--color-bg); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: 14px 16px; margin: 0; max-height: 46vh; overflow: auto; }
+.pp-msg-note:empty { display: none; }
+.pp-msg-note { font-size: var(--cds-font-size-caption); border-left: 3px solid var(--color-warn); padding: 6px 10px; background: color-mix(in srgb, var(--color-warn) 8%, transparent); white-space: pre-wrap; }
+.pp-att { border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: 6px 10px; margin-bottom: 6px; }
+.pp-att pre, .pp-msg-refs pre { white-space: pre-wrap; font-size: var(--cds-font-size-caption); max-height: 30vh; overflow: auto; margin: 6px 0 0; }
+.pp-msg-actions { display: flex; flex-direction: column; gap: 8px; border-top: 1px solid var(--color-border-line); padding-top: 10px; }
+.pp-msg-actions label { display: flex; flex-direction: column; gap: 4px; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
+.pp-msg-actions textarea, .pp-msg-filters input { font: inherit; font-size: var(--cds-font-size-body); color: var(--color-fg); background: var(--color-bg); border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); padding: 6px 9px; }
+.pp-msg-decide:empty { display: none; }
+.pp-bulk { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px; }
+.pp-bulk-actions { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.pp-act { display: flex; gap: 4px; }
+.pp-act .pp-btn { padding: 3px 8px; }
 .pp-ok { color: var(--color-ok); } .pp-warn { color: var(--color-warn); } .pp-bad { color: var(--color-bad); }
 .pp-dbar { display: inline-block; height: 8px; border-radius: 0 4px 4px 0; vertical-align: middle; margin-right: 6px; }
 .pp dl { display: grid; grid-template-columns: minmax(130px, max-content) 1fr; gap: 6px 14px; margin: 0; font-size: var(--cds-font-size-caption); }
@@ -108,6 +123,7 @@
       <button class="pp-tab" role="tab" data-page="opportunities" aria-selected="false">Opportunities <span class="pp-badge" data-draw="bOpps" data-source="kpis" data-field="opps" data-row="0"></span></button>
       <button class="pp-tab" role="tab" data-page="pipeline" aria-selected="false">Pipeline</button>
       <button class="pp-tab" role="tab" data-page="deal" aria-selected="false">Deal detail</button>
+      <button class="pp-tab" role="tab" data-page="messages" aria-selected="false">Messages <span class="pp-badge" data-draw="bMsgs" data-source="msgCounts" data-field="awaiting" data-row="0"></span></button>
       <button class="pp-tab" role="tab" data-page="queues" aria-selected="false">Your queues <span class="pp-badge" data-draw="bQueue" data-source="kpis" data-field="queue" data-row="0"></span></button>
       <button class="pp-tab" role="tab" data-page="markets" aria-selected="false">Markets &amp; legal</button>
       <button class="pp-tab" role="tab" data-page="operations" aria-selected="false">Operations</button>
@@ -192,6 +208,34 @@
     <p class="pp-sub">Full files (research, numbers, legal, liens, title, contacts, audit, plan, drafts) are in the private repo under leads/&lt;lead id&gt;/.</p>
   </section>
 
+  <section class="pp-page" id="messages" hidden>
+    <div class="pp-tiles">
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="mgTotal" data-source="msgCounts" data-field="total" data-row="0">—</div><div class="pp-lbl">Messages and scripts</div></div>
+      <div class="pp-card pp-tile pp-t-warn"><div class="pp-num" data-draw="mgAwait" data-source="msgCounts" data-field="awaiting" data-row="0">—</div><div class="pp-lbl">Drafts waiting for your approval</div></div>
+      <div class="pp-card pp-tile pp-t-ok"><div class="pp-num" data-draw="mgApproved" data-source="msgCounts" data-field="approved" data-row="0">—</div><div class="pp-lbl">Approved by you, not sent yet</div></div>
+      <div class="pp-card pp-tile pp-t-ok"><div class="pp-num" data-draw="mgSent" data-source="msgCounts" data-field="sent" data-row="0">—</div><div class="pp-lbl">Sent</div></div>
+      <div class="pp-card pp-tile pp-t-muted"><div class="pp-num" data-draw="mgChanges" data-source="msgCounts" data-field="changes" data-row="0">—</div><div class="pp-lbl">Changes requested or rejected</div></div>
+      <div class="pp-card pp-tile pp-t-muted"><div class="pp-num" data-draw="mgAtt" data-source="msgCounts" data-field="attachments" data-row="0">—</div><div class="pp-lbl">Attachments</div></div>
+    </div>
+    <div class="pp-filters pp-msg-filters">
+      <label>Status<select class="dash-select" data-draw="msgStatusSel" aria-label="Message status" data-source="messages"></select></label>
+      <label>Kind<select class="dash-select" data-draw="msgChanSel" aria-label="Message kind" data-source="messages"></select></label>
+      <label>Search<input type="search" id="pp-msg-q" placeholder="Address, city, recipient or words" autocomplete="off"></label>
+    </div>
+    <div class="pp-grid">
+      <div class="pp-card" id="mg-status"><h2>Messages by status</h2><p class="pp-sub">Within the filters. Click a bar to show only that status.</p><div class="pp-chart" data-draw="msgStatusChart" data-source="messagesF"></div></div>
+      <div class="pp-card" id="mg-state"><h2>Messages by state</h2><p class="pp-sub">Letters and emails, within the filters.</p><div class="pp-chart" data-draw="msgStateChart" data-source="messagesF"></div></div>
+    </div>
+    <div class="pp-card" id="mg-days"><h2>Drafted per day</h2><p class="pp-sub">Messages by the day they were drafted.</p><div class="pp-chart" data-draw="msgDayChart" data-source="messagesF"></div></div>
+    <div class="pp-card pp-wrap" id="mg-table"><h2>All messages</h2><p class="pp-sub">Click a row to read the message, its attachments and the notes behind it, and to approve, ask for changes or reject.</p>
+      <table data-source="messagesF" data-row-key="msg_id">
+        <thead><tr><th data-field="created">Drafted</th><th data-field="address">Property</th><th data-field="city">City</th><th data-field="state">State</th><th data-field="channel">Kind</th><th data-field="to">To</th><th data-field="status">Status</th><th class="pp-n" data-field="attachment_count">Attachments</th><th class="pp-n" data-field="words">Words</th></tr></thead>
+        <tbody data-draw="msgRows"></tbody>
+      </table>
+    </div>
+
+  </section>
+
   <section class="pp-page" id="queues" hidden>
     <p class="pp-sub">Everything only you can do. Nothing is sent, signed or paid without you. Wires go only to the title company's escrow, after you confirm instructions by phone at the number on its official website.</p>
     <div class="pp-tiles">
@@ -204,8 +248,15 @@
       <div class="pp-card" id="q-state"><h2>Items by state</h2><div class="pp-chart" data-draw="queueStateChart" data-source="queuesF"></div></div>
     </div>
     <div class="pp-card pp-wrap" id="q-table">
+      <div class="pp-bulk"><h2>Items waiting on you</h2>
+        <div class="pp-bulk-actions"><span class="pp-sub" data-draw="qBulkLabel" data-source="queuesF">—</span>
+          <button type="button" class="pp-btn" id="pp-q-all">Approve all shown outreach</button>
+          <button type="button" class="pp-btn pp-btn-primary" id="pp-q-all-yes" hidden>Yes, approve them</button>
+          <button type="button" class="pp-btn" id="pp-q-all-no" hidden>Cancel</button></div></div>
+      <p class="pp-sub">Approving is your instruction to send. Each letter still goes through the compliance check, the contact limits and the attorney rules before anything is mailed. <b>Read</b> opens the letter, where you can also ask for changes.</p>
+      <p class="pp-dlg-msg" data-draw="qMsg" role="status"></p>
       <table data-source="queuesF" data-row-key="queue,lead_id">
-        <thead><tr><th data-field="queue">Queue</th><th data-field="address">Property</th><th data-field="city">City</th><th data-field="state">State</th><th data-field="item">What</th><th data-field="due">Due</th><th data-field="file">File in repo</th></tr></thead>
+        <thead><tr><th data-field="queue">Queue</th><th data-field="address">Property</th><th data-field="city">City</th><th data-field="state">State</th><th data-field="item">What</th><th data-field="due">Due</th><th data-field="decision">Your decision</th><th>Actions</th></tr></thead>
         <tbody data-draw="queueRows"></tbody>
       </table>
     </div>
@@ -354,8 +405,29 @@
       </form>
     </dialog>
   </section>
+  <dialog class="pp-dlg pp-dlg-wide" id="pp-msg" aria-labelledby="pp-msg-h">
+      <div class="pp-dlg-body">
+        <div class="pp-dlg-head"><h2 id="pp-msg-h" data-draw="msgTitle">—</h2>
+          <div class="pp-bulk-actions"><button type="button" class="pp-btn" id="pp-msg-prev">← Previous</button><button type="button" class="pp-btn" id="pp-msg-next">Next →</button><button type="button" class="pp-btn" id="pp-msg-close">Close</button></div></div>
+        <dl data-draw="msgMeta"></dl>
+        <div class="pp-msg-note" data-draw="msgLeadNote"></div>
+        <h3>Message</h3>
+        <pre class="pp-msg-body" data-draw="msgBody">—</pre>
+        <h3>Attachments</h3>
+        <div data-draw="msgAtts"></div>
+        <details class="pp-msg-refs"><summary>Notes behind this message (plan, compliance check). Not sent.</summary><div data-draw="msgRefs"></div></details>
+        <div class="pp-msg-decide" data-draw="msgDecideState"></div>
+        <div class="pp-msg-actions" id="pp-msg-actions">
+          <label>Note to the team (required when asking for changes)<textarea id="pp-msg-note" rows="2" maxlength="500"></textarea></label>
+          <div class="pp-bulk-actions"><button type="button" class="pp-btn pp-btn-primary" id="pp-msg-approve">Approve</button><button type="button" class="pp-btn" id="pp-msg-changes">Request changes</button><button type="button" class="pp-btn" id="pp-msg-reject">Reject: drop this lead</button></div>
+          <p class="pp-sub">Approving is your instruction to send. It still passes the compliance check, contact limits and attorney rules first. Call scripts are for you to use by hand; the system never phones or texts.</p>
+        </div>
+        <p class="pp-dlg-msg" data-draw="msgMsg" role="status"></p>
+      </div>
+    </dialog>
 </div>
 
 <script src="app.js"></script>
 <script src="charts.js"></script>
 <script src="setup.js"></script>
+<script src="messages.js"></script>

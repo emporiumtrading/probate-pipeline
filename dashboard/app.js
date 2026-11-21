@@ -178,8 +178,7 @@ dash.calc('setupCounts', { title: 'Setup steps missing', description: 'Setup ste
     tb.querySelectorAll('tr').forEach((tr) => { if (tr.cells[1] && tr.cells[1].textContent === sel) tr.classList.add('pp-sel'); }); });
   dash.draw('stageDealRows', (tb) => PP.rows(tb, 'stageDeals', [{ f: 'address' }, { f: 'city' }, { f: 'state' }, { f: 'verdict', chip: PP.verdictCls },
     { f: 'potential_earnings', fmt: M, cls: 'pp-n' }, { f: 'next_action', cls: 'pp-w' }, { f: 'next_action_date' }], 'No deals in this stage right now.', PP.openDeal));
-  dash.draw('queueRows', (tb) => PP.rows(tb, 'queuesF', [{ f: 'queue', chip: () => 'pp-warn' }, { f: 'address' }, { f: 'city' }, { f: 'state' }, { f: 'item', cls: 'pp-w' }, { f: 'due' }, { f: 'file', cls: 'pp-muted' }],
-    'Nothing waiting on you here.', PP.openDeal));
+  // queueRows is drawn in messages.js (with approve / reject actions).
   dash.draw('marketRows', (tb) => PP.rows(tb, 'marketsF', [{ f: 'state' }, { f: 'county' }, { f: 'city' }, { f: 'status', chip: PP.marketCls },
     { f: 'legal_file' }, { f: 'leads', cls: 'pp-n' }, { f: 'opportunities', cls: 'pp-n' }, { f: 'last_checked' }], 'No markets match.',
     (r) => r.county && dash.setParams({ state: r.state, county: r.county, lead: null })));
