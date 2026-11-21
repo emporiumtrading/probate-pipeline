@@ -1,6 +1,6 @@
 # Fast desk: time-sensitive work between the daily runs
 
-The main runner (session `session_01VKtpFDZbbd6DhTxHVpZuwn`) does the heavy work three times a day: sourcing, deep-dives, expansion, reports. The fast desk (its own session, on its own schedule) runs every 2 hours during business hours and does only what shouldn't wait for the next main run. It can act as **any** worker: for each item it reads that worker's role file (`agents/<worker>.md`) and works as that worker, so workers added later are covered with no change here.
+The main runner (session `session_01VKtpFDZbbd6DhTxHVpZuwn`) does the heavy work three times a day: sourcing, deep-dives, expansion, reports. The fast desk (session `session_01VKtpFAuYZcMNrX5sQ8wvgc`, on its own schedule) runs every 2 hours during business hours and does only what shouldn't wait for the next main run. It can act as **any** worker: for each item it reads that worker's role file (`agents/<worker>.md`) and works as that worker, so workers added later are covered with no change here.
 
 Hard limits from `references/daily-run.md` → "Hard limits" apply exactly as in a main run. Nothing goes out without the Compliance Officer's gate, and outreach follows `autonomy` and each market's `attorney_approved`.
 
