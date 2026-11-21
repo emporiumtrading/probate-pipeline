@@ -18,6 +18,8 @@ Run these as parallel subagents where the platform allows (one team per market f
 | Legal | legal-advisor | When a state file is stale or a new state is added |
 | Sourcing (one per market) | researcher | Daily |
 | Deal team (one per new lead) | researcher → deal-analyst → legal-advisor → transaction-coordinator → negotiator → dispositions → acquisitions | Daily for new leads |
+| Deal team add-ons (per new lead) | tax-lien-checker → contact-finder (if outreach drafted) → quality-auditor | Daily, after the deal team, before the approval queue |
+| Contract desk | contract-desk | When a deal reaches "Verbal agreement"; templates once per state |
 | Compliance gate | compliance-officer | Before **every** outbound message or document |
 | Communications | communications | Daily: send approved-by-config outreach and follow-ups, read the inbox, route replies |
 | Negotiation desk | negotiator (+ deal-analyst for re-pricing) | Whenever a reply or counter arrives |

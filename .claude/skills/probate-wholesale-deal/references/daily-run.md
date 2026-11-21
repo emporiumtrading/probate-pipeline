@@ -83,6 +83,13 @@ Create `leads/<lead_id>/` (lead_id = `<market-id>-<case number or parcel>`), the
 
 Add/update the lead's row in `pipeline/deal-tracker.csv` (stage, verdict, MAO, next_action, next_action_date).
 
+### 4b. Liens, contacts, audit (before anything reaches the owner)
+For each lead deep-dived today, in order:
+1. **Tax & Lien Checker** (`agents/tax-lien-checker.md`): write `leads/<id>/liens.md`; the Deal Analyst subtracts the known payoff or flags it.
+2. **Contact Finder** (`agents/contact-finder.md`), only for leads with `outreach-drafts.md`: write `leads/<id>/contacts.md` and replace address placeholders in the drafts.
+3. **Quality Auditor** (`agents/quality-auditor.md`): sample per its rules and write `leads/<id>/audit.md`. A lead with a FAIL goes back to "Researched" and leaves the approval queue.
+Also run steps 1–2 for existing open leads that still lack `liens.md` or `contacts.md`, oldest first, as usage allows.
+
 ### 5. Maintain the existing pipeline
 For every open lead in the tracker (not WALK AWAY / CLOSED / DEAD):
 - Re-check its probate docket for changes (letters issued, sale motion, inventory/appraisal filed, case closed, new attorney). Note changes in the lead's `research.md` with the date.
@@ -98,6 +105,7 @@ Following `references/orchestration.md`, run these workers (in parallel where po
 - **Communications**: send what's due (compliance-gated), read the inbox, route replies.
 - **Negotiation desk**: answer counters within authority; re-price with the Deal Analyst when facts change; move agreed deals to "Contract out for signature" with the contract built from the attorney-approved state template.
 - **Professional Network**: for every live market with no engaged attorney/title company (the attorney packet needs one before any deal does), build or refresh `network/<market>.md` and request quotes if allowed.
+- **Contract desk** (`agents/contract-desk.md`): for every deal at "Verbal agreement", build the signature packet from attorney-approved templates only; keep `templates/<STATE>/` drafts and attorney review packets current for each live state.
 - **Buyer-list builder** (`agents/buyer-list.md`): every live market, every run, keep `pipeline/buyers/buyers.csv` growing from public deed records; warn when a market with a deal under contract has fewer than 5 vetted buyers.
 - **Reply desk** (`agents/reply-desk.md`): process `pipeline/inbox/`, log to `pipeline/inbox-log.csv`, and list every reply waiting more than one business day under Top of mind.
 - **Dispositions desk**: for deals under contract, match and contact vetted buyers (compliance-gated).

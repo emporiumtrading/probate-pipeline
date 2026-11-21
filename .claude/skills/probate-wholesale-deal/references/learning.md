@@ -10,6 +10,9 @@ Every worker meets situations its instructions don't cover. When that happens, d
    If the rule is about a state, put it in `legal/<STATE>.md` instead. If more than one worker does the same kind of work (for example, any owner-name search), put the rule in the shared method in `references/daily-run.md` as well, so every worker gets it. If it's about a county source, put it in `pipeline/sources-log.md`.
 4. **Report it.** List every instruction you added or changed under **What the team learned** in the daily report, with the file and line.
 
+## When a whole new worker is needed
+If the gap isn't one rule but a missing kind of work, follow `references/new-worker.md` (justification test, owner approval when needed, role-file shape, wiring checklist).
+
 ## What you may never change by learning
 - The **Hard limits** section of `references/daily-run.md`, `config.yaml` → `autonomy`, `config.yaml` → `lead_types` (which types are on, and the days-after-death wait), `attorney_approved` (except by the Legal Advisor's approval steps), the Compliance Officer's gate, the stop list, and anything the owner alone does (signatures, wires, calls).
 - Any check, cap or threshold, if the change makes it looser. Tightening is fine; loosening is a proposal for the owner, under **Exceptions**.

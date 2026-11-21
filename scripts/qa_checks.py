@@ -89,8 +89,16 @@ if not h or not re.match(r"\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$", h[0].get("built_at
 for w in rows("workers.csv"):
     if w.get("rate") and int(w["rate"].rstrip("%")) > 100:
         fails.append(f"workers.csv: {w['worker']} rate {w['rate']} > 100% (counts don't measure the same thing)")
-if rows("workers.csv") and len(rows("workers.csv")) < 14:
-    fails.append("workers.csv is missing workers")
+# Every role file is wired in: on the SKILL.md roster and measured in workers.csv (references/new-worker.md)
+_sk = os.path.join(ROOT, ".claude", "skills", "probate-wholesale-deal")
+_roster = open(os.path.join(_sk, "SKILL.md")).read() if os.path.exists(os.path.join(_sk, "SKILL.md")) else ""
+_wfiles = {w.get("role_file", "") for w in rows("workers.csv")}
+for f in glob.glob(os.path.join(_sk, "agents", "*.md")):
+    slug = os.path.basename(f)
+    if f"agents/{slug}" not in _roster:
+        fails.append(f"agents/{slug} is not on the SKILL.md roster")
+    if rows("workers.csv") and slug not in _wfiles:
+        fails.append(f"agents/{slug} is not measured in workers.csv (add a W(...) row and its role_file)")
 
 # Every state appears in markets
 st = {m["state"] for m in markets}

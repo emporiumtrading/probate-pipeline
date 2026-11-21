@@ -11,7 +11,7 @@ Why this skill exists: pitches like "click Probate, click Flip This Contract, ti
 
 ## The deal team
 
-Every role learns: when something isn't covered, it handles it cautiously, finds the answer from a primary source, and writes the rule into its own file (`references/learning.md`). Each stage has a lead specialist. Their full instructions are in `agents/`. Read a role's file before doing that role's work. If you can run subagents, you may hand a role its file plus the deal facts and run independent roles in parallel (e.g. Researcher and Legal Advisor at the start); otherwise play the role yourself.
+New workers are created only through `references/new-worker.md`. Every role learns: when something isn't covered, it handles it cautiously, finds the answer from a primary source, and writes the rule into its own file (`references/learning.md`). Each stage has a lead specialist. Their full instructions are in `agents/`. Read a role's file before doing that role's work. If you can run subagents, you may hand a role its file plus the deal facts and run independent roles in parallel (e.g. Researcher and Legal Advisor at the start); otherwise play the role yourself.
 
 | Role | File | Owns |
 |---|---|---|
@@ -28,6 +28,10 @@ Every role learns: when something isn't covered, it handles it cautiously, finds
 | Heir & Title Tracer | `agents/heir-tracer.md` | Signers, chain of title and what's missing for heirs, trusts, small estates, partition and unprobated leads (`references/lead-types.md`) |
 | Buyer-List Builder | `agents/buyer-list.md` | Cash buyers per market from public deed records, buy boxes, vetting status, `buyer_pct` reality check |
 | Reply Desk | `agents/reply-desk.md` | Replies by mail, voicemail and notes in `pipeline/inbox/`, stop requests, call queue, one-business-day response check |
+| Tax & Lien Checker | `agents/tax-lien-checker.md` | Back taxes, tax sales, liens, open mortgages and code cases per lead; known payoff total (`leads/<id>/liens.md`) |
+| Contact Finder | `agents/contact-finder.md` | Verified mailing address for each letter's recipient (attorney of record first) from public court and bar records (`leads/<id>/contacts.md`) |
+| Contract Desk | `agents/contract-desk.md` | Attorney-approved state templates; fills signature-ready packets at "Verbal agreement" (`leads/<id>/contract/`) |
+| Quality Auditor | `agents/quality-auditor.md` | Independently re-verifies a sample of each run's leads before they reach the owner (`leads/<id>/audit.md`) |
 | Professional Network | `agents/professional-network.md` | Shortlists and scores attorneys and title companies per market, requests quotes, prepares engagement for signature |
 
 How the teams run together, the deal stages and the owner's touchpoints (signatures and wires only) are in `references/orchestration.md`. Messages are composed per lead with `references/dynamic-messaging.md`, not one fixed template.

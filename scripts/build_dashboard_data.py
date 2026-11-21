@@ -362,10 +362,28 @@ workers = [
       _buyerfound, "buyers matched", "", "Waiting: no contracts yet" if not _contract else "Active"),
     W("Professional Network", "Shortlists attorneys and title companies", _count("network/*.md"), "market shortlists",
       0, "engaged", _last("network"), "Active" if _count("network/*.md") else "Not started"),
+    W("Tax & Lien Checker", "Back taxes, tax sales, liens, mortgages, code cases per lead", _count("leads/*/liens.md"), "leads checked",
+      sum(1 for f in glob.glob(os.path.join(ROOT, "leads", "*", "liens.md")) if re.search(r"(?i)total known payoff", open(f).read())), "with a payoff total",
+      _last("leads/*/liens.md"), "Active" if _count("leads/*/liens.md") else "Not started"),
+    W("Contact Finder", "Verified mailing address for each letter's recipient", _count("leads/*/contacts.md"), "leads with contacts",
+      _drafts, "letters needing an address", _last("leads/*/contacts.md"), "Active" if _count("leads/*/contacts.md") else "Not started"),
+    W("Contract Desk", "Attorney-approved templates; signature-ready packets", _count("templates/*/*"), "template files",
+      _count("leads/*/contract/summary.md"), "deal packets built", _last("templates", "leads/*/contract"), "Active" if _count("templates/*/*") else "Not started"),
+    W("Quality Auditor", "Re-verifies a sample of each run's leads before the owner sees them", _count("leads/*/audit.md"), "leads audited",
+      sum(1 for f in glob.glob(os.path.join(ROOT, "leads", "*", "audit.md")) if "FAIL" not in open(f).read()), "passed",
+      _last("leads/*/audit.md"), "Active" if _count("leads/*/audit.md") else "Not started"),
     W("Transaction Coordinator", "Title checks, deadlines, signature and wire queues, closing", _count("leads/*/title.md"), "title checks done",
       _closed, "closed", _last("leads/*/title.md"), "Active", f"{_contract} under contract"),
 ]
-write("workers.csv", ["worker", "does", "done", "done_label", "result", "result_label", "rate", "last_active", "status", "note"], workers)
+_ROLE_FILE = {"Source Mapper": "source-mapper.md", "Researcher": "researcher.md", "Heir & Title Tracer": "heir-tracer.md",
+    "Legal & Tax Advisor": "legal-advisor.md", "Deal Analyst": "deal-analyst.md", "Acquisitions": "acquisitions.md",
+    "Compliance Officer": "compliance-officer.md", "Communications": "communications.md", "Reply Desk": "reply-desk.md",
+    "Negotiator": "negotiator.md", "Buyer-List Builder": "buyer-list.md", "Dispositions": "dispositions.md",
+    "Professional Network": "professional-network.md", "Tax & Lien Checker": "tax-lien-checker.md", "Contact Finder": "contact-finder.md",
+    "Contract Desk": "contract-desk.md", "Quality Auditor": "quality-auditor.md", "Transaction Coordinator": "transaction-coordinator.md"}
+for w in workers:
+    w["role_file"] = _ROLE_FILE.get(w["worker"], "")
+write("workers.csv", ["worker", "role_file", "does", "done", "done_label", "result", "result_label", "rate", "last_active", "status", "note"], workers)
 
 # ---- health: freshness of the data itself ----
 last_run = runs[-1]["date"] if runs else ""
