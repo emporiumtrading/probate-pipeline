@@ -97,9 +97,9 @@ nm-bernalillo,deed_index,,untested,,,,
 nm-bernalillo,civil_docket,,untested,,,,
 nm-bernalillo,tax_status,,untested,,,,
 nm-bernalillo,death_date,,untested,,,,
-oh-franklin,probate_docket,probatesearch PBFidy / PBDocket pages,works,,,2026-11-21,seeded from sources-log: worked; 2026-11-21: open-date index URL lost (not recorded); case pages by number still known: http://probatesearch.franklincountyohio.gov/netdata/PBCaseTypeE.ndm/ESTATE_DETAIL?caseno=<n>
+oh-franklin,probate_docket,https://probatesearch.franklincountyohio.gov/netdata/PBODateInx.ndm/input?string=YYYYMMDD,works,,,2026-11-21,"Case-by-open-date index. string=YYYYMMDD (not MM/DD/YYYY) starts at that date; 40 rows/page; next page = href ""input?stringf=<YYYYMMDD><case>"" on the page (prefix https://probatesearch.franklincountyohio.gov/netdata/PBODateInx.ndm/). Rows: case, name, type, subtype, status, opened, closed + ESTATE_DETAIL link. Keep type ESTATE, subtypes FULL ADMINISTRATION* and REAL ESTATE ONLY*, status != 99. Detail: .../PBCaseTypeE.ndm/ESTATE_DETAIL?caseno=<n>;; (decedent street/city/zip, date of death). Fiduciary: .../PBFidy.ndm/input?caseno=<n>;; Docket: .../PBDocket.ndm/input?caseno=<n>;; No robots.txt (404). Verified 2026-11-21 (29 rows for 11/19)."
 oh-franklin,legal_notices,,untested,,,,
-oh-franklin,parcel_owner,gis Sales_Information FeatureServer,works,,,2026-11-19,"seeded from sources-log: worked, stale"
+oh-franklin,parcel_owner,https://gis.franklincountyohio.gov/hosting/rest/services/ParcelFeatures/Parcel_Features/FeatureServer/0/query,works,,,2026-11-21,"ArcGIS REST. where=SITEADDRESS LIKE '<num> <first street word>%' (county abbreviates street types); outFields incl. OWNERNME1, OWNERNME2, TOTVALUEBASE, SALEDATE, SALEPRICE, RESYRBLT, CLASSDSCRP, FLOOD. Match owner last name; Jr/Sr distinct. Sales_Information layer is stale (ends 2025-07-16): use SALEDATE/SALEPRICE on this layer for comps."
 oh-franklin,deed_index,,untested,,,,
 oh-franklin,civil_docket,,untested,,,,
 oh-franklin,tax_status,,untested,,,,

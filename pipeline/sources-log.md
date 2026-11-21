@@ -120,3 +120,4 @@
 | 2026-11-20 | tx-harris | cclerk.hctx.net probate search by file date | unavailable (2nd run in a row) | marked broken in coverage map; manual: https://www.cclerk.hctx.net/applications/websearch/CourtSearch.aspx?CaseType=Probate |
 | 2026-11-21 | fl-hillsborough | publicrec.hillsclerk.com/Probate/dailyfilings/ProbateFiling_20261120.csv | worked | 52 rows; 4 estate decedents; 2 parcel matches |
 | 2026-11-21 | oh-franklin | probatesearch.franklincountyohio.gov case-by-open-date index | not found | exact URL was never recorded; site root 403, /netdata/ index error; court's General Case Search page has no direct link. Source Mapper to rediscover and record the exact URL |
+| 2026-11-21 | oh-franklin | probatesearch PBODateInx.ndm (case-by-open-date) | worked | exact pattern recorded in pipeline/coverage.csv (string=YYYYMMDD, pagination via stringf) |
