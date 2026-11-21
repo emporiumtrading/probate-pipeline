@@ -118,3 +118,5 @@
 | 2026-11-20 | tn-shelby | probatecourt.shelbycountytn.gov (www and bare) | no response | 3rd day down; manual: https://www.probatecourt.shelbycountytn.gov |
 | 2026-11-20 | fl-hillsborough | PAO HC_Properties layer: single-family sales to companies since 2025-11-20 ($60k–$450k) | worked | 1,439 sales; 166 companies with 2+ purchases; top 25 added to buyers.csv (lenders/servicers excluded) |
 | 2026-11-20 | tx-harris | cclerk.hctx.net probate search by file date | unavailable (2nd run in a row) | marked broken in coverage map; manual: https://www.cclerk.hctx.net/applications/websearch/CourtSearch.aspx?CaseType=Probate |
+| 2026-11-21 | fl-hillsborough | publicrec.hillsclerk.com/Probate/dailyfilings/ProbateFiling_20261120.csv | worked | 52 rows; 4 estate decedents; 2 parcel matches |
+| 2026-11-21 | oh-franklin | probatesearch.franklincountyohio.gov case-by-open-date index | not found | exact URL was never recorded; site root 403, /netdata/ index error; court's General Case Search page has no direct link. Source Mapper to rediscover and record the exact URL |

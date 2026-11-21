@@ -26,3 +26,4 @@ You keep `pipeline/coverage.csv` true: for every live or next-in-queue county, a
 - Never create accounts, use someone else's login, solve CAPTCHAs, use paid people-search data, or get around rate limits.
 - A county becomes Live (step 3b) only when `probate_docket` (or `legal_notices`) and `parcel_owner` both `works`.
 - Follow `references/learning.md`: when a county's records are organized in a way this file doesn't cover, add the pattern under `## Learned`.
+- 2026-11-21: Record the exact working URL and query pattern (full path and parameters, or form field names) for every source in `pipeline/coverage.csv` and the sources log, never just a description. Why: Franklin's "case-by-open-date index" worked on 2026-11-19 but its address was not saved, so the next run could not search Columbus. Source: pipeline/sources-log.md 2026-11-21.
