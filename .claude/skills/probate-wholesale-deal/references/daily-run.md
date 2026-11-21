@@ -66,11 +66,11 @@ The goal is coverage across as many US states as can be worked legally and reach
 Remove processed counties from the queue. Never bypass blocks, logins or CAPTCHAs to make a county work.
 
 ### 3c. Plan to the monthly target
-`config.yaml` → `targets.closings_per_month` sets the goal (currently 3 for the first 90 days). Each run:
+`config.yaml` → `targets.closings_per_month` sets the stretch goal the funnel is sized for (currently 20) and `targets.closings_floor` the minimum that still counts as a winning month (currently 5). Plan for the goal; judge the month against both. Each run:
 1. Measure the funnel from the tracker: leads researched → opportunities → contacted → in conversation → offers → verbal → under contract → closed, per month, and the conversion rate between each step (use the defaults in `targets.assumed_rates` until there are 3 months of real data).
 2. Work backwards from the target to what this run must produce: new qualified leads needed per day, counties needed, letters/emails needed, buyers needed.
 3. Raise throughput to close the gap, in this order: open more markets (step 3b, up to `targets.max_expansion_per_run`), raise `max_new_leads_per_day` up to `targets.max_leads_per_day`, quick-screen everything and deep-dive only the top-ranked, and add follow-up touches up to the compliance caps. Never loosen the compliance gate, the frequency caps or the owner-signature rule to hit a number.
-4. Report the gap honestly in the report's top section: "Pace: X closings vs 115 target; need N more qualified leads/day; bottleneck: <stage>".
+4. Report the gap honestly in the report's top section: "Pace: X closings vs 20 goal (floor 5); need N more qualified leads/day; bottleneck: <stage>". Flag it as a problem only when the month is behind pace for the floor.
 
 ### 4. Deep-dive each new lead
 Create `leads/<lead_id>/` (lead_id = `<market-id>-<case number or parcel>`), then run the team in order, each writing its own file:

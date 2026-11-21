@@ -55,6 +55,15 @@
 .pp-chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 .pp-tile .pp-chip { white-space: normal; max-width: 100%; }
 .pp-chart:has(> p.pp-sub:only-child) { min-height: 0; }
+.pp-num-s { font-size: 1.5rem; }
+.pp-pace-tiles .pp-card { background: var(--color-bg); }
+.pp .pp-pace-h { margin: var(--cds-gap-lg) 0 2px; }
+.pp-steps { display: flex; flex-direction: column; gap: 12px; }
+.pp-step-top { display: flex; align-items: center; gap: 8px; font-size: var(--cds-font-size-caption); }
+.pp-step-top > span:first-child { flex: 1; }
+.pp-step-n { font-variant-numeric: tabular-nums; color: var(--color-fg-muted); }
+.pp-step .pp-meter { --pp-tile: var(--cds-chart-grid); background: var(--cds-chart-grid); position: relative; overflow: visible; }
+.pp-step-floor { position: absolute; top: -3px; bottom: -3px; width: 2px; margin-left: -1px; background: var(--cds-chart-reference); }
 .pp-ok { color: var(--color-ok); } .pp-warn { color: var(--color-warn); } .pp-bad { color: var(--color-bad); }
 .pp-dbar { display: inline-block; height: 8px; border-radius: 0 4px 4px 0; vertical-align: middle; margin-right: 6px; }
 .pp dl { display: grid; grid-template-columns: minmax(130px, max-content) 1fr; gap: 6px 14px; margin: 0; font-size: var(--cds-font-size-caption); }
@@ -103,7 +112,7 @@
       <div class="pp-card" id="ov-state"><h2>Potential earnings by state</h2><p class="pp-sub">Sum of potential earnings on GO and NEGOTIATE deals.</p><div class="pp-chart" data-draw="stateEarnChart" data-source="earnByState"></div></div>
     </div>
     <div class="pp-card" id="ov-top"><h2>Top 10 deals by potential earnings</h2><p class="pp-sub">Click a bar to open the deal.</p><div class="pp-chart" data-draw="topChart" data-source="opps"></div></div>
-    <div class="pp-card" id="ov-pace"><h2>Pace to <span data-draw="pTarget" data-source="pace" data-field="target_closings" data-row="0">—</span> closings this month</h2><p class="pp-sub">All markets. The dashed line is the monthly target.</p><div class="pp-chart" data-draw="paceChart" data-source="pace"></div></div>
+    <div class="pp-card" id="ov-pace"><h2>Pace to <span data-draw="pTarget" data-source="pace" data-field="target_closings" data-row="0">—</span> closings this month</h2><p class="pp-sub">All markets. The goal is what the pipeline is sized for; reaching the floor still counts as a winning month.</p><div class="pp-chart" data-draw="paceChart" data-source="pace"></div></div>
   </section>
 
   <section class="pp-page" id="opportunities" hidden>

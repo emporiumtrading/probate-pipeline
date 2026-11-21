@@ -138,11 +138,65 @@
     C.hbars(el, rows, { title: 'Top deals by potential earnings', label: (r) => `${r.address} · ${r.city}`, value: (r) => +r.potential_earnings || 0, fmt: MK, color: (r) => PP.stateColor(r.state),
       tip: (r) => `${r.address}, ${r.city} ${r.state}: earn ${M(r.potential_earnings)} (target ${M(r.target_price)}, buyer max ${M(r.buyer_max)})`, onClick: PP.openDeal,
       legend: rows.length ? statesLegend(rows) : null, empty: 'No opportunities in this state or county yet.' }); });
+  // Pace: closings vs target on a month track, then what each earlier step needs (worked back from the target at the assumed rates).
   dash.draw('paceChart', (el) => { const d = dash.data('pace'); if (!ok(d) || !d.data[0]) return C.notReady(el, d);
-    const r = d.data[0];
-    const rows = [['Leads researched', 'leads_researched'], ['Opportunities', 'opportunities'], ['Outreach sent', 'outreach_sent'], ['In conversation', 'in_conversation'], ['Offers out', 'offers_out'], ['Verbal agreements', 'verbal_agreements'], ['Under contract', 'under_contract'], ['Closed this month', 'closed']]
-      .map(([label, f]) => ({ label, v: +r[f] || 0 }));
-    C.hbars(el, rows, { title: 'Deals at each stage this month', label: (x) => x.label, value: (x) => x.v, fmt: (v) => String(v), color: () => dash.colors[0], target: +r.target_closings || 0 }); });
+    el.replaceChildren(); const r = d.data[0], n = (k) => +r[k] || 0, T = n('target_closings'), closed = n('closed'), F = Math.min(n('floor_closings'), T);
+    const [yy, mm] = String(r.month || '').split('-').map(Number), now = new Date();
+    const dim = yy ? new Date(yy, mm, 0).getDate() : 30, cur = yy === now.getFullYear() && mm === now.getMonth() + 1;
+    const day = cur ? now.getDate() : dim, left = Math.max(0, dim - day), expected = T * day / dim, floorExp = F * day / dim;
+    const status = closed >= T ? ['Closed this month · goal met', 'pp-t-ok'] : F && closed >= F ? [`Closed this month · floor of ${F} reached, aiming for ${T}`, 'pp-t-ok']
+      : closed >= Math.floor(expected) ? ['Closed this month · on pace for the goal', 'pp-t-ok'] : F && closed >= Math.floor(floorExp) ? [`Closed this month · on pace for the floor of ${F}`, 'pp-t-warn']
+      : [F ? `Closed this month · behind pace for the floor of ${F}` : 'Closed this month · behind pace', 'pp-t-bad'];
+    const perWeek = left ? Math.max(0, T - closed) / (left / 7) : 0, f1 = d3.format('.1f');
+    const el_ = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+    // 1. Four headline figures.
+    const tiles = el_('div', 'pp-tiles pp-pace-tiles');
+    [[`${closed} of ${T}`, status[0], status[1]],
+     [f1(expected), (cur ? `On pace for the goal by today (day ${day} of ${dim})` : 'Goal for the month') + (F && cur ? ` · ${f1(floorExp)} for the floor` : ''), 'pp-t-muted'],
+     [String(left), left === 1 ? 'Day left this month' : 'Days left this month', 'pp-t-muted'],
+     [closed >= T ? '0' : f1(perWeek), 'Closings needed per week to reach the goal' + (F && closed < F && left ? ` · ${f1((F - closed) / (left / 7))} for the floor` : ''), closed >= T ? 'pp-t-ok' : 'pp-t-warn']]
+      .forEach(([v, l, c]) => { const t = el_('div', `pp-card pp-tile ${c}`); t.append(el_('div', 'pp-num pp-num-s', v), el_('div', 'pp-lbl', l)); tiles.appendChild(t); });
+    el.appendChild(tiles);
+    // 2. Month track: closed so far, today's expected mark, target at the end.
+    const W = el.clientWidth || 520, H = 58, pad = 2, x = d3.scaleLinear().domain([0, Math.max(T, closed, 1)]).range([pad, W - pad]);
+    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').style('margin-top', 'var(--cds-gap-md)')
+      .attr('aria-label', `${closed} of ${T} closings this month (floor ${F}); ${f1(expected)} expected by today; ${left} days left`);
+    const tip = C.tip(el), y0 = 14, bh = 16;
+    svg.append('rect').attr('x', pad).attr('y', y0).attr('width', W - 2 * pad).attr('height', bh).attr('rx', 4).style('fill', 'var(--cds-chart-grid)')
+      .on('pointermove', (ev) => tip.show(ev, `Goal: ${T} closings in ${r.month}${F ? ` · floor (still a win): ${F}` : ''}`)).on('pointerleave', tip.hide);
+    if (closed) svg.append('path').attr('d', C.hpath(pad, y0, x(closed) - pad, bh)).style('fill', 'var(--color-ok)')
+      .on('pointermove', (ev) => tip.show(ev, `Closed: ${closed}`)).on('pointerleave', tip.hide);
+    if (cur && T) { const ex = x(expected);
+      svg.append('line').attr('x1', ex).attr('x2', ex).attr('y1', y0 - 6).attr('y2', y0 + bh + 6).style('stroke', 'var(--color-fg)').style('stroke-width', 2);
+      svg.append('rect').attr('x', ex - 8).attr('y', 0).attr('width', 16).attr('height', H).style('fill', 'transparent')
+        .on('pointermove', (ev) => tip.show(ev, `Expected by today: ${f1(expected)}`)).on('pointerleave', tip.hide);
+      svg.append('text').attr('x', ex).attr('y', y0 - 8).attr('text-anchor', ex < 60 ? 'start' : ex > W - 60 ? 'end' : 'middle').text('Today'); }
+    if (F) { const fx = x(F);
+      svg.append('line').attr('x1', fx).attr('x2', fx).attr('y1', y0 - 2).attr('y2', y0 + bh + 10).style('stroke', 'var(--cds-chart-reference)').style('stroke-width', 2).style('stroke-dasharray', '3 2');
+      svg.append('rect').attr('x', fx - 8).attr('y', 0).attr('width', 16).attr('height', H).style('fill', 'transparent')
+        .on('pointermove', (ev) => tip.show(ev, `Floor: ${F} closings still counts as a winning month`)).on('pointerleave', tip.hide);
+      svg.append('text').attr('x', fx).attr('y', H - 4).attr('text-anchor', 'middle').text(`Floor ${F}`); }
+    svg.append('text').attr('x', pad).attr('y', H - 4).text('0');
+    svg.append('text').attr('x', W - pad).attr('y', H - 4).attr('text-anchor', 'end').attr('class', 'pp-val').text(`Goal ${T}`);
+    C.legend(el, [['Closed', 'var(--color-ok)'], ['Still to close', 'var(--cds-chart-grid)'], ['Expected by today', 'var(--color-fg)']].concat(F ? [['Floor (still a win)', 'var(--cds-chart-reference)']] : []));
+    // 3. What it takes: each step's actual vs needed, as a meter of % reached (one unit for every row).
+    const steps = [['Leads researched', 'leads_researched', 'needed_researched'], ['Opportunities found', 'opportunities', 'needed_opportunities'],
+      ['Conversations with sellers', 'reached_conversation', 'needed_conversations'], ['Contracts signed', 'reached_contract', 'needed_contracts'], ['Closed', 'closed', 'target_closings']];
+    const hasNeed = r.needed_researched != null && r.needed_researched !== '';
+    el.appendChild(el_('h3', 'pp-pace-h', `What it takes to close ${T} this month`));
+    if (!hasNeed) { el.appendChild(el_('p', 'pp-sub', 'The step-by-step targets appear after the next daily data refresh.')); return; }
+    el.appendChild(el_('p', 'pp-sub', 'Working back from the goal at the starting conversion guesses in config.yaml (replaced by real rates after 3 months). Bar = share of what that step needs' + (F ? `; the tick marks what the floor of ${F} needs.` : '.')));
+    const list = el_('div', 'pp-steps');
+    steps.forEach(([label, have, need]) => { const a = n(have), q = n(need), pct = q ? Math.min(100, 100 * a / q) : 0, done = a >= q;
+      const row = el_('div', 'pp-step'); row.title = `${label}: ${a} of ${q} needed (${Math.round(q ? 100 * a / q : 0)}%)`;
+      const top = el_('div', 'pp-step-top'); top.append(el_('span', null, label), el_('span', 'pp-step-n', `${d3.format(',')(a)} / ${d3.format(',')(q)}`));
+      const chip = el_('span', `pp-chip ${done ? 'pp-ok' : 'pp-warn'}`, done ? 'Enough' : `Short ${d3.format(',')(q - a)}`); top.appendChild(chip);
+      const m = el_('div', 'pp-meter'); m.setAttribute('role', 'progressbar'); m.setAttribute('aria-label', `${label}: ${a} of ${q} needed`);
+      m.setAttribute('aria-valuenow', String(Math.round(pct))); m.setAttribute('aria-valuemin', '0'); m.setAttribute('aria-valuemax', '100');
+      const fill = el_('div'); fill.style.width = pct + '%'; fill.style.background = done ? 'var(--color-ok)' : dash.colors[0]; m.appendChild(fill);
+      if (F && T) { const tk = el_('i', 'pp-step-floor'); tk.style.left = Math.min(100, 100 * Math.ceil(q * F / T) / (q || 1)) + '%'; m.appendChild(tk); row.title += ` · floor of ${F} needs about ${Math.ceil(q * F / T)}`; }
+      row.append(top, m); list.appendChild(row); });
+    el.appendChild(list); });
 
   dash.draw('scatterChart', (el) => { const d = dash.data('opps'); if (!ok(d)) return C.notReady(el, d);
     C.scatter(el, d.data, { title: 'After-repair value vs potential earnings', x: (r) => +r.arv_mid || 0, y: (r) => +r.potential_earnings || 0, color: (r) => PP.stateColor(r.state),

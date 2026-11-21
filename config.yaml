@@ -39,7 +39,8 @@ finance:
   tax_set_aside_pct: 0.30         # Bookkeeper's tax set-aside estimate on net earned (for the CPA; not tax advice)
 
 targets:
-  closings_per_month: 3           # first-90-day goal (was 115). Raise it only after 3 months of real response and close rates replace assumed_rates.
+  closings_per_month: 20          # stretch goal the planner sizes the funnel for (owner, 2026-11-21; was 3, originally 115)
+  closings_floor: 5               # minimum that still counts as a winning month; below it the report flags a problem
   max_leads_per_day: 50           # upper bound the planner may raise max_new_leads_per_day to (was 200)
   max_expansion_per_run: 10       # upper bound on new counties tried per run (was 6)
   assumed_rates:                  # starting guesses until 3 months of real data replace them

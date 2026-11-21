@@ -5,7 +5,7 @@ Usage: python3 scripts/build_dashboard_data.py OUT_DIR
 Writes leads.csv, queues.csv, markets.csv, sources.csv, runs.csv, pace.csv, stages.csv.
 Personal names and contact details are never written (anyone who can open the dashboard can read its files).
 """
-import csv, datetime, glob, os, re, sys
+import csv, datetime, glob, math, os, re, sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(ROOT, "dashboard-data")
@@ -185,10 +185,24 @@ runs_path = os.path.join(ROOT, "pipeline", "runs.csv")
 runs = list(csv.DictReader(open(runs_path))) if os.path.exists(runs_path) else []
 write("runs.csv", ["date", "new_leads", "updated_leads", "approvals_waiting", "legal_changes", "pushed"], runs)
 month = TODAY[:7]
+floor_ = (re.search(r"closings_floor: (\d+)", open(os.path.join(ROOT, "config.yaml")).read()) or [None, ""])[1]
 tgt = (re.search(r"closings_per_month: (\d+)", open(os.path.join(ROOT, "config.yaml")).read()) or [None, "115"])[1]
 cnt = lambda st: sum(1 for l in leads if l["stage"] in st)
+# What it takes to hit the target, working back from closings with targets.assumed_rates (until real rates replace them).
+_rates = dict(re.findall(r"^    (\w+): ([0-9.]+)", (re.search(r"\n  assumed_rates:[^\n]*\n((?:    [^\n]*\n)+)", open(os.path.join(ROOT, "config.yaml")).read()) or [None, ""])[1], re.M))
+_rate = lambda k, d: float(_rates.get(k, d)) or d
+_need_contracts = math.ceil(int(tgt) / _rate("contract_to_close", 0.75))
+_need_conv = math.ceil(_need_contracts / _rate("conversation_to_contract", 0.30))
+_need_opps = math.ceil(_need_conv / _rate("opportunity_to_conversation", 0.15))
+_need_res = math.ceil(_need_opps / _rate("researched_to_opportunity", 0.40))
+_contract_st = ("Contract out for signature", "Under contract", "Earnest money due", "Title opened", "Buyer found", "Assignment signed", "Clear to close", "Closed", "Paid")
+_conv_st = ("In conversation", "Offer made", "Verbal agreement") + _contract_st
 write("pace.csv", ["month", "target_closings", "closed", "under_contract", "verbal_agreements", "offers_out", "in_conversation",
-                   "outreach_sent", "opportunities", "leads_researched", "markets_live"], [{
+                   "outreach_sent", "opportunities", "leads_researched", "markets_live",
+                   "reached_conversation", "reached_contract", "needed_researched", "needed_opportunities", "needed_conversations", "needed_contracts", "floor_closings"], [{
+    "floor_closings": floor_,
+    "reached_conversation": cnt(_conv_st), "reached_contract": cnt(_contract_st),
+    "needed_researched": _need_res, "needed_opportunities": _need_opps, "needed_conversations": _need_conv, "needed_contracts": _need_contracts,
     "month": month, "target_closings": tgt, "closed": cnt(("Closed", "Paid")),
     "under_contract": cnt(("Contract out for signature", "Under contract", "Earnest money due", "Title opened", "Buyer found", "Assignment signed", "Clear to close")),
     "verbal_agreements": cnt(("Verbal agreement",)), "offers_out": cnt(("Offer made",)), "in_conversation": cnt(("In conversation",)),
