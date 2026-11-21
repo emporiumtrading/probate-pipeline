@@ -80,6 +80,11 @@ for f in glob.glob(os.path.join(ROOT, "pipeline", "expansion", "*.yaml")):
         if hit:
             fails.append(f"{os.path.basename(f)} says {m.group(1)} but dashboard shows Queued")
 
+# Freshness stamp: the page computes data age from health.built_at (regression: stale data looked fresh)
+h = rows("health.csv")
+if not h or not re.match(r"\d{4}-\d\d-\d\dT\d\d:\d\d:\d\dZ$", h[0].get("built_at", "")):
+    fails.append("health.csv missing a UTC built_at timestamp (page can't detect stale data)")
+
 # Every state appears in markets
 st = {m["state"] for m in markets}
 if len(st) < 51:

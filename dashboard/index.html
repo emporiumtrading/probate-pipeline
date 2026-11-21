@@ -330,14 +330,25 @@ const ppTxt = (v) => String(v);
 ].forEach(([name, src, f, fmt]) => dash.draw(name, ppK(src, f, fmt)));
 dash.draw('kReady', (el) => { const h = dash.data('health'); if (h.status !== 'ok' || !h.data || !h.data[0]) { el.textContent = '—'; return; } el.textContent = `${h.data[0].readiness_done} of ${h.data[0].readiness_total}`; });
 dash.draw('kReplies', ppK('health', 'replies_waiting', ppInt));
-dash.draw('freshness', (el) => {
-  const h = dash.data('health');
-  if (h.status === 'error') { el.textContent = 'Could not load data health.'; el.className = 'pp-lede pp-bad'; return; }
-  if (h.status !== 'ok' || !h.data || !h.data[0]) { el.textContent = 'Loading…'; return; }
-  const r = h.data[0]; const d = +r.days_since_run; const stale = r.last_run && d > 1;
-  const saved = String(r.last_run_saved || '').toLowerCase().startsWith('no');
-  el.textContent = r.last_run ? `Data built ${r.built} · last daily run ${r.last_run}${stale ? ` (${d} days ago — check the runner)` : ''}${saved ? ' · last run was NOT saved to GitHub' : ''}` : `Data built ${r.built} · no daily run recorded yet`;
-  el.className = 'pp-lede ' + (stale || saved ? 'pp-bad' : 'pp-muted');
+dash.draw('freshness', {
+  mount: () => setInterval(() => dash.draw('freshness'), 10 * 60 * 1000),
+  update: (el) => {
+    const h = dash.data('health');
+    if (h.status === 'error') { el.textContent = 'Could not load data health, so freshness is unknown.'; el.className = 'pp-lede pp-bad'; return; }
+    if (h.status !== 'ok' || !h.data || !h.data[0]) { el.textContent = 'Loading…'; el.className = 'pp-lede pp-muted'; return; }
+    const r = h.data[0];
+    const t = Date.parse(r.built_at || '');
+    const hrs = isNaN(t) ? null : (Date.now() - t) / 3600000;
+    const saved = String(r.last_run_saved || '').toLowerCase().startsWith('no');
+    const age = hrs === null ? `built ${r.built}` : hrs < 1 ? 'updated less than an hour ago' : hrs < 48 ? `updated ${Math.round(hrs)} hours ago` : `updated ${Math.round(hrs / 24)} days ago`;
+    let msg = `Data ${age} · last daily run ${r.last_run || 'none yet'}`;
+    let cls = 'pp-lede pp-muted';
+    if (hrs === null || hrs > 26) { msg = `⚠ Data is stale: ${age}. The daily runner refreshes this 3 times a day, so it is probably blocked. Open the "Probate pipeline daily runner" session and approve any waiting permission (choose always allow).`; cls = 'pp-lede pp-bad'; }
+    else if (hrs > 14) { msg = `Data ${age}: older than expected (refreshes about every 6 hours). If this persists, check the "Probate pipeline daily runner" session.`; cls = 'pp-lede pp-neg'; }
+    if (saved) msg += ' · last run was NOT saved to GitHub';
+    el.textContent = msg; el.className = saved && cls.endsWith('pp-muted') ? 'pp-lede pp-bad' : cls;
+  },
+  unmount: (el, timer) => clearInterval(timer),
 });
 dash.draw('dLoc', (el) => { const d = dash.data('deal'); const r = d.status === 'ok' && d.data && d.data[0]; el.textContent = r ? `${r.city}, ${r.county} County, ${r.state}` : '—'; });
 dash.draw('stageName', (el) => { el.textContent = dash.params().stage || 'Outreach drafted'; });
