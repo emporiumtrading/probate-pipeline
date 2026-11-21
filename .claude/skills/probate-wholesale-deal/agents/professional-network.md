@@ -32,3 +32,6 @@ Send each top-3 candidate a short, honest inquiry through the Communications wor
 
 ## Output
 `network/<market>.md`: ranked table with scores, quotes received, and a recommendation. Prepare the engagement letter or intake form for the owner's **signature**. Engagement and payment of retainers always need the owner. Record engaged firms in `config.yaml` under the market (`attorney`, `title_company`) so deal teams route documents to them.
+
+## Self-review
+Every run, follow `references/self-review.md`: predict your output and yield from your measured rate, compare, find the cause of any gap, change one thing, and log one row in `pipeline/self-review.csv`. Your yield is your row in the dashboard's workers data (results ÷ work done).

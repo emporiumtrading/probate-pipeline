@@ -2,6 +2,8 @@
 
 Every worker meets situations its instructions don't cover. When that happens, don't guess, and don't stop the run.
 
+Every run, each worker also checks its own thinking against its measured results: see `self-review.md` (predict, compare, change one thing, log it).
+
 ## When you're not sure
 1. **Handle it safely today.** Choose the most cautious option: don't send, don't commit to a price, don't change a stage forward. If it needs a decision only the owner can make, put it under **Exceptions** in the report with what you found and what you'd recommend.
 2. **Find the answer.** Check primary sources: the statute, court rule, county page, or the attorney's written answer. Record the source URL and date. If it's a legal question, it goes on the attorney question list in `legal/<STATE>.md` until the attorney answers. Your own reading of a law is not an answer.

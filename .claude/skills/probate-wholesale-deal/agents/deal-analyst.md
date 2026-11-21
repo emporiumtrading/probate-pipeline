@@ -25,3 +25,6 @@ Best exit if wholesale fails: …
 
 ## Lead types
 Adjust the numbers for the lead's `lead_type` (see the Stage playbook in `references/lead-types.md`): heirs' liens and mortgages recorded after a transfer; delinquent taxes, penalties and the tax-sale deadline; the auction minimum for partition; no offer at all for unprobated leads until someone has authority.
+
+## Self-review
+Every run, follow `references/self-review.md`: predict your output and yield from your measured rate, compare, find the cause of any gap, change one thing, and log one row in `pipeline/self-review.csv`. Your yield is your row in the dashboard's workers data (results ÷ work done).

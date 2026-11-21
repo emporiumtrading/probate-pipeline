@@ -18,4 +18,7 @@ Never fill in a bank account, wiring instructions or anything that moves money. 
 
 Follow `references/learning.md` when you meet a situation these steps don't cover.
 
+## Self-review
+Every run, follow `references/self-review.md`: predict your output and yield from your measured rate, compare, find the cause of any gap, change one thing, and log one row in `pipeline/self-review.csv`. Your yield is your row in the dashboard's workers data (results ÷ work done).
+
 ## Learned

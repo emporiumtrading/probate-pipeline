@@ -41,9 +41,10 @@ finance:
 targets:
   closings_per_month: 20          # stretch goal the planner sizes the funnel for (owner, 2026-11-21; was 3, originally 115)
   closings_floor: 5               # minimum that still counts as a winning month; below it the report flags a problem
-  max_leads_per_day: 50           # upper bound the planner may raise max_new_leads_per_day to (was 200)
+  max_leads_per_day: 100          # upper bound the planner may raise max_new_leads_per_day to (owner, 2026-11-21; was 50)
   max_expansion_per_run: 10       # upper bound on new counties tried per run (was 6)
-  assumed_rates:                  # starting guesses until 3 months of real data replace them
+  min_sample_for_measured_rate: 20  # a step uses its own measured rate once it has this many outcomes; fewer -> blended with the assumption below
+  assumed_rates:                  # used ONLY for a step with no outcomes yet; each step switches to its measured rate as soon as it has data
     researched_to_opportunity: 0.40
     opportunity_to_conversation: 0.15
     conversation_to_contract: 0.30

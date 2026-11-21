@@ -180,14 +180,20 @@
     svg.append('text').attr('x', W - pad).attr('y', H - 4).attr('text-anchor', 'end').attr('class', 'pp-val').text(`Goal ${T}`);
     C.legend(el, [['Closed', 'var(--color-ok)'], ['Still to close', 'var(--cds-chart-grid)'], ['Expected by today', 'var(--color-fg)']].concat(F ? [['Floor (still a win)', 'var(--cds-chart-reference)']] : []));
     // 3. What it takes: each step's actual vs needed, as a meter of % reached (one unit for every row).
-    const steps = [['Leads researched', 'leads_researched', 'needed_researched'], ['Opportunities found', 'opportunities', 'needed_opportunities'],
-      ['Conversations with sellers', 'reached_conversation', 'needed_conversations'], ['Contracts signed', 'reached_contract', 'needed_contracts'], ['Closed', 'closed', 'target_closings']];
+    const steps = [['Leads researched', 'leads_researched', 'needed_researched'], ['Opportunities found', 'opportunities', 'needed_opportunities', 'researched_to_opportunity', 'of researched leads become opportunities', 'leads'],
+      ['Conversations with sellers', 'reached_conversation', 'needed_conversations', 'opportunity_to_conversation', 'of contacted opportunities reach a conversation', 'contacted opportunities'],
+      ['Contracts signed', 'reached_contract', 'needed_contracts', 'conversation_to_contract', 'of conversations become signed contracts', 'conversations'], ['Closed', 'closed', 'target_closings', 'contract_to_close', 'of contracts close', 'contracts']];
+    const pct0 = d3.format('.0%'), waiting = n('outreach_awaiting_approval');
+    const rateNote = (k, what, unit) => { if (!k || r['rate_' + k] == null || r['rate_' + k] === '') return null; const src = r['src_' + k], N = n('n_' + k), W = n('won_' + k), rt = pct0(+r['rate_' + k]);
+      if (src === 'measured') return `${rt} ${what}: measured, ${W} of ${N} ${unit}.`;
+      if (src === 'blended') return `${rt} ${what}: ${W} of ${N} ${unit} so far, blended with the starting assumption until ${n('min_sample')} outcomes.`;
+      return `${rt} ${what}: starting assumption, no outcomes yet` + (k === 'opportunity_to_conversation' && waiting ? ` (nothing sent; ${waiting} outreach drafts are waiting for your approval).` : '.'); };
     const hasNeed = r.needed_researched != null && r.needed_researched !== '';
     el.appendChild(el_('h3', 'pp-pace-h', `What it takes to close ${T} this month`));
     if (!hasNeed) { el.appendChild(el_('p', 'pp-sub', 'The step-by-step targets appear after the next daily data refresh.')); return; }
-    el.appendChild(el_('p', 'pp-sub', 'Working back from the goal at the starting conversion guesses in config.yaml (replaced by real rates after 3 months). Bar = share of what that step needs' + (F ? `; the tick marks what the floor of ${F} needs.` : '.')));
+    el.appendChild(el_('p', 'pp-sub', 'Worked back from the goal using each step\'s measured conversion rate. A step with no outcomes yet uses a starting assumption and switches to its own rate as soon as results come in. Bar = share of what that step needs' + (F ? `; the tick marks what the floor of ${F} needs.` : '.')));
     const list = el_('div', 'pp-steps');
-    steps.forEach(([label, have, need]) => { const a = n(have), q = n(need), pct = q ? Math.min(100, 100 * a / q) : 0, done = a >= q;
+    steps.forEach(([label, have, need, rk, what, unit]) => { const a = n(have), q = n(need), pct = q ? Math.min(100, 100 * a / q) : 0, done = a >= q;
       const row = el_('div', 'pp-step'); row.title = `${label}: ${a} of ${q} needed (${Math.round(q ? 100 * a / q : 0)}%)`;
       const top = el_('div', 'pp-step-top'); top.append(el_('span', null, label), el_('span', 'pp-step-n', `${d3.format(',')(a)} / ${d3.format(',')(q)}`));
       const chip = el_('span', `pp-chip ${done ? 'pp-ok' : 'pp-warn'}`, done ? 'Enough' : `Short ${d3.format(',')(q - a)}`); top.appendChild(chip);
@@ -195,7 +201,7 @@
       m.setAttribute('aria-valuenow', String(Math.round(pct))); m.setAttribute('aria-valuemin', '0'); m.setAttribute('aria-valuemax', '100');
       const fill = el_('div'); fill.style.width = pct + '%'; fill.style.background = done ? 'var(--color-ok)' : dash.colors[0]; m.appendChild(fill);
       if (F && T) { const tk = el_('i', 'pp-step-floor'); tk.style.left = Math.min(100, 100 * Math.ceil(q * F / T) / (q || 1)) + '%'; m.appendChild(tk); row.title += ` · floor of ${F} needs about ${Math.ceil(q * F / T)}`; }
-      row.append(top, m); list.appendChild(row); });
+      row.append(top, m); const note = rateNote(rk, what, unit); if (note) { const p = el_('p', 'pp-step-note', note); if (r['src_' + rk] === 'assumed') p.classList.add('pp-step-assumed'); row.appendChild(p); } list.appendChild(row); });
     el.appendChild(list); });
 
   dash.draw('scatterChart', (el) => { const d = dash.data('opps'); if (!ok(d)) return C.notReady(el, d);

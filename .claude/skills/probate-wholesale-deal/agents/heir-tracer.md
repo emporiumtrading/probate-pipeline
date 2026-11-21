@@ -20,3 +20,6 @@ If a signer is a minor, appears to be incapacitated, is in a dispute with anothe
 When you search owner names, follow the matching method in `references/daily-run.md` step 3 and the county's owner-name format in `pipeline/coverage.csv`.
 
 Follow `references/learning.md` when you meet a situation these steps don't cover.
+
+## Self-review
+Every run, follow `references/self-review.md`: predict your output and yield from your measured rate, compare, find the cause of any gap, change one thing, and log one row in `pipeline/self-review.csv`. Your yield is your row in the dashboard's workers data (results ÷ work done).

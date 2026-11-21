@@ -25,5 +25,8 @@ Never invent a buyer, a purchase or a price. If a market's records can't be sear
 
 When you search owner names for buyers, follow the matching method in `references/daily-run.md` step 3 and the county's owner-name format in `pipeline/coverage.csv`.
 
+## Self-review
+Every run, follow `references/self-review.md`: predict your output and yield from your measured rate, compare, find the cause of any gap, change one thing, and log one row in `pipeline/self-review.csv`. Your yield is your row in the dashboard's workers data (results ÷ work done).
+
 ## Learned
 - 2026-11-20: Where the county parcel layer carries the current owner plus last sale date and price, query company-owned single-family parcels sold in the last 12 months (owner contains LLC/INC/CORP/HOLDINGS/PROPERTIES/INVEST; price band for the market), then group by owner: two or more purchases = repeat buyer. One query found 166 in Hillsborough. Exclude lenders/servicers (foreclosures). Source: pipeline/sources-log.md 2026-11-20.

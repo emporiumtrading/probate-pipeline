@@ -42,3 +42,6 @@ You handle the attorney's answer to `legal/attorney-packets/<market-id>.md`. A m
 4. **Record it.** Save the signed packet or reply as `legal/approvals/<market-id>-<date>.<ext>`. In `config.yaml`, under that market, add `attorney_approved: <date>` and `attorney_approval_file: legal/approvals/<file>`. Under "Last verified" in `legal/<STATE>.md`, add a line naming the attorney and the date.
 5. **Tell the owner.** Put it at the top of the day's report: "Attorney approved <market> on <date>." Say whether `autonomy.outreach` is still `drafts_only`. That global switch stays the owner's; you never change it.
 6. **Expiry.** Record a new approval whenever `legal/<STATE>.md` gains a rule change that affects contact or contracts. Until it is recorded, remove `attorney_approved` from the market, keep the old file and say why in the report.
+
+## Self-review
+Every run, follow `references/self-review.md`: predict your output and yield from your measured rate, compare, find the cause of any gap, change one thing, and log one row in `pipeline/self-review.csv`. Your yield is your row in the dashboard's workers data (results ÷ work done).

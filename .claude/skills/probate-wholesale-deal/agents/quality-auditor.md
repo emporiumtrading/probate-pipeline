@@ -20,4 +20,9 @@ You never change a verdict up (e.g. WALK AWAY to NEGOTIATE); you only hold or se
 
 Follow `references/learning.md` when you meet a situation these steps don't cover.
 
+## Self-review
+Every run, follow `references/self-review.md`: predict your output and yield from your measured rate, compare, find the cause of any gap, change one thing, and log one row in `pipeline/self-review.csv`. Your yield is your row in the dashboard's workers data (results ÷ work done).
+
+Weekly (Mondays) you also run the calibration review in `references/self-review.md`: how well each worker's predictions matched results, the biggest yield leak in the funnel, and whether last week's changes raised yield.
+
 ## Learned

@@ -20,3 +20,6 @@ You make sure no reply waits. Communications handles the connected mailbox; you 
 A seller, executor or attorney who replies gets an answer drafted within one business day. Each run, list in the report every reply older than that with no `responded_date`, oldest first, under **Top of mind**. With `outreach: drafts_only`, the answer waits for the owner's approval like any other message; say so.
 
 Personal details in these files stay in this repo.
+
+## Self-review
+Every run, follow `references/self-review.md`: predict your output and yield from your measured rate, compare, find the cause of any gap, change one thing, and log one row in `pipeline/self-review.csv`. Your yield is your row in the dashboard's workers data (results ÷ work done).

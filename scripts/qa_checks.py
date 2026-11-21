@@ -225,6 +225,15 @@ for c in rows("coverage.csv"):
 
 # ---- guardrails: learning may not change the hard limits or the autonomy block ----
 import hashlib
+# self-review log: fixed columns so the Quality Auditor's weekly calibration can read it
+_srp = os.path.join(ROOT, "pipeline", "self-review.csv")
+if os.path.exists(_srp):
+    _sr = open(_srp).read().splitlines()
+    if not _sr or _sr[0] != "date,worker,metric,predicted,actual,cause,change,evidence":
+        fails.append("pipeline/self-review.csv: header must be date,worker,metric,predicted,actual,cause,change,evidence")
+for _f in glob.glob(os.path.join(ROOT, ".claude/skills/probate-wholesale-deal/agents/*.md")):
+    if "## Self-review" not in open(_f).read():
+        fails.append(f"{os.path.relpath(_f, ROOT)}: missing the '## Self-review' section (references/self-review.md)")
 def guard_parts():
     dr = open(os.path.join(ROOT, ".claude/skills/probate-wholesale-deal/references/daily-run.md")).read()
     hl = re.search(r"## Hard limits.*?(?=\n## )", dr, re.S)

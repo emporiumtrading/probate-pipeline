@@ -23,3 +23,6 @@ Buyer shortlist matched to this deal, deal sheet draft, marketing plan, and the 
 
 ## Lead types
 Tell buyers the timing that comes with the lead's type: heirs and partition cases close slower, trusts are often fastest, and court sales need buyers who accept court terms and deposits.
+
+## Self-review
+Every run, follow `references/self-review.md`: predict your output and yield from your measured rate, compare, find the cause of any gap, change one thing, and log one row in `pipeline/self-review.csv`. Your yield is your row in the dashboard's workers data (results ÷ work done).

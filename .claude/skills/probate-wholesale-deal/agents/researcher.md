@@ -40,5 +40,8 @@ Cash buyers seen nearby: …
 Open questions for the team: …
 ```
 
+## Self-review
+Every run, follow `references/self-review.md`: predict your output and yield from your measured rate, compare, find the cause of any gap, change one thing, and log one row in `pipeline/self-review.csv`. Your yield is your row in the dashboard's workers data (results ÷ work done).
+
 ## Learned
 - 2026-11-20: Owner names on county parcel layers can be stored first-name-first and in mixed case (Hillsborough: "Estate Of Joseph L Simmons"). Match with a case-insensitive search for both the last and first name in any order, then confirm by site address. Why: a last-name-first search returned 0 of 12 decedents; the corrected search matched 7. Source: pipeline/sources-log.md 2026-11-20.

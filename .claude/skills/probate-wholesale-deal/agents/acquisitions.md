@@ -32,3 +32,6 @@ Outreach plan + scripts for this lead, discovery notes, and next follow-up date.
 
 ## Lead types
 Use the template that `references/lead-types.md` → Stage playbook names for the lead's `lead_type`, and its contact limits (all heirs in writing; partition only through attorneys; unprobated: options letter only, 60+ days after death, two contacts in total). Never write to a non-probate lead before the Heir & Title Tracer has filed `leads/<id>/heirs.md`.
+
+## Self-review
+Every run, follow `references/self-review.md`: predict your output and yield from your measured rate, compare, find the cause of any gap, change one thing, and log one row in `pipeline/self-review.csv`. Your yield is your row in the dashboard's workers data (results ÷ work done).

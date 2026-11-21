@@ -188,19 +188,45 @@ month = TODAY[:7]
 floor_ = (re.search(r"closings_floor: (\d+)", open(os.path.join(ROOT, "config.yaml")).read()) or [None, ""])[1]
 tgt = (re.search(r"closings_per_month: (\d+)", open(os.path.join(ROOT, "config.yaml")).read()) or [None, "115"])[1]
 cnt = lambda st: sum(1 for l in leads if l["stage"] in st)
-# What it takes to hit the target, working back from closings with targets.assumed_rates (until real rates replace them).
-_rates = dict(re.findall(r"^    (\w+): ([0-9.]+)", (re.search(r"\n  assumed_rates:[^\n]*\n((?:    [^\n]*\n)+)", open(os.path.join(ROOT, "config.yaml")).read()) or [None, ""])[1], re.M))
-_rate = lambda k, d: float(_rates.get(k, d)) or d
-_need_contracts = math.ceil(int(tgt) / _rate("contract_to_close", 0.75))
-_need_conv = math.ceil(_need_contracts / _rate("conversation_to_contract", 0.30))
-_need_opps = math.ceil(_need_conv / _rate("opportunity_to_conversation", 0.15))
-_need_res = math.ceil(_need_opps / _rate("researched_to_opportunity", 0.40))
+# What it takes to hit the target: work back from closings using each step's MEASURED conversion rate from the tracker.
+# n >= targets.min_sample_for_measured_rate outcomes -> measured rate as-is; 1..n-1 -> measured, blended with the starting
+# assumption weighted as 10 outcomes; 0 outcomes -> starting assumption (flagged on the dashboard as not measured yet).
+_cfg = open(os.path.join(ROOT, "config.yaml")).read()
+_rates = dict(re.findall(r"^    (\w+): ([0-9.]+)", (re.search(r"\n  assumed_rates:[^\n]*\n((?:    [^\n]*\n)+)", _cfg) or [None, ""])[1], re.M))
+_min_n = int((re.search(r"min_sample_for_measured_rate: (\d+)", _cfg) or [None, "20"])[1])
 _contract_st = ("Contract out for signature", "Under contract", "Earnest money due", "Title opened", "Buyer found", "Assignment signed", "Clear to close", "Closed", "Paid")
 _conv_st = ("In conversation", "Offer made", "Verbal agreement") + _contract_st
+_sent_st = ("Outreach sent",) + _conv_st
+_today = datetime.date.fromisoformat(TODAY)
+def _aged(l, days):
+    try: return (_today - datetime.date.fromisoformat(l["last_touch_date"])).days >= days
+    except Exception: return False
+_steps = {  # step -> (trials, successes)
+    "researched_to_opportunity": (sum(1 for l in leads if l["verdict"]), sum(1 for l in leads if l["verdict"] in ("GO", "NEGOTIATE"))),
+    # an outreach counts once the seller replied, or 14 days passed without a reply (so fresh letters don't count as failures)
+    "opportunity_to_conversation": (sum(1 for l in leads if l["stage"] in _conv_st or (l["stage"] == "Outreach sent" and _aged(l, 14))), sum(1 for l in leads if l["stage"] in _conv_st)),
+    "conversation_to_contract": (sum(1 for l in leads if l["stage"] in _conv_st), sum(1 for l in leads if l["stage"] in _contract_st)),
+    "contract_to_close": (sum(1 for l in leads if l["stage"] in _contract_st), sum(1 for l in leads if l["stage"] in ("Closed", "Paid"))),
+}
+_DEF = {"researched_to_opportunity": 0.40, "opportunity_to_conversation": 0.15, "conversation_to_contract": 0.30, "contract_to_close": 0.75}
+_rate_out = {}
+def _rate(k):
+    prior = float(_rates.get(k, _DEF[k])) or _DEF[k]; n, w = _steps[k]
+    if n >= _min_n: r, src = w / n, "measured"
+    elif n > 0: r, src = (w + prior * 10) / (n + 10), "blended"
+    else: r, src = prior, "assumed"
+    r = min(max(r, 0.01), 1.0)
+    _rate_out.update({f"rate_{k}": round(r, 4), f"src_{k}": src, f"n_{k}": n, f"won_{k}": w})
+    return r
+_need_contracts = math.ceil(int(tgt) / _rate("contract_to_close"))
+_need_conv = math.ceil(_need_contracts / _rate("conversation_to_contract"))
+_need_opps = math.ceil(_need_conv / _rate("opportunity_to_conversation"))
+_need_res = math.ceil(_need_opps / _rate("researched_to_opportunity"))
 write("pace.csv", ["month", "target_closings", "closed", "under_contract", "verbal_agreements", "offers_out", "in_conversation",
                    "outreach_sent", "opportunities", "leads_researched", "markets_live",
-                   "reached_conversation", "reached_contract", "needed_researched", "needed_opportunities", "needed_conversations", "needed_contracts", "floor_closings"], [{
-    "floor_closings": floor_,
+                   "reached_conversation", "reached_contract", "needed_researched", "needed_opportunities", "needed_conversations", "needed_contracts", "floor_closings",
+                   "outreach_awaiting_approval", "min_sample"] + list(_rate_out), [{
+    "floor_closings": floor_, "outreach_awaiting_approval": cnt(("Outreach drafted",)), "min_sample": _min_n, **_rate_out,
     "reached_conversation": cnt(_conv_st), "reached_contract": cnt(_contract_st),
     "needed_researched": _need_res, "needed_opportunities": _need_opps, "needed_conversations": _need_conv, "needed_contracts": _need_contracts,
     "month": month, "target_closings": tgt, "closed": cnt(("Closed", "Paid")),
