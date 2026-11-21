@@ -259,6 +259,17 @@ try:
     _od.load()
 except _od.Refused as e:
     fails.append(f"pipeline/owner-decisions.csv: {e}")
+# team handoff board: valid workers, answers with evidence, no secrets; no lead reaches the owner with an open blocker
+import handoffs as _ho
+for _b in _ho.problems(_ho.load()):
+    fails.append(f"pipeline/handoffs.csv {_b}")
+_blk = _ho.open_blockers(_ho.load())
+for _q in rows("queues.csv"):
+    if _q.get("queue") == "Approve outreach" and _q.get("lead_id") in _blk:
+        fails.append(f"{_q['lead_id']}: in your approval queue with an open blocker on the handoff board")
+for _f in glob.glob(os.path.join(ROOT, ".claude/skills/probate-wholesale-deal/agents/*.md")):
+    if "## Handoffs" not in open(_f).read():
+        fails.append(f"{os.path.relpath(_f, ROOT)}: missing the '## Handoffs' section (references/orchestration.md → Handoff board)")
 def guard_parts():
     dr = open(os.path.join(ROOT, ".claude/skills/probate-wholesale-deal/references/daily-run.md")).read()
     hl = re.search(r"## Hard limits.*?(?=\n## )", dr, re.S)

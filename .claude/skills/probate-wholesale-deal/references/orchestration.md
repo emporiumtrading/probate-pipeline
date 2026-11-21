@@ -28,6 +28,15 @@ Run these as parallel subagents where the platform allows (one team per market f
 | Dispositions desk | dispositions | When a deal reaches "Under contract" |
 | Closing desk | transaction-coordinator | Every open contract, daily, until closed |
 
+## Handoff board (how workers talk to each other)
+Workers run in turn within each run, so they can't ask each other questions live. They talk through one shared board, `pipeline/handoffs.csv`, which they only change through `scripts/handoffs.py` (add, list, answer, reassign, close, reopen, sweep, check). Every worker with a role file in `agents/` is on it automatically, including workers added later, plus `owner`.
+- **Kinds:** `question` (an answer with evidence), `request` (a piece of work), `blocker` (the lead must not move forward until it is answered), `fyi` (no answer needed).
+- **Order within a run:** the runner runs `handoffs.py sweep` at the start of the run. Each worker starts its step with `handoffs.py list --for <itself>` and clears its open items (urgent and blockers first) before new work. A question raised in one step can be answered by a later worker in the same run. If the worker that owns it already ran, its next run answers it first.
+- **Deadlines:** urgent items are due the same day and normal ones the next day, unless the asker sets `--needed-by`. The sweep escalates anything past its deadline, anything moved between workers 3 times, and anything addressed to a worker that no longer exists. Escalated items appear in the daily report under **Exceptions** and on the dashboard.
+- **Blockers:** a lead with an open blocker never moves to a later stage and never enters the owner's approval queue (QA fails the run if it does).
+- **Answers** must name their evidence (a file in the repo or a source URL). The asker closes an answer, or reopens it saying what's missing. The Quality Auditor's weekly review also covers the board: slow answers, ping-pong and repeated questions that point to a missing rule or a missing worker (`references/new-worker.md`).
+- **Never** put bank details, card numbers, passwords or keys on the board; the script refuses them.
+
 ## Deal state machine
 New → Researched → Outreach sent → In conversation → Offer made → Verbal agreement → **Contract out for signature (owner + seller)** → Under contract → **Earnest money wired (owner)** → Title opened → Buyer found → **Assignment signed (owner + buyer)** → Clear to close → Closed → Paid.
 Dead/Walk away can happen at any step; record why.

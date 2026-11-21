@@ -205,6 +205,11 @@
       </div>
     </div>
     <div class="pp-card" id="deal-progress"><h2>Progress to closing</h2><div class="pp-chart" data-draw="dealProgress" data-source="deal stages" style="min-height:96px"></div></div>
+    <div class="pp-card pp-wrap" id="deal-handoffs"><h2>Questions between workers on this deal</h2><p class="pp-sub">Open blockers keep the deal where it is until they're answered.</p>
+      <table data-source="handoffsDeal" data-row-key="id">
+        <thead><tr><th data-field="id">#</th><th data-field="from_worker">From</th><th data-field="to_worker">To</th><th data-field="kind">Kind</th><th data-field="priority">Priority</th><th data-field="ask">Question or request</th><th data-field="needed_by">Due</th><th data-field="status">Status</th><th data-field="answer">Answer</th></tr></thead>
+        <tbody data-draw="hoDealRows"></tbody></table>
+    </div>
     <p class="pp-sub">Full files (research, numbers, legal, liens, title, contacts, audit, plan, drafts) are in the private repo under leads/&lt;lead id&gt;/.</p>
   </section>
 
@@ -305,6 +310,26 @@
       <details><summary>Worker table</summary><div class="pp-wrap"><table data-source="workers" data-row-key="worker">
         <thead><tr><th data-field="worker">Worker</th><th data-field="status">Status</th><th class="pp-n" data-field="done">Work done</th><th data-field="done_label">of what</th><th class="pp-n" data-field="result">Results</th><th data-field="result_label">of what</th><th class="pp-n" data-field="rate">Rate</th><th data-field="last_active">Last active</th><th data-field="note">Note</th><th data-field="does">Job</th></tr></thead>
         <tbody data-draw="workerRows"></tbody></table></div></details>
+    </div>
+    <div class="pp-card" id="ops-handoffs"><h2>Team handoffs</h2><p class="pp-sub">How the workers talk to each other: questions, requests and blockers on one shared board. Every worker is on it, including ones added later. Overdue items escalate to your report automatically.</p>
+      <div class="pp-tiles">
+        <div class="pp-card pp-tile pp-t-warn"><div class="pp-num" data-draw="hoOpen" data-source="hCounts" data-field="open" data-row="0">—</div><div class="pp-lbl">Open</div></div>
+        <div class="pp-card pp-tile pp-t-bad"><div class="pp-num" data-draw="hoLate" data-source="hCounts" data-field="late" data-row="0">—</div><div class="pp-lbl">Overdue or escalated</div></div>
+        <div class="pp-card pp-tile pp-t-bad"><div class="pp-num" data-draw="hoBlock" data-source="hCounts" data-field="blockers" data-row="0">—</div><div class="pp-lbl">Open blockers (deal on hold)</div></div>
+        <div class="pp-card pp-tile pp-t-ok"><div class="pp-num" data-draw="hoAns" data-source="hCounts" data-field="answered7" data-row="0">—</div><div class="pp-lbl">Answered in the last 7 days</div></div>
+        <div class="pp-card pp-tile"><div class="pp-num" data-draw="hoAvg" data-source="hCounts" data-field="avg_days" data-row="0">—</div><div class="pp-lbl">Average time to answer</div></div>
+      </div>
+      <div class="pp-grid" style="margin-top:var(--cds-gap-md)">
+        <div id="ops-ho-worker"><h3>Waiting on each worker</h3><p class="pp-sub">Open items by the worker who must answer. Click a bar to filter.</p><div class="pp-chart" data-draw="hoByWorker" data-source="handoffs"></div></div>
+        <div id="ops-ho-matrix"><h3>Who asks whom</h3><p class="pp-sub">Every handoff so far: rows ask, columns answer.</p><div class="pp-chart" data-draw="hoMatrix" data-source="handoffs"></div></div>
+      </div>
+      <div class="pp-filters" style="margin:var(--cds-gap-md) 0 6px">
+        <label>Show<select class="dash-select" data-draw="hoStatusSel" aria-label="Handoff status" data-source="handoffs"></select></label>
+        <label>Worker<select class="dash-select" data-draw="hoWorkerSel" aria-label="Worker" data-source="handoffs"></select></label>
+      </div>
+      <div class="pp-wrap"><table data-source="handoffsF" data-row-key="id">
+        <thead><tr><th data-field="id">#</th><th data-field="address">Deal</th><th data-field="from_worker">From</th><th data-field="to_worker">To</th><th data-field="kind">Kind</th><th data-field="priority">Priority</th><th data-field="ask">Question or request</th><th data-field="needed_by">Due</th><th data-field="status">Status</th><th data-field="answer">Answer</th></tr></thead>
+        <tbody data-draw="hoRows"></tbody></table></div>
     </div>
     <details class="pp-card" id="ops-sources"><summary>Working county sources</summary><div class="pp-wrap"><table data-source="sources" data-row-key="market,source">
       <thead><tr><th data-field="date">Checked</th><th data-field="market">Market</th><th data-field="source">Source</th><th data-field="status">Status</th><th data-field="note">Note</th></tr></thead>
@@ -431,3 +456,4 @@
 <script src="charts.js"></script>
 <script src="setup.js"></script>
 <script src="messages.js"></script>
+<script src="team.js"></script>

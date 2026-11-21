@@ -51,6 +51,9 @@ If a rebase hits a conflict, `git rebase --abort`, leave the work as it is, and 
 
 Then read `config.yaml`, `pipeline/deal-tracker.csv`, the latest file in `reports/`, `pipeline/sources-log.md`, and `legal/*.md`. Note today's date in the owner's timezone.
 
+### 1b. Handoff board
+Run `python3 scripts/handoffs.py sweep`. From here on, every worker starts its step by listing and clearing its own handoffs, and asks other workers through the board instead of guessing (`references/orchestration.md` → Handoff board). Before step 7, run `python3 scripts/handoffs.py check`. In the report, under **Exceptions**, list every escalated handoff and every one addressed `--to owner`, with its id and the question.
+
 ### 2. Legal refresh (Legal Advisor)
 For each market's state: if `legal/<STATE>.md` is missing or its "Last verified" date is older than `legal_recheck_days`, follow `agents/legal-advisor.md` to research current wholesaling, probate-sale and contact rules, with priority on laws passed or effective in the last two years. Write `legal/<STATE>.md` with: Last verified date, rules table (rule, source URL, date, verified/unverified), blocking issues, required contract disclosures. If something changed since the last version, put it at the top of today's report.
 

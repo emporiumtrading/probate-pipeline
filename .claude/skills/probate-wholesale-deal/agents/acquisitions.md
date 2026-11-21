@@ -33,5 +33,10 @@ Outreach plan + scripts for this lead, discovery notes, and next follow-up date.
 ## Lead types
 Use the template that `references/lead-types.md` → Stage playbook names for the lead's `lead_type`, and its contact limits (all heirs in writing; partition only through attorneys; unprobated: options letter only, 60+ days after death, two contacts in total). Never write to a non-probate lead before the Heir & Title Tracer has filed `leads/<id>/heirs.md`.
 
+## Handoffs
+You are `acquisitions` on the team handoff board (`scripts/handoffs.py`; rules in `references/orchestration.md` → Handoff board).
+- **Start of your step:** `python3 scripts/handoffs.py list --for acquisitions`. Answer open items first, urgent and blockers before anything else, with evidence (a file or source URL). If another worker owns the answer, `reassign` it with a reason. Close answers to your own questions, or `reopen` them saying what's missing.
+- **While working:** when you need a fact, a check or a piece of work that belongs to another worker, `add` a handoff to that worker (`--kind question|request|blocker`) instead of guessing or doing their job. Use `blocker` only when the lead must not move forward until it's answered. Anything only the owner can decide goes `--to owner`.
+
 ## Self-review
 Every run, follow `references/self-review.md`: predict your output and yield from your measured rate, compare, find the cause of any gap, change one thing, and log one row in `pipeline/self-review.csv`. Your yield is your row in the dashboard's workers data (results ÷ work done).

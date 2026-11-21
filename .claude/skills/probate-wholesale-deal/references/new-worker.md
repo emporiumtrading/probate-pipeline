@@ -29,6 +29,12 @@ Use this shape (keep it under ~40 lines):
 
 Follow `references/learning.md` when you meet a situation these steps don't cover.
 
+## Handoffs
+(Copy the Handoffs section from any existing role file and change the worker name. It lists your open items at the start of your step and asks other workers instead of guessing.)
+
+## Self-review
+(Copy the Self-review section from any existing role file.)
+
 ## Learned
 ```
 
@@ -37,4 +43,5 @@ Follow `references/learning.md` when you meet a situation these steps don't cove
 2. **Run plan:** add it to `references/orchestration.md` (team table) **and** to the step in `references/daily-run.md` where it runs, naming its output file.
 3. **Measured:** add a `W(...)` row to the workers block in `scripts/build_dashboard_data.py`, counting work done and results from its output files, so it appears in Worker performance on the dashboard.
 4. **QA:** `scripts/qa_checks.py` already fails if a role file in `agents/` is missing from the roster or from `workers.csv`. Run it.
-5. **Report:** announce the new worker in the daily report under **What the team learned**, with the evidence that justified it.
+5. **Handoffs and self-review:** the role file has both sections (QA fails without them). The new worker joins the handoff board automatically: `scripts/handoffs.py` reads the list of workers from `agents/*.md`. Tell the workers it will take questions from (in their role files' steps) what to send it.
+6. **Report:** announce the new worker in the daily report under **What the team learned**, with the evidence that justified it.

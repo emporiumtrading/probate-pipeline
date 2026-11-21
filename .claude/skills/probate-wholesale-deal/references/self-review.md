@@ -18,6 +18,7 @@ Your yield is your row in the dashboard's `workers.csv` (built by `scripts/build
 Read the last 7 days of `pipeline/self-review.csv` together with `workers.csv` and `pace.csv`:
 - **Calibration:** for each worker, how often actual was within 20% of predicted. A worker that is regularly over-confident lowers its next predictions to its measured rate.
 - **Biggest yield leak:** the funnel step with the largest gap between what the goal needs and what is happening. Name the worker that owns it and the one change it should make.
+- **Handoff board:** from `pipeline/handoffs.csv`, each worker's average time to answer, items escalated, and questions asked again and again. A question that keeps coming back means a rule belongs in someone's role file; a kind of question no worker owns means a new worker may be needed (`references/new-worker.md`).
 - **Did the changes work:** compare each worker's yield before and after its logged changes. Keep what raised yield and revert what didn't (revert = write the reversal as a new `## Learned` bullet).
 Put the findings under **What the team learned** in that day's report.
 

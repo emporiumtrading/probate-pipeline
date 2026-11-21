@@ -119,8 +119,11 @@ write("leads.csv", LEAD_COLS, sorted(leads, key=lambda x: -(x["potential_earning
 
 # ---- owner queues ----
 queues = []
+sys.path.insert(0, os.path.join(ROOT, "scripts"))
+import handoffs as _ho0
+_blocked = _ho0.open_blockers(_ho0.load())  # a lead with an open blocker waits off the owner's queue until it's answered
 for l in leads:
-    if l["owner_action"] == "approve" and l["lead_id"] in approvals:
+    if l["owner_action"] == "approve" and l["lead_id"] in approvals and l["lead_id"] not in _blocked:
         queues.append({"queue": "Approve outreach", "lead_id": l["lead_id"], "address": l["address"], "city": l["city"],
                        "county": l["county"], "state": l["state"], "item": (approvals[l["lead_id"]].split(" | ") + [""])[1] or approvals[l["lead_id"]],
                        "due": l["next_action_date"], "file": f"leads/{l['lead_id']}/outreach-drafts.md"})
@@ -138,6 +141,19 @@ for q in queues:
     q["decision"] = d["decision"] if d else ""
     q["decision_note"] = d["note"] if d else ""
 write("queues.csv", ["queue", "lead_id", "address", "city", "county", "state", "item", "due", "file", "decision", "decision_note"], queues)
+
+# ---- team handoffs (scripts/handoffs.py): questions, requests and blockers between workers ----
+import handoffs as _ho
+_hrows = _ho.load()
+_lead_addr = {l["lead_id"]: (l["address"], l["city"], l["state"], l["county"]) for l in leads}
+hand = []
+for r in _hrows:
+    a = _lead_addr.get(r["lead_id"], ("", "", "", ""))
+    age = (datetime.date.fromisoformat(TODAY) - datetime.date.fromisoformat(r["created"])).days if re.fullmatch(r"\d{4}-\d\d-\d\d", r["created"] or "") else ""
+    hand.append({**{c: r.get(c, "") for c in ("id", "created", "from_worker", "to_worker", "lead_id", "kind", "priority", "ask", "needed_by", "status", "answer", "answered_by", "answered_on", "evidence", "hops")},
+                 "overdue": "yes" if _ho.overdue(r, TODAY) else "", "age_days": age, "address": a[0], "city": a[1], "state": a[2], "county": a[3]})
+write("handoffs.csv", ["id", "created", "from_worker", "to_worker", "lead_id", "address", "city", "state", "county", "kind", "priority", "ask", "needed_by", "status",
+                       "overdue", "age_days", "answer", "answered_by", "answered_on", "evidence", "hops"], hand)
 
 # ---- messages: every drafted or sent message, with its body and attachments ----
 # Source: leads/<id>/outreach-drafts.md, one "## " section per message. Sections that aren't messages (the follow-up
