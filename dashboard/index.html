@@ -358,11 +358,11 @@
           <label>Address or account email<input type="text" name="email_sending_address" maxlength="200" autocomplete="off"></label>
           <label class="pp-check"><input type="checkbox" name="email_sending_ready"> I've set this up. Please test it.</label>
         </fieldset>
-        <fieldset class="pp-ch"><legend>Replies read automatically</legend><p class="pp-sub">The business mailbox's connector (for example Gmail) lets the reply desk read replies. Connect it, then enter the mailbox address.</p>
+        <fieldset class="pp-ch"><legend>Replies read automatically</legend><p class="pp-sub">Recommended: <b>Resend receives the replies</b> too, so one service sends and receives. Use a reply address on a subdomain (for example replies.yourbusiness.com) or the free @…resend.app address, never your main domain, so your normal inbox keeps working. Resend stores every reply until the daily run collects it. Point your mail-scan and voicemail services at the same address. Prefer Gmail instead? Connect it and enter its address.</p>
           <div class="pp-ch-status" data-draw="chStatus" data-ch="inbox_connected" data-source="readiness">—</div>
-          <p><a class="pp-btn pp-btn-primary" href="https://claude.ai/directory/connectors/gmail" target="_blank" rel="noopener">Connect Gmail in Claude ↗</a> <span class="pp-sub">Opens Gmail's page in Claude. Click Connect and sign in with the business mailbox. Claude's Gmail access is read-only: it reads replies and never sends.</span></p>
-          <label>Service<input type="text" name="inbox_connected_provider" maxlength="200" autocomplete="off"></label>
-          <label>Address or account email<input type="text" name="inbox_connected_address" maxlength="200" autocomplete="off"></label>
+          <p><a class="pp-btn pp-btn-primary" href="https://claude.ai/directory/connectors/resend" target="_blank" rel="noopener">Connect Resend in Claude ↗</a> <a class="pp-btn" href="https://claude.ai/directory/connectors/gmail" target="_blank" rel="noopener">Or connect Gmail ↗</a></p>
+          <label>Service (Resend or Gmail)<input type="text" name="inbox_connected_provider" maxlength="200" autocomplete="off" placeholder="Resend"></label>
+          <label>Reply address<input type="text" name="inbox_connected_address" maxlength="200" autocomplete="off" placeholder="replies@replies.yourbusiness.com"></label>
           <label class="pp-check"><input type="checkbox" name="inbox_connected_ready"> I've set this up. Please test it.</label>
         </fieldset>
         <fieldset class="pp-ch"><legend>Mailed replies arrive by email</legend><p class="pp-sub">A virtual mailbox (for example Earth Class Mail or iPostal1) scans letters sent to the business address and emails them to the business inbox. Enter the service and the address scans go to.</p>
