@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__claude-artifacts__get_artifact",
+      "mcp__claude-artifacts__upload_asset",
+      "mcp__claude-artifacts__db_list",
+      "mcp__claude-artifacts__db_get",
+      "mcp__claude-artifacts__db_whoami",
+      "mcp__claude-artifacts__db_write"
+    ]
+  }
+}
