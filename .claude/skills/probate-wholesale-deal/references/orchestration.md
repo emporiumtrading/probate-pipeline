@@ -36,6 +36,7 @@ Workers run in turn within each run, so they can't ask each other questions live
 - **Blockers:** a lead with an open blocker never moves to a later stage and never enters the owner's approval queue (QA fails the run if it does).
 - **Answers** must name their evidence (a file in the repo or a source URL). The asker closes an answer, or reopens it saying what's missing. The Quality Auditor's weekly review also covers the board: slow answers, ping-pong and repeated questions that point to a missing rule or a missing worker (`references/new-worker.md`).
 - **Never** put bank details, card numbers, passwords or keys on the board; the script refuses them.
+- **Between runs:** the fast desk (`references/fast-desk.md`) clears the board every 2 hours in business hours, acting as whichever worker each item is for. So a question raised in the morning run is usually answered before the midday run.
 
 ## Deal state machine
 New → Researched → Outreach sent → In conversation → Offer made → Verbal agreement → **Contract out for signature (owner + seller)** → Under contract → **Earnest money wired (owner)** → Title opened → Buyer found → **Assignment signed (owner + buyer)** → Clear to close → Closed → Paid.
