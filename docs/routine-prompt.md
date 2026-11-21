@@ -5,3 +5,4 @@
 - The earlier API-created routine (which couldn't push) was deleted.
 - If the runner session is ever archived or deleted, recreate it with this repository as its source and point the scheduled task at the new session.
 - The session proxy blocks deleting branches on GitHub (HTTP 403), but pushing to `main` works. So the runner never creates branches: it commits and pushes straight to `main`. Future self-tests use `git push --dry-run origin HEAD:main` instead of a throwaway branch. The 2026-11-20 test branch `runner-push-test` was deleted by hand on GitHub.
+- One daily runner (owner decision, 2026-11-21): only this runner session runs the daily slices and refreshes dashboard data. The setup session makes design or setup changes only when the owner asks.
