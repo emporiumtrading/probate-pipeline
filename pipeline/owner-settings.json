@@ -1,0 +1,11 @@
+{
+  "areas": {
+    "autonomy": {
+      "confirm_text": "AUTHORIZE",
+      "confirmed": true,
+      "outreach": "autonomous",
+      "saved_at": "2026-11-21T18:00:54.581Z"
+    }
+  },
+  "source": "dashboard Setup page (owner)"
+}

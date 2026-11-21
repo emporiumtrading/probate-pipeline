@@ -14,27 +14,40 @@
     [/\b(sk|pk|rk|re|key)_[A-Za-z0-9]{12,}/, 'an API key'],
   ];
   const saved = (id) => { const d = dash.data('ownerSettings'); return d.status === 'ok' ? (d.data || []).find((r) => r.id === id) || null : null; };
-  const areaRows = () => { const d = dash.data('readiness'); return d.status === 'ok' ? d.data : []; };
+  // A setting saved on this page shows at once: "saved" until the daily run applies it, then the run's own status.
+  const BIZ = ['legal_name', 'entity_state', 'mailing_address', 'phone', 'email', 'website', 'signer', 'title_company'];
+  const live = (r) => {
+    if (r.status === 'done') return r;
+    const s = saved(r.area_id); if (!s) return r;
+    const k = r.item_key, on = (v) => v === true || v === 'true';
+    if (r.area_id === 'business' && BIZ.includes(k) && String(s[k] || '').trim()) return { ...r, status: 'saved, applies at next run' };
+    if (r.area_id === 'autonomy' && s.outreach === 'autonomous' && on(s.confirmed)) return { ...r, status: 'saved, applies at next run' };
+    if (r.area_id === 'channels' && on(s[`${k}_ready`])) return { ...r, status: 'waiting for check' };
+    if (/^market-/.test(r.area_id || '') && ((k === 'approved_on' && s.approved_on) || (k === 'licensed_or_partnered' && on(s.licensed_or_partnered)))) return { ...r, status: 'waiting for check' };
+    return r;
+  };
+  const areaRows = () => { const d = dash.data('readiness'); return d.status === 'ok' ? d.data.map(live) : []; };
   const say = (msg, cls) => { S.msg = msg; S.msgCls = cls || ''; dash.draw('cfgMsg'); };
 
   // ---- area cards ----
   dash.draw('setupCards', (el) => {
     const d = dash.data('readiness');
     if (d.status !== 'ok') { el.replaceChildren(); const p = document.createElement('p'); p.className = 'pp-sub'; p.textContent = d.status === 'error' ? 'Failed to load' : 'Loading…'; el.appendChild(p); return; }
-    const groups = d3.groups(d.data, (r) => r.area);
+    const groups = d3.groups(d.data.map(live), (r) => r.area);
     el.replaceChildren(...groups.map(([area, items]) => {
       const id = items[0].area_id || AREA_ID[area] || '';
       const done = items.filter((r) => r.status === 'done').length, total = items.length, pct = total ? 100 * done / total : 0;
+      const pend = items.filter((r) => r.status !== 'done' && r.status !== 'missing').length;
       const card = document.createElement('div'); card.className = `pp-card pp-tile pp-area-card ${done === total ? 'pp-t-ok' : 'pp-t-warn'}`; card.id = 'setup-' + (id || area.replace(/\W+/g, '-').toLowerCase());
       const row = document.createElement('div'); row.className = 'pp-row';
       const h = document.createElement('h3'); h.textContent = area;
-      const n = document.createElement('span'); n.className = 'pp-sub'; n.style.margin = '0'; n.textContent = `${done} of ${total} done`;
+      const n = document.createElement('span'); n.className = 'pp-sub'; n.style.margin = '0'; n.textContent = `${done} of ${total} done` + (pend ? ` · ${pend} saved or being checked` : '');
       row.append(h, n);
       const m = document.createElement('div'); m.className = 'pp-meter'; m.setAttribute('role', 'progressbar'); m.setAttribute('aria-label', `${area}: ${done} of ${total} done`);
       const f = document.createElement('div'); f.style.width = pct + '%'; m.appendChild(f);
       const ul = document.createElement('ul');
       items.forEach((r) => { const li = document.createElement('li'); const a = document.createElement('span'); a.textContent = r.item;
-        const c = document.createElement('span'); c.className = 'pp-chip ' + (r.status === 'done' ? 'pp-ok' : r.status === 'missing' ? 'pp-warn' : ''); c.textContent = r.status; li.append(a, c); ul.appendChild(li); });
+        const c = document.createElement('span'); c.className = 'pp-chip ' + (r.status === 'done' || /^saved/.test(r.status) ? 'pp-ok' : r.status === 'missing' ? 'pp-warn' : ''); c.textContent = r.status; li.append(a, c); ul.appendChild(li); });
       const s = saved(id);
       const foot = document.createElement('div'); foot.className = 'pp-row';
       const when = document.createElement('span'); when.className = 'pp-sub'; when.style.margin = '0'; when.textContent = s && s.saved_at ? `Saved ${String(s.saved_at).slice(0, 10)}` : 'Nothing saved yet';
