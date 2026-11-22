@@ -382,6 +382,13 @@ for k, (lbl, fix) in CH.items():
     st = "done" if chan.get(k) == "true" else ("waiting for check" if _och.get(f"{k}_ready") else "missing")
     item("Channels", lbl, st, fix, "Reply desk and sending with no manual steps", "channels", k)
 item("Autonomy", "Outreach set to autonomous", autonomy.get("outreach") == "autonomous", "Setup page → Autonomy → Configure (after the items above)", "Letters go out without per-message approval", "autonomy", "outreach")
+LS = cfg_block("legal_service")
+_prov = {"general_legal": "General Legal", "legalzoom": "LegalZoom", "rocket_lawyer": "Rocket Lawyer"}.get(LS.get("provider", ""), LS.get("provider", ""))
+_cov = [x.strip().upper() for x in (LS.get("covered_states") or "").split(",") if x.strip()]
+item("Attorneys", "Attorney review service connected" + (f" ({_prov})" if _prov else ""), bool(LS.get("provider") and LS.get("connected_on")),
+     "Connect an attorney-review connector (for example General Legal) at claude.ai → Settings → Connectors", "Sending attorney packets and getting redlines back without email", "legal", "provider")
+item("Attorneys", "Service confirmed its licensed states and fees", True if LS.get("coverage_status") == "answered" else ("waiting for check" if LS.get("coverage_status") == "asked" else False),
+     "The Legal Advisor asked in the service's coverage matter and checks for the answer every evening run", "Knowing which markets the service can cover", "legal", "coverage")
 for m in live:
     body = (re.search(rf"\n  - id: {re.escape(m['market'])}\n(.*?)(?=\n  - id: |\n\S|\Z)", cfg_txt, re.S) or [None, ""])
     body = body.group(1) if hasattr(body, "group") else ""
@@ -393,6 +400,15 @@ for m in live:
     if m["outreach_allowed"] != "True" and m["outreach_allowed"] != "true":
         item(lbl, "Outreach allowed by state rules", "waiting for check" if mo.get("licensed_or_partnered") else False,
              f"Setup page → {lbl} → Configure: licence or licensed partner (Legal Advisor confirms against legal/{m['state']}.md)", "Any outreach in this market", aid, "licensed_or_partnered")
+    _mm = dict(x.split(":", 1) for x in (LS.get("market_matters") or "").split() if ":" in x)
+    _att = (re.search(r"\n\s+attorney:\s*([^\n#]+)", "\n" + body) or [None, ""])[1].strip()
+    if _att: _ast = True
+    elif m["market"] in _mm: _ast = "waiting for check"
+    elif LS.get("provider") and (not _cov or m["state"] in _cov): _ast = "waiting for check" if LS.get("coverage_status") == "asked" else False
+    else: _ast = False
+    item(lbl, "Attorney engaged for this state", _ast, (f"{_prov}: packet submitted (matter {_mm[m['market']][:8]}…)" if m["market"] in _mm else
+         (f"Waiting for {_prov} to confirm a {m['state']}-licensed attorney; then the packet is submitted (needs your company details first)" if _prov else f"Engage a {m['state']}-licensed attorney from network/{m['market']}.md")),
+         "Attorney review of this market's letters and contracts", aid, "attorney")
     item(lbl, "Attorney packet built", pk, "Built automatically by the runner (scripts/build_attorney_packet.py)", "Attorney review", aid, "packet")
     item(lbl, "Attorney approved templates", True if appr else ("waiting for check" if mo.get("approved_on") else False), f"Send legal/attorney-packets/{m['market']}.md to a local attorney; record the approval on Setup page → {lbl} → Configure", "Autonomous sending here", aid, "approved_on")
 

@@ -16,6 +16,13 @@ business:                         # who we are. Fill these in once; attorney pac
   website: ""
   signer: ""                      # person who signs contracts for the company
   title_company: ""               # default title company that holds earnest money
+legal_service:                    # attorney review service used by the Legal Advisor (agents/legal-advisor.md → "Attorney review through a connected service")
+  provider: general_legal         # connected by the owner 2026-11-22
+  connected_on: 2026-11-22
+  coverage_matter: 691d3c80-be1b-45cd-b2f2-f9c2ba40d09c   # question: licensed states, wholesale/probate experience, fees, turnaround
+  coverage_status: asked          # asked -> answered (then list covered_states)
+  covered_states: ""              # e.g. "FL, OH, TX" once they answer
+  market_matters: ""              # market-id:matter-id pairs once a packet is submitted
 channels:                         # set each to true only once it is actually working
   mail_sending: false             # print-and-mail service connected (letters go out without you)
   email_sending: false            # email sending connected (e.g. the Resend connector)

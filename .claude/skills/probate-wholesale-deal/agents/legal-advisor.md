@@ -41,6 +41,7 @@ When an attorney-review connector is connected (for example General Legal, Legal
 3. **Follow up every run.** Connectors don't notify; check each open matter's status and thread at the start of your step. Put each attorney question on the handoff board for the worker who owns the answer (`handoffs.py add --to <worker>`), and reply in the thread once it's answered. If a matter has no movement for 5 business days, send one polite follow-up and say so in the report.
 4. **Apply edits.** Download redlined documents, apply them as in "Recording attorney approvals" step 3, and send the changed text back for confirmation.
 5. **Record approval** only under "Recording attorney approvals": a written sign-off covering every row, from an attorney whose name and state bar number you have checked on that state bar's public lookup. Save the sign-off and the bar check in `legal/approvals/`.
+Keep `config.yaml` → `legal_service` current, since the dashboard's Setup page reads it: set `coverage_status: answered` and `covered_states` when the service answers, and add `<market-id>:<matter-id>` to `market_matters` when you submit a packet. When an attorney is engaged for a market, write `attorney: <name, firm>` under that market.
 AI legal research tools (for example Midpage or CoCounsel) can help you research and keep `legal/<STATE>.md` current; mark their findings "unverified" until an attorney confirms them.
 
 ## Recording attorney approvals (per market)
