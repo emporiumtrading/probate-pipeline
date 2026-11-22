@@ -123,3 +123,6 @@
 | 2026-11-21 | oh-franklin | probatesearch PBODateInx.ndm (case-by-open-date) | worked | exact pattern recorded in pipeline/coverage.csv (string=YYYYMMDD, pagination via stringf) |
 | 2026-11-21 | tx-harris | cclerk.hctx.net/applications/websearch/CourtSearch.aspx?CaseType=Probate (txtFrom/txtTo 11/19–11/21) | unavailable | 3rd run in a row; still broken |
 | 2026-11-21 | tn-shelby | www.probatecourt.shelbycountytn.gov | no response | 4th day down |
+| 2026-11-22 | fl-hillsborough | publicrec.hillsclerk.com/Probate/dailyfilings/ProbateFiling_20261121.csv | worked (empty) | 0 rows: Saturday, no filings published |
+| 2026-11-22 | oh-franklin | probatesearch PBODateInx.ndm (string=20261118…20261121, with stringf pagination) | worked | 16 estate cases kept (full administration / real estate only); dates of death from ESTATE_DETAIL |
+| 2026-11-22 | oh-franklin | gis.franklincountyohio.gov Parcel_Features FeatureServer/0 | worked | 9 leads where the decedent is owner of record; 5 cases other owner or no match; RESFLRAREA still empty (no $/sqft comps) |

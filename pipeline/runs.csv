@@ -2,3 +2,4 @@ date,new_leads,updated_leads,approvals_waiting,legal_changes,pushed
 2026-11-19,11,0,6,OH/TN/PA legal files written (first run),yes (local; GitHub repo pending)
 2026-11-20,5,36,29,none (all legal files verified 2026-11-19),yes
 2026-11-21,2,1,29,none (legal files verified 2026-11-19; next re-check 2026-12-19),yes
+2026-11-22,9,0,29,none (legal files verified 2026-11-19; next re-check 2026-12-19),yes
