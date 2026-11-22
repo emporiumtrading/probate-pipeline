@@ -147,9 +147,16 @@ for l in leads:
                        "county": l["county"], "state": l["state"], "item": (approvals[l["lead_id"]].split(" | ") + [""])[1] or approvals[l["lead_id"]],
                        "due": l["next_action_date"], "file": f"leads/{l['lead_id']}/outreach-drafts.md"})
     elif l["owner_action"] in ("sign", "wire"):
+        _tr = next((t for t in tracker if t["lead_id"] == l["lead_id"]), {})
+        _it = l["next_action"]
+        if l["owner_action"] == "wire":
+            _amt = _tr.get("earnest_money") or ""
+            _it = f"Deposit {'$' + format(int(float(_amt)), ',') if _amt else 'amount not set'} to {_tr.get('title_company') or 'title company not set'}" + (f", confirm wiring by phone at {_tr['title_phone']} (from its official website)" if _tr.get("title_phone") else ", phone not recorded yet") + (f". {_it}" if _it else "")
+        else:
+            _it = (f"Signing: {_tr['contract_status']}. " if _tr.get("contract_status") else "") + _it
         queues.append({"queue": "Sign" if l["owner_action"] == "sign" else "Wire", "lead_id": l["lead_id"],
                        "address": l["address"], "city": l["city"], "county": l["county"], "state": l["state"],
-                       "item": l["next_action"], "due": l["next_action_date"], "file": f"leads/{l['lead_id']}/"})
+                       "item": _it, "due": l["next_action_date"], "file": f"leads/{l['lead_id']}/", "sign_url": _tr.get("sign_url", "") if l["owner_action"] == "sign" else ""})
 # Owner decisions from the dashboard (scripts/owner_decisions.py): shown on the queue and message rows.
 sys.path.insert(0, os.path.join(ROOT, "scripts"))
 import owner_decisions
@@ -159,7 +166,17 @@ for q in queues:
     d = DEC.get((_QK.get(q["queue"], ""), q["lead_id"]))
     q["decision"] = d["decision"] if d else ""
     q["decision_note"] = d["note"] if d else ""
-write("queues.csv", ["queue", "lead_id", "address", "city", "county", "state", "item", "due", "file", "decision", "decision_note"], queues)
+write("queues.csv", ["queue", "lead_id", "address", "city", "county", "state", "item", "due", "file", "decision", "decision_note", "sign_url"], queues)
+
+# ---- exceptions (Exceptions Desk) with the owner's saved choice ----
+_addr = {l["lead_id"]: f"{l['address']}, {l['city']} {l['state']}" for l in leads}
+_ex = []
+_exp = os.path.join(ROOT, "pipeline", "exceptions.csv")
+for e in (list(csv.DictReader(open(_exp))) if os.path.exists(_exp) else []):
+    d = DEC.get(("exceptions", e["id"].lower()))
+    _ex.append({**{k: e.get(k, "") for k in ("id", "date", "lead_id", "type", "raised_by", "status", "playbook", "actions", "resolution", "owner_needed", "recommendation", "options", "due")},
+                "property": _addr.get(e.get("lead_id", ""), ""), "decision": d["decision"] if d else "", "decision_note": d["note"] if d else ""})
+write("exceptions.csv", ["id", "date", "lead_id", "property", "type", "raised_by", "status", "playbook", "actions", "resolution", "owner_needed", "recommendation", "options", "due", "decision", "decision_note"], _ex)
 
 # ---- team handoffs (scripts/handoffs.py): questions, requests and blockers between workers ----
 import handoffs as _ho
@@ -415,6 +432,16 @@ for m in live:
     item(lbl, "Attorney packet built", pk, "Built automatically by the runner (scripts/build_attorney_packet.py)", "Attorney review", aid, "packet")
     item(lbl, "Attorney approved templates", True if appr else ("waiting for check" if mo.get("approved_on") else False), f"Send legal/attorney-packets/{m['market']}.md to a local attorney; record the approval on Setup page → {lbl} → Configure", "Autonomous sending here", aid, "approved_on")
 
+# ---- attorney review: service matters and each market's legal status (Markets & legal page) ----
+_lmp = os.path.join(ROOT, "pipeline", "legal-matters.csv")
+_lm = list(csv.DictReader(open(_lmp))) if os.path.exists(_lmp) else []
+write("legal_matters.csv", ["matter_id", "provider", "market_id", "purpose", "status", "opened", "last_checked", "last_message_at", "last_message", "covered_states", "fees_quoted"],
+      [{**r, "matter_id": r["matter_id"][:8] + "…"} for r in _lm])
+_lmk = []
+for r in ready:
+    if r["area_id"].startswith("market-") and r["item_key"] in ("attorney", "packet", "approved_on"):
+        _lmk.append({"market": r["area"], "step": {"attorney": "Attorney engaged", "packet": "Packet built", "approved_on": "Templates approved"}[r["item_key"]], "status": r["status"], "next": r["how_to_fix"]})
+write("legal_markets.csv", ["market", "step", "status", "next"], _lmk)
 write("readiness.csv", ["area", "item", "status", "how_to_fix", "unlocks", "area_id", "item_key"], ready)
 
 # ---- buyers per market (counts only, no names) ----

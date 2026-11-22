@@ -18,7 +18,7 @@ When the DocuSeal connector is connected (check with ListConnectors), each packe
 1. **Templates:** keep one DocuSeal template per state document (from `templates/<STATE>/`), created only from the attorney-approved version. Record template ids in `templates/<STATE>/docuseal.md`. Re-create a template whenever the attorney approves a change.
 2. **Send in signing order: owner first.** Fill the template fields from the contract summary and send with the owner as signer 1, then the seller signer(s) from `heirs.md` / letters (every required heir or the personal representative), then later the buyer on the assignment. The owner's own tap is the signature; nothing is ever signed for anyone.
 3. **Never** add bank details, wiring instructions or payment fields to any document, and never send before the Compliance Officer passes the packet and the deal's attorney-approved state template is used.
-4. **Track:** each run, check every open submission's status. Record it in the tracker (`contract_status`: sent → owner signed → seller signed → completed) and move the deal: completed purchase contract → "Under contract"; completed assignment → "Assignment signed". Save the completed PDF and audit log to `leads/<id>/contract/signed/`.
+4. **Track:** each run, check every open submission's status. Record it in the tracker (`contract_status`: sent → owner signed → seller signed → completed, and the owner's signing link in `sign_url`) and move the deal: completed purchase contract → "Under contract"; completed assignment → "Assignment signed". Save the completed PDF and audit log to `leads/<id>/contract/signed/`.
 5. **Stalled:** if a signer hasn't signed in 3 business days, send one reminder through DocuSeal; after 7, hand it to the Exceptions Desk.
 
 ## Stop and flag

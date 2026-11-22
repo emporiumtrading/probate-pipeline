@@ -116,6 +116,8 @@
 .pp-stage-legend li.pp-done { color: var(--color-fg); }
 .pp-stage-legend li.pp-cur { color: var(--color-fg); font-weight: var(--cds-font-weight-medium); }
 .pp-stage-legend li.pp-cur::after { content: "  ← here"; color: var(--color-warn); }
+#q-exceptions .pp-act { display: flex; flex-direction: column; align-items: stretch; gap: 4px; }
+#q-exceptions .pp-act .pp-btn { white-space: normal; text-align: left; max-width: 280px; }
 </style>
 
 <div class="pp">
@@ -276,9 +278,30 @@
         <tbody data-draw="queueRows"></tbody>
       </table>
     </div>
+    <div class="pp-card pp-wrap" id="q-exceptions">
+      <h2>Exceptions</h2>
+      <p class="pp-sub">Anything outside the rules goes to the Exceptions Desk first. It works through the other workers and only asks you when a decision is truly yours; those rows show its recommendation and your options.</p>
+      <p class="pp-dlg-msg" data-draw="exMsg" role="status"></p>
+      <table data-source="exceptions" data-row-key="id">
+        <thead><tr><th>ID</th><th>Type</th><th>Property</th><th>Status</th><th>What's being done</th><th>Due</th><th>Your decision</th></tr></thead>
+        <tbody data-draw="exRows" data-source="exceptions decExceptions"></tbody>
+      </table>
+    </div>
   </section>
 
   <section class="pp-page" id="markets" hidden>
+    <div class="pp-card pp-wrap" id="mk-legal">
+      <h2>Attorney review</h2>
+      <p class="pp-sub">Matters with the attorney-review service, and where each market stands: attorney engaged, packet built, templates approved. The Legal Advisor updates this every evening run.</p>
+      <table data-source="legalMatters" data-row-key="matter_id">
+        <thead><tr><th>Service</th><th>Matter</th><th>About</th><th>Status</th><th>Last checked</th><th>Last message</th><th>States covered</th><th>Fees quoted</th></tr></thead>
+        <tbody data-draw="legalMatterRows" data-source="legalMatters"></tbody>
+      </table>
+      <table data-source="legalMarkets" data-row-key="market,step" style="margin-top:12px">
+        <thead><tr><th>Market</th><th>Step</th><th>Status</th><th>Next</th></tr></thead>
+        <tbody data-draw="legalMarketRows" data-source="legalMarkets"></tbody>
+      </table>
+    </div>
     <div class="pp-tiles">
       <div class="pp-card pp-tile pp-t-ok"><div class="pp-num" data-draw="mLive" data-source="marketCounts" data-field="live" data-row="0">—</div><div class="pp-lbl">Live counties</div></div>
       <div class="pp-card pp-tile pp-t-warn"><div class="pp-num" data-draw="mResearch" data-source="marketCounts" data-field="research" data-row="0">—</div><div class="pp-lbl">Research only or limited</div></div>

@@ -17,7 +17,7 @@ You take every exception any worker raises (anything outside its rules) and reso
 - **Anything else:** find the closest playbook, record what you did, and add the new pattern under `## Learned`.
 
 ## What goes to the owner
-Only decisions that need a signature, money beyond the set limits, a change to a rule, or a legal or ethical risk an attorney hasn't cleared. Each escalation goes on the board `--to owner` with: the facts (two lines), your recommendation, two or three options with their consequences, and a decision date. Never ask the owner a question a worker or the attorney can answer.
+Only decisions that need a signature, money beyond the set limits, a change to a rule, or a legal or ethical risk an attorney hasn't cleared. Each escalation goes on the board `--to owner` with: the facts (two lines), your recommendation, two or three options with their consequences, and a decision date. In `pipeline/exceptions.csv` set `status: waiting for owner`, `owner_needed: yes`, `recommendation`, and `options` as `A: <option and consequence>|B: …|C: …` so the dashboard shows them as buttons on Your queues. Each run, import the owner's choice (`decisions/exceptions`, runbook step 1) and carry it out through the owning workers; `other` comes with the owner's note. Never ask the owner a question a worker or the attorney can answer.
 
 ## Never
 Weaken a hard limit, compliance rule, the 90-day wait, the stop list or a cap to make an exception go away. Grief, disputes and vulnerable people get more care, not more pressure.

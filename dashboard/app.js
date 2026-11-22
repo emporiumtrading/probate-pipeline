@@ -89,6 +89,15 @@ dash.calc('setupCounts', { title: 'Setup steps missing', description: 'Setup ste
   dash.draw('dEarnest', (el) => { const r = PP.first('deal'); if (!r) { el.textContent = '—'; return; }
     const amt = +r.earnest_money || 0, st = r.earnest_status || '';
     el.textContent = amt ? `${PP.money(amt)}${st ? ' · ' + st : ''}` : 'Not set yet: agreed in the purchase contract and held by the title company (wholesale deposits are often $500–$2,500; estates sometimes ask about 1%).'; });
+  const ppTable = (src, cols, empty) => (tb) => { const d = dash.data(src); tb.replaceChildren();
+    const msg = (t) => { const tr = tb.insertRow(); const td = tr.insertCell(); td.colSpan = cols.length; td.textContent = t; td.className = 'pp-muted'; };
+    if (d.status !== 'ok' || !Array.isArray(d.data)) return msg(d.status === 'error' ? 'Failed to load' : 'Loading…');
+    if (!d.data.length) return msg(empty);
+    d.data.forEach((r) => { const tr = tb.insertRow(); cols.forEach((c) => { const td = tr.insertCell(); const v = r[c] || '';
+      if (c === 'status') { const s = document.createElement('span'); s.className = 'pp-chip ' + (v === 'done' || v === 'answered' || v === 'closed' ? 'pp-ok' : v === 'missing' ? 'pp-bad' : 'pp-warn'); s.textContent = v || '—'; td.appendChild(s); }
+      else { td.textContent = v || '—'; if (c === 'last_message' || c === 'next' || c === 'purpose') td.className = 'pp-w'; } }); }); };
+  dash.draw('legalMatterRows', ppTable('legalMatters', ['provider', 'matter_id', 'purpose', 'status', 'last_checked', 'last_message', 'covered_states', 'fees_quoted'], 'No attorney-review matters yet.'));
+  dash.draw('legalMarketRows', ppTable('legalMarkets', ['market', 'step', 'status', 'next'], 'No live markets.'));
   dash.draw('stageName', (el) => { el.textContent = dash.params().stage || 'Outreach drafted'; });
 
   const meter = (get) => (el) => { const v = get(); el.style.width = (v === null ? 0 : Math.max(0, Math.min(100, v))) + '%'; if (el.parentElement) el.parentElement.setAttribute('aria-valuenow', String(v === null ? 0 : Math.round(v))); };

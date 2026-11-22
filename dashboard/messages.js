@@ -11,7 +11,7 @@
   const DECIDABLE = new Set(['draft awaiting approval', 'approved by you', 'changes requested', 'rejected']);
   const ST_CLS = (s) => s === 'sent' || s === 'approved by you' ? 'pp-ok' : s === 'draft awaiting approval' || s === 'changes requested' ? 'pp-warn' : s === 'rejected' ? 'pp-bad' : '';
   const rowsOf = (id) => { const d = dash.data(id); return d.status === 'ok' && Array.isArray(d.data) ? d.data : []; };
-  const decOf = (queue, leadId) => rowsOf(queue === 'outreach' ? 'decOutreach' : queue === 'sign' ? 'decSign' : 'decWire').find((r) => r.id === leadId) || null;
+  const decOf = (queue, leadId) => rowsOf(queue === 'outreach' ? 'decOutreach' : queue === 'sign' ? 'decSign' : queue === 'exceptions' ? 'decExceptions' : 'decWire').find((r) => r.id === leadId) || null;
   const Q = { msg: '', cls: '', bulk: false };
   const M = { list: [], idx: -1, msg: '', cls: '' };
 
@@ -147,11 +147,43 @@
         if (dec !== 'approved') btn('Approve', 'pp-btn-primary', (b) => act(r, 'approved', b));
         if (dec !== 'rejected') btn('Reject', '', (b) => { if (b.dataset.armed) return act(r, 'rejected', b); b.dataset.armed = '1'; b.textContent = 'Confirm reject'; });
       } else {
-        if (dec !== 'done') btn(r.queue === 'Sign' ? 'I signed it' : 'I wired it (confirmed by phone)', 'pp-btn-primary', (b) => act(r, 'done', b));
+        if (r.queue === 'Sign' && r.sign_url) btn('Sign now', 'pp-btn-primary', () => window.open(r.sign_url, '_blank', 'noopener'));
+        if (dec !== 'done') btn(r.queue === 'Sign' ? 'I signed it' : 'I wired it (confirmed by phone)', r.queue === 'Sign' && r.sign_url ? '' : 'pp-btn-primary', (b) => act(r, 'done', b));
         if (dec !== 'hold') btn('Hold', '', (b) => act(r, 'hold', b));
         btn('Open deal', '', () => PP.openDeal(r));
       }
       tdA.appendChild(box);
+    });
+  });
+  // ---- Exceptions: the Exceptions Desk's items; owner picks an option where one is needed ----
+  const E = { msg: '', cls: '' };
+  dash.draw('exMsg', (el) => { el.textContent = E.msg; el.className = 'pp-dlg-msg ' + E.cls; });
+  const eSay = (t, cls) => { E.msg = t; E.cls = cls || ''; dash.draw('exMsg'); };
+  dash.draw('exRows', (tb) => {
+    const d = dash.data('exceptions'); tb.replaceChildren();
+    const msg = (t) => { const tr = tb.insertRow(); const td = tr.insertCell(); td.colSpan = 7; td.textContent = t; td.className = 'pp-muted'; };
+    if (d.status !== 'ok') return msg(d.status === 'error' ? 'Failed to load' : 'Loading…');
+    const rows = d.data.filter((r) => r.status !== 'resolved');
+    if (!rows.length) return msg('No open exceptions.');
+    rows.forEach((r) => {
+      const tr = tb.insertRow(); const key = String(r.id).toLowerCase(); const dd = decOf('exceptions', key); const dec = dd ? dd.decision : (r.decision || '');
+      [r.id, r.type, r.property || r.lead_id || '—'].forEach((v) => { tr.insertCell().textContent = v || ''; });
+      const st = tr.insertCell(); const c = document.createElement('span'); const mine = r.owner_needed === 'yes';
+      c.className = 'pp-chip ' + (mine && !dec ? 'pp-warn' : ''); c.textContent = mine ? (dec ? 'you chose ' + dec.toUpperCase() : 'needs your decision') : (r.status || 'open'); st.appendChild(c);
+      const w = tr.insertCell(); w.className = 'pp-w'; w.textContent = mine && r.recommendation ? 'Recommended: ' + r.recommendation : (r.actions || r.playbook || '');
+      tr.insertCell().textContent = r.due || '';
+      const a = tr.insertCell();
+      if (!mine) { a.textContent = 'Handled by the team'; a.className = 'pp-muted'; return; }
+      const box = document.createElement('div'); box.className = 'pp-act';
+      String(r.options || '').split('|').map((x) => x.trim()).filter(Boolean).forEach((opt) => {
+        const k = opt.slice(0, 1).toLowerCase(); if (!'abc'.includes(k)) return;
+        const b = document.createElement('button'); b.type = 'button'; b.className = 'pp-btn' + (dec === k ? ' pp-btn-primary' : ''); b.textContent = opt; b.title = opt;
+        b.onclick = async () => { b.disabled = true; try { await PP.decide('exceptions', key, k, ''); eSay(`Saved: ${r.id} option ${k.toUpperCase()}. The next run carries it out.`, 'pp-ok'); } catch (e) { b.disabled = false; eSay("That wasn't saved: only the dashboard's owner can decide.", 'pp-bad'); } };
+        box.appendChild(b); });
+      const o = document.createElement('button'); o.type = 'button'; o.className = 'pp-btn'; o.textContent = 'Other…';
+      o.onclick = async () => { const note = window.prompt(`${r.id}: what should the team do instead?`); if (!note || !note.trim()) return;
+        try { await PP.decide('exceptions', key, 'other', note); eSay(`Saved your instruction for ${r.id}. The next run carries it out.`, 'pp-ok'); } catch (e) { eSay(e && e.message && !/denied|permission/i.test(e.message) ? e.message : "That wasn't saved: only the dashboard's owner can decide.", 'pp-bad'); } };
+      box.appendChild(o); a.appendChild(box);
     });
   });
   const pendingOutreach = () => rowsOf('queuesF').filter((r) => r.queue === 'Approve outreach' && !qDecision(r));

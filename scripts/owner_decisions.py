@@ -18,7 +18,7 @@ import csv, json, os, re, sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "pipeline", "owner-decisions.csv")
 COLS = ["queue", "lead_id", "decision", "note", "at", "applied"]
-ALLOWED = {"outreach": ("approved", "changes", "rejected"), "sign": ("done", "hold"), "wire": ("done", "hold")}
+ALLOWED = {"outreach": ("approved", "changes", "rejected"), "sign": ("done", "hold"), "wire": ("done", "hold"), "exceptions": ("a", "b", "c", "other")}
 BANNED = [re.compile(r"(?<![\d-])\d{9,19}(?![\d-])"),
           re.compile(r"\b(routing|aba|iban|swift|bic|account\s*(no|number|#)|acct|password|api[\s_-]?key|secret|token)\b", re.I)]
 
@@ -38,6 +38,8 @@ def clean(queue, lead_id, d):
     note = " ".join(str(d.get("note", "") or "").split())[:500]
     if any(rx.search(note) for rx in BANNED):
         raise Refused(f"{queue}/{lead_id}: the note looks like bank details or a secret; it is never stored")
+    if queue == "exceptions" and dec == "other" and not note:
+        raise Refused(f"{queue}/{lead_id}: 'other' needs a note saying what to do")
     if queue == "outreach" and dec == "changes" and not note:
         raise Refused(f"{queue}/{lead_id}: 'changes' needs a note saying what to change")
     at = str(d.get("at", ""))[:25]
