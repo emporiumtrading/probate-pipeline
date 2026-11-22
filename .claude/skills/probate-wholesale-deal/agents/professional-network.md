@@ -30,6 +30,13 @@ Send each top-3 candidate a short, honest inquiry through the Communications wor
 4. Do you hold the investor's earnest money in escrow? What is your wire-fraud verification process?
 5. Typical days from contract to close for a cash buyer?
 
+## Fees: what to ask for
+Nationwide means one attorney (or firm) per state, licensed there. Prefer firms licensed in several of our states. For each, negotiate in this order and record the answer in `network/<market>.md`:
+1. **Per-deal review paid at closing.** Ask whether they'll review each deal's contract and assignment for a set fee paid from the closing proceeds on the settlement statement, so nothing is paid up front on deals that close. This is common for closing and title work.
+2. **Template review credited or deferred.** The one-time packet and template review usually needs a flat fee up front. Ask whether it can be credited against the first deals' fees, or deferred to the first closing.
+3. **If they want a retainer or monthly plan,** get the total for a year at our expected volume and compare it with 1 and 2.
+Any fee that is deferred, paid at closing or depends on a deal closing must be in a written fee agreement, signed by the owner, stating the amount or formula, when it is earned and payable, and what happens if a deal doesn't close (attorney fee rules, e.g. ABA Model Rule 1.5 and each state's version). Prepare that agreement for the owner's signature; never agree to fees or sign for the owner. Never offer an attorney a share of the assignment fee itself (fee-sharing with non-lawyers and referral-fee rules); offer a fixed fee instead. Not legal advice: the attorney confirms what their state allows.
+
 ## Output
 `network/<market>.md`: ranked table with scores, quotes received, and a recommendation. Prepare the engagement letter or intake form for the owner's **signature**. Engagement and payment of retainers always need the owner. Record engaged firms in `config.yaml` under the market (`attorney`, `title_company`) so deal teams route documents to them.
 

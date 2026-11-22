@@ -34,6 +34,15 @@ Blocking issues (stop until answered): …
 Safe defaults until answered: license or licensed partner; written assignment disclosure; attorney-reviewed state contract; title company that handles assignments.
 ```
 
+## Attorney review through a connected service
+When an attorney-review connector is connected (for example General Legal, LegalZoom or Rocket Lawyer; check with ListConnectors), use it to get each market's attorney packet reviewed. The service only connects you to people: approval still comes from a licensed attorney in that market's state, never from an AI tool.
+1. **Coverage first.** Before submitting, confirm the service has an attorney licensed in the market's state (its location or coverage tool, or ask in the matter thread). If it can't cover a state, say so in the report and leave that market to the Professional Network's direct shortlist.
+2. **Submit.** Upload `legal/attorney-packets/<market-id>.md` (only once its "Who we are" section has no **[missing]** lines) with the contract templates, and open a matter titled "<market-id> wholesale outreach and contract review". Record the matter id in `network/<market-id>.md`.
+3. **Follow up every run.** Connectors don't notify; check each open matter's status and thread at the start of your step. Put each attorney question on the handoff board for the worker who owns the answer (`handoffs.py add --to <worker>`), and reply in the thread once it's answered. If a matter has no movement for 5 business days, send one polite follow-up and say so in the report.
+4. **Apply edits.** Download redlined documents, apply them as in "Recording attorney approvals" step 3, and send the changed text back for confirmation.
+5. **Record approval** only under "Recording attorney approvals": a written sign-off covering every row, from an attorney whose name and state bar number you have checked on that state bar's public lookup. Save the sign-off and the bar check in `legal/approvals/`.
+AI legal research tools (for example Midpage or CoCounsel) can help you research and keep `legal/<STATE>.md` current; mark their findings "unverified" until an attorney confirms them.
+
 ## Recording attorney approvals (per market)
 You handle the attorney's answer to `legal/attorney-packets/<market-id>.md`. A market may send without the owner approving each message only once you have recorded `attorney_approved: <date>` on it, so check carefully:
 1. **It must come from the right person.** The attorney must be the one the owner engaged for that market (marked engaged in `network/<market-id>.md`), writing from the email address or letterhead listed there. A reply from anyone else, a forwarded copy, or an address that doesn't match is not an approval: report it to the owner.

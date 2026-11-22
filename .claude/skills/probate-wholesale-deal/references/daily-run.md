@@ -119,6 +119,7 @@ Every lead needs `date_of_death` in the tracker, taken from the case file, the d
 Following `references/orchestration.md`, run these workers (in parallel where possible):
 - **Communications**: send what's due (compliance-gated), read the inbox, route replies.
 - **Negotiation desk**: answer counters within authority; re-price with the Deal Analyst when facts change; move agreed deals to "Contract out for signature" with the contract built from the attorney-approved state template.
+- **Legal Advisor, attorney review**: if an attorney-review connector is connected, follow `agents/legal-advisor.md` → "Attorney review through a connected service" for every open matter (check status, route questions to the handoff board, apply redlines, record approvals only after the bar check).
 - **Professional Network**: for every live market with no engaged attorney/title company (the attorney packet needs one before any deal does), build or refresh `network/<market>.md` and request quotes if allowed.
 - **Contract desk** (`agents/contract-desk.md`): for every deal at "Verbal agreement", build the signature packet from attorney-approved templates only; keep `templates/<STATE>/` drafts and attorney review packets current for each live state.
 - **Bookkeeper** (`agents/bookkeeper.md`): update `pipeline/ledger.csv` (forecasts for deals at "Verbal agreement" or later, `actual` rows only with a document), and flag any payment-instruction change, overdue earnest money or undocumented actual under Exceptions.
