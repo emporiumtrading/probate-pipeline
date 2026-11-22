@@ -86,6 +86,9 @@ dash.calc('setupCounts', { title: 'Setup steps missing', description: 'Setup ste
   dash.draw('dLoc', (el) => { const r = PP.first('deal'); el.textContent = r ? `${r.city}, ${r.county} County, ${r.state} · ${r.lead_type || 'probate'}` : '—'; });
   dash.draw('dChips', (el) => { const r = PP.first('deal'); el.replaceChildren();
     if (!r) return; [[r.verdict, PP.verdictCls(r.verdict)], [r.stage, ''], [r.team, '']].forEach(([t, c]) => { if (!t) return; const s = document.createElement('span'); s.className = 'pp-chip ' + c; s.style.marginRight = '6px'; s.textContent = t; el.appendChild(s); }); });
+  dash.draw('dEarnest', (el) => { const r = PP.first('deal'); if (!r) { el.textContent = '—'; return; }
+    const amt = +r.earnest_money || 0, st = r.earnest_status || '';
+    el.textContent = amt ? `${PP.money(amt)}${st ? ' · ' + st : ''}` : 'Not set yet: agreed in the purchase contract and held by the title company (wholesale deposits are often $500–$2,500; estates sometimes ask about 1%).'; });
   dash.draw('stageName', (el) => { el.textContent = dash.params().stage || 'Outreach drafted'; });
 
   const meter = (get) => (el) => { const v = get(); el.style.width = (v === null ? 0 : Math.max(0, Math.min(100, v))) + '%'; if (el.parentElement) el.parentElement.setAttribute('aria-valuenow', String(v === null ? 0 : Math.round(v))); };

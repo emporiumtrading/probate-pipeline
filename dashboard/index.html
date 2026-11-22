@@ -108,6 +108,14 @@
 .pp details summary { cursor: pointer; color: var(--color-fg-muted); font-size: var(--cds-font-size-caption); }
 @media (prefers-reduced-motion: no-preference) { .pp-meter > div { transition: width var(--cds-dur-slow) var(--cds-ease-out); } }
 @media print { .pp-bar { position: static; } .pp-tabs, .pp-filters { display: none; } }
+#deal-progress .pp-tip { white-space: normal; max-width: 300px; }
+.pp-small { font-size: var(--cds-font-size-caption); margin: 4px 0 0; }
+.pp-stage-legend { list-style: none; margin: var(--cds-gap-sm) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr)); gap: 4px 12px; font-size: var(--cds-font-size-caption); }
+.pp-stage-legend li { color: var(--color-fg-muted); cursor: help; }
+.pp-stage-legend li .pp-n2 { display: inline-block; min-width: 1.6em; font-variant-numeric: tabular-nums; }
+.pp-stage-legend li.pp-done { color: var(--color-fg); }
+.pp-stage-legend li.pp-cur { color: var(--color-fg); font-weight: var(--cds-font-weight-medium); }
+.pp-stage-legend li.pp-cur::after { content: "  ← here"; color: var(--color-warn); }
 </style>
 
 <div class="pp">
@@ -200,11 +208,14 @@
           <dt>Next action</dt><dd data-draw="dNext" data-source="deal" data-field="next_action" data-row="0">—</dd>
           <dt>Due</dt><dd data-draw="dDue" data-source="deal" data-field="next_action_date" data-row="0">—</dd>
           <dt>Contacts so far</dt><dd data-draw="dTouch" data-source="deal" data-field="touch_count" data-row="0">—</dd>
+          <dt>Earnest money</dt><dd data-draw="dEarnest" data-source="deal">—</dd>
           <dt>Deal team summary</dt><dd data-draw="dSum" data-source="deal" data-field="summary" data-row="0">—</dd>
         </dl>
       </div>
     </div>
-    <div class="pp-card" id="deal-progress"><h2>Progress to closing</h2><div class="pp-chart" data-draw="dealProgress" data-source="deal stages" style="min-height:96px"></div></div>
+    <div class="pp-card" id="deal-progress"><h2>Progress to closing</h2><div class="pp-chart" data-draw="dealProgress" data-source="deal stages" style="min-height:96px"></div>
+      <p class="pp-muted pp-small">Hover over a dot (or a stage below) to see what that step means and who handles it.</p>
+      <ol class="pp-stage-legend" data-draw="stageLegend" data-source="deal stages"></ol></div>
     <div class="pp-card pp-wrap" id="deal-handoffs"><h2>Questions between workers on this deal</h2><p class="pp-sub">Open blockers keep the deal where it is until they're answered.</p>
       <table data-source="handoffsDeal" data-row-key="id">
         <thead><tr><th data-field="id">#</th><th data-field="from_worker">From</th><th data-field="to_worker">To</th><th data-field="kind">Kind</th><th data-field="priority">Priority</th><th data-field="ask">Question or request</th><th data-field="needed_by">Due</th><th data-field="status">Status</th><th data-field="answer">Answer</th></tr></thead>

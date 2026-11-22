@@ -31,6 +31,24 @@ STAGES = [
     ("Paid", "Done", ""),
     ("Dead", "Done", ""),
 ]
+STAGE_MEANING = {
+    "Researched": "Court filing found, property confirmed and numbers run. No contact yet.",
+    "Outreach drafted": "A letter is written and waiting for your approval (and the 90-day wait after the death).",
+    "Outreach sent": "The letter went out. Waiting for a reply.",
+    "In conversation": "The executor, an heir or their attorney replied and we are talking.",
+    "Offer made": "A written offer is on the table, at or below the max offer.",
+    "Verbal agreement": "The seller agreed to price and terms in principle. Nothing is signed yet.",
+    "Contract out for signature": "The purchase contract is ready. You and the seller sign it.",
+    "Under contract": "Both sides signed. Inspection and court-approval deadlines start.",
+    "Earnest money due": "You wire the deposit to the title company's escrow (confirm by phone first).",
+    "Title opened": "The title company is checking ownership, liens and estate paperwork.",
+    "Buyer found": "A vetted cash buyer has agreed to take over the contract.",
+    "Assignment signed": "You and the buyer sign the assignment. The buyer pays their own deposit.",
+    "Clear to close": "Title is clear, court steps done, closing date set.",
+    "Closed": "The sale recorded. The buyer paid the estate.",
+    "Paid": "Your assignment fee arrived from the title company.",
+    "Dead": "Walked away: not an estate asset, numbers don't work, or the family said no.",
+}
 STAGE_ORDER = {s: i + 1 for i, (s, _, _) in enumerate(STAGES)}
 STAGE_TEAM = {s: t for s, t, _ in STAGES}
 STAGE_OWNER = {s: o for s, _, o in STAGES}
@@ -113,6 +131,7 @@ for r in tracker:
         "occupancy": (r["occupancy"] or "")[:60], "next_action": (r["next_action"] or "")[:140],
         "next_action_date": r["next_action_date"], "touch_count": r["touch_count"], "last_touch_date": r["last_touch_date"],
         "summary": (r["notes"] or "")[:220],
+        "earnest_money": r.get("earnest_money", ""), "earnest_status": r.get("earnest_status", ""),
     })
 LEAD_COLS = list(leads[0].keys()) if leads else ["lead_id"]
 write("leads.csv", LEAD_COLS, sorted(leads, key=lambda x: -(x["potential_earnings"] or 0)))
@@ -223,8 +242,8 @@ with open(os.path.join(OUT, "messages.json"), "w") as fh:
 
 
 # ---- stages (full list, so empty stages still show) ----
-write("stages.csv", ["stage_order", "stage", "team", "owner_action"],
-      [{"stage_order": i + 1, "stage": s, "team": t, "owner_action": o} for i, (s, t, o) in enumerate(STAGES)])
+write("stages.csv", ["stage_order", "stage", "team", "owner_action", "meaning"],
+      [{"stage_order": i + 1, "stage": s, "team": t, "owner_action": o, "meaning": STAGE_MEANING.get(s, "")} for i, (s, t, o) in enumerate(STAGES)])
 
 # ---- markets: every state ----
 live, queue = load_config_markets()

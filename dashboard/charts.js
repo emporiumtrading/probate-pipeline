@@ -230,7 +230,7 @@
   dash.draw('dealProgress', (el) => { const d = dash.data('deal'), s = dash.data('stages');
     if (!ok(d) || !ok(s) || !d.data[0]) return C.notReady(el, d.status !== 'ok' ? d : s);
     el.replaceChildren(); const r = d.data[0]; const cur = +r.stage_order; const dead = r.stage === 'Dead'; const steps = s.data.filter((x) => x.stage !== 'Dead');
-    const W = el.clientWidth || 400, n = steps.length, step = W / n, H = 78;
+    const W = el.clientWidth || 400, n = steps.length, step = W / n, H = 86;
     const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img').attr('aria-label', dead ? 'Deal closed out (walk away)' : `Deal is at stage ${cur} of ${n}: ${r.stage}`);
     svg.append('line').attr('x1', step / 2).attr('x2', W - step / 2).attr('y1', 18).attr('y2', 18).style('stroke', 'var(--cds-chart-grid)').style('stroke-width', 2);
     if (!dead) svg.append('line').attr('x1', step / 2).attr('x2', Math.max(step / 2, (cur - 0.5) * step)).attr('y1', 18).attr('y2', 18).style('stroke', dash.colors[0]).style('stroke-width', 2);
@@ -238,11 +238,18 @@
     svg.selectAll('circle').data(steps).join('circle').attr('cx', (x, i) => i * step + step / 2).attr('cy', 18).attr('r', (x) => +x.stage_order === cur ? 8 : 6)
       .style('fill', (x) => dead ? 'var(--cds-chart-grid)' : +x.stage_order < cur ? dash.colors[0] : +x.stage_order === cur ? 'var(--color-panel)' : 'var(--cds-chart-grid)')
       .style('stroke', (x) => +x.stage_order === cur && !dead ? dash.colors[0] : 'var(--color-panel)').style('stroke-width', 2)
-      .on('pointermove', (ev, x) => tip.show(ev, `${x.stage_order}. ${x.stage} · ${x.team}${x.owner_action ? ' · needs you' : ''}`)).on('pointerleave', tip.hide);
-    svg.selectAll('text.lbl').data(steps).join('text').attr('class', 'lbl').attr('x', (x, i) => i * step + step / 2).attr('y', 46).text((x, i) => (+x.stage_order === cur && !dead) || (i === n - 1 && Math.abs((cur - 1) - i) * step > 140) ? x.stage : '')
+      .on('pointermove', (ev, x) => tip.show(ev, `${x.stage_order}. ${x.stage}: ${x.meaning || ''} (${x.team}${x.owner_action ? '; needs you' : ''})`)).on('pointerleave', tip.hide);
+    svg.selectAll('text.num').data(steps).join('text').attr('class', 'num').attr('x', (x, i) => i * step + step / 2).attr('y', 36).attr('text-anchor', 'middle').style('font-size', '10px').text((x) => x.stage_order);
+    svg.selectAll('text.lbl').data(steps).join('text').attr('class', 'lbl').attr('x', (x, i) => i * step + step / 2).attr('y', 54).text((x, i) => (+x.stage_order === cur && !dead) || (i === n - 1 && Math.abs((cur - 1) - i) * step > 140) ? x.stage : '')
       .attr('text-anchor', (x, i) => { const px = i * step + step / 2; return px < 70 ? 'start' : px > W - 70 ? 'end' : 'middle'; })
       .attr('dx', (x, i) => { const px = i * step + step / 2; return px < 70 ? -Math.min(px, step / 2) + 2 : px > W - 70 ? Math.min(W - px, step / 2) - 2 : 0; });
-    svg.append('text').attr('class', 'pp-val').attr('x', 0).attr('y', 70).text(dead ? 'This deal is closed out (walk away).' : `Stage ${cur} of ${n}: ${r.stage}`); });
+    svg.append('text').attr('class', 'pp-val').attr('x', 0).attr('y', 78).text(dead ? 'This deal is closed out (walk away).' : `Stage ${cur} of ${n}: ${r.stage}`); });
+
+  dash.draw('stageLegend', (ol) => { const d = dash.data('deal'), s = dash.data('stages'); ol.replaceChildren();
+    if (!ok(s)) return; const r = ok(d) && d.data[0] ? d.data[0] : null; const cur = r ? +r.stage_order : 0; const dead = r && r.stage === 'Dead';
+    s.data.forEach((x) => { const li = document.createElement('li'); const n = document.createElement('span'); n.className = 'pp-n2'; n.textContent = x.stage_order + '.';
+      li.append(n, ' ' + x.stage + (x.owner_action ? ' (you)' : '')); li.title = (x.meaning || '') + ' Handled by: ' + x.team + '.';
+      if (!dead && +x.stage_order < cur && x.stage !== 'Dead') li.className = 'pp-done'; if ((!dead && +x.stage_order === cur) || (dead && x.stage === 'Dead')) li.className = 'pp-cur'; ol.appendChild(li); }); });
 
   dash.draw('dueChart', (el) => { const d = dash.data('queuesF'); if (!ok(d)) return C.notReady(el, d);
     const rows = d3.rollups(d.data.filter((r) => r.due), (v) => v.length, (r) => r.due).map(([due, n]) => ({ due, n })).sort((a, b) => a.due < b.due ? -1 : 1);
