@@ -1,0 +1,3 @@
+id,date,lead_id,type,raised_by,status,playbook,actions,resolution,owner_needed,recommendation,options,due
+EX-0001,2026-11-20,fl-hillsborough-26-CP-003951,deed needs a human look,researcher,open,Deed or title needs a human look,Heir & Title Tracer to read the 2026-10-27 $100 deed in Official Records,,,,,2026-11-25
+EX-0002,2026-11-20,,"possible lead, name mismatch",researcher,open,Source blocked or unclear facts,Researcher to confirm 'Pillow' vs 'Pillows' trustee parcels and date of death (26-CP-003957),,,,,2026-11-25

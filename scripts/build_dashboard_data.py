@@ -543,6 +543,9 @@ workers = [
       sum(1 for c in _cov if c.get("primary_status") == "works"), "working", _last("pipeline/coverage.csv"), "Active"),
     W("Researcher", "Pulls new probate filings and confirms who owns the house", _screened, "estates screened",
       len(tracker), "leads confirmed and researched", _last("leads", "pipeline/candidates"), "Active"),
+    W("Exceptions Desk", "Resolves exceptions with playbooks; escalates only owner decisions", len(_rows("pipeline/exceptions.csv")), "exceptions handled",
+      sum(1 for e in _rows("pipeline/exceptions.csv") if e.get("status") == "resolved"), "resolved without the owner", _last("pipeline/exceptions.csv"),
+      "Active" if _rows("pipeline/exceptions.csv") else "Not started"),
     W("Heir & Title Tracer", "Works out who holds title and who must sign", _count("leads/*/heirs.md"), "heir traces",
       _count("leads/*/heirs.md"), "completed", _last("leads/*/heirs.md"), "Active" if _count("leads/*/heirs.md") else "Not started"),
     W("Legal & Tax Advisor", "Keeps each state's legal file current; flags deal issues", len(_legal), "state legal files",
@@ -585,7 +588,7 @@ workers = [
     W("Transaction Coordinator", "Title checks, deadlines, signature and wire queues, closing", _count("leads/*/title.md"), "title checks done",
       _closed, "closed", _last("leads/*/title.md"), "Active", f"{_contract} under contract"),
 ]
-_ROLE_FILE = {"Source Mapper": "source-mapper.md", "Researcher": "researcher.md", "Heir & Title Tracer": "heir-tracer.md",
+_ROLE_FILE = {"Source Mapper": "source-mapper.md", "Researcher": "researcher.md", "Heir & Title Tracer": "heir-tracer.md", "Exceptions Desk": "exceptions-desk.md",
     "Legal & Tax Advisor": "legal-advisor.md", "Deal Analyst": "deal-analyst.md", "Acquisitions": "acquisitions.md",
     "Compliance Officer": "compliance-officer.md", "Communications": "communications.md", "Reply Desk": "reply-desk.md",
     "Negotiator": "negotiator.md", "Buyer-List Builder": "buyer-list.md", "Dispositions": "dispositions.md",

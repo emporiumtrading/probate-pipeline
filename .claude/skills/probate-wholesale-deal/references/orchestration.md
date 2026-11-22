@@ -18,6 +18,7 @@ Run these as parallel subagents where the platform allows (one team per market f
 | Legal | legal-advisor | When a state file is stale or a new state is added |
 | Sourcing (one per market) | researcher | Daily |
 | Deal team (one per new lead) | researcher → deal-analyst → legal-advisor → transaction-coordinator → negotiator → dispositions → acquisitions | Daily for new leads |
+| Exceptions | exceptions-desk | Every run (evening slice and fast desk): before the report |
 | Deal team add-ons (per new lead) | tax-lien-checker → contact-finder (if outreach drafted) → quality-auditor | Daily, after the deal team, before the approval queue |
 | Contract desk | contract-desk | When a deal reaches "Verbal agreement"; templates once per state |
 | Books | bookkeeper | Every evening run: forecasts for deals at Verbal agreement or later, actuals from documents, monthly roll-up |
@@ -30,6 +31,8 @@ Run these as parallel subagents where the platform allows (one team per market f
 
 ## Handoff board (how workers talk to each other)
 Workers run in turn within each run, so they can't ask each other questions live. They talk through one shared board, `pipeline/handoffs.csv`, which they only change through `scripts/handoffs.py` (add, list, answer, reassign, close, reopen, sweep, check). Every worker with a role file in `agents/` is on it automatically, including workers added later, plus `owner`.
+**Exceptions go to the Exceptions Desk first.** Anything outside a worker's rules goes `--to exceptions-desk`, not `--to owner`. The Exceptions Desk resolves what it can through the owning workers and is the only worker that escalates to the owner, with a recommendation and options. Sign and wire items still go straight to the owner's queues.
+
 - **Kinds:** `question` (an answer with evidence), `request` (a piece of work), `blocker` (the lead must not move forward until it is answered), `fyi` (no answer needed).
 - **Order within a run:** the runner runs `handoffs.py sweep` at the start of the run. Each worker starts its step with `handoffs.py list --for <itself>` and clears its open items (urgent and blockers first) before new work. A question raised in one step can be answered by a later worker in the same run. If the worker that owns it already ran, its next run answers it first.
 - **Deadlines:** urgent items are due the same day and normal ones the next day, unless the asker sets `--needed-by`. The sweep escalates anything past its deadline, anything moved between workers 3 times, and anything addressed to a worker that no longer exists. Escalated items appear in the daily report under **Exceptions** and on the dashboard.
