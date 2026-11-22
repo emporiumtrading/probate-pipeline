@@ -37,7 +37,7 @@ dash.calc('oppsByCity', { title: 'Opportunities by city', description: 'Count an
 dash.calc('queuesF', { title: 'Your queues', description: 'Approve, sign and wire items within the filters.', inputs: ['queues'],
   fn: (queues) => { const p = dash.params(); return queues.filter((r) => (!p.state || r.state === p.state) && (!p.county || r.county === p.county)); } });
 dash.calc('queueCounts', { title: 'Queue counts', description: 'Items per queue within the filters.', inputs: ['queuesF'],
-  fn: (q) => [{ approve: q.filter((r) => r.queue === 'Approve outreach').length, sign: q.filter((r) => r.queue === 'Sign').length, wire: q.filter((r) => r.queue === 'Wire').length }] });
+  fn: (q) => [{ approve: q.filter((r) => r.queue === 'Approve outreach').length, sign: q.filter((r) => r.queue === 'Sign').length, wire: q.filter((r) => r.queue === 'Wire').length, money: q.filter((r) => r.queue === 'Sign' || r.queue === 'Wire').length }] });
 dash.calc('marketsF', { title: 'Markets in the filters', description: 'States and counties with their status, within the filters.', inputs: ['markets'],
   fn: (markets) => { const p = dash.params(); return markets.filter((r) => (!p.state || r.state === p.state) && (!p.county || r.county === p.county)); } });
 dash.calc('marketCounts', { title: 'Market status counts', description: 'Counties by status, and states with a legal file, within the filters.', inputs: ['marketsF'],
@@ -57,6 +57,30 @@ dash.calc('teamLoad', { title: 'Worker team load', description: 'Deals sitting i
   fn: (sc) => d3.rollups(sc.filter((s) => s.team && s.team !== 'Done'), (v) => d3.sum(v, (s) => s.count), (s) => s.team).map(([team, deals]) => ({ team, deals })) });
 dash.calc('financeNow', { title: 'Money this month', description: "The latest month of the Bookkeeper's roll-up.", inputs: ['finance'],
   fn: (finance) => finance.length ? [finance[finance.length - 1]] : [] });
+dash.calc('contractDeals', { title: 'Deals under contract', description: 'Deals from contract out for signature to paid, within the filters, furthest along first.', inputs: ['leadsF'],
+  fn: (leadsF) => leadsF.filter((r) => +r.stage_order >= 7 && +r.stage_order <= 15).sort((a, b) => +b.stage_order - +a.stage_order) });
+dash.calc('contractCounts', { title: 'Under-contract totals', description: 'Deals under contract (not yet closed) and the sum of their fees, within the filters.', inputs: ['contractDeals'],
+  fn: (c) => { const open = c.filter((r) => +r.stage_order <= 13); return [{ deals: open.length, fees: d3.sum(open, (r) => +r.potential_earnings || 0) }]; } });
+dash.calc('financeYear', { title: 'Money this year', description: "This calendar year's fees earned, expenses, net profit and tax set-aside, summed from the Bookkeeper's monthly roll-up.", inputs: ['finance'],
+  fn: (finance) => { const y = String(new Date().getFullYear()); const r = finance.filter((m) => String(m.month).startsWith(y)); const s = (k) => d3.sum(r, (m) => +m[k] || 0);
+    const net = s('net'), tax = s('tax_set_aside'); return [{ fees_earned: s('fees_earned'), expenses: s('expenses'), net, tax_set_aside: tax, tax_pct: net > 0 ? Math.round(100 * tax / net) + '%' : 'a share' }]; } });
+dash.calc('feeGoal', { title: 'Fee goal this month', description: "This month's closing goal × the average potential fee on current opportunities, and fees earned so far against it.", inputs: ['pace', 'opps', 'financeNow'],
+  fn: (pace, opps, now) => { const n = pace.length ? +pace[0].target_closings || 0 : 0; const avg = opps.length ? d3.mean(opps, (r) => +r.potential_earnings || 0) : 0; const earned = now.length ? +now[0].fees_earned || 0 : 0;
+    return [{ closings: n, avg_fee: Math.round(avg), goal: Math.round(n * avg), earned, pct: n * avg ? Math.min(100, 100 * earned / (n * avg)) : 0 }]; } });
+dash.calc('feePipeline', { title: 'Potential fees by deal progress', description: 'Sum of potential fees on open opportunities and contracts, grouped by how far each deal has got, within the filters.', inputs: ['leadsF'],
+  fn: (leadsF) => { const G = [['Not contacted yet', 1, 3], ['In talks or offer out', 4, 6], ['Signing', 7, 7], ['Under contract', 8, 10], ['Buyer found or assigned', 11, 12], ['Clear to close', 13, 13], ['Closed, fee not paid yet', 14, 14]];
+    return G.map(([group, lo, hi]) => { const d = leadsF.filter((r) => +r.stage_order >= lo && +r.stage_order <= hi && (r.is_opportunity === 'yes' || +r.stage_order >= 7)); return { group, deals: d.length, fees: d3.sum(d, (r) => +r.potential_earnings || 0) }; }); } });
+dash.calc('expenseByCat', { title: 'Expenses by category this year', description: "Actual (document-backed) expenses this calendar year from the Bookkeeper's ledger, summed by category.", inputs: ['ledger'],
+  fn: (ledger) => { const y = String(new Date().getFullYear()); return d3.rollups(ledger.filter((r) => r.type === 'expense' && r.status === 'actual' && String(r.date).startsWith(y)), (v) => d3.sum(v, (r) => +r.amount || 0), (r) => r.category || 'other')
+    .map(([category, amount]) => ({ category, amount })).sort((a, b) => b.amount - a.amount); } });
+dash.calc('dealProfit', { title: 'Profit per deal', description: "Per deal in the Bookkeeper's ledger: actual fees, forecast fees, actual expenses, profit (fees − expenses) and earnest money still out.", inputs: ['ledger'],
+  fn: (ledger) => d3.rollups(ledger.filter((r) => r.lead_id), (v) => { const s = (t, st) => d3.sum(v.filter((r) => r.type === t && (!st || r.status === st)), (r) => +r.amount || 0);
+    const fees = s('income', 'actual'), costs = s('expense', 'actual'); return { fees, forecast: s('income', 'forecast'), costs, profit: fees - costs, earnest_out: s('escrow_out', 'actual') - s('escrow_back', 'actual') }; }, (r) => r.lead_id)
+    .map(([lead_id, o]) => ({ lead_id, ...o })).sort((a, b) => b.profit - a.profit) });
+dash.calc('unitEcon', { title: 'Fees and costs per deal', description: "From the ledger: average fee per deal paid, all actual expenses divided by deals paid, and fees earned per dollar spent.", inputs: ['ledger'],
+  fn: (ledger) => { const act = ledger.filter((r) => r.status === 'actual'); const inc = act.filter((r) => r.type === 'income'); const paid = new Set(inc.map((r) => r.lead_id).filter(Boolean)).size;
+    const fees = d3.sum(inc, (r) => +r.amount || 0), spent = d3.sum(act.filter((r) => r.type === 'expense'), (r) => +r.amount || 0);
+    return [{ deals_paid: paid, avg_fee: paid ? Math.round(fees / paid) : '', cost_per_close: paid ? Math.round(spent / paid) : '', fees_per_dollar: spent ? '$' + (fees / spent).toFixed(2) : '' }]; } });
 dash.calc('setupByArea', { title: 'Setup progress by area', description: 'Done and missing setup steps in each area.', inputs: ['readiness'],
   fn: (r) => d3.rollups(r, (v) => ({ done: v.filter((x) => x.status === 'done').length, missing: v.filter((x) => x.status !== 'done').length }), (x) => x.area).map(([area, o]) => ({ area, ...o })) });
 dash.calc('setupCounts', { title: 'Setup steps missing', description: 'Setup steps not done yet.', inputs: ['readiness'],
@@ -75,14 +99,14 @@ dash.calc('setupCounts', { title: 'Setup steps missing', description: 'Setup ste
   [['tOpps', 'kpis', 'opps', PP.int], ['tEarn', 'kpis', 'earnings', PP.money], ['tMk', 'kpis', 'markets_live', PP.int], ['tQ', 'kpis', 'queue', PP.int],
    ['kOpps', 'kpis', 'opps', PP.int], ['kEarn', 'kpis', 'earnings', PP.moneyK], ['kBest', 'kpis', 'best', PP.moneyK], ['kQ', 'kpis', 'queue', PP.int],
    ['kContract', 'kpis', 'under_contract', PP.int], ['kClosed', 'pace', 'closed', PP.int], ['kTarget', 'pace', 'target_closings', PP.int], ['pTarget', 'pace', 'target_closings', PP.int],
-   ['qApprove', 'queueCounts', 'approve', PP.int], ['qSign', 'queueCounts', 'sign', PP.int], ['qWire', 'queueCounts', 'wire', PP.int],
+   ['qApprove', 'queueCounts', 'approve', PP.int], ['moDeals', 'contractCounts', 'deals', PP.int], ['moFees', 'contractCounts', 'fees', PP.moneyK], ['yEarned', 'financeYear', 'fees_earned', PP.moneyK], ['yNet', 'financeYear', 'net', PP.moneyK], ['taxPct', 'financeYear', 'tax_pct', PP.txt], ['gFees', 'feeGoal', 'goal', PP.moneyK], ['gClose', 'feeGoal', 'closings', PP.int], ['gAvg', 'feeGoal', 'avg_fee', PP.moneyK], ['uAvg', 'unitEcon', 'avg_fee', PP.money], ['uCost', 'unitEcon', 'cost_per_close', PP.money], ['uRoi', 'unitEcon', 'fees_per_dollar', PP.txt], ['qSign', 'queueCounts', 'sign', PP.int], ['qWire', 'queueCounts', 'wire', PP.int],
    ['mLive', 'marketCounts', 'live', PP.int], ['mResearch', 'marketCounts', 'research', PP.int], ['mBlocked', 'marketCounts', 'blocked', PP.int], ['mQueued', 'marketCounts', 'queued', PP.int], ['mLegal', 'marketCounts', 'legal', PP.int],
    ['hCov', 'health', 'coverage_works', PP.int], ['hCovT', 'health', 'coverage_total', PP.int], ['hBuy', 'health', 'buyers_vetted', PP.int], ['hRep', 'health', 'replies_waiting', PP.int], ['hRun', 'health', 'last_run', PP.txt],
    ['fPipe', 'financeNow', 'potential_in_pipeline', PP.moneyK], ['fEarned', 'financeNow', 'fees_earned', PP.moneyK], ['fExp', 'financeNow', 'expenses', PP.moneyK], ['fTax', 'financeNow', 'tax_set_aside', PP.moneyK], ['fEsc', 'financeNow', 'earnest_money_outstanding', PP.moneyK],
    ['dTitle', 'deal', 'address', PP.txt], ['dTeam', 'deal', 'team', PP.txt], ['dOwner', 'deal', 'owner_action', (v) => PP.owner[v] || v], ['dAuth', 'deal', 'authority', PP.txt], ['dCourt', 'deal', 'court_step', PP.txt],
    ['dOcc', 'deal', 'occupancy', PP.txt], ['dNext', 'deal', 'next_action', PP.txt], ['dDue', 'deal', 'next_action_date', PP.txt], ['dTouch', 'deal', 'touch_count', PP.txt], ['dSum', 'deal', 'summary', PP.txt],
   ].forEach(([name, src, f, fmt]) => dash.draw(name, K(src, f, fmt)));
-  dash.draw('bOpps', badge('kpis', 'opps')); dash.draw('bQueue', badge('kpis', 'queue')); dash.draw('bSetup', badge('setupCounts', 'missing'));
+  dash.draw('bOpps', badge('kpis', 'opps')); dash.draw('bQueue', badge('queueCounts', 'approve')); dash.draw('bMoney', badge('queueCounts', 'money')); dash.draw('bSetup', badge('setupCounts', 'missing'));
   dash.draw('dLoc', (el) => { const r = PP.first('deal'); el.textContent = r ? `${r.city}, ${r.county} County, ${r.state} · ${r.lead_type || 'probate'}` : '—'; });
   dash.draw('dChips', (el) => { const r = PP.first('deal'); el.replaceChildren();
     if (!r) return; [[r.verdict, PP.verdictCls(r.verdict)], [r.stage, ''], [r.team, '']].forEach(([t, c]) => { if (!t) return; const s = document.createElement('span'); s.className = 'pp-chip ' + c; s.style.marginRight = '6px'; s.textContent = t; el.appendChild(s); }); });
@@ -101,6 +125,7 @@ dash.calc('setupCounts', { title: 'Setup steps missing', description: 'Setup ste
   dash.draw('stageName', (el) => { el.textContent = dash.params().stage || 'Outreach drafted'; });
 
   const meter = (get) => (el) => { const v = get(); el.style.width = (v === null ? 0 : Math.max(0, Math.min(100, v))) + '%'; if (el.parentElement) el.parentElement.setAttribute('aria-valuenow', String(v === null ? 0 : Math.round(v))); };
+  dash.draw('gMeter', meter(() => { const r = PP.first('feeGoal'); return r && +r.goal ? +r.pct : null; }));
   dash.draw('paceMeter', meter(() => { const r = PP.first('pace'); return r && +r.target_closings ? 100 * (+r.closed || 0) / +r.target_closings : null; }));
   dash.draw('covMeter', meter(() => { const r = PP.first('health'); return r && +r.coverage_total ? 100 * (+r.coverage_works || 0) / +r.coverage_total : null; }));
   dash.draw('setupBar', meter(() => { const r = PP.first('health'); return r && +r.readiness_total ? 100 * (+r.readiness_done || 0) / +r.readiness_total : null; }));
@@ -181,6 +206,22 @@ dash.calc('setupCounts', { title: 'Setup steps missing', description: 'Setup ste
     });
   };
   const M = PP.money;
+  const signed = (v) => (v === null || v === undefined || v === '' || isNaN(+v)) ? '—' : (+v < 0 ? '−' : '') + M(Math.abs(+v));
+  dash.draw('contractRows', (tb) => PP.rows(tb, 'contractDeals', [{ f: 'address' }, { f: 'city' }, { f: 'state' }, { f: 'stage' },
+    { f: 'target_price', fmt: M, cls: 'pp-n' }, { f: 'buyer_max', fmt: M, cls: 'pp-n' }, { f: 'potential_earnings', fmt: M, cls: 'pp-n' },
+    { f: 'earnest_money', fmt: (v) => +v ? M(v) : 'not set', cls: 'pp-n' }, { f: 'earnest_status', fmt: PP.txt }, { f: 'title_company', fmt: PP.txt }],
+    'No deals under contract yet. Deals appear here once a contract goes out for signature.', PP.openDeal));
+  dash.draw('dealProfitRows', (tb) => PP.rows(tb, 'dealProfit', [{ f: 'lead_id' }, { f: 'fees', fmt: M, cls: 'pp-n' }, { f: 'forecast', fmt: M, cls: 'pp-n' }, { f: 'costs', fmt: M, cls: 'pp-n' },
+    { f: 'profit', fmt: signed, cls: (v) => 'pp-n ' + (+v < 0 ? 'pp-neg' : '') }, { f: 'earnest_out', fmt: M, cls: 'pp-n' }],
+    'No money recorded against a deal yet.', (r) => PP.openDeal({ lead_id: r.lead_id })));
+  dash.draw('taxDue', (el) => { const n = new Date(); const y = n.getFullYear(); const dates = [[y, 0, 15], [y, 3, 15], [y, 5, 15], [y, 8, 15], [y + 1, 0, 15]].map(([a, m, d]) => new Date(a, m, d));
+    const next = dates.find((d) => d >= new Date(n.getFullYear(), n.getMonth(), n.getDate())); el.textContent = next ? next.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' }) : '—'; });
+  dash.draw('plRows', (tb) => PP.rows(tb, 'finance', [{ f: 'month' }, { f: 'fees_forecast_contracted', fmt: M, cls: 'pp-n' }, { f: 'fees_earned', fmt: M, cls: 'pp-n' },
+    { f: 'expenses', fmt: M, cls: 'pp-n' }, { f: 'net', fmt: signed, cls: 'pp-n' }, { f: 'tax_set_aside', fmt: M, cls: 'pp-n' }, { f: 'earnest_money_outstanding', fmt: M, cls: 'pp-n' }], 'No months recorded yet.'));
+  const LTYPE = { income: 'Fee', expense: 'Expense', escrow_out: 'Earnest money out', escrow_back: 'Earnest money back' };
+  dash.draw('ledgerRows', (tb) => PP.rows(tb, 'ledger', [{ f: 'date' }, { f: 'lead_id', fmt: PP.txt }, { f: 'type', fmt: (v) => LTYPE[v] || PP.txt(v) }, { f: 'category', fmt: PP.txt },
+    { f: 'amount', fmt: M, cls: 'pp-n' }, { f: 'status', chip: (v) => v === 'actual' ? 'pp-ok' : 'pp-warn' }, { f: 'counterparty_role', fmt: PP.txt }, { f: 'doc_ref', fmt: PP.txt }],
+    'No entries yet. The Bookkeeper records a fee or expense only when a document backs it (settlement statement, invoice or receipt); fees on signed contracts show as forecast.'));
   dash.draw('oppRows', (tb) => PP.rows(tb, 'opps', [{ f: 'address' }, { f: 'city' }, { f: 'state' }, { f: 'lead_type' },
     { f: 'potential_earnings', fmt: M, cls: 'pp-n', bar: (r) => PP.stateColor(r.state) }, { f: 'target_price', fmt: M, cls: 'pp-n' }, { f: 'buyer_max', fmt: M, cls: 'pp-n' }, { f: 'arv_mid', fmt: M, cls: 'pp-n' },
     { f: 'stage' }, { f: 'next_action_date' }], 'No opportunities in this state or county yet.', PP.openDeal));

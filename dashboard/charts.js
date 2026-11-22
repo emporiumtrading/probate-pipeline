@@ -294,6 +294,10 @@
   dash.draw('moneyChart', (el) => { const d = dash.data('finance'); if (!ok(d)) return C.notReady(el, d);
     C.vcols(el, d.data, { title: 'Money by month', x: (r) => r.month, series: [{ key: 'fees_earned', label: 'Fees earned', color: dash.colors[0] }, { key: 'expenses', label: 'Expenses', color: dash.colors[1] }, { key: 'fees_forecast_contracted', label: 'Fees forecast (contracted)', color: dash.colors[2] }],
       fmt: M, fmtAxis: (v) => '$' + d3.format('~s')(v), empty: 'No money has moved yet: the chart fills in as fees are earned and expenses are recorded.' }); });
+  dash.draw('feePipeChart', (el) => { const d = dash.data('feePipeline'); if (!ok(d)) return C.notReady(el, d);
+    C.hbars(el, d.data.filter((r) => r.deals), { title: 'Potential fees by deal progress', label: (r) => `${r.group} (${r.deals})`, value: (r) => r.fees, fmt: M, color: () => dash.colors[0], empty: 'No open opportunities in these filters.' }); });
+  dash.draw('expenseChart', (el) => { const d = dash.data('expenseByCat'); if (!ok(d)) return C.notReady(el, d);
+    C.hbars(el, d.data, { title: 'Expenses by category', label: (r) => r.category, value: (r) => r.amount, fmt: M, color: () => dash.colors[1], empty: 'No expenses recorded this year yet. Each one is added when its receipt or invoice is filed.' }); });
   dash.draw('runsChart', (el) => { const d = dash.data('runs'); if (!ok(d)) return C.notReady(el, d);
     C.vcols(el, d.data.slice(-14), { title: 'Leads per daily run', x: (r) => r.date.slice(5), series: [{ key: 'new_leads', label: 'New leads', color: dash.colors[0] }, { key: 'updated_leads', label: 'Updated', color: dash.colors[1] }],
       fmt: (v) => String(v), empty: 'No daily runs yet.' }); });

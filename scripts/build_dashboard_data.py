@@ -132,6 +132,7 @@ for r in tracker:
         "next_action_date": r["next_action_date"], "touch_count": r["touch_count"], "last_touch_date": r["last_touch_date"],
         "summary": (r["notes"] or "")[:220],
         "earnest_money": r.get("earnest_money", ""), "earnest_status": r.get("earnest_status", ""),
+        "contract_status": r.get("contract_status", ""), "title_company": r.get("title_company", ""),
     })
 LEAD_COLS = list(leads[0].keys()) if leads else ["lead_id"]
 write("leads.csv", LEAD_COLS, sorted(leads, key=lambda x: -(x["potential_earnings"] or 0)))
@@ -522,6 +523,10 @@ _escrow_out = sum(_amt(r) for r in _ledger if r["type"] == "escrow_out" and r["s
 for r in _fin_rows:
     r["earnest_money_outstanding"] = int(_escrow_out) if r["month"] == TODAY[:7] else ""
 write("finance.csv", ["month", "potential_in_pipeline", "fees_forecast_contracted", "fees_earned", "expenses", "net", "tax_set_aside", "earnest_money_outstanding"], _fin_rows)
+# Ledger entries for the Money page: every line the Bookkeeper recorded, newest first. Notes are left out
+# (they can hold names); counterparty is a role only, and doc_ref says which document backs the entry.
+_LEDGER_COLS = ["date", "lead_id", "type", "category", "amount", "status", "counterparty_role", "doc_ref"]
+write("ledger.csv", _LEDGER_COLS, [{k: r.get(k, "") for k in _LEDGER_COLS} for r in sorted(_ledger, key=lambda r: r.get("date") or "", reverse=True)])
 
 # ---- workers: what each specialist has produced (measured from its own output files) ----
 import subprocess

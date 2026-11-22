@@ -116,6 +116,7 @@
 .pp-stage-legend li.pp-done { color: var(--color-fg); }
 .pp-stage-legend li.pp-cur { color: var(--color-fg); font-weight: var(--cds-font-weight-medium); }
 .pp-stage-legend li.pp-cur::after { content: "  ← here"; color: var(--color-warn); }
+.pp td.pp-neg { color: var(--color-bad); }
 #q-exceptions .pp-act { display: flex; flex-direction: column; align-items: stretch; gap: 4px; }
 #q-exceptions .pp-act .pp-btn { white-space: normal; text-align: left; max-width: 280px; }
 </style>
@@ -135,6 +136,7 @@
       <button class="pp-tab" role="tab" data-page="deal" aria-selected="false">Deal detail</button>
       <button class="pp-tab" role="tab" data-page="messages" aria-selected="false">Messages <span class="pp-badge" data-draw="bMsgs" data-source="msgCounts" data-field="awaiting" data-row="0"></span></button>
       <button class="pp-tab" role="tab" data-page="queues" aria-selected="false">Your queues <span class="pp-badge" data-draw="bQueue" data-source="kpis" data-field="queue" data-row="0"></span></button>
+      <button class="pp-tab" role="tab" data-page="money" aria-selected="false">Sign, wire &amp; money <span class="pp-badge" data-draw="bMoney" data-source="queueCounts" data-field="money" data-row="0"></span></button>
       <button class="pp-tab" role="tab" data-page="markets" aria-selected="false">Markets &amp; legal</button>
       <button class="pp-tab" role="tab" data-page="operations" aria-selected="false">Operations</button>
       <button class="pp-tab" role="tab" data-page="setup" aria-selected="false">Setup <span class="pp-badge" data-draw="bSetup" data-source="setupCounts" data-field="missing" data-row="0"></span></button>
@@ -255,11 +257,9 @@
   </section>
 
   <section class="pp-page" id="queues" hidden>
-    <p class="pp-sub">Everything only you can do. Nothing is sent, signed or paid without you. Wires go only to the title company's escrow, after you confirm instructions by phone at the number on its official website.</p>
+    <p class="pp-sub">Letters waiting for your approval and exceptions that need your decision. Nothing is sent without you. Signing and earnest-money wires are on the <b>Sign, wire &amp; money</b> page.</p>
     <div class="pp-tiles">
       <div class="pp-card pp-tile pp-t-warn"><div class="pp-num" data-draw="qApprove" data-source="queueCounts" data-field="approve" data-row="0">—</div><div class="pp-lbl">Approve outreach</div></div>
-      <div class="pp-card pp-tile pp-t-warn"><div class="pp-num" data-draw="qSign" data-source="queueCounts" data-field="sign" data-row="0">—</div><div class="pp-lbl">Sign</div></div>
-      <div class="pp-card pp-tile pp-t-bad"><div class="pp-num" data-draw="qWire" data-source="queueCounts" data-field="wire" data-row="0">—</div><div class="pp-lbl">Wire earnest money</div></div>
     </div>
     <div class="pp-grid">
       <div class="pp-card" id="q-due"><h2>When items are due</h2><p class="pp-sub">Items per due date.</p><div class="pp-chart" data-draw="dueChart" data-source="queuesF"></div></div>
@@ -285,6 +285,84 @@
       <table data-source="exceptions" data-row-key="id">
         <thead><tr><th>ID</th><th>Type</th><th>Property</th><th>Status</th><th>What's being done</th><th>Due</th><th>Your decision</th></tr></thead>
         <tbody data-draw="exRows" data-source="exceptions decExceptions"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="pp-page" id="money" hidden>
+    <p class="pp-sub">Signing, earnest money and every dollar in and out. Nothing is signed or paid without you. Wires go only to the title company's escrow, after you confirm the instructions by phone at the number on its official website; never act on wiring instructions sent by email. The system never holds bank details or moves money. Tax figures are estimates for your CPA, not tax advice.</p>
+    <div class="pp-tiles">
+      <div class="pp-card pp-tile pp-t-warn"><div class="pp-num" data-draw="qSign" data-source="queueCounts" data-field="sign" data-row="0">—</div><div class="pp-lbl">To sign</div></div>
+      <div class="pp-card pp-tile pp-t-bad"><div class="pp-num" data-draw="qWire" data-source="queueCounts" data-field="wire" data-row="0">—</div><div class="pp-lbl">Earnest money to wire</div></div>
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="moDeals" data-source="contractCounts" data-field="deals" data-row="0">—</div><div class="pp-lbl">Deals under contract</div></div>
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="moFees" data-source="contractCounts" data-field="fees" data-row="0">—</div><div class="pp-lbl">Fees on those deals</div></div>
+      <div class="pp-card pp-tile pp-t-ok"><div class="pp-num" data-draw="yEarned" data-source="financeYear" data-field="fees_earned" data-row="0">—</div><div class="pp-lbl">Fees earned this year</div></div>
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="yNet" data-source="financeYear" data-field="net" data-row="0">—</div><div class="pp-lbl">Net profit this year</div></div>
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="gFees" data-source="feeGoal" data-field="goal" data-row="0">—</div><div class="pp-lbl">Fee goal this month (<span data-draw="gClose" data-source="feeGoal" data-field="closings" data-row="0">—</span> closings × <span data-draw="gAvg" data-source="feeGoal" data-field="avg_fee" data-row="0">—</span> average fee)</div><div class="pp-meter"><div data-draw="gMeter" data-source="feeGoal"></div></div></div>
+    </div>
+    <div class="pp-card pp-wrap" id="mo-queue">
+      <h2>Sign and wire</h2>
+      <p class="pp-sub">Contracts waiting for your signature and earnest-money deposits due. <b>Sign now</b> opens the signing page; mark each one done here once it's finished.</p>
+      <p class="pp-dlg-msg" data-draw="moMsg" role="status"></p>
+      <table data-source="queuesF" data-row-key="queue,lead_id">
+        <thead><tr><th data-field="queue">Queue</th><th data-field="address">Property</th><th data-field="city">City</th><th data-field="state">State</th><th data-field="item">What</th><th data-field="due">Due</th><th data-field="decision">Your decision</th><th>Actions</th></tr></thead>
+        <tbody data-draw="moneyQueueRows"></tbody>
+      </table>
+    </div>
+    <div class="pp-card" id="mo-wire-safety">
+      <h2>Before any wire</h2>
+      <ol class="pp-sub" style="margin:0;padding-left:1.2em">
+        <li>Wire only to the title company's escrow account, never to a seller, heir, attorney or buyer.</li>
+        <li>Look up the title company's phone number on its official website yourself. Don't use a number from an email, text or PDF.</li>
+        <li>Call that number and confirm the account and amount with a person before sending.</li>
+        <li>Treat any change of wiring instructions as fraud until confirmed the same way.</li>
+        <li>After wiring, mark it <b>I wired it</b> above and ask the title company for a receipt; the Bookkeeper records it as earnest money out.</li>
+      </ol>
+    </div>
+    <div class="pp-grid">
+      <div class="pp-card" id="mo-feepipe"><h2>Where the fees are</h2><p class="pp-sub">Potential fees on open opportunities and contracts, by how far each deal has got. Only closed and paid deals count as earned.</p><div class="pp-chart" data-draw="feePipeChart" data-source="feePipeline"></div></div>
+      <div class="pp-card" id="mo-expcat"><h2>Expenses by category</h2><p class="pp-sub">Actual expenses this year with a document behind them (mail, data, legal, title, filing and so on).</p><div class="pp-chart" data-draw="expenseChart" data-source="expenseByCat"></div></div>
+    </div>
+    <div class="pp-card pp-wrap" id="mo-deals">
+      <h2>Deals under contract</h2>
+      <p class="pp-sub">Every deal from contract out for signature to paid, with its money. Your fee = cash-buyer price − contract price; it's paid at closing through the title company. Click a row to open the deal.</p>
+      <table data-source="contractDeals" data-row-key="lead_id">
+        <thead><tr><th data-field="address">Property</th><th data-field="city">City</th><th data-field="state">State</th><th data-field="stage">Stage</th><th data-field="target_price">Contract price</th><th data-field="buyer_max">Cash-buyer price</th><th data-field="potential_earnings">Your fee</th><th data-field="earnest_money">Earnest money</th><th data-field="earnest_status">Deposit</th><th data-field="title_company">Title company</th></tr></thead>
+        <tbody data-draw="contractRows"></tbody>
+      </table>
+    </div>
+    <div class="pp-card" id="mo-money"><h2>Money this month</h2><p class="pp-sub">From the Bookkeeper's ledger. Earned and expenses count only document-backed entries. Tax set-aside is an estimate for your CPA, not tax advice. The system never holds bank details or moves money.</p>
+      <div class="pp-tiles">
+        <div class="pp-card pp-tile"><div class="pp-num" data-draw="fPipe" data-source="financeNow" data-field="potential_in_pipeline" data-row="0">—</div><div class="pp-lbl">Potential in pipeline</div></div>
+        <div class="pp-card pp-tile pp-t-ok"><div class="pp-num" data-draw="fEarned" data-source="financeNow" data-field="fees_earned" data-row="0">—</div><div class="pp-lbl">Fees earned this month</div></div>
+        <div class="pp-card pp-tile pp-t-bad"><div class="pp-num" data-draw="fExp" data-source="financeNow" data-field="expenses" data-row="0">—</div><div class="pp-lbl">Expenses this month</div></div>
+        <div class="pp-card pp-tile"><div class="pp-num" data-draw="fTax" data-source="financeNow" data-field="tax_set_aside" data-row="0">—</div><div class="pp-lbl">Tax set-aside (estimate)</div></div>
+        <div class="pp-card pp-tile pp-t-warn"><div class="pp-num" data-draw="fEsc" data-source="financeNow" data-field="earnest_money_outstanding" data-row="0">—</div><div class="pp-lbl">Earnest money out</div></div>
+      </div>
+      <div class="pp-chart" data-draw="moneyChart" data-source="finance" style="margin-top:var(--cds-gap-md)"></div>
+    </div>
+    <div class="pp-card pp-wrap" id="mo-pl">
+      <h2>Profit and loss by month</h2>
+      <p class="pp-sub">From the Bookkeeper's ledger. Earned and expenses count only entries backed by a document (settlement statement, invoice, receipt). Tax set-aside is <span data-draw="taxPct" data-source="financeYear" data-field="tax_pct" data-row="0">—</span> of net profit, an estimate for your CPA. Next federal estimated-tax due date: <b data-draw="taxDue">—</b> (confirm with your CPA; states differ).</p>
+      <table data-source="finance" data-row-key="month">
+        <thead><tr><th data-field="month">Month</th><th data-field="fees_forecast_contracted">Fees forecast (contracted)</th><th data-field="fees_earned">Fees earned</th><th data-field="expenses">Expenses</th><th data-field="net">Net profit</th><th data-field="tax_set_aside">Tax set-aside (est.)</th><th data-field="earnest_money_outstanding">Earnest money out</th></tr></thead>
+        <tbody data-draw="plRows"></tbody>
+      </table>
+    </div>
+    <div class="pp-card pp-wrap" id="mo-profit">
+      <h2>Profit per deal</h2>
+      <p class="pp-sub">For each deal with money recorded: fees earned minus the expenses tied to it. Average fee <b data-draw="uAvg" data-source="unitEcon" data-field="avg_fee" data-row="0">—</b> · cost per closed deal <b data-draw="uCost" data-source="unitEcon" data-field="cost_per_close" data-row="0">—</b> · fees per $1 spent <b data-draw="uRoi" data-source="unitEcon" data-field="fees_per_dollar" data-row="0">—</b>. Click a row to open the deal.</p>
+      <table data-source="dealProfit" data-row-key="lead_id">
+        <thead><tr><th data-field="lead_id">Deal</th><th data-field="fees">Fees earned</th><th data-field="forecast">Fees forecast</th><th data-field="costs">Expenses</th><th data-field="profit">Profit</th><th data-field="earnest_out">Earnest money still out</th></tr></thead>
+        <tbody data-draw="dealProfitRows"></tbody>
+      </table>
+    </div>
+    <div class="pp-card pp-wrap" id="mo-ledger">
+      <h2>Ledger</h2>
+      <p class="pp-sub">Every entry the Bookkeeper recorded, newest first: fees, expenses and earnest money out and back. <b>Actual</b> entries have a document behind them; <b>forecast</b> entries are fees on signed contracts not yet closed.</p>
+      <table data-source="ledger" data-row-key="date,lead_id,type,amount">
+        <thead><tr><th data-field="date">Date</th><th data-field="lead_id">Deal</th><th data-field="type">Type</th><th data-field="category">Category</th><th data-field="amount">Amount</th><th data-field="status">Status</th><th data-field="counterparty_role">Paid to / from</th><th data-field="doc_ref">Document</th></tr></thead>
+        <tbody data-draw="ledgerRows"></tbody>
       </table>
     </div>
   </section>
@@ -325,16 +403,6 @@
       <div class="pp-card pp-tile"><div class="pp-num" data-draw="hBuy" data-source="health" data-field="buyers_vetted" data-row="0">—</div><div class="pp-lbl">Vetted cash buyers</div></div>
       <div class="pp-card pp-tile pp-t-warn"><div class="pp-num" data-draw="hRep" data-source="health" data-field="replies_waiting" data-row="0">—</div><div class="pp-lbl">Replies waiting</div></div>
       <div class="pp-card pp-tile"><div class="pp-num" data-draw="hRun" data-source="health" data-field="last_run" data-row="0">—</div><div class="pp-lbl">Last daily run</div></div>
-    </div>
-    <div class="pp-card" id="ops-money"><h2>Money</h2><p class="pp-sub">From the Bookkeeper's ledger. Earned and expenses count only document-backed entries. Tax set-aside is an estimate for your CPA, not tax advice. The system never holds bank details or moves money.</p>
-      <div class="pp-tiles">
-        <div class="pp-card pp-tile"><div class="pp-num" data-draw="fPipe" data-source="financeNow" data-field="potential_in_pipeline" data-row="0">—</div><div class="pp-lbl">Potential in pipeline</div></div>
-        <div class="pp-card pp-tile pp-t-ok"><div class="pp-num" data-draw="fEarned" data-source="financeNow" data-field="fees_earned" data-row="0">—</div><div class="pp-lbl">Fees earned this month</div></div>
-        <div class="pp-card pp-tile pp-t-bad"><div class="pp-num" data-draw="fExp" data-source="financeNow" data-field="expenses" data-row="0">—</div><div class="pp-lbl">Expenses this month</div></div>
-        <div class="pp-card pp-tile"><div class="pp-num" data-draw="fTax" data-source="financeNow" data-field="tax_set_aside" data-row="0">—</div><div class="pp-lbl">Tax set-aside (estimate)</div></div>
-        <div class="pp-card pp-tile pp-t-warn"><div class="pp-num" data-draw="fEsc" data-source="financeNow" data-field="earnest_money_outstanding" data-row="0">—</div><div class="pp-lbl">Earnest money out</div></div>
-      </div>
-      <div class="pp-chart" data-draw="moneyChart" data-source="finance" style="margin-top:var(--cds-gap-md)"></div>
     </div>
     <div class="pp-grid">
       <div class="pp-card" id="ops-runs"><h2>Leads per daily run</h2><p class="pp-sub">New leads and leads updated in each run.</p><div class="pp-chart" data-draw="runsChart" data-source="runs"></div></div>

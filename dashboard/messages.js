@@ -124,19 +124,22 @@
   const QK = { 'Approve outreach': 'outreach', Sign: 'sign', Wire: 'wire' };
   const qDecision = (r) => { const d = decOf(QK[r.queue], r.lead_id); return d ? d.decision : (r.decision || ''); };
   const qLabel = (r, dec) => !dec ? 'waiting for you' : r.queue === 'Approve outreach' ? DEC_LABEL[dec] : dec === 'done' ? 'done' : 'on hold';
-  const qSay = (t, cls) => { Q.msg = t; Q.cls = cls || ''; dash.draw('qMsg'); };
+  const qSay = (t, cls) => { Q.msg = t; Q.cls = cls || ''; dash.draw('qMsg'); dash.draw('moMsg'); };
   dash.draw('qMsg', (el) => { el.textContent = Q.msg; el.className = 'pp-dlg-msg ' + Q.cls; });
+  dash.draw('moMsg', (el) => { el.textContent = Q.msg; el.className = 'pp-dlg-msg ' + Q.cls; });
+  const MONEYQ = (r) => r.queue === 'Sign' || r.queue === 'Wire';
   const act = async (r, decision, btn) => {
     btn.disabled = true;
     try { await PP.decide(QK[r.queue], r.lead_id, decision, ''); qSay(`Saved: ${r.address} ${qLabel(r, decision)}. The next daily run acts on it.`, 'pp-ok'); }
     catch (e) { btn.disabled = false; qSay("That wasn't saved: only the dashboard's owner can decide.", 'pp-bad'); }
   };
-  dash.draw('queueRows', (tb) => {
+  const qTable = (keep, empty) => (tb) => {
     const d = dash.data('queuesF'); tb.replaceChildren();
     const msg = (t) => { const tr = tb.insertRow(); const td = tr.insertCell(); td.colSpan = 8; td.textContent = t; td.className = 'pp-muted'; };
     if (d.status !== 'ok') return msg(d.status === 'error' ? 'Failed to load' : 'Loading…');
-    if (!d.data.length) return msg('Nothing waiting on you here.');
-    d.data.forEach((r) => {
+    const rows = d.data.filter(keep);
+    if (!rows.length) return msg(empty);
+    rows.forEach((r) => {
       const tr = tb.insertRow(); const dec = qDecision(r);
       [r.queue, r.address, r.city, r.state, r.item, r.due].forEach((v, i) => { const td = tr.insertCell(); td.textContent = v || ''; if (i === 4) td.className = 'pp-w'; });
       const tdD = tr.insertCell(); const c = document.createElement('span'); c.className = 'pp-chip ' + (!dec ? 'pp-warn' : dec === 'rejected' ? 'pp-bad' : dec === 'hold' || dec === 'changes' ? '' : 'pp-ok'); c.textContent = qLabel(r, dec); tdD.appendChild(c);
@@ -147,14 +150,16 @@
         if (dec !== 'approved') btn('Approve', 'pp-btn-primary', (b) => act(r, 'approved', b));
         if (dec !== 'rejected') btn('Reject', '', (b) => { if (b.dataset.armed) return act(r, 'rejected', b); b.dataset.armed = '1'; b.textContent = 'Confirm reject'; });
       } else {
-        if (r.queue === 'Sign' && r.sign_url) btn('Sign now', 'pp-btn-primary', () => window.open(r.sign_url, '_blank', 'noopener'));
-        if (dec !== 'done') btn(r.queue === 'Sign' ? 'I signed it' : 'I wired it (confirmed by phone)', r.queue === 'Sign' && r.sign_url ? '' : 'pp-btn-primary', (b) => act(r, 'done', b));
+        if (r.queue === 'Sign' && /^https:\/\//.test(r.sign_url || '')) btn('Sign now', 'pp-btn-primary', () => window.open(r.sign_url, '_blank', 'noopener'));
+        if (dec !== 'done') btn(r.queue === 'Sign' ? 'I signed it' : 'I wired it (confirmed by phone)', r.queue === 'Sign' && /^https:\/\//.test(r.sign_url || '') ? '' : 'pp-btn-primary', (b) => act(r, 'done', b));
         if (dec !== 'hold') btn('Hold', '', (b) => act(r, 'hold', b));
         btn('Open deal', '', () => PP.openDeal(r));
       }
       tdA.appendChild(box);
     });
-  });
+  };
+  dash.draw('queueRows', qTable((r) => !MONEYQ(r), 'Nothing waiting on you here.'));
+  dash.draw('moneyQueueRows', qTable(MONEYQ, 'Nothing to sign or wire right now. Contracts and deposits appear here as deals reach them.'));
   // ---- Exceptions: the Exceptions Desk's items; owner picks an option where one is needed ----
   const E = { msg: '', cls: '' };
   dash.draw('exMsg', (el) => { el.textContent = E.msg; el.className = 'pp-dlg-msg ' + E.cls; });
