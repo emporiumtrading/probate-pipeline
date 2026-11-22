@@ -16,6 +16,9 @@ business:                         # who we are. Fill these in once; attorney pac
   website: ""
   signer: ""                      # person who signs contracts for the company
   title_company: ""               # default title company that holds earnest money
+esignature:                       # e-signature service the Contract Desk sends packets through (agents/contract-desk.md)
+  provider: docuseal              # owner's choice 2026-11-22
+  connected_on: ""                # set when the DocuSeal connector is connected and a test submission works
 legal_service:                    # attorney review service used by the Legal Advisor (agents/legal-advisor.md → "Attorney review through a connected service")
   provider: general_legal         # connected by the owner 2026-11-22
   connected_on: 2026-11-22

@@ -382,6 +382,9 @@ for k, (lbl, fix) in CH.items():
     st = "done" if chan.get(k) == "true" else ("waiting for check" if _och.get(f"{k}_ready") else "missing")
     item("Channels", lbl, st, fix, "Reply desk and sending with no manual steps", "channels", k)
 item("Autonomy", "Outreach set to autonomous", autonomy.get("outreach") == "autonomous", "Setup page → Autonomy → Configure (after the items above)", "Letters go out without per-message approval", "autonomy", "outreach")
+ES = cfg_block("esignature")
+item("Channels", "E-signature service connected" + (f" ({ES.get('provider','').title()})" if ES.get("provider") else ""), bool(ES.get("connected_on")),
+     "Connect the DocuSeal connector at claude.ai → Settings → Connectors; the runner then sends itself a test document and marks this done", "Contracts go to you and the seller for signature without paperwork", "channels", "esignature")
 LS = cfg_block("legal_service")
 _prov = {"general_legal": "General Legal", "legalzoom": "LegalZoom", "rocket_lawyer": "Rocket Lawyer"}.get(LS.get("provider", ""), LS.get("provider", ""))
 _cov = [x.strip().upper() for x in (LS.get("covered_states") or "").split(",") if x.strip()]
