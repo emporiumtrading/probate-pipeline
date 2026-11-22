@@ -35,6 +35,14 @@ Nationwide means one attorney (or firm) per state, licensed there. Prefer firms 
 1. **Per-deal review paid at closing.** Ask whether they'll review each deal's contract and assignment for a set fee paid from the closing proceeds on the settlement statement, so nothing is paid up front on deals that close. This is common for closing and title work.
 2. **Template review credited or deferred.** The one-time packet and template review usually needs a flat fee up front. Ask whether it can be credited against the first deals' fees, or deferred to the first closing.
 3. **If they want a retainer or monthly plan,** get the total for a year at our expected volume and compare it with 1 and 2.
+**Title companies.** Their settlement, search and policy fees are normally paid at closing from the proceeds on the settlement statement, so confirm that and negotiate the rest:
+- **Nothing up front:** ask them to waive the title search or cancellation fee if a deal doesn't close (many do for repeat investors), or to bill it only at the next closing.
+- **Who pays what:** confirm the county's custom (seller-paid owner's policy is common in some Florida counties, buyer-paid in others) and write it into our contracts.
+- **Investor pricing:** ask for a repeat-client or investor rate, and the reissue (prior-policy) rate where a recent policy exists.
+- **Assignments:** confirm in writing that they close assignments, how the assignment fee appears on the settlement statement, and that our fee is paid to us from closing funds.
+- **Earnest money:** confirm they hold the deposit in escrow and their wire-fraud check (instructions confirmed by phone at the number on their official website).
+Record each answer in `network/<market>.md`. The owner signs any title order or fee agreement.
+
 Any fee that is deferred, paid at closing or depends on a deal closing must be in a written fee agreement, signed by the owner, stating the amount or formula, when it is earned and payable, and what happens if a deal doesn't close (attorney fee rules, e.g. ABA Model Rule 1.5 and each state's version). Prepare that agreement for the owner's signature; never agree to fees or sign for the owner. Never offer an attorney a share of the assignment fee itself (fee-sharing with non-lawyers and referral-fee rules); offer a fixed fee instead. Not legal advice: the attorney confirms what their state allows.
 
 ## Output
