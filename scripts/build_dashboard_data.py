@@ -403,6 +403,9 @@ item("Autonomy", "Outreach set to autonomous", autonomy.get("outreach") == "auto
 ES = cfg_block("esignature")
 item("Channels", "E-signature service connected" + (f" ({ES.get('provider','').title()})" if ES.get("provider") else ""), bool(ES.get("connected_on")),
      "Connect the DocuSeal connector at claude.ai → Settings → Connectors; the runner then sends itself a test document and marks this done", "Contracts go to you and the seller for signature without paperwork", "channels", "esignature")
+CS = cfg_block("closing_service")
+item("Channels", "Closing status from the title company (Qualia Connect)", bool(CS.get("connected_on")),
+     "Connect the Qualia Connect connector at claude.ai → Settings → Connectors. It shows orders only from title companies that run on Qualia and invite you to the closing", "Earnest money received, title and closing dates tracked without email", "channels", "closing_service")
 LS = cfg_block("legal_service")
 _prov = {"general_legal": "General Legal", "legalzoom": "LegalZoom", "rocket_lawyer": "Rocket Lawyer"}.get(LS.get("provider", ""), LS.get("provider", ""))
 _cov = [x.strip().upper() for x in (LS.get("covered_states") or "").split(",") if x.strip()]

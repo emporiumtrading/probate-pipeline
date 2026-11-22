@@ -19,6 +19,11 @@ business:                         # who we are. Fill these in once; attorney pac
 esignature:                       # e-signature service the Contract Desk sends packets through (agents/contract-desk.md)
   provider: docuseal              # owner's choice 2026-11-22
   connected_on: ""                # set when the DocuSeal connector is connected and a test submission works
+closing_service:                  # closing-status service the Transaction Coordinator reads (agents/transaction-coordinator.md 4b); read-only, never moves money
+  provider: qualia_connect        # works only for title companies that run on Qualia and invite the owner to the order
+  connected_on: ""                # set when the owner connects the Qualia Connect connector and an order is visible
+earnest_money:
+  method: digital_link_preferred  # title company's own digital earnest-money request (Earnnest, Paymints.io, Qualia EMD); wire only if they don't offer one
 legal_service:                    # attorney review service used by the Legal Advisor (agents/legal-advisor.md → "Attorney review through a connected service")
   provider: general_legal         # connected by the owner 2026-11-22
   connected_on: 2026-11-22

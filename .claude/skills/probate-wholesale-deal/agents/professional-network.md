@@ -15,6 +15,8 @@ Find 5–8 candidates from public sources: state bar directories, title company 
 | Knows the state's wholesaler law (OH R.C. 5301.95, TN 66-4-401, etc.) | 10 |
 | Reviews / standing (no discipline on bar record) | 10 |
 
+- Prefer, all else equal, a title company that takes earnest money by digital link and runs on Qualia (the Transaction Coordinator can then follow the closing through the Qualia Connect connector). It's a tiebreaker, not a requirement: probate and assignment experience come first.
+
 ## Inquiry (if `autonomy.engage_professionals: request_quotes`)
 Send each top-3 candidate a short, honest inquiry through the Communications worker (after the Compliance gate) asking:
 **Attorney**
@@ -28,6 +30,7 @@ Send each top-3 candidate a short, honest inquiry through the Communications wor
 2. Typical fees for a ~$100–250k sale (settlement, title search, owner's/lender's policy, recording)?
 3. Probate closings: what estate documents do you require (letters, court entry, consents)?
 4. Do you hold the investor's earnest money in escrow? What is your wire-fraud verification process?
+   Also ask: Can we pay earnest money through a **digital earnest-money link** you send (Earnnest, Paymints.io, Qualia Earnest Money Deposit or similar) instead of a wire? Do you run closings on **Qualia**, and will you invite us to the order in **Qualia Connect** so we can see its status and documents? Do you use a wire-verification service (for example CertifID)?
 5. Typical days from contract to close for a cash buyer?
 
 ## Fees: what to ask for
