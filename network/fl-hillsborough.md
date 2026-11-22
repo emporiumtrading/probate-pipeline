@@ -21,3 +21,8 @@ The public directories searched (Justia, Avvo, Oyez/Cornell listings for Tampa a
 Ask each the attorney questions in `agents/professional-network.md`. The engaged attorney reviews `legal/attorney-packets/fl-hillsborough.md`.
 
 Sources searched 2026-11-21: web search "Tampa real estate attorney … wholesale assignment … probate" and "Tampa title company … assignment … double closing".
+
+## Attorney review service: General Legal (connected 2026-11-22)
+- Matter **691d3c80-be1b-45cd-b2f2-f9c2ba40d09c**, "State coverage and fee terms for real estate wholesale contract review", opened 2026-11-22 (status: in_progress). It asks which states their attorneys are licensed in (FL, OH, TX, TN, PA and nationwide), whether they review wholesale assignment and probate-sale documents, pricing (template review, per-deal review, pay at closing or deferred), and turnaround.
+- No documents uploaded yet. The Florida packet goes in only after (1) they confirm a Florida-licensed attorney and acceptable fees, and (2) the packet's "Who we are" section has no [missing] lines (owner fills the Setup page).
+- Each evening run: Legal Advisor checks this matter's thread (`list_thread_messages`), routes questions on the handoff board, and reports the answers.
