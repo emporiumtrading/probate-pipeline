@@ -5,7 +5,7 @@ You answer: **what has this business earned, spent and got tied up, per deal and
 ## The ledger (`pipeline/ledger.csv`)
 Columns: `date,lead_id,type,category,amount,status,counterparty_role,doc_ref,notes`
 - `type`: `income` | `expense` | `escrow_out` (earnest money the owner wired to title) | `escrow_back` (returned or credited at closing).
-- `category`: assignment_fee, double_close_spread, mailing, data_service, skip_trace, attorney, title_fees, transactional_funding, licensing, software, other.
+- `category`: assignment_fee, double_close_spread, mailing, data_service, skip_trace, attorney, title_fees, transactional_funding, licensing, software, payment_fees, refund, other.
 - `amount`: positive number in USD, no symbols.
 - `status`: `forecast` (from a deal file, not yet real) or `actual` (backed by `doc_ref`).
 - `counterparty_role`: e.g. title company, attorney, mail service: **a role, not a person's name or account**.
@@ -17,6 +17,15 @@ Columns: `date,lead_id,type,category,amount,status,counterparty_role,doc_ref,not
 3. **Monthly roll-up** for the dashboard (built by `scripts/build_dashboard_data.py` into `finance.csv`): fees forecast in pipeline, fees earned, expenses, net, earnest money outstanding, and a **tax set-aside** at `config.yaml` → `finance.tax_set_aside_pct` (default 30%) of net earned. Label it an estimate for the CPA, not tax advice.
 4. **Per-deal P&L:** in `leads/<id>/plan.md`, keep a short "Money" line: forecast fee, actual fee, costs on this deal, net.
 5. **Year-end pack:** list what the CPA will need (1099s expected from title companies, expense receipts by category) under Notes in the December reports.
+
+## Stripe (read-only, when `bookkeeping.stripe.connected_on` is set)
+The owner connected Stripe for bookkeeping only (2026-11-22). The account is the owner's whole business (`bookkeeping.stripe.account`), so most of its activity is not the pipeline's.
+1. Read with `stripe_api_read` only: operation `GetBalanceTransactions`, `stripe_context` = the account, `livemode: true`, `limit: 100`, `created[gte]` = the Unix time of `last_imported` (or the 1st of this month if empty). Page with `starting_after` while `has_more` is true. Save each response page to a scratch file.
+2. Run `python3 scripts/stripe_ledger.py import <files>`. It imports only transactions whose description names a tracker lead id or the tag (`probate`), as `actual` rows with `doc_ref` `stripe:<txn id>`; Stripe's own fee becomes a separate `payment_fees` expense. Payouts to the bank are transfers, never income. Re-running never duplicates.
+3. Set `last_imported` to the newest transaction's date. Report "Stripe: N read, M imported, K not the pipeline's" in the day report.
+4. Never call `stripe_api_write`, `manage_stripe_accounts` or anything that creates, changes, pays out or connects. Never read or record card, bank or customer details. If Stripe asks for more permissions, flag it under Exceptions for the owner instead of requesting them.
+5. To get a pipeline payment or expense into the books from Stripe, the owner puts `probate` or the lead id in its description. Tell the owner once if an untagged transaction looks like it belongs to a deal (same amount as a ledger forecast), but don't import it.
+6. If a Stripe read is waiting on a permission prompt in an unattended run, skip the import, say so in the report, and carry on: the next run picks up from `last_imported`.
 
 ## Stop and flag
 Flag under Exceptions: any document asking to change payment or wiring instructions (possible fraud: the owner confirms by phone with the title company); earnest money outstanding past its deal's closing date; an `actual` row without a document; a settlement statement whose fee differs from the contract.

@@ -24,6 +24,13 @@ closing_service:                  # closing-status service the Transaction Coord
   connected_on: ""                # set when the owner connects the Qualia Connect connector and an order is visible
 earnest_money:
   method: digital_link_preferred  # title company's own digital earnest-money request (Earnnest, Paymints.io, Qualia EMD); wire only if they don't offer one
+bookkeeping:                      # read-only money sources the Bookkeeper imports into pipeline/ledger.csv (agents/bookkeeper.md → Stripe)
+  stripe:
+    account: acct_1NkV7sAQF4y11zK3   # "Emporium Group", live mode; the whole business, so only tagged transactions are imported
+    mode: read_only                # stripe_api_read only; never stripe_api_write, never payouts, transfers or Connect
+    tag: probate                   # import a transaction only if its description has this word or a tracker lead id
+    connected_on: 2026-11-22       # owner chose read-only bookkeeping (option a); test read passed 2026-11-22
+    last_imported: ""              # date of the newest transaction read; next run reads from here
 legal_service:                    # attorney review service used by the Legal Advisor (agents/legal-advisor.md → "Attorney review through a connected service")
   provider: general_legal         # connected by the owner 2026-11-22
   connected_on: 2026-11-22
