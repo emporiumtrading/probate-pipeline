@@ -8,7 +8,9 @@
       "mcp__claude-artifacts__db_query",
       "mcp__claude-artifacts__db_whoami",
       "mcp__claude-artifacts__db_write",
-      "mcp__claude-code-remote__get_session"
+      "mcp__claude-code-remote__get_session",
+      "mcp__Stripe__list_available_accounts_or_orgs",
+      "mcp__Stripe__stripe_api_read"
     ]
   }
 }
