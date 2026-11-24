@@ -1,0 +1,25 @@
+# Render blueprint — probate pipeline dashboard.
+# Deploy: Render dashboard -> New -> Blueprint -> pick this repo.
+# After deploy, set GITHUB_TOKEN (repo scope) in the service's env vars so
+# dashboard writes (approvals, setup) persist to the `dashboard-store` branch;
+# the generated DASHBOARD_PASSWORD is shown in the same env-var panel.
+services:
+  - type: web
+    name: probate-dashboard
+    runtime: node
+    plan: free
+    buildCommand: python3 scripts/build_dashboard_data.py web/data
+    startCommand: node web/server.js
+    healthCheckPath: /healthz
+    autoDeploy: true
+    envVars:
+      - key: DASHBOARD_USER
+        value: owner
+      - key: DASHBOARD_PASSWORD
+        generateValue: true
+      - key: GITHUB_REPO
+        value: emporiumtrading/probate-pipeline
+      - key: GITHUB_BRANCH
+        value: dashboard-store
+      - key: GITHUB_TOKEN
+        sync: false
