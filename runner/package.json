@@ -1,0 +1,9 @@
+{
+  "name": "probate-pipeline-runner",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=20" },
+  "dependencies": {
+    "@anthropic-ai/claude-code": "2.1.71"
+  }
+}

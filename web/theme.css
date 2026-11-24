@@ -44,7 +44,7 @@ body {
   background: var(--color-bg);
 }
 .pp {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 24px 16px 64px;
+  max-width: none;
+  margin: 0;
+  padding: 24px 32px 64px;
 }

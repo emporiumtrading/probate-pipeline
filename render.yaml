@@ -1,8 +1,16 @@
-# Render blueprint — probate pipeline dashboard.
-# Deploy: Render dashboard -> New -> Blueprint -> pick this repo.
-# After deploy, set GITHUB_TOKEN (repo scope) in the service's env vars so
-# dashboard writes (approvals, setup) persist to the `dashboard-store` branch;
-# the generated DASHBOARD_PASSWORD is shown in the same env-var panel.
+# Render blueprint — probate pipeline: dashboard + scheduled runners.
+#
+# Dashboard: Render dashboard -> New -> Blueprint -> pick this repo, or it was
+# already created via `render services create`.
+#
+# Runners (cron): replicate the claude.ai scheduled sessions on Render —
+# headless Claude Code runs the daily-run slices against a fresh repo clone.
+# Secrets to set per service in the Render UI or API:
+#   CLAUDE_CODE_OAUTH_TOKEN  (`claude setup-token` output) OR ANTHROPIC_API_KEY
+#   GITHUB_TOKEN             (repo scope — clone + push + doc store)
+#   RESEND_API_KEY           (optional — inbox/email channels)
+# Schedules are UTC (Render has no TZ); CT is UTC-6 in winter, UTC-5 in summer —
+# expect a 1h drift during daylight saving unless the cron lines are adjusted.
 services:
   - type: web
     name: probate-dashboard
@@ -23,3 +31,75 @@ services:
         value: dashboard-store
       - key: GITHUB_TOKEN
         sync: false
+
+  # Daily slice A — 5:39 AM CT -> 11:39 UTC (morning: sourcing + deep-dives)
+  - type: cron
+    name: probate-slice-a
+    runtime: node
+    plan: starter
+    schedule: "39 11 * * *"
+    buildCommand: cd runner && npm ci
+    startCommand: node runner/run.mjs a
+    envVars:
+      - key: MODEL
+        value: sonnet
+      - {key: PIPELINE_REPO, value: emporiumtrading/probate-pipeline}
+      - {key: STORE_REPO, value: emporiumtrading/probate-dashboard-store}
+      - {key: STORE_BRANCH, value: dashboard-store}
+      - {key: GITHUB_TOKEN, sync: false}
+      - {key: CLAUDE_CODE_OAUTH_TOKEN, sync: false}
+      - {key: RESEND_API_KEY, sync: false}
+
+  # Daily slice B — 12:23 PM CT -> 18:23 UTC (midday: sourcing + expansion)
+  - type: cron
+    name: probate-slice-b
+    runtime: node
+    plan: starter
+    schedule: "23 18 * * *"
+    buildCommand: cd runner && npm ci
+    startCommand: node runner/run.mjs b
+    envVars:
+      - key: MODEL
+        value: sonnet
+      - {key: PIPELINE_REPO, value: emporiumtrading/probate-pipeline}
+      - {key: STORE_REPO, value: emporiumtrading/probate-dashboard-store}
+      - {key: STORE_BRANCH, value: dashboard-store}
+      - {key: GITHUB_TOKEN, sync: false}
+      - {key: CLAUDE_CODE_OAUTH_TOKEN, sync: false}
+      - {key: RESEND_API_KEY, sync: false}
+
+  # Daily slice C — 5:41 PM CT -> 23:41 UTC (evening: maintenance + day report)
+  - type: cron
+    name: probate-slice-c
+    runtime: node
+    plan: starter
+    schedule: "41 23 * * *"
+    buildCommand: cd runner && npm ci
+    startCommand: node runner/run.mjs c
+    envVars:
+      - key: MODEL
+        value: opus
+      - {key: PIPELINE_REPO, value: emporiumtrading/probate-pipeline}
+      - {key: STORE_REPO, value: emporiumtrading/probate-dashboard-store}
+      - {key: STORE_BRANCH, value: dashboard-store}
+      - {key: GITHUB_TOKEN, sync: false}
+      - {key: CLAUDE_CODE_OAUTH_TOKEN, sync: false}
+      - {key: RESEND_API_KEY, sync: false}
+
+  # Fast desk — 8:47,10:47,14:47,16:47,19:47 CT -> 14:47,16:47,20:47,22:47,1:47 UTC
+  - type: cron
+    name: probate-fast-desk
+    runtime: node
+    plan: starter
+    schedule: "47 1,14,16,20,22 * * *"
+    buildCommand: cd runner && npm ci
+    startCommand: node runner/run.mjs fast-desk
+    envVars:
+      - key: MODEL
+        value: sonnet
+      - {key: PIPELINE_REPO, value: emporiumtrading/probate-pipeline}
+      - {key: STORE_REPO, value: emporiumtrading/probate-dashboard-store}
+      - {key: STORE_BRANCH, value: dashboard-store}
+      - {key: GITHUB_TOKEN, sync: false}
+      - {key: CLAUDE_CODE_OAUTH_TOKEN, sync: false}
+      - {key: RESEND_API_KEY, sync: false}
