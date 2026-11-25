@@ -55,6 +55,8 @@ const ghApi = async (p) => {
 fs.rmSync(WORK, { recursive: true, force: true });
 let r = spawnSync('git', ['clone', '--quiet', `https://x-access-token:${TOKEN}@github.com/${PIPELINE_REPO}.git`, WORK], { stdio: 'inherit' });
 if (r.status !== 0) { console.error('clone failed'); process.exit(1); }
+git(['config', 'user.name', 'Pipeline runner']);
+git(['config', 'user.email', 'runner@probate-pipeline.local']);
 
 // Commits inside the run identify themselves without touching global config.
 const agentEnv = {

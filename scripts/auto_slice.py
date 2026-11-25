@@ -446,9 +446,9 @@ def main():
             tr = list(csv.DictReader(open(TRACKER)))
             opps = [r for r in tr if r.get("stage") not in ("Dead", "Paid")]
             waiting = sum(1 for r in tr if r.get("stage") == "Outreach drafted")
-            body.append(f"- **Pipeline:** {len(opps)} active leads; {waiting} letters waiting for your approval. Outreach is drafts only, so nothing was sent.")
+            body.append(f"- **Pipeline:** {len(opps)} active leads; {waiting} letters held until their market has an attorney approval and a working mail channel. Nothing was sent.")
             body.append("- **Not automated in scripted runs:** drafting new letters, negotiation replies, attorney matters (General Legal), Stripe import and the claude.ai dashboard. Those need a Claude session.")
-            facts.append(f"Evening run {TODAY}: {len(opps)} active leads, {waiting} letters waiting for the owner's approval, nothing sent.")
+            facts.append(f"Evening run {TODAY}: {len(opps)} active leads, {waiting} letters held until their market is cleared to send, nothing sent.")
         new = 0
     ok, qa = build_and_qa()
     body.append(f"- **Dashboard data:** {'built and passed checks' if ok else 'CHECKS FAILED'} ({qa}). The web dashboard rebuilds from this push.")
