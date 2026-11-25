@@ -15,6 +15,12 @@ const fs = require('fs');
 const path = require('path');
 const store = require('./store');
 const ai = require('./ai');
+const { Readable } = require('stream');
+
+// Hermes (the orchestrator, service probate-hermes): the dashboard's chat is proxied to its
+// OpenAI-compatible API so its key never reaches the browser.
+const HERMES_URL = (process.env.HERMES_URL || '').replace(/\/+$/, '');
+const HERMES_KEY = process.env.HERMES_API_KEY || '';
 const preflight = require('./preflight');
 const db = require('./db');
 
@@ -87,7 +93,7 @@ const page = () => {
     `<script>window.__PP_USER=${JSON.stringify(USER)};</script></head><body>` +
     '<div class="ei-bar"><span class="ei-brand">Emporium Investments</span><a class="ei-out" href="/logout">Sign out</a></div>';
   const injected = html.replace('<script src="app.js">',
-    '<script src="/vendor/d3.min.js"></script><script src="/dash-runtime.js"></script><script src="/ai-settings.js" defer></script><script src="/autonomy-ui.js" defer></script><script src="/ops-ui.js" defer></script><script src="/data-ui.js" defer></script><script src="app.js">');
+    '<script src="/vendor/d3.min.js"></script><script src="/dash-runtime.js"></script><script src="/ai-settings.js" defer></script><script src="/autonomy-ui.js" defer></script><script src="/ops-ui.js" defer></script><script src="/data-ui.js" defer></script><script src="/hermes-ui.js" defer></script><script src="app.js">');
   return head + injected + '</body></html>';
 };
 
@@ -128,7 +134,7 @@ const server = http.createServer(async (req, res) => {
 
   try {
     if (p === '/' || p === '/index.html') return send(res, 200, page(), MIME['.html']);
-    if (p === '/dash-runtime.js' || p === '/theme.css' || p === '/ai-settings.js' || p === '/autonomy-ui.js' || p === '/ops-ui.js' || p === '/data-ui.js') return safe(res, __dirname, p.slice(1));
+    if (p === '/dash-runtime.js' || p === '/theme.css' || p === '/ai-settings.js' || p === '/autonomy-ui.js' || p === '/ops-ui.js' || p === '/data-ui.js' || p === '/hermes-ui.js') return safe(res, __dirname, p.slice(1));
     if (p.startsWith('/vendor/')) return safe(res, __dirname, p.slice(1));
     if (p.startsWith('/data/')) {
       // Live from the database (the latest checked run); the files built at deploy are the fallback.
@@ -142,6 +148,38 @@ const server = http.createServer(async (req, res) => {
       }
       return safe(res, DATA, name);
     }
+    // Hermes chat: status, and a streaming proxy to Hermes's /v1/chat/completions.
+    if (p === '/api/hermes/status' && req.method === 'GET') {
+      if (!HERMES_URL || !HERMES_KEY) return send(res, 200, JSON.stringify({ ok: false, reason: 'Hermes isn\'t connected to the dashboard yet' }), MIME['.json']);
+      try {
+        const r = await fetch(`${HERMES_URL}/health/detailed`, { headers: { Authorization: `Bearer ${HERMES_KEY}` }, signal: AbortSignal.timeout(20000) });
+        const j = await r.json().catch(() => ({}));
+        return send(res, 200, JSON.stringify(r.ok ? { ok: true, detail: j } : { ok: false, reason: `Hermes answered ${r.status} (it may still be starting)` }), MIME['.json']);
+      } catch (e) { return send(res, 200, JSON.stringify({ ok: false, reason: 'Hermes is starting or asleep; try again in a minute' }), MIME['.json']); }
+    }
+    if (p === '/api/hermes/chat' && req.method === 'POST') {
+      if (!String(req.headers['content-type'] || '').startsWith('application/json')) return send(res, 415, 'json only');
+      if (!HERMES_URL || !HERMES_KEY) return send(res, 503, 'Hermes isn\'t connected to the dashboard yet');
+      const body = await readBody(req);
+      const messages = (Array.isArray(body.messages) ? body.messages : []).slice(-40)
+        .filter((m) => m && ['user', 'assistant'].includes(m.role) && typeof m.content === 'string')
+        .map((m) => ({ role: m.role, content: m.content.slice(0, 20000) }));
+      if (!messages.length || messages[messages.length - 1].role !== 'user') return send(res, 400, 'bad body');
+      const session = String(body.session || 'owner').replace(/[^\w.-]/g, '').slice(0, 64) || 'owner';
+      const ac = new AbortController();
+      res.on('close', () => { if (!res.writableEnded) ac.abort(); });
+      let up;
+      try {
+        up = await fetch(`${HERMES_URL}/v1/chat/completions`, { method: 'POST', signal: ac.signal,
+          headers: { Authorization: `Bearer ${HERMES_KEY}`, 'Content-Type': 'application/json', 'X-Hermes-Session-Id': `dashboard-${session}` },
+          body: JSON.stringify({ model: 'hermes', stream: true, messages }) });
+      } catch (e) { return send(res, 502, 'Hermes is starting or unreachable; try again in a minute'); }
+      if (!up.ok || !up.body) return send(res, 502, `Hermes answered ${up.status}`);
+      res.writeHead(200, { 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-store', 'X-Accel-Buffering': 'no', ...SEC_HEADERS });
+      Readable.fromWeb(up.body).on('error', () => res.end()).pipe(res);
+      return;
+    }
+
     // Data page: read-only browse of the database (web/db.js → browse).
     if (p.startsWith('/api/dbview/') && req.method === 'GET') {
       const fn = Object.prototype.hasOwnProperty.call(db.browse, p.slice(12)) ? db.browse[p.slice(12)] : null;

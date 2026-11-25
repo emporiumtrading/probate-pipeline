@@ -11,7 +11,8 @@
 
 const RENDER = 'https://api.render.com/v1';
 const RENDER_KEY = process.env.RENDER_API_KEY || '';
-const NAMES = (process.env.RUNNER_SERVICES || 'probate-slice-a,probate-slice-b,probate-slice-c,probate-fast-desk')
+// The runner jobs and Hermes (the orchestrator) all get the keys saved on the Setup page.
+const NAMES = (process.env.RUNNER_SERVICES || 'probate-slice-a,probate-slice-b,probate-slice-c,probate-fast-desk,probate-hermes')
   .split(',').map((s) => s.trim()).filter(Boolean);
 
 const KEYS = {
@@ -83,6 +84,23 @@ const shareRenderKey = async (svcs) => {
       if (!cur || cur.envVar.value !== url) { await render('PUT', `/services/${s.id}/env-vars/DATABASE_URL`, { value: url }); changed = true; }
     }
   }
+  // Hermes works on the repo with the runner jobs' GitHub token, and needs any key saved before it
+  // existed; copy them from the morning job. Its memory needs a persistent disk at /opt/data.
+  const hermes = svcs.find((s) => s.name === 'probate-hermes');
+  const ref = svcs.find((s) => s.name === 'probate-slice-a');
+  if (hermes && ref) {
+    const have = Object.fromEntries(((await render('GET', `/services/${ref.id}/env-vars?limit=100`)) || []).map((x) => [x.envVar.key, x.envVar.value]));
+    const mine = Object.fromEntries(((await render('GET', `/services/${hermes.id}/env-vars?limit=100`)) || []).map((x) => [x.envVar.key, x.envVar.value]));
+    for (const k of ['GITHUB_TOKEN', ...Object.keys(KEYS)]) {
+      if (have[k] && mine[k] !== have[k]) { await render('PUT', `/services/${hermes.id}/env-vars/${k}`, { value: have[k] }); changed = true; }
+    }
+    const svc = await render('GET', `/services/${hermes.id}`);
+    if (svc && !(svc.serviceDetails && svc.serviceDetails.disk)) {
+      await render('POST', '/disks', { name: 'hermes-data', serviceId: hermes.id, mountPath: '/opt/data', sizeGB: 1 });
+      console.log('hermes: persistent disk added at /opt/data');
+      changed = true;
+    }
+  }
   if (changed) await redeploy(svcs);   // so the jobs pick the new settings up
   // The dashboard reads its data live from the same database (web/db.js): set the address here too,
   // and restart once to load it. After the restart the address matches, so this doesn't repeat.
@@ -104,7 +122,7 @@ const status = async () => {
   if (!RENDER_KEY) return { renderReady: false, services: [], keys: Object.fromEntries(Object.entries(KEYS).map(([k, d]) => [k, { label: d.label, service: !!d.service, set: false, last4: '' }])) };
   const svcs = await runnerServices();
   await shareRenderKey(svcs).catch((e) => console.log('render key share failed:', e.message));
-  const vars = await render('GET', `/services/${svcs[0].id}/env-vars?limit=100`);
+  const vars = await render('GET', `/services/${(svcs.find((s) => s.name === 'probate-slice-a') || svcs[0]).id}/env-vars?limit=100`);
   const have = Object.fromEntries((vars || []).map((x) => [x.envVar.key, x.envVar.value || '']));
   return { renderReady: true, services: svcs.map((s) => s.name),
     keys: Object.fromEntries(Object.entries(KEYS).map(([k, d]) => [k, { label: d.label, service: !!d.service, set: !!have[k], last4: have[k] ? have[k].slice(-4) : '' }])) };

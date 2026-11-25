@@ -143,6 +143,34 @@ const runProc = (cmd, args, env, minutes) => new Promise((resolve) => {
 });
 const ACCOUNT = /credit balance|billing|insufficient|quota|invalid.{0,20}(api.?key|x-api-key)|authentication|unauthori[sz]ed|permission denied|rate.?limit|overloaded|api errors: 40[1-3]|api errors: 429/i;
 
+const undoCommits = (base, author, paths, label) => {
+  const shas = spawnSync('git', ['log', '--format=%H', `--author=${author}`, `${base}..HEAD`, '--', ...paths], { cwd: WORK, encoding: 'utf8' }).stdout.trim().split('\n').filter(Boolean);
+  if (!shas.length) return '';
+  const files = new Set();
+  for (const c of shas) {       // newest first, so each reverse patch applies cleanly
+    const diff = spawnSync('git', ['diff', `${c}^`, c, '--', ...paths], { cwd: WORK, encoding: 'utf8' }).stdout;
+    spawnSync('git', ['diff', '--name-only', `${c}^`, c, '--', ...paths], { cwd: WORK, encoding: 'utf8' }).stdout.trim().split('\n').forEach((f) => f && files.add(f));
+    spawnSync('git', ['apply', '-R', '--3way'], { cwd: WORK, input: diff, encoding: 'utf8' });
+  }
+  git(['add', '-A', '--', ...files]);
+  git(['commit', '-q', '-m', `Runner: undo ${label}'s changes to protected files`]);
+  return `undid ${label}'s changes to protected files: ${[...files].join(', ')}`;
+};
+// Hermes (the orchestrator, hermes/) may change code and worker instructions, but never the guardrails.
+// Every run audits Hermes's commits since the last audit and undoes any change to these files.
+const HERMES_PROTECTED = ['scripts/qa_checks.py', 'scripts/guardrails.sha256', 'scripts/check_page.py', 'scripts/sign_check.py', 'scripts/reserve.py',
+  'runner/run.mjs', 'hermes', '.claude/skills/probate-wholesale-deal/references/self-repair.md', '.claude/skills/probate-wholesale-deal/references/full-autonomy.md'];
+{
+  const mark = path.join(WORK, 'pipeline', 'hermes-audit.txt');
+  const last = fs.existsSync(mark) ? fs.readFileSync(mark, 'utf8').trim() : '';
+  const known = last && spawnSync('git', ['cat-file', '-e', `${last}^{commit}`], { cwd: WORK }).status === 0;
+  const h = known ? undoCommits(last, 'Hermes', HERMES_PROTECTED, 'Hermes') : '';
+  if (h) console.log(h);
+  fs.writeFileSync(mark, spawnSync('git', ['rev-parse', 'HEAD'], { cwd: WORK, encoding: 'utf8' }).stdout.trim() + '\n');
+  git(['add', 'pipeline/hermes-audit.txt']);
+  if (spawnSync('git', ['diff', '--cached', '--quiet'], { cwd: WORK }).status !== 0) git(['commit', '-q', '-m', 'Runner: Hermes audit mark']);
+}
+
 const startSha = spawnSync('git', ['rev-parse', 'HEAD'], { cwd: WORK, encoding: 'utf8' }).stdout.trim();
 const PROTECTED = ['scripts/qa_checks.py', 'scripts/guardrails.sha256', 'scripts/check_page.py', 'scripts/sign_check.py', 'scripts/reserve.py', 'runner', 'render.yaml', 'CLAUDE.md',
   '.claude/skills/probate-wholesale-deal/references/daily-run.md', '.claude/skills/probate-wholesale-deal/agents',
@@ -155,19 +183,9 @@ const commitAs = (label) => {
 };
 // Undo changes this run's own commits made to protected files (other people's commits
 // pulled in during the run are left alone). That counts against the attempt.
-const guard = () => {
-  const shas = spawnSync('git', ['log', '--format=%H', '--author=Pipeline runner', `${startSha}..HEAD`, '--', ...PROTECTED], { cwd: WORK, encoding: 'utf8' }).stdout.trim().split('\n').filter(Boolean);
-  if (!shas.length) return '';
-  const files = new Set();
-  for (const c of shas) {       // newest first, so each reverse patch applies cleanly
-    const diff = spawnSync('git', ['diff', `${c}^`, c, '--', ...PROTECTED], { cwd: WORK, encoding: 'utf8' }).stdout;
-    spawnSync('git', ['diff', '--name-only', `${c}^`, c, '--', ...PROTECTED], { cwd: WORK, encoding: 'utf8' }).stdout.trim().split('\n').forEach((f) => f && files.add(f));
-    spawnSync('git', ['apply', '-R', '--3way'], { cwd: WORK, input: diff, encoding: 'utf8' });
-  }
-  git(['add', '-A', '--', ...files]);
-  git(['commit', '-q', '-m', `Runner: undo slice ${SLICE}'s changes to protected files`]);
-  return `undid changes to protected files: ${[...files].join(', ')}`;
-};
+const guard = () => undoCommits(startSha, 'Pipeline runner', PROTECTED, `slice ${SLICE}`);
+
+
 // The run's result must build and pass the QA checks (numbers, privacy, compliance, guardrails).
 const verify = () => {
   const dir = path.join(WORK, '..', 'verify-data');

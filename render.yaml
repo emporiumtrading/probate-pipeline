@@ -47,6 +47,31 @@ services:
         generateValue: true
       - key: RENDER_API_KEY
         sync: false
+      - {key: HERMES_URL, value: "https://probate-hermes.onrender.com"}
+      - {key: HERMES_API_KEY, sync: false}
+
+  # Hermes (Nous Research Hermes Agent): the orchestrator the owner chats with on the dashboard
+  # (owner decision 2026-11-25: full operator inside the guardrails). Disk added by the dashboard.
+  - type: web
+    name: probate-hermes
+    runtime: docker
+    plan: starter
+    dockerfilePath: ./hermes/Dockerfile
+    dockerContext: .
+    healthCheckPath: /health
+    envVars:
+      - {key: API_SERVER_ENABLED, value: "true"}
+      - {key: API_SERVER_HOST, value: 0.0.0.0}
+      - {key: API_SERVER_PORT, value: "8642"}
+      - {key: PORT, value: "8642"}
+      - {key: API_SERVER_KEY, sync: false}      # same value as HERMES_API_KEY on probate-dashboard
+      - {key: PIPELINE_REPO, value: emporiumtrading/probate-pipeline}
+      - {key: GITHUB_TOKEN, sync: false}        # copied by the dashboard from the runner jobs
+      - {key: RENDER_API_KEY, sync: false}      # copied by the dashboard
+      - {key: DATABASE_URL, sync: false}        # copied by the dashboard
+      - {key: ANTHROPIC_API_KEY, sync: false}   # saved from the Setup page
+      - {key: NVIDIA_API_KEY, sync: false}
+      - {key: OPENROUTER_API_KEY, sync: false}
 
   # Daily slice A — 5:39 AM CT -> 11:39 UTC (morning: sourcing + deep-dives)
   - type: cron
