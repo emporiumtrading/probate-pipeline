@@ -58,6 +58,7 @@ services:
       - {key: NVIDIA_API_KEY, sync: false}
       - {key: OPENROUTER_API_KEY, sync: false}
       - {key: RESEND_API_KEY, sync: false}
+      - {key: RENDER_API_KEY, sync: false}   # copied here by the dashboard; used to deploy after each run
 
   # Daily slice B — 12:23 PM CT -> 18:23 UTC (midday: sourcing + expansion)
   - type: cron
@@ -77,6 +78,7 @@ services:
       - {key: NVIDIA_API_KEY, sync: false}
       - {key: OPENROUTER_API_KEY, sync: false}
       - {key: RESEND_API_KEY, sync: false}
+      - {key: RENDER_API_KEY, sync: false}   # copied here by the dashboard; used to deploy after each run
 
   # Daily slice C — 5:41 PM CT -> 23:41 UTC (evening: maintenance + day report)
   - type: cron
@@ -96,6 +98,7 @@ services:
       - {key: NVIDIA_API_KEY, sync: false}
       - {key: OPENROUTER_API_KEY, sync: false}
       - {key: RESEND_API_KEY, sync: false}
+      - {key: RENDER_API_KEY, sync: false}   # copied here by the dashboard; used to deploy after each run
 
   # Fast desk — 8:47,10:47,14:47,16:47,19:47 CT -> 14:47,16:47,20:47,22:47,1:47 UTC
   - type: cron
@@ -115,3 +118,4 @@ services:
       - {key: NVIDIA_API_KEY, sync: false}
       - {key: OPENROUTER_API_KEY, sync: false}
       - {key: RESEND_API_KEY, sync: false}
+      - {key: RENDER_API_KEY, sync: false}   # copied here by the dashboard; used to deploy after each run

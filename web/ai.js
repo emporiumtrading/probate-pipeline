@@ -48,9 +48,23 @@ const runnerServices = async () => {
   return services;
 };
 
+// The runner jobs need the Render key too: after each run they deploy what changed
+// (runner/deploy.mjs), since Render's deploy-on-push isn't firing for this repo.
+let keyShared = false;
+const shareRenderKey = async (svcs) => {
+  if (keyShared) return;
+  for (const s of svcs) {
+    const vars = await render('GET', `/services/${s.id}/env-vars?limit=100`);
+    const cur = (vars || []).find((x) => x.envVar.key === 'RENDER_API_KEY');
+    if (!cur || cur.envVar.value !== RENDER_KEY) await render('PUT', `/services/${s.id}/env-vars/RENDER_API_KEY`, { value: RENDER_KEY });
+  }
+  keyShared = true;
+};
+
 const status = async () => {
   if (!RENDER_KEY) return { renderReady: false, services: [], keys: Object.fromEntries(Object.entries(KEYS).map(([k, d]) => [k, { label: d.label, set: false, last4: '' }])) };
   const svcs = await runnerServices();
+  await shareRenderKey(svcs).catch((e) => console.log('render key share failed:', e.message));
   const vars = await render('GET', `/services/${svcs[0].id}/env-vars?limit=100`);
   const have = Object.fromEntries((vars || []).map((x) => [x.envVar.key, x.envVar.value || '']));
   return { renderReady: true, services: svcs.map((s) => s.name),
@@ -77,5 +91,9 @@ const setKey = async (name, value) => {
   await redeploy(svcs);
   return { ok: true, last4: value ? value.slice(-4) : '' };
 };
+
+// On boot, share the key with the runner jobs without waiting for someone to open the page.
+if (RENDER_KEY) runnerServices().then(shareRenderKey).then(() => console.log('render key shared with runner jobs'))
+  .catch((e) => console.log('render key share failed:', e.message));
 
 module.exports = { status, setKey, KEYS };

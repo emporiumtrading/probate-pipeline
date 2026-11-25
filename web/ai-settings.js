@@ -33,16 +33,14 @@
     msgEl.textContent = r.ok ? 'Saved. The next run uses it.' : `Not saved (${r.status}).`;
   };
 
-  const modelPicker = (eng, which, msgEl) => {
-    const cur = (settings[eng.id] && settings[eng.id][which]) || eng.defaults[which];
-    const listId = `ai-${eng.id}-${which}`;
-    const inp = h('input', { list: listId, value: cur, 'aria-label': `${eng.name} model for ${which === 'mainRuns' ? 'main runs' : 'fast desk'}`, style: 'min-width:16rem' });
-    const dl = h('datalist', { id: listId }, ...eng.models.map(([v, l]) => h('option', { value: v, label: l })));
-    inp.addEventListener('change', () => {
-      settings[eng.id] = { ...(settings[eng.id] || {}), [which]: inp.value.trim() || eng.defaults[which] };
-      saveSettings(msgEl);
-    });
-    return h('label', { style: 'display:block;margin:4px 0' }, h('span', { text: which === 'mainRuns' ? 'Main runs (A, B, C): ' : 'Fast desk: ' }), inp, dl);
+  const capPicker = (msgEl) => {
+    const sel = h('select', { 'aria-label': 'Strongest Claude model allowed' },
+      ...[['claude-haiku-5-5', 'Haiku 5.5 only (cheapest)'], ['claude-sonnet-5-5', 'Up to Sonnet 5.5 (recommended)'], ['claude-opus-5-5', 'Up to Opus 5.5 (most expensive)']]
+        .map(([v, l]) => h('option', { value: v, text: l })));
+    sel.value = settings.claudeMax || 'claude-sonnet-5-5';
+    sel.addEventListener('change', () => { settings.claudeMax = sel.value; saveSettings(msgEl); });
+    return h('div', {}, h('p', { class: 'pp-sub', text: 'Models are picked automatically: each run measures the work waiting and starts with Haiku for routine work or Sonnet for deep-dives, negotiation and repairs, and moves up a model if an attempt fails or its result fails the checks. Nothing waiting: no AI is used at all.' }),
+      h('label', {}, h('span', { text: 'Strongest Claude model allowed: ' }), sel));
   };
 
   const keyRow = (eng, st, msgEl, refresh) => {
@@ -71,7 +69,7 @@
     settings = (doc.ok && doc.j) || {};
     card.replaceChildren();
     card.append(h('h2', { text: 'AI engines for the scheduled runs' }),
-      h('p', { class: 'pp-sub', text: 'Every run tries the engines in this order and moves to the next if one fails or runs out: Claude, then NVIDIA, then OpenRouter, then the built-in scripted run (no AI). Each AI engine can run the whole job. Keys are checked with the provider, then saved only on the runner jobs in Render; this page never shows them again.' }));
+      h('p', { class: 'pp-sub', text: 'Every run tries the engines in this order and moves to the next if one fails or runs out: Claude, then NVIDIA, then OpenRouter, then the built-in scripted run (no AI). Each AI engine can run the whole job. Every result must pass the pipeline checks; a run that fails is repaired automatically by the next one, and no run can change the guardrails (hard limits, autonomy). Keys are checked with the provider, then saved only on the runner jobs in Render; this page never shows them again.' }));
     if (!st.ok) { card.append(h('p', { class: 'pp-sub', text: `Couldn't load the AI settings (${st.status}).` })); return; }
     if (!st.j.renderReady) card.append(h('p', { class: 'pp-sub', role: 'alert', text: 'One-time step: add RENDER_API_KEY (Render → Account settings → API keys) to the probate-dashboard service\'s Environment in Render. Until then, keys can\'t be saved from here.' }));
     const on = settings.engines || ['claude', 'nvidia', 'openrouter', 'scripted'];
@@ -89,7 +87,8 @@
         h('h3', {}, h('label', {}, toggle, document.createTextNode(` ${eng.name}`))),
         h('p', { class: 'pp-sub', text: eng.note }),
         keyRow(eng, st.j, msg, () => render(card)),
-        modelPicker(eng, 'mainRuns', msg), modelPicker(eng, 'fastDesk', msg), msg));
+        eng.id === 'claude' ? capPicker(msg) : h('p', { class: 'pp-sub', text: `Models, picked automatically from cheapest up: ${eng.models.map((m) => m[1]).join(' → ')}.` }),
+        msg));
     }
     card.append(h('p', { class: 'pp-sub', text: 'Last resort: the scripted run always stays on, so a run still happens with no AI at all.' }));
   };

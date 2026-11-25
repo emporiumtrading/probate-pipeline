@@ -23,7 +23,8 @@
 import { spawnSync, spawn } from 'node:child_process';
 import fs from 'node:fs';
 import path from 'node:path';
-import { runAgent, PROVIDERS } from './agent.mjs';
+import { runAgent } from './agent.mjs';
+import { syncDeploys } from './deploy.mjs';
 
 const SLICE = process.argv[2] || 'a';
 const PIPELINE_REPO = process.env.PIPELINE_REPO || 'emporiumtrading/probate-pipeline';
@@ -86,64 +87,151 @@ const counts = {
 console.log('store import docs:', JSON.stringify(counts));
 
 /* ---------- 3. run the slice ---------- */
+// Dynamic: measure the waiting work, pick the starting model from that, climb a
+// cheap-to-strong ladder when an attempt fails or its result fails the checks,
+// then move to the next engine. The owner's AI settings (dashboard) can switch an
+// engine off or cap the strongest Claude model; everything else is automatic.
 const aiDoc = Object.entries(storeDocs).find(([p]) => p.endsWith('/settings/ai'));
 const AI = (aiDoc && aiDoc[1]) || {};
 const FAST = SLICE === 'fast-desk';
 const ENGINES_ALL = ['claude', 'nvidia', 'openrouter', 'scripted'];
-let order = Array.isArray(AI.engines) && AI.engines.length ? AI.engines.filter((e) => ENGINES_ALL.includes(e))
-  : (process.env.ENGINE && !['auto', 'scripted'].includes(process.env.ENGINE) ? [process.env.ENGINE] : ENGINES_ALL.slice());
-if (!order.includes('scripted')) order.push('scripted');            // the no-AI run is always the last resort
-const pick = (o, fallback) => (o && (FAST ? o.fastDesk : o.mainRuns)) || fallback;
-const claudeModel = pick(AI.claude, process.env.CLAUDE_MODEL || (FAST ? 'claude-haiku-5-5' : 'claude-sonnet-5-5'));
-const agentModel = (prov) => pick(AI[prov], process.env[`${prov.toUpperCase()}_MODEL`] || PROVIDERS[prov].defaultModel);
-const budget = { claude: +(process.env.MAX_MINUTES || (FAST ? 30 : 110)), agent: +(process.env.AGENT_MINUTES || (FAST ? 30 : 90)), scripted: FAST ? 10 : 30 };
+const order = (Array.isArray(AI.engines) && AI.engines.length ? AI.engines.filter((e) => ENGINES_ALL.includes(e)) : ENGINES_ALL.slice())
+  .concat(['scripted']).filter((e, i, a) => a.indexOf(e) === i);
+
+const wl = JSON.parse(spawnSync('python3', ['runner/workload.py', SLICE], { cwd: WORK, encoding: 'utf8' }).stdout || '{"level":"light"}');
+console.log('workload:', JSON.stringify(wl));
+
+const CLAUDE_LADDER = ['claude-haiku-5-5', 'claude-sonnet-5-5', 'claude-opus-5-5'];
+const capAt = CLAUDE_LADDER.indexOf(AI.claudeMax || 'claude-sonnet-5-5');
+const LADDERS = {
+  claude: CLAUDE_LADDER.slice(0, capAt < 0 ? 2 : capAt + 1),
+  nvidia: AI.nvidiaModels || ['meta/llama-3.3-70b-instruct', 'qwen/qwen3-coder-480b-a35b-instruct', 'deepseek-ai/deepseek-v3.1', 'openai/gpt-oss-120b'],
+  openrouter: AI.openrouterModels || ['meta-llama/llama-3.3-70b-instruct:free', 'qwen/qwen3-coder:free', 'deepseek/deepseek-chat-v3.1:free'],
+};
+const startAt = (eng) => Math.min(wl.level === 'heavy' ? 1 : 0, LADDERS[eng].length - 1);
+const budget = { claude: +(process.env.MAX_MINUTES || (FAST ? 40 : 120)), agent: +(process.env.AGENT_MINUTES || (FAST ? 40 : 100)), scripted: FAST ? 10 : 30 };
 const hasKey = { claude: !!(process.env.ANTHROPIC_API_KEY || process.env.CLAUDE_CODE_OAUTH_TOKEN),
   nvidia: !!process.env.NVIDIA_API_KEY, openrouter: !!process.env.OPENROUTER_API_KEY, scripted: true };
-// Agents get no provider keys in their shell; the scripted run keeps them for its summaries.
-const noKeys = { ...agentEnv }; delete noKeys.NVIDIA_API_KEY; delete noKeys.OPENROUTER_API_KEY; delete noKeys.ANTHROPIC_API_KEY; delete noKeys.CLAUDE_CODE_OAUTH_TOKEN;
+// Engines never see the Render key; the backup agents' shells get no AI keys either.
+const engineEnv = { ...agentEnv }; delete engineEnv.RENDER_API_KEY;
+const shellEnv = { ...engineEnv }; for (const k of ['NVIDIA_API_KEY', 'OPENROUTER_API_KEY', 'ANTHROPIC_API_KEY', 'CLAUDE_CODE_OAUTH_TOKEN']) delete shellEnv[k];
 
 const promptPath = path.join(WORK, 'runner', 'prompts', `${SLICE}.md`);
 if (!fs.existsSync(promptPath)) { console.error(`no prompt for slice '${SLICE}' (${promptPath})`); process.exit(1); }
-const prompt = fs.readFileSync(promptPath, 'utf8');
+const basePrompt = fs.readFileSync(promptPath, 'utf8');
+const REPAIR = 'Before the job below: self-repair. Follow .claude/skills/probate-wholesale-deal/references/self-repair.md (at most 25 minutes), then do the job.\n\n';
 const CLAUDE_BIN = path.join(path.dirname(new URL(import.meta.url).pathname), 'node_modules', '.bin', 'claude');
 
+// Run a process, mirror its output, and keep the tail for diagnosis.
 const runProc = (cmd, args, env, minutes) => new Promise((resolve) => {
-  const child = spawn(cmd, args, { cwd: WORK, env, stdio: 'inherit' });
-  const kill = setTimeout(() => { console.error(`timeout after ${minutes}m, stopping`); child.kill('SIGTERM'); }, minutes * 60000);
-  child.on('close', (c) => { clearTimeout(kill); resolve(c); });
+  const child = spawn(cmd, args, { cwd: WORK, env });
+  let tail = '';
+  const take = (d, out) => { out.write(d); tail = (tail + d).slice(-20000); };
+  child.stdout.on('data', (d) => take(d, process.stdout)); child.stderr.on('data', (d) => take(d, process.stderr));
+  const kill = setTimeout(() => { tail += `\n[timeout after ${minutes}m]`; child.kill('SIGTERM'); }, minutes * 60000);
+  child.on('close', (c) => { clearTimeout(kill); resolve({ code: c, tail }); });
 });
-// After an engine fails, drop its uncommitted half-work (its commits stay) before the next one starts.
+const ACCOUNT = /credit balance|billing|insufficient|quota|invalid.{0,20}(api.?key|x-api-key)|authentication|unauthori[sz]ed|permission denied|rate.?limit|overloaded|api errors: 40[1-3]|api errors: 429/i;
+
+const startSha = spawnSync('git', ['rev-parse', 'HEAD'], { cwd: WORK, encoding: 'utf8' }).stdout.trim();
+const PROTECTED = ['scripts/qa_checks.py', 'scripts/guardrails.sha256', 'scripts/check_page.py', 'runner', 'render.yaml', 'CLAUDE.md',
+  '.claude/skills/probate-wholesale-deal/references/daily-run.md', '.claude/skills/probate-wholesale-deal/agents'];
 const tidy = () => { git(['checkout', '--', '.', ':!store']); git(['clean', '-fdq', '-e', 'store']); };
 const commitAs = (label) => {
   git(['add', '-A']);
   const d = spawnSync('git', ['status', '--porcelain'], { cwd: WORK, encoding: 'utf8' });
   if (d.stdout.trim()) git(['commit', '-q', '-m', `Scheduled run ${new Date().toISOString().slice(0, 10)} slice ${SLICE} (${label})`]);
 };
-
-let code = 1, used = 'none';
-const tried = [];
-for (const eng of order) {
-  if (!hasKey[eng]) { tried.push(`${eng}: no key`); continue; }
-  const t0 = Date.now();
-  if (eng === 'claude') {
-    console.log(`--- slice ${SLICE} | claude ${claudeModel} | ${new Date().toISOString()} ---`);
-    const c = await runProc(CLAUDE_BIN, ['-p', prompt, '--model', claudeModel, '--dangerously-skip-permissions', '--verbose'], agentEnv, budget.claude);
-    if (c === 0) { code = 0; used = `claude ${claudeModel}`; commitAs(used); break; }
-    tried.push(`claude ${claudeModel}: exit ${c}`); tidy();
-  } else if (eng === 'nvidia' || eng === 'openrouter') {
-    const model = agentModel(eng);
-    console.log(`--- slice ${SLICE} | ${eng} ${model} | ${new Date().toISOString()} ---`);
-    const r = await runAgent({ provider: eng, model, prompt, cwd: WORK, env: noKeys, minutes: budget.agent });
-    if (r.ok) { code = 0; used = `${eng} ${model}`; commitAs(used); break; }
-    tried.push(`${eng} ${model}: ${r.reason}`); tidy();
-  } else {
-    console.log(`--- slice ${SLICE} | scripted engine | ${new Date().toISOString()} ---`);
-    code = await runProc('python3', ['scripts/auto_slice.py', SLICE], agentEnv, budget.scripted);
-    used = 'scripted'; commitAs('scripted'); break;
+// Undo changes this run's own commits made to protected files (other people's commits
+// pulled in during the run are left alone). That counts against the attempt.
+const guard = () => {
+  const shas = spawnSync('git', ['log', '--format=%H', '--author=Pipeline runner', `${startSha}..HEAD`, '--', ...PROTECTED], { cwd: WORK, encoding: 'utf8' }).stdout.trim().split('\n').filter(Boolean);
+  if (!shas.length) return '';
+  const files = new Set();
+  for (const c of shas) {       // newest first, so each reverse patch applies cleanly
+    const diff = spawnSync('git', ['diff', `${c}^`, c, '--', ...PROTECTED], { cwd: WORK, encoding: 'utf8' }).stdout;
+    spawnSync('git', ['diff', '--name-only', `${c}^`, c, '--', ...PROTECTED], { cwd: WORK, encoding: 'utf8' }).stdout.trim().split('\n').forEach((f) => f && files.add(f));
+    spawnSync('git', ['apply', '-R', '--3way'], { cwd: WORK, input: diff, encoding: 'utf8' });
   }
-  console.log(`--- ${eng} did not finish after ${Math.round((Date.now() - t0) / 60000)}m; trying the next engine ---`);
+  git(['add', '-A', '--', ...files]);
+  git(['commit', '-q', '-m', `Runner: undo slice ${SLICE}'s changes to protected files`]);
+  return `undid changes to protected files: ${[...files].join(', ')}`;
+};
+// The run's result must build and pass the QA checks (numbers, privacy, compliance, guardrails).
+const verify = () => {
+  const dir = path.join(WORK, '..', 'verify-data');
+  fs.rmSync(dir, { recursive: true, force: true });
+  const b = spawnSync('python3', ['scripts/build_dashboard_data.py', dir], { cwd: WORK, encoding: 'utf8' });
+  const q = b.status === 0 ? spawnSync('python3', ['scripts/qa_checks.py', dir], { cwd: WORK, encoding: 'utf8' }) : b;
+  return { ok: q.status === 0, out: ((q.stdout || '') + (q.stderr || '')).split('\n').filter((l) => /FAIL|Error|QA:/.test(l)).slice(-15).join('\n') };
+};
+// Failure tails are kept in memory and written once at the end, so the clean-up
+// between attempts can't delete them.
+const failures = [];
+const saveFailure = (label, text) => failures.push([label, String(text || '').slice(-12000)]);
+const writeFailures = () => {
+  if (!failures.length) return;
+  const dir = path.join(WORK, 'pipeline', 'runner-failures');
+  fs.mkdirSync(dir, { recursive: true });
+  const ts = new Date().toISOString().replace(/[:.]/g, '-');
+  failures.forEach(([label, text], i) => fs.writeFileSync(path.join(dir, `${ts}-${SLICE}-${i + 1}-${label.replace(/[^\w.-]+/g, '_')}.log`), text));
+  const files = fs.readdirSync(dir).sort();
+  for (const f of files.slice(0, Math.max(0, files.length - 40))) fs.rmSync(path.join(dir, f));
+};
+
+let code = 1, used = 'none', verified = 'skip', feedback = '';
+const notes = [];
+engines: for (const eng of order) {
+  if (!hasKey[eng]) { notes.push(`${eng}: no key`); continue; }
+  if (eng !== 'scripted' && wl.level === 'idle') { notes.push('nothing waiting: no AI needed'); continue; }
+  if (eng === 'scripted') {
+    console.log(`--- slice ${SLICE} | scripted engine | ${new Date().toISOString()} ---`);
+    const r = await runProc('python3', ['scripts/auto_slice.py', SLICE], engineEnv, budget.scripted);
+    code = r.code; used = 'scripted'; commitAs('scripted');
+    const g = guard(); if (g) notes.push(g);
+    const v = verify(); verified = v.ok ? 'pass' : 'fail';
+    if (!v.ok) { notes.push('scripted: checks failed'); saveFailure('scripted-verify', v.out); }
+    break;
+  }
+  const deadline = Date.now() + (eng === 'claude' ? budget.claude : budget.agent) * 60000;
+  for (let i = startAt(eng); i < LADDERS[eng].length; i++) {
+    const model = LADDERS[eng][i];
+    const minutes = Math.floor((deadline - Date.now()) / 60000);
+    if (minutes < 5) { notes.push(`${eng}: out of time`); break; }
+    const prompt = (wl.repair ? REPAIR : '') + (feedback ? `The previous attempt's result failed the checks:\n${feedback}\nFix that first, then finish the job.\n\n` : '') + basePrompt;
+    console.log(`--- slice ${SLICE} | ${eng} ${model} | ${wl.level} | ${new Date().toISOString()} ---`);
+    let ok, why, tail = '';
+    if (eng === 'claude') {
+      const r = await runProc(CLAUDE_BIN, ['-p', prompt, '--model', model, '--dangerously-skip-permissions', '--verbose'], engineEnv, minutes);
+      ok = r.code === 0; why = `exit ${r.code}`; tail = r.tail;
+    } else {
+      const r = await runAgent({ provider: eng, model, prompt, cwd: WORK, env: shellEnv, minutes });
+      ok = r.ok; why = r.reason; tail = r.reason;
+    }
+    if (ok) commitAs(`${eng} ${model}`); else tidy();
+    const g = guard(); if (g) { notes.push(`${model}: ${g}`); ok = false; why = g; }
+    if (ok) {
+      const v = verify();
+      if (v.ok) { code = 0; used = `${eng} ${model}`; verified = 'pass'; break engines; }
+      feedback = v.out; why = 'result failed the checks'; tail = v.out;
+    }
+    notes.push(`${eng} ${model}: ${why}`); saveFailure(`${eng}-${model}`, tail);
+    console.log(`--- ${eng} ${model} did not finish cleanly (${why}) ---`);
+    if (ACCOUNT.test(tail)) { notes.push(`${eng}: account, key or limit problem, skipping its other models`); break; }
+  }
 }
-console.log(`--- engine used: ${used}${tried.length ? ' | skipped/failed: ' + tried.join('; ') : ''} ---`);
+console.log(`--- engine used: ${used} | checks: ${verified}${notes.length ? ' | ' + notes.join('; ') : ''} ---`);
+
+// Record the run so the next one can see failures and repair them.
+try { notes.unshift(`board:${JSON.parse(spawnSync('python3', ['runner/workload.py', SLICE], { cwd: WORK, encoding: 'utf8' }).stdout).board}`); } catch { /* no board */ }
+const hp = path.join(WORK, 'pipeline', 'runner-health.csv');
+if (!fs.existsSync(hp)) fs.writeFileSync(hp, 'date,slice,level,engine,result,verify,notes\n');
+const csvq = (v) => `"${String(v).replace(/"/g, "'").replace(/\s+/g, ' ').slice(0, 400)}"`;
+const anyAI = ['claude', 'nvidia', 'openrouter'].some((e) => hasKey[e] && order.includes(e));
+const result = code !== 0 || used === 'none' ? 'fail' : (used === 'scripted' && anyAI && wl.level !== 'idle' ? 'fallback' : 'ok');
+writeFailures();
+fs.appendFileSync(hp, [new Date().toISOString(), SLICE, wl.level, used, result, verified, notes.join('; ')].map(csvq).join(',') + '\n');
+commitAs('run record');
 
 /* ---------- 4. backstop push ---------- */
 git(['add', '-A']);
@@ -151,4 +239,7 @@ const dirty = spawnSync('git', ['status', '--porcelain'], { cwd: WORK, encoding:
 if (dirty.stdout.trim()) git(['commit', '-m', `Runner slice ${SLICE} (uncommitted leftovers)`]);
 git(['pull', '--rebase', 'origin', 'main']);
 git(['push', 'origin', 'HEAD:main']);
+
+/* ---------- 5. deploy what changed (Render's deploy-on-push isn't firing) ---------- */
+try { for (const l of await syncDeploys(WORK)) console.log('deploy:', l); } catch (e) { console.log('deploy: failed', e.message); }
 process.exit(code ?? 0);
