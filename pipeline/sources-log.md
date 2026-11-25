@@ -134,3 +134,6 @@
 | 2026-11-25 | tx-harris | https://www.cclerk.hctx.net/applications/websearch/CourtSearch.aspx?CaseType=Probate | responds | automated re-test |
 | 2026-11-25 | tn-shelby | https://www.probatecourt.shelbycountytn.gov | no response | automated re-test |
 | 2026-11-25 | pa-philadelphia | https://www.phila.gov/departments/register-of-wills/ | responds | automated re-test |
+| 2026-11-25 | tx-harris | https://www.cclerk.hctx.net/applications/websearch/CourtSearch.aspx?CaseType=Probate | responds | automated re-test |
+| 2026-11-25 | tn-shelby | https://www.probatecourt.shelbycountytn.gov | no response | automated re-test |
+| 2026-11-25 | pa-philadelphia | https://www.phila.gov/departments/register-of-wills/ | responds | automated re-test |
