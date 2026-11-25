@@ -90,7 +90,7 @@ markets:
       auditor: https://property.franklincountyauditor.com
       treasurer: https://treasurer.franklincountyohio.gov
       recorder: https://recorder.franklincountyohio.gov
-    last_checked: 2026-11-22
+    last_checked: 2026-11-25
 
   - id: tn-shelby
     county: Shelby
@@ -135,7 +135,7 @@ markets:
     sources:
       probate_filings: https://publicrec.hillsclerk.com/Probate/dailyfilings/   # robots.txt on hillsclerk.com sets Crawl-delay 10 for ClaudeBot: wait >=10s between requests
       parcels: https://maps.hillsboroughcounty.org/arcgis/rest/services/PAO/HC_Properties/MapServer/1
-    last_checked: 2026-11-22
+    last_checked: 2026-11-25
 
 # Market expansion: each run tries the next counties in this queue (see daily-run step 3b).
 expansion_per_run: 6              # queued counties tested per run (was 3); a county goes live only when its docket and parcel sources work
