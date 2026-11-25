@@ -213,13 +213,15 @@ def cmd_sweep(a, rows):
 
 def problems(rows):
     out, ids, W = [], set(), workers()
+    # Retired workers (agents/retired/, scripts/worker_lifecycle.py) keep their past items; they can't receive new ones.
+    W_PAST = W | {os.path.basename(f)[:-3] for f in glob.glob(os.path.join(AGENTS, "retired", "*.md"))}
     for r in rows:
         if r["id"] in ids:
             out.append(f"{r['id']}: duplicate id")
         ids.add(r["id"])
         if r["status"] not in STATUSES or r["kind"] not in KINDS:
             out.append(f"{r['id']}: bad status or kind")
-        if r["from_worker"] not in W:
+        if r["from_worker"] not in W_PAST:
             out.append(f"{r['id']}: from '{r['from_worker']}' is not a worker")
         if r["status"] == "open" and r["to_worker"] not in W:
             out.append(f"{r['id']}: open for '{r['to_worker']}', which has no role file; reassign it")

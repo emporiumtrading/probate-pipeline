@@ -1,0 +1,21 @@
+date,worker,from_status,to_status,reason,evidence
+2026-11-25,acquisitions,,active,existing worker when the lifecycle started (owner decision 2026-11-25),agents/acquisitions.md
+2026-11-25,bookkeeper,,active,existing worker when the lifecycle started (owner decision 2026-11-25),agents/bookkeeper.md
+2026-11-25,buyer-list,,active,existing worker when the lifecycle started (owner decision 2026-11-25),agents/buyer-list.md
+2026-11-25,communications,,active,existing worker when the lifecycle started (owner decision 2026-11-25),agents/communications.md
+2026-11-25,compliance-officer,,active,existing worker when the lifecycle started (owner decision 2026-11-25),agents/compliance-officer.md
+2026-11-25,contact-finder,,active,existing worker when the lifecycle started (owner decision 2026-11-25),agents/contact-finder.md
+2026-11-25,contract-desk,,active,existing worker when the lifecycle started (owner decision 2026-11-25),agents/contract-desk.md
+2026-11-25,deal-analyst,,active,existing worker when the lifecycle started (owner decision 2026-11-25),agents/deal-analyst.md
+2026-11-25,dispositions,,active,existing worker when the lifecycle started (owner decision 2026-11-25),agents/dispositions.md
+2026-11-25,exceptions-desk,,active,existing worker when the lifecycle started (owner decision 2026-11-25),agents/exceptions-desk.md
+2026-11-25,heir-tracer,,active,existing worker when the lifecycle started (owner decision 2026-11-25),agents/heir-tracer.md
+2026-11-25,legal-advisor,,active,existing worker when the lifecycle started (owner decision 2026-11-25),agents/legal-advisor.md
+2026-11-25,negotiator,,active,existing worker when the lifecycle started (owner decision 2026-11-25),agents/negotiator.md
+2026-11-25,professional-network,,active,existing worker when the lifecycle started (owner decision 2026-11-25),agents/professional-network.md
+2026-11-25,quality-auditor,,active,existing worker when the lifecycle started (owner decision 2026-11-25),agents/quality-auditor.md
+2026-11-25,reply-desk,,active,existing worker when the lifecycle started (owner decision 2026-11-25),agents/reply-desk.md
+2026-11-25,researcher,,active,existing worker when the lifecycle started (owner decision 2026-11-25),agents/researcher.md
+2026-11-25,source-mapper,,active,existing worker when the lifecycle started (owner decision 2026-11-25),agents/source-mapper.md
+2026-11-25,tax-lien-checker,,active,existing worker when the lifecycle started (owner decision 2026-11-25),agents/tax-lien-checker.md
+2026-11-25,transaction-coordinator,,active,existing worker when the lifecycle started (owner decision 2026-11-25),agents/transaction-coordinator.md
