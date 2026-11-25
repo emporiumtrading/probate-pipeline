@@ -131,3 +131,6 @@
 | 2026-11-22 | fl-hillsborough | maps.hillsboroughcounty.org PAO/HC_Properties MapServer/1 (folio and owner queries) | worked | fast desk: folio 0018620000 (no grantee field, no sales table in service); OWNER LIKE '%PILLOW%' 4 parcels |
 | 2026-11-25 | fl-hillsborough | publicrec.hillsclerk.com/Probate/dailyfilings (2026-11-22..2026-11-24) | worked | 20261122: 0 rows, 0 estates; 20261123: 149 rows, 21 estates; 20261124: 87 rows, 12 estates; 10 new leads |
 | 2026-11-25 | oh-franklin | probatesearch PBODateInx.ndm (from 20261121, 25 pages) + Parcel_Features | worked | 77 cases, 28 estates kept, 10 new leads |
+| 2026-11-25 | tx-harris | https://www.cclerk.hctx.net/applications/websearch/CourtSearch.aspx?CaseType=Probate | responds | automated re-test |
+| 2026-11-25 | tn-shelby | https://www.probatecourt.shelbycountytn.gov | no response | automated re-test |
+| 2026-11-25 | pa-philadelphia | https://www.phila.gov/departments/register-of-wills/ | responds | automated re-test |
