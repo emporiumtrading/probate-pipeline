@@ -32,8 +32,11 @@ const MAX_MINUTES = +(process.env.MAX_MINUTES || 110);
 const WORK = process.env.WORK_DIR || '/tmp/pipeline-work';
 
 if (!TOKEN) { console.error('GITHUB_TOKEN is required'); process.exit(1); }
-if (!process.env.CLAUDE_CODE_OAUTH_TOKEN && !process.env.ANTHROPIC_API_KEY) {
-  console.error('CLAUDE_CODE_OAUTH_TOKEN or ANTHROPIC_API_KEY is required'); process.exit(1);
+// ENGINE: 'scripted' (default; free) runs scripts/auto_slice.py, which uses free NVIDIA / OpenRouter
+// models only for written summaries. 'claude' runs headless Claude Code (needs a Claude credential).
+const ENGINE = process.env.ENGINE || ((process.env.CLAUDE_CODE_OAUTH_TOKEN || process.env.ANTHROPIC_API_KEY) ? 'claude' : 'scripted');
+if (ENGINE === 'claude' && !process.env.CLAUDE_CODE_OAUTH_TOKEN && !process.env.ANTHROPIC_API_KEY) {
+  console.error('ENGINE=claude needs CLAUDE_CODE_OAUTH_TOKEN or ANTHROPIC_API_KEY'); process.exit(1);
 }
 
 const git = (args, opts = {}) => spawnSync('git', args, { cwd: WORK, stdio: 'inherit', ...opts });
@@ -81,7 +84,19 @@ const counts = {
 };
 console.log('store import docs:', JSON.stringify(counts));
 
-/* ---------- 3. run the agent ---------- */
+/* ---------- 3. run the slice ---------- */
+let code;
+if (ENGINE === 'scripted') {
+  console.log(`--- slice ${SLICE} | scripted engine | ${new Date().toISOString()} ---`);
+  const pyArgs = ['scripts/auto_slice.py', SLICE];
+  const child = spawn('python3', pyArgs, { cwd: WORK, env: agentEnv, stdio: 'inherit' });
+  const kill = setTimeout(() => { console.error(`timeout after ${MAX_MINUTES}m — killing`); child.kill('SIGTERM'); }, MAX_MINUTES * 60000);
+  code = await new Promise((resolve) => child.on('close', resolve));
+  clearTimeout(kill);
+  git(['add', '-A']);
+  const d0 = spawnSync('git', ['status', '--porcelain'], { cwd: WORK, encoding: 'utf8' });
+  if (d0.stdout.trim()) git(['commit', '-q', '-m', `Scheduled run ${new Date().toISOString().slice(0, 10)} slice ${SLICE} (scripted)`]);
+} else {
 const promptPath = path.join(WORK, 'runner', 'prompts', `${SLICE}.md`);
 if (!fs.existsSync(promptPath)) { console.error(`no prompt for slice '${SLICE}' (${promptPath})`); process.exit(1); }
 const prompt = fs.readFileSync(promptPath, 'utf8');
@@ -94,9 +109,10 @@ const child = spawn(CLAUDE_BIN, ['-p', prompt, '--model', MODEL, '--dangerously-
   cwd: WORK, env: agentEnv, stdio: 'inherit',
 });
 const kill = setTimeout(() => { console.error(`timeout after ${MAX_MINUTES}m — killing`); child.kill('SIGTERM'); }, MAX_MINUTES * 60000);
-const code = await new Promise((resolve) => child.on('close', resolve));
+code = await new Promise((resolve) => child.on('close', resolve));
 clearTimeout(kill);
 console.log(`--- agent exited ${code} ---`);
+}
 
 /* ---------- 4. backstop push ---------- */
 git(['add', '-A']);

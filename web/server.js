@@ -3,7 +3,7 @@
    into index.html), the built datasets under /data, and a small doc-store API
    (/api/doc, /api/col) that replaces the artifact's db backend.
 
-   Everything except /healthz sits behind HTTP basic auth:
+   Everything except /healthz and the landing page sits behind an admin login (signed session cookie):
      DASHBOARD_USER     (default "owner")
      DASHBOARD_PASSWORD (if unset, a random one is generated and printed at boot)
 
@@ -30,16 +30,36 @@ const MIME = {
   '.ico': 'image/x-icon', '.woff2': 'font/woff2',
 };
 
+/* Sessions: signed cookie (HMAC-SHA256), 12-hour lifetime, HttpOnly + Secure + SameSite=Strict.
+   Failed logins are rate-limited per IP (5 per 15 minutes). */
+const SECRET = crypto.createHash('sha256').update('ei-session|' + (process.env.SESSION_SECRET || PASS)).digest();
+const COOKIE = 'ei_session';
+const TTL = 12 * 3600 * 1000;
+const sign = (v) => crypto.createHmac('sha256', SECRET).update(v).digest('base64url');
+const makeToken = () => { const v = Buffer.from(JSON.stringify({ u: USER, exp: Date.now() + TTL })).toString('base64url'); return v + '.' + sign(v); };
+const cookies = (req) => Object.fromEntries((req.headers.cookie || '').split(';').map((c) => c.trim().split('=')).filter((x) => x[0]).map(([k, ...v]) => [k, v.join('=')]));
 const authed = (req) => {
-  const h = req.headers.authorization || '';
-  if (!h.startsWith('Basic ')) return false;
-  const [u, p] = Buffer.from(h.slice(6), 'base64').toString().split(':');
-  const ok = u === USER && p === PASS;
-  return ok && crypto.timingSafeEqual(Buffer.from(u + ':' + p), Buffer.from(USER + ':' + PASS));
+  const tok = cookies(req)[COOKIE] || '';
+  const [v, s] = tok.split('.');
+  if (!v || !s) return false;
+  const want = sign(v);
+  if (want.length !== s.length || !crypto.timingSafeEqual(Buffer.from(want), Buffer.from(s))) return false;
+  try { const d = JSON.parse(Buffer.from(v, 'base64url').toString()); return d.u === USER && d.exp > Date.now(); } catch { return false; }
 };
+const eq = (a, b) => { const x = crypto.createHash('sha256').update(String(a)).digest(); const y = crypto.createHash('sha256').update(String(b)).digest(); return crypto.timingSafeEqual(x, y); };
+const fails = new Map();
+const clientIp = (req) => String(req.headers['x-forwarded-for'] || req.socket.remoteAddress || '').split(',')[0].trim();
+const limited = (ip) => { const f = (fails.get(ip) || []).filter((t) => t > Date.now() - 15 * 60000); fails.set(ip, f); return f.length >= 5; };
+const readForm = (req) => new Promise((resolve) => {
+  let b = ''; req.on('data', (c) => { b += c; if (b.length > 1e4) req.destroy(); });
+  req.on('end', () => resolve(Object.fromEntries(new URLSearchParams(b))));
+});
+const SEC_HEADERS = { 'X-Content-Type-Options': 'nosniff', 'Referrer-Policy': 'no-referrer', 'X-Frame-Options': 'DENY', 'Strict-Transport-Security': 'max-age=31536000' };
+const landing = (msg) => fs.readFileSync(path.join(__dirname, 'landing.html'), 'utf8')
+  .replace('<!--MSG-->', msg ? `<p class="err" role="alert">${msg}</p>` : '');
 
 const send = (res, code, body, type = 'text/plain; charset=utf-8') => {
-  res.writeHead(code, { 'Content-Type': type, 'Cache-Control': 'no-store' });
+  res.writeHead(code, { 'Content-Type': type, 'Cache-Control': 'no-store', ...SEC_HEADERS });
   res.end(body);
 };
 
@@ -61,7 +81,8 @@ const page = () => {
   const html = fs.readFileSync(path.join(DASH, 'index.html'), 'utf8');
   const head = '<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">' +
     '<title>Probate Pipeline</title><link rel="stylesheet" href="/theme.css">' +
-    `<script>window.__PP_USER=${JSON.stringify(USER)};</script></head><body>`;
+    `<script>window.__PP_USER=${JSON.stringify(USER)};</script></head><body>` +
+    '<div class="ei-bar"><span class="ei-brand">Emporium Investments</span><a class="ei-out" href="/logout">Sign out</a></div>';
   const injected = html.replace('<script src="app.js">',
     '<script src="/vendor/d3.min.js"></script><script src="/dash-runtime.js"></script><script src="app.js">');
   return head + injected + '</body></html>';
@@ -79,9 +100,27 @@ const server = http.createServer(async (req, res) => {
   const p = decodeURIComponent(u.pathname);
 
   if (p === '/healthz') return send(res, 200, 'ok');
+  if (p === '/brand.svg') return safe(res, __dirname, 'brand.svg');
+  if (p === '/login' && req.method === 'POST') {
+    const ip = clientIp(req);
+    if (limited(ip)) return send(res, 429, landing('Too many attempts. Try again in 15 minutes.'), MIME['.html']);
+    const f = await readForm(req);
+    if (eq(f.username || '', USER) && eq(f.password || '', PASS)) {
+      fails.delete(ip);
+      res.writeHead(303, { Location: '/', 'Set-Cookie': `${COOKIE}=${makeToken()}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${TTL / 1000}`, ...SEC_HEADERS });
+      return res.end();
+    }
+    fails.set(ip, [...(fails.get(ip) || []), Date.now()]);
+    console.log('login failed from', ip);
+    return send(res, 401, landing('That username and password don\'t match.'), MIME['.html']);
+  }
+  if (p === '/logout') {
+    res.writeHead(303, { Location: '/', 'Set-Cookie': `${COOKIE}=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0`, ...SEC_HEADERS });
+    return res.end();
+  }
   if (!authed(req)) {
-    res.writeHead(401, { 'WWW-Authenticate': 'Basic realm="probate-dashboard"' });
-    return res.end('auth required');
+    if (req.method === 'GET' && (p === '/' || p === '/index.html' || p === '/login')) return send(res, 200, landing(''), MIME['.html']);
+    return send(res, 401, 'login required');
   }
 
   try {

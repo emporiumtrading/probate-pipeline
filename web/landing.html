@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Emporium Investments</title>
+<link rel="icon" href="/brand.svg" type="image/svg+xml">
+<style>
+  :root {
+    --ink: #0e1726; --ink-2: #16233a; --gold: #c8a45a; --gold-2: #e5cf97; --paper: #f6f1e6;
+    --mute: #9aa6ba; --line: rgba(200,164,90,.28); --err: #f0a3a3;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; height: 100%; }
+  body {
+    font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    color: var(--paper); background: var(--ink);
+    background-image:
+      radial-gradient(1100px 600px at 85% -10%, rgba(200,164,90,.16), transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, rgba(60,90,140,.35), transparent 60%),
+      linear-gradient(160deg, #0b1320 0%, #111c2e 55%, #0e1726 100%);
+    min-height: 100vh; display: flex; flex-direction: column;
+  }
+  .wrap { width: min(1120px, 92vw); margin: 0 auto; }
+  header { padding: 28px 0; }
+  .brand { display: flex; align-items: center; gap: 12px; text-decoration: none; color: var(--paper); }
+  .brand img { width: 40px; height: 40px; }
+  .brand b { font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif; font-size: 20px; letter-spacing: .04em; font-weight: 600; }
+  .brand span { display: block; font-size: 11px; letter-spacing: .28em; text-transform: uppercase; color: var(--gold); margin-top: 2px; }
+  main { flex: 1; display: grid; grid-template-columns: 1.15fr .85fr; gap: 56px; align-items: center; padding: 24px 0 64px; }
+  .eyebrow { font-size: 12px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); margin: 0 0 18px; }
+  h1 {
+    font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif; font-weight: 500;
+    font-size: clamp(36px, 5.2vw, 64px); line-height: 1.05; margin: 0 0 22px; letter-spacing: -.01em;
+  }
+  h1 em { font-style: italic; color: var(--gold-2); }
+  .lede { font-size: 17px; line-height: 1.65; color: #cdd5e2; max-width: 34em; margin: 0 0 34px; }
+  .pillars { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; max-width: 560px; }
+  .pillar { border-top: 1px solid var(--line); padding-top: 14px; }
+  .pillar b { display: block; font-size: 14px; color: var(--paper); margin-bottom: 4px; font-weight: 600; }
+  .pillar span { font-size: 13px; color: var(--mute); line-height: 1.5; }
+  .card {
+    background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
+    border: 1px solid var(--line); border-radius: 18px; padding: 34px 32px 30px;
+    box-shadow: 0 30px 80px rgba(0,0,0,.45), inset 0 1px 0 rgba(255,255,255,.06);
+    backdrop-filter: blur(8px);
+  }
+  .card h2 { font-family: "Iowan Old Style", Palatino, Georgia, serif; font-weight: 500; font-size: 26px; margin: 0 0 6px; }
+  .card p.sub { margin: 0 0 24px; color: var(--mute); font-size: 14px; }
+  label { display: block; font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--mute); margin: 0 0 8px; }
+  input {
+    width: 100%; padding: 13px 14px; margin: 0 0 18px; border-radius: 10px; font-size: 15px;
+    background: rgba(8,14,24,.65); border: 1px solid rgba(255,255,255,.14); color: var(--paper); outline: none;
+    transition: border-color .15s, box-shadow .15s;
+  }
+  input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(200,164,90,.2); }
+  button {
+    width: 100%; padding: 14px; border: 0; border-radius: 10px; cursor: pointer; font-size: 15px; font-weight: 600; letter-spacing: .02em;
+    color: #1a1406; background: linear-gradient(180deg, var(--gold-2), var(--gold)); box-shadow: 0 10px 24px rgba(200,164,90,.25);
+    transition: transform .08s, filter .15s;
+  }
+  button:hover { filter: brightness(1.05); }
+  button:active { transform: translateY(1px); }
+  .err { background: rgba(240,163,163,.1); border: 1px solid rgba(240,163,163,.35); color: var(--err); padding: 10px 12px; border-radius: 10px; font-size: 14px; margin: 0 0 18px; }
+  .note { margin: 18px 0 0; font-size: 12px; color: var(--mute); text-align: center; }
+  footer { padding: 22px 0 30px; border-top: 1px solid rgba(255,255,255,.06); font-size: 12px; color: var(--mute); }
+  footer .wrap { display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  @media (max-width: 880px) {
+    main { grid-template-columns: 1fr; gap: 36px; padding-top: 8px; }
+    .pillars { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <a class="brand" href="/" aria-label="Emporium Investments home">
+        <img src="/brand.svg" alt="">
+        <div><b>Emporium Investments</b><span>Real estate</span></div>
+      </a>
+    </div>
+  </header>
+  <main class="wrap">
+    <section>
+      <p class="eyebrow">Inherited &amp; estate property</p>
+      <h1>Quiet, careful work<br>on <em>inherited homes</em>.</h1>
+      <p class="lede">We help families and estates settle property with respect and clear numbers: verified public records, fair offers, and closings handled through licensed title companies and attorneys.</p>
+      <div class="pillars">
+        <div class="pillar"><b>Respectful</b><span>No contact until at least 90 days after a loss.</span></div>
+        <div class="pillar"><b>Verified</b><span>Every figure traced to a public record.</span></div>
+        <div class="pillar"><b>Protected</b><span>Funds held only by licensed escrow.</span></div>
+      </div>
+    </section>
+    <section class="card" aria-labelledby="signin">
+      <h2 id="signin">Admin sign in</h2>
+      <p class="sub">Private operations console. Authorized administrator only.</p>
+      <!--MSG-->
+      <form method="post" action="/login" autocomplete="on">
+        <label for="u">Username</label>
+        <input id="u" name="username" autocomplete="username" required autofocus>
+        <label for="p">Password</label>
+        <input id="p" name="password" type="password" autocomplete="current-password" required>
+        <button type="submit">Sign in</button>
+      </form>
+      <p class="note">Sessions expire after 12 hours. Repeated failed attempts are blocked.</p>
+    </section>
+  </main>
+  <footer>
+    <div class="wrap"><span>© Emporium Investments</span><span>Private system · not open to the public</span></div>
+  </footer>
+</body>
+</html>
