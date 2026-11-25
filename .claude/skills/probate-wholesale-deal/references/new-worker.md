@@ -11,7 +11,7 @@ Create one only when **all three** hold:
 Otherwise, add a `## Learned` rule to the closest existing role.
 
 ## Owner approval
-A new worker that would **send anything, spend money, change a cap or threshold, sign, or touch the Hard limits** needs the owner's written OK first: propose it under **Exceptions** in the daily report and stop there. A worker that only reads public records and writes files in the repo can be created by the runner, and is listed under **What the team learned**.
+A new worker that would **spend money, change a cap or threshold, sign, or touch the Hard limits** needs the owner's written OK first: hand the proposal to the Exceptions Desk, which escalates it, and stop there. Any other worker, including one whose output will feed messages that Communications sends through the Compliance gate, can be created by the runner. It starts in `trial` (shadow mode) and is enabled only when its measured results meet the thresholds (`references/worker-lifecycle.md`); list it under **What the team learned**.
 
 ## The role file (`agents/<kebab-name>.md`)
 Use this shape (keep it under ~40 lines):
@@ -44,4 +44,5 @@ Follow `references/learning.md` when you meet a situation these steps don't cove
 3. **Measured:** add a `W(...)` row to the workers block in `scripts/build_dashboard_data.py`, counting work done and results from its output files, so it appears in Worker performance on the dashboard.
 4. **QA:** `scripts/qa_checks.py` already fails if a role file in `agents/` is missing from the roster or from `workers.csv`. Run it.
 5. **Handoffs and self-review:** the role file has both sections (QA fails without them). The new worker joins the handoff board automatically: `scripts/handoffs.py` reads the list of workers from `agents/*.md`. Tell the workers it will take questions from (in their role files' steps) what to send it.
-6. **Report:** announce the new worker in the daily report under **What the team learned**, with the evidence that justified it.
+6. **Lifecycle:** `python3 scripts/worker_lifecycle.py register <name>`. It starts in `trial`: write its run step as "shadow: output to `pipeline/trials/<name>/<date>/`", name its checker (the Quality Auditor's re-verification or the active worker that does the same job) in its role file, and have the Quality Auditor score it every run it works. QA fails while `agents/` and `pipeline/workers.csv` disagree. Promotion to `active` is automatic (runbook step 7c); then remove "shadow" from its step.
+7. **Report:** announce the new worker in the daily report under **What the team learned**, with the evidence that justified it.

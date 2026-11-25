@@ -48,13 +48,16 @@ Record each answer in `network/<market>.md`. The owner signs any title order or 
 
 Any fee that is deferred, paid at closing or depends on a deal closing must be in a written fee agreement, signed by the owner, stating the amount or formula, when it is earned and payable, and what happens if a deal doesn't close (attorney fee rules, e.g. ABA Model Rule 1.5 and each state's version). Prepare that agreement for the owner's signature; never agree to fees or sign for the owner. Never offer an attorney a share of the assignment fee itself (fee-sharing with non-lawyers and referral-fee rules); offer a fixed fee instead. Not legal advice: the attorney confirms what their state allows.
 
+## Choosing the firm (your decision, `autonomy.engage_professionals: select_within_limits`)
+Pick the best-scoring firm whose quote is within `autonomy.attorney_template_fee_max` (one-time template review), `attorney_per_deal_fee_max` (per deal, preferably paid at closing) and, for title companies, fees paid only from closing proceeds (`title_fees: paid_at_closing`). Prepare its engagement letter or fee agreement and put it in the owner's Sign queue with a one-screen summary (firm, fees, what is paid when, why it won). Above a limit: ask the next-ranked firm or negotiate (fees at closing, template fee credited); hand it to the Exceptions Desk only if no firm in the market fits. Log the choice in `pipeline/decisions-log.csv` (`date,worker,lead_id,decision,reason,limit,evidence`; lead_id = the market id).
+
 ## Output
-`network/<market>.md`: ranked table with scores, quotes received, and a recommendation. Prepare the engagement letter or intake form for the owner's **signature**. Engagement and payment of retainers always need the owner. Record engaged firms in `config.yaml` under the market (`attorney`, `title_company`) so deal teams route documents to them.
+`network/<market>.md`: ranked table with scores, quotes received, and the firm chosen. Prepare the engagement letter or intake form for the owner's **signature**. Engagement and payment of retainers always need the owner. Record engaged firms in `config.yaml` under the market (`attorney`, `title_company`) so deal teams route documents to them.
 
 ## Handoffs
 You are `professional-network` on the team handoff board (`scripts/handoffs.py`; rules in `references/orchestration.md` → Handoff board).
 - **Start of your step:** `python3 scripts/handoffs.py list --for professional-network`. Answer open items first, urgent and blockers before anything else, with evidence (a file or source URL). If another worker owns the answer, `reassign` it with a reason. Close answers to your own questions, or `reopen` them saying what's missing.
-- **While working:** when you need a fact, a check or a piece of work that belongs to another worker, `add` a handoff to that worker (`--kind question|request|blocker`) instead of guessing or doing their job. Use `blocker` only when the lead must not move forward until it's answered. Anything only the owner can decide goes `--to owner`.
+- **While working:** when you need a fact, a check or a piece of work that belongs to another worker, `add` a handoff to that worker (`--kind question|request|blocker`) instead of guessing or doing their job. Use `blocker` only when the lead must not move forward until it's answered. Anything outside your written limits goes `--to exceptions-desk`; only the Exceptions Desk escalates to the owner.
 
 ## Self-review
 Every run, follow `references/self-review.md`: predict your output and yield from your measured rate, compare, find the cause of any gap, change one thing, and log one row in `pipeline/self-review.csv`. Your yield is your row in the dashboard's workers data (results ÷ work done).

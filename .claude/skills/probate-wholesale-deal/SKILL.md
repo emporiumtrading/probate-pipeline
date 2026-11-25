@@ -11,7 +11,7 @@ Why this skill exists: pitches like "click Probate, click Flip This Contract, ti
 
 ## The deal team
 
-New workers are created only through `references/new-worker.md`. Every role learns: when something isn't covered, it handles it cautiously, finds the answer from a primary source, and writes the rule into its own file (`references/learning.md`). Each stage has a lead specialist. Their full instructions are in `agents/`. Read a role's file before doing that role's work. If you can run subagents, you may hand a role its file plus the deal facts and run independent roles in parallel (e.g. Researcher and Legal Advisor at the start); otherwise play the role yourself.
+New workers are created only through `references/new-worker.md`, start in `trial` (shadow mode) and are enabled automatically once their measured results meet the thresholds; active workers whose results drop go on probation (`references/worker-lifecycle.md`, registry `pipeline/workers.csv`). Every role learns: when something isn't covered, it handles it cautiously, finds the answer from a primary source, and writes the rule into its own file (`references/learning.md`). Each stage has a lead specialist. Their full instructions are in `agents/`. Read a role's file before doing that role's work. If you can run subagents, you may hand a role its file plus the deal facts and run independent roles in parallel (e.g. Researcher and Legal Advisor at the start); otherwise play the role yourself.
 
 | Role | File | Owns |
 |---|---|---|
@@ -36,7 +36,7 @@ New workers are created only through `references/new-worker.md`. Every role lear
 | Bookkeeper | `agents/bookkeeper.md` | Document-backed ledger (`pipeline/ledger.csv`): forecast and actual fees, costs, earnest money outstanding, monthly roll-up, tax set-aside estimate. Never moves money or holds bank details |
 | Professional Network | `agents/professional-network.md` | Shortlists and scores attorneys and title companies per market, requests quotes, prepares engagement for signature |
 
-How the teams run together, the deal stages and the owner's touchpoints (signatures and wires only) are in `references/orchestration.md`. Messages are composed per lead with `references/dynamic-messaging.md`, not one fixed template.
+How the teams run together, what workers decide on their own within written limits, the deal stages and the owner's touchpoints (one-click signatures and confirming earnest-money deposits only) are in `references/orchestration.md`. Messages are composed per lead with `references/dynamic-messaging.md`, not one fixed template.
 
 ## Ground rules (apply to every role)
 
@@ -49,7 +49,7 @@ How the teams run together, the deal stages and the owner's touchpoints (signatu
 
 ## Daily scheduled run
 
-If you're running inside the pipeline repo (it has `config.yaml` and `pipeline/deal-tracker.csv`) or were asked to do the daily run, follow `references/daily-run.md` from start to finish instead of the interactive flow below. It runs the whole team on new and existing leads, writes a daily report, and never contacts anyone.
+If you're running inside the pipeline repo (it has `config.yaml` and `pipeline/deal-tracker.csv`) or were asked to do the daily run, follow `references/daily-run.md` from start to finish instead of the interactive flow below. It runs the whole team on new and existing leads and writes a daily report that leads with money. It contacts people only as `config.yaml` → `autonomy` and each market's gates allow (attorney approval, tested channel, Compliance Officer, 90-day wait), and never by phone or text.
 
 ## Figure out where the user is
 

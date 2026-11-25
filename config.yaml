@@ -3,10 +3,20 @@
 owner_timezone: America/Chicago
 dashboard_slug: 24accd17-df79-4cf5-a42f-e6451a61b8a0   # Probate Pipeline Dashboard (claude.ai artifact)
 autonomy:
-  outreach: drafts_only           # drafts_only | autonomous. Even when autonomous, a market sends without per-message approval only if it has attorney_approved: <date> (see legal/attorney-packets/). Switch to autonomous once mail/email sending services are connected and the attorney has approved the state templates.
+  outreach: autonomous            # owner decision 2026-11-25 ("switch everything ... fully autonomous; I only want to see money deposited"). Was drafts_only.
+  outreach_decided_on: 2026-11-25 # the newer of this date and the Setup page's saved_at wins (scripts/owner_settings.py effective_outreach)
+  # Per-market gates still apply, every message: a market sends only once it has attorney_approved: <date> (Legal Advisor's
+  # approval steps), a working sending channel (channels.mail_sending / email_sending tested), the Compliance Officer's PASS,
+  # and the 90-day wait after the date of death. A market missing any of these keeps its letters as held drafts: they are
+  # not put in the owner's queue; they go out on their own once the market's gates open.
   negotiation_limit: mao          # the Negotiator negotiates all the way up to each deal's max offer; nothing binds until the owner signs
-  engage_professionals: request_quotes   # email attorneys/title companies for quotes; the owner signs any engagement
-  # Always the owner, not configurable: signatures, earnest-money wires (confirmed by phone with title), phone calls.
+  engage_professionals: select_within_limits   # owner decision 2026-11-25: the Professional Network requests quotes, picks the best firm within the limits below and puts its engagement letter in the owner's Sign queue
+  attorney_template_fee_max: 1500 # one-time template/packet review per state, USD; above this -> Exceptions Desk
+  attorney_per_deal_fee_max: 750  # per-deal contract/assignment review, USD, preferably paid at closing; above this -> Exceptions Desk
+  title_fees: paid_at_closing     # title/settlement fees only from closing proceeds on the settlement statement; any up-front title charge -> Exceptions Desk
+  worker_decisions: within_written_limits   # owner decision 2026-11-25: workers decide routine matters (letters, counters within MAO, quotes within the limits above, buyer selection, scheduling, playbook exceptions) and log each in pipeline/decisions-log.csv with its reason
+  # Always the owner, not configurable: signatures (one click on packets the system prepared; no stored signature is ever used),
+  # earnest money (only to a title company's escrow the owner has confirmed by phone, never from emailed instructions), phone calls.
 business:                         # who we are. Fill these in once; attorney packets, letters and the dashboard checklist read them.
   legal_name: ""                  # e.g. "Example Holdings LLC"
   entity_state: ""                # state of formation
@@ -59,6 +69,19 @@ max_new_leads_per_day: 25         # deep-dive cap per run; raised automatically 
 
 finance:
   tax_set_aside_pct: 0.30         # Bookkeeper's tax set-aside estimate on net earned (for the CPA; not tax advice)
+
+worker_lifecycle:                 # new workers: trial (shadow) -> active; weak workers: active -> probation -> retired (references/worker-lifecycle.md). Learning may tighten these, never loosen.
+  trial_min_runs: 5               # scored shadow runs before promotion
+  trial_max_runs: 15              # trial fails after this many runs without meeting the thresholds
+  min_accuracy: 0.90              # agreed with the checker / items checked
+  max_error_rate: 0.05            # errors / items
+  min_yield: 0.25                 # useful results / items
+  active_window: 5                # active workers are judged on their last N scored runs
+  active_min_accuracy: 0.85       # below this over a full window -> probation
+  active_max_error_rate: 0.10
+  probation_min_runs: 5
+  probation_max_runs: 10          # not recovered by then -> retired (core checkers: owner decides)
+  core_workers: compliance-officer quality-auditor exceptions-desk
 
 targets:
   closings_per_month: 20          # stretch goal the planner sizes the funnel for (owner, 2026-11-21; was 3, originally 115)

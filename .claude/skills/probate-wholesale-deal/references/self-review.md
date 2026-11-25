@@ -22,5 +22,8 @@ Read the last 7 days of `pipeline/self-review.csv` together with `workers.csv` a
 - **Did the changes work:** compare each worker's yield before and after its logged changes. Keep what raised yield and revert what didn't (revert = write the reversal as a new `## Learned` bullet).
 Put the findings under **What the team learned** in that day's report.
 
+## Lifecycle scores
+The Quality Auditor's per-run scores (`scripts/worker_lifecycle.py score`) and this file's calibration feed the worker lifecycle (`references/worker-lifecycle.md`): trial workers are promoted, and active workers put on probation or retired, on these measured numbers alone. `evaluate` shows each worker's self-review calibration (actual within 20% of predicted) next to its score. Log honestly: a worker that inflates its own numbers is a policy violation.
+
 ## Limits
 Self-review makes the work better. It never makes the rules looser. Everything in `learning.md` → "What you may never change by learning" applies: no change to hard limits, autonomy, compliance, caps, the stop list or anything only the owner does, and no invented or unchecked numbers to make a yield look better. A change that would need a looser rule goes to the owner under **Exceptions**.

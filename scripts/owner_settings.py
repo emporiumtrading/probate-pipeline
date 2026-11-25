@@ -4,7 +4,9 @@
 The page saves one document per setup area in the dashboard's own store
 (data/users/<owner id>/setup/areas/<area>), so nothing is lost when the repo is pushed.
 Each run, the runner reads that collection (db_list) and imports it here; the result,
-pipeline/owner-settings.json, overrides the matching defaults in config.yaml.
+pipeline/owner-settings.json, overrides the matching defaults in config.yaml. Exception: the outreach
+mode follows the owner's newer decision (effective_outreach): the page's saved_at against
+config.yaml -> autonomy.outreach_decided_on.
 
   python3 scripts/owner_settings.py import <db_list output saved as a file>
   python3 scripts/owner_settings.py check
@@ -99,6 +101,28 @@ def load():
         return {}
     data = json.load(open(OUT))
     return {a: clean(a, d) for a, d in data.get("areas", {}).items()}
+
+
+def effective_outreach(cfg_text=None, overlay=None):
+    """The outreach mode in force: the owner's newer decision wins.
+
+    config.yaml -> autonomy.outreach carries the date of the owner's decision in autonomy.outreach_decided_on;
+    the Setup page's autonomy area carries saved_at. Whichever is newer applies (same day: the page). With no
+    decision date in config.yaml the page wins, as before. Per-market gates (attorney_approved, channels,
+    Compliance Officer, 90-day wait) apply on top of this in every case.
+    """
+    if cfg_text is None:
+        cfg_text = open(os.path.join(ROOT, "config.yaml")).read()
+    b = re.search(r"\nautonomy:[^\n]*\n((?:  [^\n]*\n)+)", cfg_text)
+    blk = b.group(1) if b else ""
+    mode = (re.search(r"^  outreach:\s*(\w+)", blk, re.M) or [None, "drafts_only"])[1]
+    decided = (re.search(r"^  outreach_decided_on:\s*(\d{4}-\d\d-\d\d)", blk, re.M) or [None, ""])[1]
+    page = (overlay if overlay is not None else load()).get("autonomy", {})
+    if page.get("outreach"):
+        page_date = str(page.get("saved_at") or "")[:10]
+        if not decided or (page_date and page_date >= decided):
+            return page["outreach"]
+    return mode if mode in ("drafts_only", "autonomous") else "drafts_only"
 
 
 def parse_db_list(text):

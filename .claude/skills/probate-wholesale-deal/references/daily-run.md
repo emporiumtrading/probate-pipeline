@@ -11,7 +11,7 @@ The full daily run is split into three scheduled slices so each stays within usa
 |---|---|---|---|
 | **A: morning** | 5:39 AM | 0, 1, 2 (legal refresh), 2b (source map, all live markets), 3 + 3a + 4 (sourcing and deep-dives), 5a (dates of death), 7 (QA + dashboard), 8 | Hillsborough (Tampa), Franklin (Columbus) |
 | **B: midday** | 12:23 PM | 0, 1, 3 + 3a + 4, 3b (expansion), 5a, 7, 8 | Harris (Houston), Shelby (Memphis), Philadelphia, plus any market added since |
-| **C: evening** | 5:41 PM | 0, 1, 3-types, 3c (plan to target), 5 (maintain pipeline), 5b (communications, negotiation, professional network, buyer list, reply desk, closing), 6 (the day's report, covering all three slices), 7, 7b (learn), 8 | All live markets |
+| **C: evening** | 5:41 PM | 0, 1, 3-types, 3c (plan to target), 5 (maintain pipeline), 5b (communications, negotiation, professional network, buyer list, reply desk, closing), 6 (the day's report, covering all three slices), 7, 7b (learn), 7c (worker lifecycle: score and evaluate), 8 | All live markets |
 
 - New markets go to slice B unless a slice is over 3 markets; then put them in whichever slice has fewer.
 - A slice writes only its own part of `reports/YYYY-MM-DD.md` under a heading "Slice A / B / C"; slice C writes the top summary (Top of mind, queues, pace) for the whole day.
@@ -24,6 +24,10 @@ The full daily run is split into three scheduled slices so each stays within usa
 - Personal data (names, addresses, phone numbers of executors/heirs) stays in this private repo. Don't paste it into outside services beyond the searches needed to research it.
 - Markets with `outreach_allowed: false` get research and underwriting only; no outreach drafts.
 - Autonomous sending needs both `autonomy.outreach: autonomous` and `attorney_approved: <date>` on the market. Any market without that date stays drafts-only, whatever the global setting says.
+- Autonomous sending also needs, for every message: a tested sending channel, the Compliance Officer's PASS, and the `lead_types.min_days_after_death` (90-day) wait after the date of death. Lead types the owner switched off stay off.
+- Never sign anything for the owner and never use a stored or copied signature: the owner signs every contract, disclosure, assignment and engagement letter with their own click.
+- Never ask for, store or use bank or card details, and never act on wiring instructions received by email. Earnest money goes only to a title company's escrow that the owner has confirmed by phone at the number on its official website.
+- Only `active` workers' output feeds an outbound action. Workers in `trial` or `probation` run in shadow mode (`references/worker-lifecycle.md`).
 - Label everything verified (with source + date) or assumed.
 
 ## Steps
@@ -37,15 +41,16 @@ Before reading anything:
 If a rebase hits a conflict, `git rebase --abort`, leave the work as it is, and report the conflicting files at the top of the report and of your final message. Don't force-push, and don't resolve a conflict by discarding someone else's changes.
 
 ### 1. Load state
-**Owner settings from the dashboard first.** The owner enters setup details on the dashboard's Setup page (Configure on each area). They are stored in the dashboard, not the repo, so pushes never clear them. Each run: `db_whoami`, then `db_list` the collection `data/users/<your id>/setup/areas` on the dashboard (`dashboard_slug`). Save the tool's output to a scratch file and run `python3 scripts/owner_settings.py import <that file>`. That writes `pipeline/owner-settings.json` (commit it), which overrides `config.yaml`: `business.*` and `autonomy.outreach` directly. If it prints REFUSED, the owner saved something that is never kept (bank details, card numbers, keys). Put it under **Exceptions** without repeating the value. Then:
-- **Channels the owner marked "I've set this up"** (`<channel>_ready: true`): test each one before relying on it, then set `channels.<channel>: true` in `config.yaml` only if the test passed. Email sending: the Resend connector is connected (or a Resend API key saved through `request_credential` for host `api.resend.com`) and a test email to the business address arrives. Inbox: the default is **Resend receiving** on the reply address the owner entered (a `replies.` subdomain or the `@<id>.resend.app` address, never the main domain's MX). Send a test email to it and read it back through Resend's received-emails API (connector tool, or the API with the saved key). If the owner chose Gmail instead, the Gmail connector must read the test email. Each run, Communications collects new received emails from the inbox channel; Resend keeps them even when nothing is listening, so none are lost between runs. Answers are drafted into `leads/<id>/outreach-drafts.md` as new messages for the Messages page and follow the same approval rule as outreach. Print-and-mail: ask for the service's API key with the `request_credential` tool (host = the service's API host), never in chat or the page, then send a test to the business address in the provider's test mode. Mail scanning / voicemail: the business inbox has a scan or transcript from that service. If a test fails, leave the flag false and say in **Exceptions** what the owner needs to fix.
+**Owner settings from the dashboard first.** The owner enters setup details on the dashboard's Setup page (Configure on each area). They are stored in the dashboard, not the repo, so pushes never clear them. Each run: `db_whoami`, then `db_list` the collection `data/users/<your id>/setup/areas` on the dashboard (`dashboard_slug`). Save the tool's output to a scratch file and run `python3 scripts/owner_settings.py import <that file>`. That writes `pipeline/owner-settings.json` (commit it), which overrides `config.yaml`: `business.*` directly, and `autonomy.outreach` when the page's choice is newer than `outreach_decided_on` (see Autonomy below). If it prints REFUSED, the owner saved something that is never kept (bank details, card numbers, keys). Put it under **Exceptions** without repeating the value. Then:
+- **Channels the owner marked "I've set this up"** (`<channel>_ready: true`): test each one before relying on it, then set `channels.<channel>: true` in `config.yaml` only if the test passed. Email sending: the Resend connector is connected (or a Resend API key saved through `request_credential` for host `api.resend.com`) and a test email to the business address arrives. Inbox: the default is **Resend receiving** on the reply address the owner entered (a `replies.` subdomain or the `@<id>.resend.app` address, never the main domain's MX). Send a test email to it and read it back through Resend's received-emails API (connector tool, or the API with the saved key). If the owner chose Gmail instead, the Gmail connector must read the test email. Each run, Communications collects new received emails from the inbox channel; Resend keeps them even when nothing is listening, so none are lost between runs. Answers are drafted into `leads/<id>/outreach-drafts.md` as new messages for the Messages page and follow the same sending rule as outreach (autonomous where the market's gates are open). Print-and-mail: ask for the service's API key with the `request_credential` tool (host = the service's API host), never in chat or the page, then send a test to the business address in the provider's test mode. Mail scanning / voicemail: the business inbox has a scan or transcript from that service. If a test fails, leave the flag false; the worker that owns the channel retries and fixes what it can, and only a fix that needs the owner (an account in their name, a payment) goes to the Exceptions Desk.
 - **Attorney approvals entered on the page** (`market-<id>.approved_on`): this is the owner's notice, not the approval itself. The Legal Advisor follows "Recording attorney approvals" (`agents/legal-advisor.md`) using the document the owner named in `approval_doc`, and only then writes `attorney_approved` in `config.yaml`. Until then the Setup page shows "waiting for check".
 - **Licence entered on the page** (`licensed_or_partnered`, `license_ref`): the Legal Advisor checks it against `legal/<STATE>.md` (and the state's public licence lookup where one exists) before setting `outreach_allowed: true`.
-- **Autonomy:** the owner's page setting is the owner's decision. The page only saves `autonomous` with an explicit AUTHORIZE confirmation. Everything else in Hard limits still applies, and a market still sends on its own only with `attorney_approved` and passing channels.
+- **Autonomy:** the outreach mode is the owner's newest decision: the Setup page's saved choice (saved only with an explicit AUTHORIZE for `autonomous`) or `config.yaml` → `autonomy.outreach` with its `outreach_decided_on` date, whichever is newer (`scripts/owner_settings.py` → `effective_outreach`; the dashboard builder and QA use it). The owner chose `autonomous` on 2026-11-25. Everything else in Hard limits still applies, and a market still sends on its own only with `attorney_approved`, a tested channel, the Compliance PASS and the 90-day wait.
+- **Workers decide routine matters themselves** (`autonomy.worker_decisions: within_written_limits`): letters, counters up to MAO, professional quotes within `attorney_*_fee_max` / `title_fees`, buyer selection, scheduling and exceptions with a playbook answer. Each such decision gets one row in `pipeline/decisions-log.csv` (`date,worker,lead_id,decision,reason,limit,evidence`; `limit` names the written limit it stayed within). Nothing goes to the owner that a worker, the playbooks or the attorney can settle.
 
-**Owner decisions from the dashboard.** The owner approves, asks for changes on, or rejects outreach (Messages page, and Your queues with approve-all), and marks Sign / Wire items done or on hold. For each of `outreach`, `sign`, `wire` and `exceptions`: `db_list` the collection `data/users/<your id>/decisions/<queue>`, save the output, and run `python3 scripts/owner_decisions.py import <queue> <file>`. That updates `pipeline/owner-decisions.csv` (commit it). Then act on every row with an empty `applied`, and set `applied` to today's date once done:
+**Owner decisions from the dashboard.** The owner marks Sign / Wire items done or on hold and picks an option on the few exceptions that are truly theirs. With outreach `autonomous` the owner is no longer asked to approve letters, but a decision the owner still makes on the Messages page (approve, changes, reject) is honored as below. For each of `outreach`, `sign`, `wire` and `exceptions`: `db_list` the collection `data/users/<your id>/decisions/<queue>`, save the output, and run `python3 scripts/owner_decisions.py import <queue> <file>`. That updates `pipeline/owner-decisions.csv` (commit it). Then act on every row with an empty `applied`, and set `applied` to today's date once done:
 - **outreach / approved:** the owner's approval to send this lead's letter (call scripts stay manual, for the owner). The Compliance Officer runs its gate again on today's facts (stop list, caps, state rules, attorney limits). If it passes and a sending channel works (`channels.mail_sending` / `email_sending`), send within the caps and move the lead to "Outreach sent" with the date. If no channel works yet, keep the stage, mark the letter print-ready in `leads/<id>/outreach-drafts.md`, and list it in the report under **Your queues** as "Approved: print and mail". If the gate fails, don't send: report why under **Exceptions**.
-- **outreach / changes:** Communications redrafts using the owner's note, re-runs the compliance pre-check and puts the lead back in the approval queue (new `approval.txt` line).
+- **outreach / changes:** Communications redrafts using the owner's note and re-runs the compliance pre-check. With `drafts_only` the lead goes back in the approval queue (new `approval.txt` line); with `autonomous` the redraft follows the normal sending gates.
 - **outreach / rejected:** no outreach to this lead. Move it to "Dead" with the note "Owner rejected outreach: <note>" in the tracker.
 - **exceptions, a / b / c / other:** the owner's choice among the Exceptions Desk's options (`pipeline/exceptions.csv`); the Exceptions Desk carries it out and sets the row to resolved.
 - **sign / wire, done:** record it in the tracker and the ledger (wire: only after the owner confirmed by phone with the title company; the system never handles money or bank details), and move the deal to its next stage. **hold:** keep it in the queue and note why.
@@ -95,7 +100,7 @@ Create `leads/<lead_id>/` (lead_id = `<market-id>-<case number or parcel>`), the
 - `legal.md` — lead-specific issues from `agents/legal-advisor.md` (authority, court approval, price floors, state disclosures), referencing `legal/<STATE>.md`
 - `title.md` — desk title/lien check from public records per `agents/transaction-coordinator.md`; list what still needs a real title search
 - `plan.md` — Deal Summary (format in SKILL.md), negotiation plan (`agents/negotiator.md`), and buyer fit (`agents/dispositions.md`)
-- `outreach-drafts.md` — only if the market allows outreach and the verdict isn't WALK AWAY: first letter + call script from `agents/acquisitions.md`, with the assignment disclosure and any state-required wording
+- `outreach-drafts.md` — only if the market allows outreach and the verdict isn't WALK AWAY: first letter from `agents/acquisitions.md` (a call script only when a seller or attorney has asked for a call), with the assignment disclosure and any state-required wording
 
 Add/update the lead's row in `pipeline/deal-tracker.csv` (stage, verdict, MAO, next_action, next_action_date).
 
@@ -103,13 +108,13 @@ Add/update the lead's row in `pipeline/deal-tracker.csv` (stage, verdict, MAO, n
 For each lead deep-dived today, in order:
 1. **Tax & Lien Checker** (`agents/tax-lien-checker.md`): write `leads/<id>/liens.md`; the Deal Analyst subtracts the known payoff or flags it.
 2. **Contact Finder** (`agents/contact-finder.md`), only for leads with `outreach-drafts.md`: write `leads/<id>/contacts.md` and replace address placeholders in the drafts.
-3. **Quality Auditor** (`agents/quality-auditor.md`): sample per its rules and write `leads/<id>/audit.md`. A lead with a FAIL goes back to "Researched" and leaves the approval queue.
+3. **Quality Auditor** (`agents/quality-auditor.md`): sample per its rules and write `leads/<id>/audit.md`. A lead with a FAIL goes back to "Researched" and nothing is sent for it (it leaves the approval queue when there is one).
 Also run steps 1–2 for existing open leads that still lack `liens.md` or `contacts.md`, oldest first, as usage allows.
 
 ### 5. Maintain the existing pipeline
 For every open lead in the tracker (not WALK AWAY / CLOSED / DEAD):
 - Re-check its probate docket for changes (letters issued, sale motion, inventory/appraisal filed, case closed, new attorney). Note changes in the lead's `research.md` with the date.
-- If `next_action_date` is today or past: prepare what the action needs (follow-up letter draft, updated numbers, questions for attorney) and list it under "Needs your approval".
+- If `next_action_date` is today or past: prepare what the action needs (follow-up letter draft, updated numbers, questions for attorney) and hand it to the worker that acts on it. With outreach `autonomous`, letters go through the Compliance gate and send when the market's gates are open; otherwise they wait as held drafts. List it under "Needs your approval" only when outreach is `drafts_only`.
 - If the owner left notes in the tracker `notes` column or in `leads/<id>/owner-notes.md`, act on them (e.g. "spoke to executor, wants $80k" → re-run negotiator plan).
 - Mark leads stale after 6 months with no movement.
 
@@ -118,9 +123,9 @@ Every lead needs `date_of_death` in the tracker, taken from the case file, the d
 
 ### 5b. Communications, negotiation, professionals, closing
 Following `references/orchestration.md`, run these workers (in parallel where possible):
-- **Communications**: send what's due (compliance-gated), read the inbox, route replies.
+- **Communications**: send what's due (compliance-gated, per-market gates), read the inbox, route replies. Log every outbound action in `pipeline/outbound-log.csv` (`date,lead_id,item,channel,recipient_role,produced_by,compliance,status,evidence`; `produced_by` names every worker whose output the item used, all `active`). QA fails the run if a non-active worker's output fed an outbound action, or if a letter to the estate side was sent without a Compliance PASS and either the market's `attorney_approved` or the owner's own approval of that letter.
 - **Negotiation desk**: answer counters within authority; re-price with the Deal Analyst when facts change; move agreed deals to "Contract out for signature" with the contract built from the attorney-approved state template.
-- **Exceptions Desk** (`agents/exceptions-desk.md`): take every exception raised this run and on the board, run its playbook through the owning workers, log it in `pipeline/exceptions.csv`, and leave under **Exceptions** in the report only what is truly the owner's, each with a recommendation and options.
+- **Exceptions Desk** (`agents/exceptions-desk.md`): take every exception raised this run and on the board, run its playbook through the owning workers, log it in `pipeline/exceptions.csv`, and leave under **Your actions → Decisions only you can make** only what is truly the owner's (signature, money beyond the written limits, a legal question only an attorney can answer, anything outside written limits), each with a recommendation and options. Everything else is decided by the owning worker and logged in `pipeline/decisions-log.csv`.
 - **Bookkeeper, Stripe import** (slice C): if `bookkeeping.stripe.connected_on` is set, follow `agents/bookkeeper.md` → Stripe: read balance transactions since `last_imported`, run `scripts/stripe_ledger.py import`, report the counts. Read-only.
 - **Transaction Coordinator, closing status**: if the Qualia Connect connector is connected (`closing_service.connected_on` set), read every open order per `agents/transaction-coordinator.md` 4b and update earnest money and closing dates. Read-only; it never moves money or acts on payment instructions.
 - **Legal Advisor, attorney review**: if an attorney-review connector is connected, follow `agents/legal-advisor.md` → "Attorney review through a connected service" for every open matter (check status, route questions to the handoff board, apply redlines, record approvals only after the bar check).
@@ -139,13 +144,18 @@ Write `reports/YYYY-MM-DD.md`:
 
 ```
 # Probate Pipeline — YYYY-MM-DD
+## Money
+- Fees deposited: this month $X (N deals), year $Y — from `pipeline/ledger.csv` actual income rows (document-backed only)
+- Expected closings: deal, closing date, expected fee (deals at Under contract or later; forecast rows)
+- Deposits due: deal, earnest money amount, due date, title company (the owner confirms by phone and pays the title company's escrow)
+## Your actions (only if there are any; otherwise write "Nothing needs you today.")
+### Sign (one click; packets prepared and checked by the system)
+### Confirm earnest-money deposit (phone the title company first)
+### Decisions only you can make (Exceptions Desk: signature, money beyond the limits, attorney-only legal question, anything outside written limits)
+### Calls (only if a seller or attorney still asks for a call after a written answer; optional)
 ## Top of mind
-- [legal changes, deals that changed status, anything urgent]
-## Your queues
-### Sign
-### Wire (confirm by phone with title first)
-### Calls requested
-### Exceptions (outside authority or held by compliance)
+- [legal changes, deals that changed status, markets that opened for sending, workers promoted or demoted]
+## Decisions the team made (count by worker from pipeline/decisions-log.csv; details there)
 ## Needs your approval (only if outreach is drafts_only)
 | Lead | What | File |
 ## New leads today (N)
@@ -159,7 +169,7 @@ counts by stage and market
 ## Notes & assumptions
 ```
 
-Keep the report short enough to read on a phone in five minutes; details live in `leads/`.
+Keep the report short enough to read on a phone in five minutes; details live in `leads/`. The owner reads the Money section and Your actions; everything below is reference. Never list under Your actions anything a worker decided or can decide within its written limits.
 
 ### 7. QA, then refresh the dashboard
 1. Build the dashboard data with the repo's builder (never hand-write the CSVs): `python3 scripts/build_dashboard_data.py <scratch>/dd`. It writes leads, queues, markets (all 50 states + DC), stages, sources (working only), runs and pace, with names and contact details left out.
@@ -173,6 +183,12 @@ Keep the report short enough to read on a phone in five minutes; details live in
 
 ### 7b. Learn
 Every worker that did work this run runs the self-review loop in `references/self-review.md` (predict before, compare after, change one thing, one row in `pipeline/self-review.csv`); on Mondays the Quality Auditor runs the weekly calibration in that file. Then follow `references/learning.md`: every worker that met something its instructions didn't cover today writes the rule into its own file under `## Learned`, and the report lists it under **What the team learned**. The Legal Advisor also processes any attorney reply to a packet (its section "Recording attorney approvals").
+
+### 7c. Worker lifecycle (slice C)
+Follow `references/worker-lifecycle.md`:
+1. **Score.** The Quality Auditor scores every worker that ran today and that it checked: `python3 scripts/worker_lifecycle.py score <worker> --items N --checked N --agreed N --errors N --violations N --results N --evidence <file>`. Trial and probation workers are scored in shadow mode against their checker (their output in `pipeline/trials/<worker>/<date>/`), active workers in live mode from the audit sample.
+2. **Evaluate.** `python3 scripts/worker_lifecycle.py evaluate --apply`. It promotes trial workers that met the thresholds, puts active workers whose measured performance dropped on probation, and retires workers that failed (role file moved to `agents/retired/`). Core checkers (`worker_lifecycle.core_workers`) are never retired automatically: if one stays failing, the Exceptions Desk escalates it to the owner.
+3. **Wire changes.** For a promotion, the worker's output starts feeding the run at the next slice (remove "shadow" from its step). For a retirement, remove its roster row in `SKILL.md`, its rows in `orchestration.md` and the runbook step, and its `W(...)` row in `scripts/build_dashboard_data.py`, and reassign its open handoffs. List every change under **Top of mind**: "Worker <name> promoted / on probation / retired: <reason>".
 
 ### 8. Save
 `git add -A && git commit -m "Daily run YYYY-MM-DD: N new leads, M updates"` and push to the default branch, retrying network errors up to 4 times with backoff. If the push fails, say so at the top of your final message. Never create or push other branches: the session proxy blocks branch deletion, so any branch you push stays behind as clutter. If the push to the default branch is rejected because `main` moved (someone else pushed first), `git pull --rebase origin main` and push again, up to 3 times. On a rebase conflict, follow the conflict rule in step 0. If the push is refused for any other reason, or still fails, leave the commit local (step 0 of the next run pushes it) and report the exact error rather than pushing to a fallback branch.

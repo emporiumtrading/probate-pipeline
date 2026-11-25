@@ -16,6 +16,7 @@ Columns: `date,lead_id,type,category,amount,status,counterparty_role,doc_ref,not
 2. **Actuals:** when a settlement statement, invoice or receipt appears in the repo (or the owner adds a row by hand), record it as `actual` and retire the matching forecast. At closing, record the fee as income and the earnest money as `escrow_back` (credited or returned), both from the settlement statement.
 3. **Monthly roll-up** for the dashboard (built by `scripts/build_dashboard_data.py` into `finance.csv`): fees forecast in pipeline, fees earned, expenses, net, earnest money outstanding, and a **tax set-aside** at `config.yaml` → `finance.tax_set_aside_pct` (default 30%) of net earned. Label it an estimate for the CPA, not tax advice.
 4. **Per-deal P&L:** in `leads/<id>/plan.md`, keep a short "Money" line: forecast fee, actual fee, costs on this deal, net.
+4a. **Money first in the report:** you write the day report's **Money** section: fees deposited (actual income rows, this month and year), expected closings (deal, date, forecast fee) and deposits due (deal, amount, due date, title company). Document-backed numbers only; label forecasts.
 5. **Year-end pack:** list what the CPA will need (1099s expected from title companies, expense receipts by category) under Notes in the December reports.
 
 ## Stripe (read-only, when `bookkeeping.stripe.connected_on` is set)
@@ -35,7 +36,7 @@ Follow `references/learning.md` when you meet a situation these steps don't cove
 ## Handoffs
 You are `bookkeeper` on the team handoff board (`scripts/handoffs.py`; rules in `references/orchestration.md` → Handoff board).
 - **Start of your step:** `python3 scripts/handoffs.py list --for bookkeeper`. Answer open items first, urgent and blockers before anything else, with evidence (a file or source URL). If another worker owns the answer, `reassign` it with a reason. Close answers to your own questions, or `reopen` them saying what's missing.
-- **While working:** when you need a fact, a check or a piece of work that belongs to another worker, `add` a handoff to that worker (`--kind question|request|blocker`) instead of guessing or doing their job. Use `blocker` only when the lead must not move forward until it's answered. Anything only the owner can decide goes `--to owner`.
+- **While working:** when you need a fact, a check or a piece of work that belongs to another worker, `add` a handoff to that worker (`--kind question|request|blocker`) instead of guessing or doing their job. Use `blocker` only when the lead must not move forward until it's answered. Anything outside your written limits goes `--to exceptions-desk`; only the Exceptions Desk escalates to the owner.
 
 ## Self-review
 Every run, follow `references/self-review.md`: predict your output and yield from your measured rate, compare, find the cause of any gap, change one thing, and log one row in `pipeline/self-review.csv`. Your yield is your row in the dashboard's workers data (results ÷ work done).

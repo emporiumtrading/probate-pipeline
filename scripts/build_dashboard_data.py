@@ -49,6 +49,15 @@ STAGE_MEANING = {
     "Paid": "Your assignment fee arrived from the title company.",
     "Dead": "Walked away: not an estate asset, numbers don't work, or the family said no.",
 }
+sys.path.insert(0, os.path.join(ROOT, "scripts"))
+import owner_settings as _os0
+OUTREACH_MODE = _os0.effective_outreach()  # owner's newer decision: config.yaml (outreach_decided_on) vs the Setup page
+if OUTREACH_MODE == "autonomous":
+    # No per-letter approval: drafts that pass every gate go out on their own; markets without attorney approval or a
+    # working channel hold them (owner decision 2026-11-25, config.yaml -> autonomy).
+    STAGES[STAGES.index(("Outreach drafted", "Communications", "approve"))] = ("Outreach drafted", "Communications", "")
+    STAGE_MEANING["Outreach drafted"] = ("A letter is written and passed the checks. It goes out on its own once the 90-day wait after the death has passed "
+                                         "and the market's attorney has approved the templates and a sending channel works. Nothing for you to do.")
 STAGE_ORDER = {s: i + 1 for i, (s, _, _) in enumerate(STAGES)}
 STAGE_TEAM = {s: t for s, t, _ in STAGES}
 STAGE_OWNER = {s: o for s, _, o in STAGES}
@@ -234,6 +243,8 @@ for f in sorted(glob.glob(os.path.join(ROOT, "leads", "*", "outreach-drafts.md")
         k = _kind(head)
         if k in ("compliance", "plan"): continue
         n += 1
+        if k == "call script" and OUTREACH_MODE == "autonomous" and l["stage"] not in _SENT:
+            continue  # owner decision 2026-11-25: no routine calls for the owner; a call is offered only when someone asks (Reply Desk)
         atts = []
         for line in re.findall(r"^(?:Attachments?|Enclosures?):\s*(.+)$", body, re.M | re.I):
             for a in [x.strip() for x in re.split(r"[,;]", line) if x.strip() and x.strip().lower() not in ("none", "n/a")]:
@@ -246,6 +257,7 @@ for f in sorted(glob.glob(os.path.join(ROOT, "leads", "*", "outreach-drafts.md")
         elif l["stage"] == "Dead": status = "withdrawn"
         elif d: status = {"approved": "approved by you", "changes": "changes requested", "rejected": "rejected"}[d["decision"]]
         elif k == "call script": status = "script for you"
+        elif OUTREACH_MODE == "autonomous": status = "held until the market is cleared"  # sends itself once attorney approval, channel, compliance and the 90-day wait all pass
         else: status = "draft awaiting approval"
         to = recip or (re.search(r"[-—]\s*to\s+(.+)$", head) or [None, ""])[1].strip()
         messages.append({"msg_id": f"{lid}--{n}", "lead_id": lid, "address": l["address"], "city": l["city"], "county": l["county"],
@@ -380,8 +392,7 @@ import owner_settings
 OV = owner_settings.load()
 biz.update({k: v for k, v in OV.get("business", {}).items() if v and k in owner_settings.SCHEMA["business"]})
 _och = OV.get("channels", {})
-if OV.get("autonomy", {}).get("outreach"):
-    autonomy["outreach"] = OV["autonomy"]["outreach"]
+autonomy["outreach"] = OUTREACH_MODE  # the newer of the Setup page's choice and config.yaml's dated owner decision
 ready = []
 def item(area, name, status, fix, unlocks, area_id, key):
     st = status if isinstance(status, str) else ("done" if status else "missing")
@@ -437,7 +448,7 @@ for m in live:
          (f"Waiting for {_prov} to confirm a {m['state']}-licensed attorney; then the packet is submitted (needs your company details first)" if _prov else f"Engage a {m['state']}-licensed attorney from network/{m['market']}.md")),
          "Attorney review of this market's letters and contracts", aid, "attorney")
     item(lbl, "Attorney packet built", pk, "Built automatically by the runner (scripts/build_attorney_packet.py)", "Attorney review", aid, "packet")
-    item(lbl, "Attorney approved templates", True if appr else ("waiting for check" if mo.get("approved_on") else False), f"Send legal/attorney-packets/{m['market']}.md to a local attorney; record the approval on Setup page → {lbl} → Configure", "Autonomous sending here", aid, "approved_on")
+    item(lbl, "Attorney approved templates", True if appr else ("waiting for check" if mo.get("approved_on") else False), (f"The Legal Advisor sends legal/attorney-packets/{m['market']}.md to the engaged attorney and records the approval itself; you only sign the attorney's engagement letter" if OUTREACH_MODE == "autonomous" else f"Send legal/attorney-packets/{m['market']}.md to a local attorney; record the approval on Setup page → {lbl} → Configure"), "Autonomous sending here", aid, "approved_on")
 
 # ---- attorney review: service matters and each market's legal status (Markets & legal page) ----
 _lmp = os.path.join(ROOT, "pipeline", "legal-matters.csv")
@@ -637,7 +648,18 @@ _ROLE_FILE = {"Source Mapper": "source-mapper.md", "Researcher": "researcher.md"
     "Contract Desk": "contract-desk.md", "Quality Auditor": "quality-auditor.md", "Bookkeeper": "bookkeeper.md", "Transaction Coordinator": "transaction-coordinator.md"}
 for w in workers:
     w["role_file"] = _ROLE_FILE.get(w["worker"], "")
-write("workers.csv", ["worker", "role_file", "does", "done", "done_label", "result", "result_label", "rate", "last_active", "status", "note"], workers)
+# Lifecycle (pipeline/workers.csv, scripts/worker_lifecycle.py): trial and probation workers run in shadow mode, so the
+# card shows that instead of the activity status; retired workers' role files leave agents/ and their cards say so.
+_LC = {r["worker"]: r for r in _rows("pipeline/workers.csv")}
+_LC_LABEL = {"trial": "Trial: shadow mode, not used yet", "probation": "Probation: shadow mode until it recovers", "retired": "Retired"}
+for w in workers:
+    lc = _LC.get(w["role_file"][:-3], {})
+    w["lifecycle"], w["lifecycle_score"], w["lifecycle_since"] = lc.get("status", ""), lc.get("score", ""), lc.get("since", "")
+    if lc.get("status") in _LC_LABEL:
+        w["status"] = _LC_LABEL[lc["status"]]
+        w["note"] = "; ".join(x for x in (lc.get("notes", ""), w["note"]) if x)[:220]
+write("workers.csv", ["worker", "role_file", "does", "done", "done_label", "result", "result_label", "rate", "last_active", "status", "note",
+                      "lifecycle", "lifecycle_score", "lifecycle_since"], workers)
 
 # ---- health: freshness of the data itself ----
 last_run = runs[-1]["date"] if runs else ""

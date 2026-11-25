@@ -247,7 +247,7 @@ if not os.path.exists(_mp):
     fails.append("messages.json missing: rebuild with scripts/build_dashboard_data.py")
 else:
     import json as _json
-    _ST = {"draft awaiting approval", "approved by you", "changes requested", "rejected", "sent", "withdrawn", "script for you"}
+    _ST = {"draft awaiting approval", "approved by you", "changes requested", "rejected", "sent", "withdrawn", "script for you", "held until the market is cleared"}
     for _m in _json.load(open(_mp)):
         if _m.get("status") not in _ST:
             fails.append(f"messages.json {_m.get('msg_id')}: unknown status {_m.get('status')}")
@@ -270,6 +270,28 @@ for _q in rows("queues.csv"):
 for _f in glob.glob(os.path.join(ROOT, ".claude/skills/probate-wholesale-deal/agents/*.md")):
     if "## Handoffs" not in open(_f).read():
         fails.append(f"{os.path.relpath(_f, ROOT)}: missing the '## Handoffs' section (references/orchestration.md → Handoff board)")
+# ---- worker lifecycle (references/worker-lifecycle.md): registry matches agents/, shadow output never feeds outbound ----
+import worker_lifecycle as _wl
+_wf, _ww = _wl.problems()
+fails += _wf
+warns += _ww
+# ---- autonomous sending still respects every per-market gate ----
+import owner_settings as _os2
+if _os2.effective_outreach(cfg) == "autonomous" and any(q.get("queue") == "Approve outreach" for q in queues):
+    fails.append("outreach is autonomous but queues.csv still asks the owner to approve letters (rebuild the data)")
+_appr_mk = {m.group(1) for m in re.finditer(r"\n  - id: ([\w-]+)\n(?:(?!\n  - id: )[\s\S])*?\n\s+attorney_approved:\s*\d{4}-\d\d-\d\d", cfg)}
+_owner_ok = {k[1] for k, v in _od.load().items() if k[0] == "outreach" and v.get("decision") == "approved"}
+for _i, _o in enumerate(_wl.read(_wl.OUTBOUND), 2):
+    if (_o.get("status") or "").lower() != "sent":
+        continue
+    if (_o.get("compliance") or "").upper() != "PASS":
+        fails.append(f"outbound-log.csv line {_i} ({_o.get('lead_id')}): sent without a Compliance Officer PASS")
+    _mk = next((m for m in re.findall(r"\n  - id: ([\w-]+)", cfg) if (_o.get("lead_id") or "").startswith(m + "-")), "")
+    _seller = (_o.get("recipient_role") or "").lower() not in ("buyer", "title_company", "professional")  # estate side: personal_representative, heir, trustee, estate_attorney
+    if _seller and _mk not in _appr_mk and _o.get("lead_id") not in _owner_ok:
+        fails.append(f"outbound-log.csv line {_i} ({_o.get('lead_id')}): sent to a seller in {_mk or 'an unknown market'} without attorney_approved on the market or the owner's approval of that letter")
+
+
 def guard_parts():
     dr = open(os.path.join(ROOT, ".claude/skills/probate-wholesale-deal/references/daily-run.md")).read()
     hl = re.search(r"## Hard limits.*?(?=\n## )", dr, re.S)

@@ -15,7 +15,7 @@ Nothing goes out (letter, email, offer, contract, deal sheet, buyer blast) until
 
 **Content rules**
 - States plainly that the sender is an investor who may assign the contract.
-- No false urgency, no implied affiliation with the court or a government agency, no "we already have your house under contract", no pressure about grief, and no promises the owner hasn't approved.
+- No false urgency, no implied affiliation with the court or a government agency, no "we already have your house under contract", no pressure about grief, and no promises beyond the written limits in `config.yaml` → `autonomy`.
 - Numbers quoted must match `underwriting.md`; offers within `autonomy.negotiation_limit`.
 - State-specific required wording is included (from `legal/<STATE>.md`), e.g. Ohio R.C. 5301.95 separate disclosure page before any contract; Tennessee bold disclosures and the 3-business-day assignment notice; no outreach at all in research-only states.
 
@@ -23,8 +23,13 @@ Nothing goes out (letter, email, offer, contract, deal sheet, buyer blast) until
 - Contract built from the attorney-approved template for that state (`templates/<STATE>/`), with the deal's variables filled in and no unapproved clause changes. A template the attorney hasn't approved means no contract goes out.
 - Wiring: never include bank details. Never forward wiring instructions received by email; tell the owner to call the title company at its published number.
 
+**Autonomous sending (every item)**
+- Outreach mode `autonomous` sends only in a market with `attorney_approved: <date>` and a tested channel; otherwise HOLD as a held draft (not an owner item), unless the owner approved that specific letter.
+- Every worker whose output the item uses is `active` in `pipeline/workers.csv`. Output of a `trial` or `probation` worker, or anything from `pipeline/trials/`, is an automatic HOLD.
+- Nothing is signed for the owner and no signature image is ever placed on a document.
+
 ## Output
-Append to `leads/<id>/compliance-log.md`: item, recipient, channel, PASS/HOLD, reasons. HOLD items go to the report's Exceptions queue.
+Append to `leads/<id>/compliance-log.md`: item, recipient, channel, PASS/HOLD, reasons. HOLD items go to the Exceptions Desk (`--to exceptions-desk`), which fixes them through the owning worker; only the Exceptions Desk escalates to the owner.
 
 ## Lead types
 Check each item against its lead's `lead_type` row in `references/lead-types.md` → Stage playbook. Block it if: it uses the wrong template; it goes directly to a represented party in a partition case; it would be a third unprobated contact, or is sent less than 60 days after death; it uses a tax-sale date as pressure; it offers terms to one heir that weren't offered to all; its type is disabled in `config.yaml` → `lead_types`; it is a first contact less than `lead_types.min_days_after_death` days after the date of death (or the filing date if the date of death is unknown, and blocked if both are unknown); or it involves a guardianship.
@@ -32,7 +37,7 @@ Check each item against its lead's `lead_type` row in `references/lead-types.md`
 ## Handoffs
 You are `compliance-officer` on the team handoff board (`scripts/handoffs.py`; rules in `references/orchestration.md` → Handoff board).
 - **Start of your step:** `python3 scripts/handoffs.py list --for compliance-officer`. Answer open items first, urgent and blockers before anything else, with evidence (a file or source URL). If another worker owns the answer, `reassign` it with a reason. Close answers to your own questions, or `reopen` them saying what's missing.
-- **While working:** when you need a fact, a check or a piece of work that belongs to another worker, `add` a handoff to that worker (`--kind question|request|blocker`) instead of guessing or doing their job. Use `blocker` only when the lead must not move forward until it's answered. Anything only the owner can decide goes `--to owner`.
+- **While working:** when you need a fact, a check or a piece of work that belongs to another worker, `add` a handoff to that worker (`--kind question|request|blocker`) instead of guessing or doing their job. Use `blocker` only when the lead must not move forward until it's answered. Anything outside your written limits goes `--to exceptions-desk`; only the Exceptions Desk escalates to the owner.
 
 ## Self-review
 Every run, follow `references/self-review.md`: predict your output and yield from your measured rate, compare, find the cause of any gap, change one thing, and log one row in `pipeline/self-review.csv`. Your yield is your row in the dashboard's workers data (results ÷ work done).

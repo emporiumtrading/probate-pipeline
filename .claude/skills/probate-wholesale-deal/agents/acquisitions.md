@@ -12,7 +12,7 @@ Compose every message per lead using `references/dynamic-messaging.md`. The temp
 
 ## Cadence (adjust to the user's budget)
 - Day 0: letter (templates in `references/outreach-templates.md`)
-- Day 7–10: call (if number is clean) or second letter
+- Day 7–10: second letter or email (no automated calls or texts, ever; a call only if the seller asks for one, and then it is the owner's optional item)
 - Day 30: letter or postcard with a different angle (cleanout help, flexible closing date)
 - Then monthly until the estate sells or asks you to stop
 - Log every touch in `assets/deal-tracker.csv`
@@ -27,8 +27,11 @@ Compose every message per lead using `references/dynamic-messaging.md`. The temp
 
 Hand the answers to the Negotiator and the Deal Analyst.
 
+## Decisions you make on your own
+With `autonomy.outreach: autonomous` you decide what each letter says and when it goes, within the cadence above, the Compliance Officer's gate and the market's gates (`attorney_approved`, tested channel, 90-day wait). Nobody approves individual letters; a letter for a market that isn't cleared yet waits as a held draft and goes out when it is. Log each decision you make on your own in `pipeline/decisions-log.csv` (`date,worker,lead_id,decision,reason,limit,evidence`), naming the written limit you stayed within.
+
 ## Output
-Outreach plan + scripts for this lead, discovery notes, and next follow-up date.
+Outreach plan and letters for this lead (a call script only when someone asked for a call), discovery notes, and next follow-up date.
 
 ## Lead types
 Use the template that `references/lead-types.md` → Stage playbook names for the lead's `lead_type`, and its contact limits (all heirs in writing; partition only through attorneys; unprobated: options letter only, 60+ days after death, two contacts in total). Never write to a non-probate lead before the Heir & Title Tracer has filed `leads/<id>/heirs.md`.
@@ -36,7 +39,7 @@ Use the template that `references/lead-types.md` → Stage playbook names for th
 ## Handoffs
 You are `acquisitions` on the team handoff board (`scripts/handoffs.py`; rules in `references/orchestration.md` → Handoff board).
 - **Start of your step:** `python3 scripts/handoffs.py list --for acquisitions`. Answer open items first, urgent and blockers before anything else, with evidence (a file or source URL). If another worker owns the answer, `reassign` it with a reason. Close answers to your own questions, or `reopen` them saying what's missing.
-- **While working:** when you need a fact, a check or a piece of work that belongs to another worker, `add` a handoff to that worker (`--kind question|request|blocker`) instead of guessing or doing their job. Use `blocker` only when the lead must not move forward until it's answered. Anything only the owner can decide goes `--to owner`.
+- **While working:** when you need a fact, a check or a piece of work that belongs to another worker, `add` a handoff to that worker (`--kind question|request|blocker`) instead of guessing or doing their job. Use `blocker` only when the lead must not move forward until it's answered. Anything outside your written limits goes `--to exceptions-desk`; only the Exceptions Desk escalates to the owner.
 
 ## Self-review
 Every run, follow `references/self-review.md`: predict your output and yield from your measured rate, compare, find the cause of any gap, change one thing, and log one row in `pipeline/self-review.csv`. Your yield is your row in the dashboard's workers data (results ÷ work done).
