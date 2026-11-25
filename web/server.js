@@ -23,6 +23,7 @@ const HERMES_URL = (process.env.HERMES_URL || '').replace(/\/+$/, '');
 const HERMES_KEY = process.env.HERMES_API_KEY || '';
 const preflight = require('./preflight');
 const db = require('./db');
+const ops = require('./ops-api');
 
 const ROOT = path.join(__dirname, '..');
 const DASH = path.join(ROOT, 'dashboard');
@@ -127,6 +128,8 @@ const server = http.createServer(async (req, res) => {
     res.writeHead(303, { Location: '/', 'Set-Cookie': `${COOKIE}=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0`, ...SEC_HEADERS });
     return res.end();
   }
+  // Hermes's narrow door to Render (its own key, not the owner's login): web/ops-api.js.
+  if (p.startsWith('/api/ops/')) return ops.handle(req, res, p, u, send, readBody, db);
   if (!authed(req)) {
     if (req.method === 'GET' && (p === '/' || p === '/index.html' || p === '/login')) return send(res, 200, landing(''), MIME['.html']);
     return send(res, 401, 'login required');

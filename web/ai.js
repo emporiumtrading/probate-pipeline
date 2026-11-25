@@ -15,6 +15,12 @@ const RENDER_KEY = process.env.RENDER_API_KEY || '';
 const NAMES = (process.env.RUNNER_SERVICES || 'probate-slice-a,probate-slice-b,probate-slice-c,probate-fast-desk,probate-hermes')
   .split(',').map((s) => s.trim()).filter(Boolean);
 
+// Hermes gets only what it needs: the AI keys and the GitHub token. No Render key, no database
+// password and no sending/signing keys; it reaches Render through the dashboard's narrow
+// /api/ops door (web/ops-api.js), and the runner jobs do all sending and signing.
+const HERMES = process.env.HERMES_SERVICE || 'probate-hermes';
+const HERMES_FORBIDDEN = ['RENDER_API_KEY', 'DATABASE_URL', 'RESEND_API_KEY', 'LOB_API_KEY', 'DOCUSEAL_API_KEY'];
+
 const KEYS = {
   ANTHROPIC_API_KEY: { label: 'Claude (Anthropic)', check: async (v) => {
     const r = await fetch('https://api.anthropic.com/v1/models?limit=1', { headers: { 'x-api-key': v, 'anthropic-version': '2023-06-01' }, signal: AbortSignal.timeout(20000) });
@@ -66,7 +72,8 @@ let keyShared = false;
 const shareRenderKey = async (svcs) => {
   if (keyShared) return;
   let changed = false;
-  for (const s of svcs) {
+  const jobs = svcs.filter((s) => s.name !== HERMES);
+  for (const s of jobs) {
     const vars = await render('GET', `/services/${s.id}/env-vars?limit=100`);
     const cur = (vars || []).find((x) => x.envVar.key === 'RENDER_API_KEY');
     if (!cur || cur.envVar.value !== RENDER_KEY) { await render('PUT', `/services/${s.id}/env-vars/RENDER_API_KEY`, { value: RENDER_KEY }); changed = true; }
@@ -78,7 +85,7 @@ const shareRenderKey = async (svcs) => {
   if (db) {
     const ci = await render('GET', `/postgres/${db.id}/connection-info`);
     const url = ci && ci.internalConnectionString;
-    if (url) for (const s of svcs) {
+    if (url) for (const s of jobs) {
       const vars = await render('GET', `/services/${s.id}/env-vars?limit=100`);
       const cur = (vars || []).find((x) => x.envVar.key === 'DATABASE_URL');
       if (!cur || cur.envVar.value !== url) { await render('PUT', `/services/${s.id}/env-vars/DATABASE_URL`, { value: url }); changed = true; }
@@ -86,13 +93,16 @@ const shareRenderKey = async (svcs) => {
   }
   // Hermes works on the repo with the runner jobs' GitHub token, and needs any key saved before it
   // existed; copy them from the morning job. Its memory needs a persistent disk at /opt/data.
-  const hermes = svcs.find((s) => s.name === 'probate-hermes');
+  const hermes = svcs.find((s) => s.name === HERMES);
   const ref = svcs.find((s) => s.name === 'probate-slice-a');
   if (hermes && ref) {
     const have = Object.fromEntries(((await render('GET', `/services/${ref.id}/env-vars?limit=100`)) || []).map((x) => [x.envVar.key, x.envVar.value]));
     const mine = Object.fromEntries(((await render('GET', `/services/${hermes.id}/env-vars?limit=100`)) || []).map((x) => [x.envVar.key, x.envVar.value]));
-    for (const k of ['GITHUB_TOKEN', ...Object.keys(KEYS)]) {
+    for (const k of ['GITHUB_TOKEN', ...Object.keys(KEYS).filter((k) => !HERMES_FORBIDDEN.includes(k))]) {
       if (have[k] && mine[k] !== have[k]) { await render('PUT', `/services/${hermes.id}/env-vars/${k}`, { value: have[k] }); changed = true; }
+    }
+    for (const k of HERMES_FORBIDDEN) {
+      if (k in mine) { await render('DELETE', `/services/${hermes.id}/env-vars/${k}`); changed = true; console.log(`hermes: removed ${k}`); }
     }
     const svc = await render('GET', `/services/${hermes.id}`);
     if (svc && !(svc.serviceDetails && svc.serviceDetails.disk)) {
@@ -141,7 +151,7 @@ const setKey = async (name, value) => {
     let bad;
     try { bad = await KEYS[name].check(value); } catch (e) { bad = `couldn't reach the provider to check it (${e.name})`; }
     if (bad) return { ok: false, error: bad };
-    for (const s of svcs) await render('PUT', `/services/${s.id}/env-vars/${name}`, { value });
+    for (const s of svcs) if (!(s.name === HERMES && HERMES_FORBIDDEN.includes(name))) await render('PUT', `/services/${s.id}/env-vars/${name}`, { value });
   } else {
     for (const s of svcs) await render('DELETE', `/services/${s.id}/env-vars/${name}`);
   }

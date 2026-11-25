@@ -4,13 +4,14 @@
 FROM nousresearch/hermes-agent:v0.23.4
 
 USER root
-# git and python3 for the pipeline's scripts; psql to read the database.
+# git and python3 for the pipeline's scripts. No database client: Hermes reads the database
+# through the dashboard (pipeline-ops db), read-only.
 RUN apt-get -o Acquire::Retries=3 update && \
-    apt-get -o Acquire::Retries=3 install -y --no-install-recommends git python3 postgresql-client ca-certificates curl && \
+    apt-get -o Acquire::Retries=3 install -y --no-install-recommends git python3 ca-certificates curl && \
     rm -rf /var/lib/apt/lists/*
 
 COPY hermes/ /opt/probate/
-RUN chmod 755 /opt/probate/boot.sh
+RUN chmod 755 /opt/probate/boot.sh /opt/probate/pipeline-ops && ln -sf /opt/probate/pipeline-ops /usr/local/bin/pipeline-ops
 
 # The image's ENTRYPOINT (s6 init + main-wrapper) runs this executable as the hermes user.
 CMD ["/opt/probate/boot.sh"]

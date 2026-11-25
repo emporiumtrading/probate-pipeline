@@ -1,0 +1,19 @@
+#!/bin/bash
+# pipeline-ops: Hermes's only door to Render, through the dashboard (web/ops-api.js).
+#   pipeline-ops services               status and last deploy of each pipeline service
+#   pipeline-ops run <cron job>         start probate-slice-a|b|c or probate-fast-desk now
+#   pipeline-ops deploy <service>       redeploy a pipeline service
+#   pipeline-ops logs <service> [n]     last n log lines (default 100)
+#   pipeline-ops db <view> [query]      read-only database views: summary, records (dataset=, q=),
+#                                       history (dataset=, key=), files (q=), file (path=), saves, syncs
+set -eu
+BASE="${DASHBOARD_URL:-https://probate-dashboard.onrender.com}"
+name() { [[ "${1:-}" =~ ^[a-z0-9-]{1,40}$ ]] || { echo "bad service name" >&2; exit 2; }; }
+call() { curl -sS --max-time 120 -H "Authorization: Bearer ${API_SERVER_KEY:?}" "$@"; echo; }
+case "${1:-}" in
+  services) call "$BASE/api/ops/services" ;;
+  run|deploy) name "${2:-}"; call -H 'Content-Type: application/json' -d "{\"service\":\"$2\"}" "$BASE/api/ops/$1" ;;
+  logs) name "${2:-}"; call "$BASE/api/ops/logs?service=$2&limit=${3:-100}" ;;
+  db) [[ "${2:-}" =~ ^[a-zA-Z]{1,20}$ ]] || { echo "bad view" >&2; exit 2; }; call -G "$BASE/api/ops/db/$2" ${3:+--data "$3"} ;;
+  *) sed -n '2,8p' "$0"; exit 2 ;;
+esac

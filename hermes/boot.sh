@@ -7,11 +7,18 @@ HH="${HERMES_HOME:-/opt/data}"
 REPO="${PIPELINE_REPO:-emporiumtrading/probate-pipeline}"
 WS="$HH/workspace/probate-pipeline"
 log() { echo "[probate-hermes] $*"; }
+# Hermes holds only its AI keys, the GitHub token and its own API key. Anything else that reaches
+# this service by mistake is dropped before Hermes starts (it reaches Render through pipeline-ops).
+for v in RENDER_API_KEY DATABASE_URL RESEND_API_KEY LOB_API_KEY DOCUSEAL_API_KEY; do
+  [ -n "${!v:-}" ] && log "dropping $v (Hermes doesn't hold it)"; unset "$v"
+done
 mkdir -p "$HH/workspace"
 
 # 1. The pipeline repo is Hermes's workspace (CLAUDE.md there is loaded as project context).
 if [ -n "${GITHUB_TOKEN:-}" ]; then
-  URL="https://x-access-token:${GITHUB_TOKEN}@github.com/${REPO}.git"
+  # The token stays out of .git/config: git asks this helper for it from the environment.
+  git config --global credential.helper '!f() { echo username=x-access-token; echo "password=${GITHUB_TOKEN}"; }; f'
+  URL="https://github.com/${REPO}.git"
   if [ -d "$WS/.git" ]; then
     git -C "$WS" remote set-url origin "$URL"
     git -C "$WS" fetch -q origin main && git -C "$WS" checkout -q main && git -C "$WS" pull -q --rebase origin main || log "pull failed; working copy kept as is"
@@ -65,9 +72,35 @@ approvals:
     - "rm -rf $HH*"
     - "rm -rf $WS"
     - "rm -rf ."
+    - "rm -rf /*"
+    - "git push*--delete*"
+    - "git push*:main*"
+    - "git branch -D main*"
+    - "git filter-branch*"
+    - "git rebase -i*"
+    - "printenv*"
+    - "env"
+    - "env |*"
+    - "*/proc/*/environ*"
+    - "*API_SERVER_KEY*"
+    - "*ANTHROPIC_API_KEY*"
+    - "*NVIDIA_API_KEY*"
+    - "*OPENROUTER_API_KEY*"
+    - "*GITHUB_TOKEN*"
+    - "git remote get-url*"
+    - "git config --get remote*"
+    - "cat .git/config*"
+    - "*git config user.name*"
+    - "*git -c user.name*"
+    - "*GIT_AUTHOR_NAME*"
+    - "*GIT_COMMITTER_NAME*"
+    - "*--author*"
+    - "*credential*"
 cron:
   catch_up_missed: false
-  allow_agent_scheduling: true
+  # Only the hourly supervision job below; Hermes can't add jobs of its own (a planted
+  # instruction could otherwise make itself permanent).
+  allow_agent_scheduling: false
 gateway:
   api_server:
     enabled: true

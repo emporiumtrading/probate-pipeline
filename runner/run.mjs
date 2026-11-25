@@ -158,7 +158,7 @@ const undoCommits = (base, author, paths, label) => {
 };
 // Hermes (the orchestrator, hermes/) may change code and worker instructions, but never the guardrails.
 // Every run audits Hermes's commits since the last audit and undoes any change to these files.
-const HERMES_PROTECTED = ['scripts/qa_checks.py', 'scripts/guardrails.sha256', 'scripts/check_page.py', 'scripts/sign_check.py', 'scripts/reserve.py',
+const HERMES_PROTECTED = ['web/ops-api.js', 'web/ai.js', 'web/server.js', 'scripts/qa_checks.py', 'scripts/guardrails.sha256', 'scripts/check_page.py', 'scripts/sign_check.py', 'scripts/reserve.py',
   'runner/run.mjs', 'hermes', '.claude/skills/probate-wholesale-deal/references/self-repair.md', '.claude/skills/probate-wholesale-deal/references/full-autonomy.md'];
 {
   const mark = path.join(WORK, 'pipeline', 'hermes-audit.txt');
