@@ -25,6 +25,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { runAgent } from './agent.mjs';
 import { syncDeploys } from './deploy.mjs';
+import { syncDb } from './dbsync.mjs';
 
 const SLICE = process.argv[2] || 'a';
 const PIPELINE_REPO = process.env.PIPELINE_REPO || 'emporiumtrading/probate-pipeline';
@@ -259,6 +260,9 @@ if (dirty.stdout.trim()) git(['commit', '-m', `Runner slice ${SLICE} (uncommitte
 git(['pull', '--rebase', 'origin', 'main']);
 git(['push', 'origin', 'HEAD:main']);
 
-/* ---------- 5. deploy what changed (Render's deploy-on-push isn't firing) ---------- */
+/* ---------- 5. copy everything into Postgres (runner/dbsync.mjs); the repo stays the source of truth ---------- */
+try { console.log(await syncDb({ cwd: WORK, storeDocs, slice: SLICE })); } catch (e) { console.log('db sync: failed', e.message); }
+
+/* ---------- 6. deploy what changed (Render's deploy-on-push isn't firing) ---------- */
 try { for (const l of await syncDeploys(WORK)) console.log('deploy:', l); } catch (e) { console.log('deploy: failed', e.message); }
 process.exit(code ?? 0);

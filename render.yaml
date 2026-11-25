@@ -15,6 +15,14 @@
 #   RESEND_API_KEY           (optional — inbox/email channels)
 # Schedules are UTC (Render has no TZ); CT is UTC-6 in winter, UTC-5 in summer —
 # expect a 1h drift during daylight saving unless the cron lines are adjusted.
+databases:
+  # The pipeline's permanent, queryable copy (runner/dbsync.mjs, after every run); the repo stays the source of truth.
+  - name: probate-db
+    plan: basic-256mb
+    region: oregon
+    postgresMajorVersion: "16"
+    ipAllowList: []               # private: Render services only
+
 services:
   - type: web
     name: probate-dashboard
@@ -59,6 +67,7 @@ services:
       - {key: OPENROUTER_API_KEY, sync: false}
       - {key: RESEND_API_KEY, sync: false}
       - {key: RENDER_API_KEY, sync: false}   # copied here by the dashboard; used to deploy after each run
+      - {key: DATABASE_URL, fromDatabase: {name: probate-db, property: connectionString}}   # the dashboard also copies it here
 
   # Daily slice B — 12:23 PM CT -> 18:23 UTC (midday: sourcing + expansion)
   - type: cron
@@ -79,6 +88,7 @@ services:
       - {key: OPENROUTER_API_KEY, sync: false}
       - {key: RESEND_API_KEY, sync: false}
       - {key: RENDER_API_KEY, sync: false}   # copied here by the dashboard; used to deploy after each run
+      - {key: DATABASE_URL, fromDatabase: {name: probate-db, property: connectionString}}   # the dashboard also copies it here
 
   # Daily slice C — 5:41 PM CT -> 23:41 UTC (evening: maintenance + day report)
   - type: cron
@@ -99,6 +109,7 @@ services:
       - {key: OPENROUTER_API_KEY, sync: false}
       - {key: RESEND_API_KEY, sync: false}
       - {key: RENDER_API_KEY, sync: false}   # copied here by the dashboard; used to deploy after each run
+      - {key: DATABASE_URL, fromDatabase: {name: probate-db, property: connectionString}}   # the dashboard also copies it here
 
   # Fast desk — 8:47,10:47,14:47,16:47,19:47 CT -> 14:47,16:47,20:47,22:47,1:47 UTC
   - type: cron
@@ -119,3 +130,4 @@ services:
       - {key: OPENROUTER_API_KEY, sync: false}
       - {key: RESEND_API_KEY, sync: false}
       - {key: RENDER_API_KEY, sync: false}   # copied here by the dashboard; used to deploy after each run
+      - {key: DATABASE_URL, fromDatabase: {name: probate-db, property: connectionString}}   # the dashboard also copies it here

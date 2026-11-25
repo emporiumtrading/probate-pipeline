@@ -64,11 +64,26 @@ const runnerServices = async () => {
 let keyShared = false;
 const shareRenderKey = async (svcs) => {
   if (keyShared) return;
+  let changed = false;
   for (const s of svcs) {
     const vars = await render('GET', `/services/${s.id}/env-vars?limit=100`);
     const cur = (vars || []).find((x) => x.envVar.key === 'RENDER_API_KEY');
-    if (!cur || cur.envVar.value !== RENDER_KEY) await render('PUT', `/services/${s.id}/env-vars/RENDER_API_KEY`, { value: RENDER_KEY });
+    if (!cur || cur.envVar.value !== RENDER_KEY) { await render('PUT', `/services/${s.id}/env-vars/RENDER_API_KEY`, { value: RENDER_KEY }); changed = true; }
   }
+  // The pipeline database (Render Postgres "probate-db"): give the runner jobs its private
+  // address so each run copies the pipeline into it (runner/dbsync.mjs).
+  const dbs = await render('GET', `/postgres?name=${encodeURIComponent(process.env.DB_NAME || 'probate-db')}&limit=5`);
+  const db = (dbs || []).map((x) => x.postgres || x).find((d) => d && d.name === (process.env.DB_NAME || 'probate-db'));
+  if (db) {
+    const ci = await render('GET', `/postgres/${db.id}/connection-info`);
+    const url = ci && ci.internalConnectionString;
+    if (url) for (const s of svcs) {
+      const vars = await render('GET', `/services/${s.id}/env-vars?limit=100`);
+      const cur = (vars || []).find((x) => x.envVar.key === 'DATABASE_URL');
+      if (!cur || cur.envVar.value !== url) { await render('PUT', `/services/${s.id}/env-vars/DATABASE_URL`, { value: url }); changed = true; }
+    }
+  }
+  if (changed) await redeploy(svcs);   // so the jobs pick the new settings up
   keyShared = true;
 };
 
