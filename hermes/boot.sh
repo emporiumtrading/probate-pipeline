@@ -40,7 +40,14 @@ add_fb() { FALLBACKS="${FALLBACKS}  - provider: $1
 if [ -n "${ANTHROPIC_API_KEY:-}" ]; then PRIMARY="anthropic|${HERMES_CLAUDE_MODEL:-claude-sonnet-5-5}"; fi
 if [ -n "${NVIDIA_API_KEY:-}" ]; then
   export NVIDIA_BASE_URL="${NVIDIA_BASE_URL:-https://integrate.api.nvidia.com/v1}"
-  if [ -z "$PRIMARY" ]; then PRIMARY="nvidia|${HERMES_NVIDIA_MODEL:-meta/llama-3.3-70b-instruct}"; else add_fb nvidia "${HERMES_NVIDIA_MODEL:-meta/llama-3.3-70b-instruct}"; fi
+  # Don't pin a model NVIDIA may retire: ask what it offers now, test them, strongest first,
+  # and keep the others as fallbacks so a model retired later is skipped without a restart.
+  NV=$(python3 /opt/probate/pick_models.py nvidia --n 3 ${HERMES_NVIDIA_MODEL:+--prefer "$HERMES_NVIDIA_MODEL"} 2>/dev/null | tac)
+  [ -z "$NV" ] && NV="meta/llama-3.3-70b-instruct" && log "couldn't list NVIDIA models; using the last-known one"
+  log "NVIDIA models picked: $(echo $NV)"
+  for m in $NV; do
+    if [ -z "$PRIMARY" ]; then PRIMARY="nvidia|$m"; else add_fb nvidia "$m"; fi
+  done
 fi
 if [ -n "${OPENROUTER_API_KEY:-}" ]; then
   if [ -z "$PRIMARY" ]; then PRIMARY="openrouter|${HERMES_OPENROUTER_MODEL:-meta-llama/llama-3.3-70b-instruct:free}"; else add_fb openrouter "${HERMES_OPENROUTER_MODEL:-meta-llama/llama-3.3-70b-instruct:free}"; fi

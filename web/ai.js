@@ -26,11 +26,14 @@ const KEYS = {
     const r = await fetch('https://api.anthropic.com/v1/models?limit=1', { headers: { 'x-api-key': v, 'anthropic-version': '2023-06-01' }, signal: AbortSignal.timeout(20000) });
     return r.ok ? null : `Anthropic answered ${r.status}`; } },
   NVIDIA_API_KEY: { label: 'NVIDIA', check: async (v) => {
-    const r = await fetch('https://integrate.api.nvidia.com/v1/chat/completions', { method: 'POST',
+    // Checked against the model list, not one model (NVIDIA retires free models; the runs pick their own).
+    const r = await fetch('https://integrate.api.nvidia.com/v1/models', { headers: { Authorization: `Bearer ${v}` }, signal: AbortSignal.timeout(30000) });
+    if (r.status === 401 || r.status === 403) return `NVIDIA answered ${r.status} (key not accepted)`;
+    const c = await fetch('https://integrate.api.nvidia.com/v1/chat/completions', { method: 'POST',
       headers: { Authorization: `Bearer ${v}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: 'meta/llama-3.3-70b-instruct', max_tokens: 1, messages: [{ role: 'user', content: 'hi' }] }),
-      signal: AbortSignal.timeout(30000) });
-    return r.ok ? null : (r.status === 401 || r.status === 403 ? `NVIDIA answered ${r.status} (key not accepted)` : null); } },
+      body: JSON.stringify({ model: 'any-model-check', max_tokens: 1, messages: [{ role: 'user', content: 'hi' }] }),
+      signal: AbortSignal.timeout(30000) }).catch(() => null);
+    return c && (c.status === 401 || c.status === 403) ? `NVIDIA answered ${c.status} (key not accepted)` : null; } },
   OPENROUTER_API_KEY: { label: 'OpenRouter', check: async (v) => {
     const r = await fetch('https://openrouter.ai/api/v1/key', { headers: { Authorization: `Bearer ${v}` }, signal: AbortSignal.timeout(20000) });
     return r.ok ? null : `OpenRouter answered ${r.status}`; } },

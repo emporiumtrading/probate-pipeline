@@ -11,6 +11,8 @@ RUN apt-get -o Acquire::Retries=3 update && \
     rm -rf /var/lib/apt/lists/*
 
 COPY hermes/ /opt/probate/
+# The same model picker the runner uses (NVIDIA/OpenRouter retire free models often).
+COPY runner/pick_models.py /opt/probate/pick_models.py
 RUN chmod 755 /opt/probate/boot.sh /opt/probate/pipeline-ops && ln -sf /opt/probate/pipeline-ops /usr/local/bin/pipeline-ops
 
 # The image's ENTRYPOINT (s6 init + main-wrapper) runs this executable as the hermes user.

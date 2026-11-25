@@ -114,8 +114,22 @@ const CLAUDE_LADDER = ['claude-haiku-5-5', 'claude-sonnet-5-5', 'claude-opus-5-5
 const capAt = CLAUDE_LADDER.indexOf(AI.claudeMax || 'claude-sonnet-5-5');
 const LADDERS = {
   claude: CLAUDE_LADDER.slice(0, capAt < 0 ? 2 : capAt + 1),
-  nvidia: AI.nvidiaModels || ['meta/llama-3.3-70b-instruct', 'qwen/qwen3-coder-480b-a35b-instruct', 'deepseek-ai/deepseek-v3.1', 'openai/gpt-oss-120b'],
-  openrouter: AI.openrouterModels || ['meta-llama/llama-3.3-70b-instruct:free', 'qwen/qwen3-coder:free', 'deepseek/deepseek-chat-v3.1:free'],
+  // NVIDIA and OpenRouter retire free models often, so their ladders are picked when the engine is
+  // first needed (runner/pick_models.py: what the provider offers now, tool-capable, test-called).
+  // These lists are only the last resort if the provider's model list can't be read at all.
+  nvidia: ['meta/llama-3.3-70b-instruct', 'qwen/qwen3-coder-480b-a35b-instruct', 'deepseek-ai/deepseek-v3.1', 'openai/gpt-oss-120b'],
+  openrouter: ['meta-llama/llama-3.3-70b-instruct:free', 'qwen/qwen3-coder:free', 'deepseek/deepseek-chat-v3.1:free'],
+};
+const picked = {};
+const pickLadder = (eng) => {
+  if (picked[eng] || !['nvidia', 'openrouter'].includes(eng)) return;
+  picked[eng] = true;
+  const prefer = (eng === 'nvidia' ? AI.nvidiaModels : AI.openrouterModels) || [];
+  const r = spawnSync('python3', ['runner/pick_models.py', eng, '--n', '4', ...(prefer.length ? ['--prefer', prefer.join(',')] : [])],
+    { cwd: WORK, env: engineEnv, encoding: 'utf8', timeout: 180000 });
+  const list = (r.stdout || '').split('\n').map((x) => x.trim()).filter(Boolean);
+  if (list.length) { LADDERS[eng] = list; console.log(`${eng} models picked: ${list.join(', ')}`); }
+  else console.log(`${eng}: couldn't pick models (${(r.stderr || 'none usable').trim().slice(0, 200)}); using the last-known list`);
 };
 const startAt = (eng) => Math.min(wl.level === 'heavy' ? 1 : 0, LADDERS[eng].length - 1);
 const budget = { claude: +(process.env.MAX_MINUTES || (FAST ? 40 : 120)), agent: +(process.env.AGENT_MINUTES || (FAST ? 40 : 100)), scripted: FAST ? 10 : 30 };
@@ -223,6 +237,7 @@ engines: for (const eng of order) {
     break;
   }
   const deadline = Date.now() + (eng === 'claude' ? budget.claude : budget.agent) * 60000;
+  pickLadder(eng);
   for (let i = startAt(eng); i < LADDERS[eng].length; i++) {
     const model = LADDERS[eng][i];
     const minutes = Math.floor((deadline - Date.now()) / 60000);
