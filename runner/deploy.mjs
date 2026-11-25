@@ -34,7 +34,12 @@ export async function syncDeploys(cwd) {
       const at = dep && dep.commit && dep.commit.id;
       if (dep && /progress|created|pending/.test(dep.status || '')) { log.push(`${s.name}: deploy already running`); continue; }
       let need;
-      if (s.name === DASH) need = at !== head;
+      if (s.name === DASH) {
+        // With the database connected the site reads its data live, so it only needs a deploy when its code changed.
+        // Without it, the site's data comes from its build, so every new commit needs a deploy.
+        const code = at ? spawnSync('git', ['diff', '--name-only', at, head, '--', 'web/', 'dashboard/', 'scripts/build_dashboard_data.py', 'scripts/qa_checks.py'], { cwd, encoding: 'utf8' }) : { status: 1 };
+        need = !process.env.DATABASE_URL ? at !== head : (!at || code.status !== 0 || !!code.stdout.trim());
+      }
       else {
         const diff = at ? spawnSync('git', ['diff', '--name-only', at, head, '--', 'runner/'], { cwd, encoding: 'utf8' }) : { status: 1 };
         need = !at || diff.status !== 0 || !!diff.stdout.trim();

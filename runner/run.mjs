@@ -122,7 +122,7 @@ const budget = { claude: +(process.env.MAX_MINUTES || (FAST ? 40 : 120)), agent:
 const hasKey = { claude: !!(process.env.ANTHROPIC_API_KEY || process.env.CLAUDE_CODE_OAUTH_TOKEN),
   nvidia: !!process.env.NVIDIA_API_KEY, openrouter: !!process.env.OPENROUTER_API_KEY, scripted: true };
 // Engines never see the Render key; the backup agents' shells get no AI keys either.
-const engineEnv = { ...agentEnv }; delete engineEnv.RENDER_API_KEY;
+const engineEnv = { ...agentEnv }; delete engineEnv.RENDER_API_KEY; delete engineEnv.DATABASE_URL;   // only the runner itself deploys and writes the database
 const shellEnv = { ...engineEnv }; for (const k of ['NVIDIA_API_KEY', 'OPENROUTER_API_KEY', 'ANTHROPIC_API_KEY', 'CLAUDE_CODE_OAUTH_TOKEN']) delete shellEnv[k];
 
 const promptPath = path.join(WORK, 'runner', 'prompts', `${SLICE}.md`);
