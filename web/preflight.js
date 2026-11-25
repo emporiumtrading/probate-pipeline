@@ -16,8 +16,8 @@ const docPath = (user) => `data/users/${user}/settings/autonomy`;
 
 // Owner-only, always (CLAUDE.md, daily-run.md Hard limits). Shown in the confirmation.
 const KEEP = [
-  'Signing each deal: a one-tap e-signature on a packet the system prepared. Nothing is ever signed for you.',
-  'Earnest money: you confirm a title company\'s escrow by phone once per title company. The system never touches money or bank details.',
+  'Signing, once: the company resolution that lets the company e-sign deals inside fixed limits (after the attorney confirms it). Any contract outside those limits comes to you as a one-tap signature.',
+  'Earnest money: offers start at $0 and stay inside your $1,000 reserve (refilled at each closing with the deposit plus 25% of profit). When a deposit is due, you confirm the title company\'s escrow by phone and pay it through their link. The system never touches money or bank details.',
   'Phone calls are never made automatically. Callers reach voicemail, which arrives as email and is handled for you.',
 ];
 

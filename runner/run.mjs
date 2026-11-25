@@ -143,7 +143,7 @@ const runProc = (cmd, args, env, minutes) => new Promise((resolve) => {
 const ACCOUNT = /credit balance|billing|insufficient|quota|invalid.{0,20}(api.?key|x-api-key)|authentication|unauthori[sz]ed|permission denied|rate.?limit|overloaded|api errors: 40[1-3]|api errors: 429/i;
 
 const startSha = spawnSync('git', ['rev-parse', 'HEAD'], { cwd: WORK, encoding: 'utf8' }).stdout.trim();
-const PROTECTED = ['scripts/qa_checks.py', 'scripts/guardrails.sha256', 'scripts/check_page.py', 'runner', 'render.yaml', 'CLAUDE.md',
+const PROTECTED = ['scripts/qa_checks.py', 'scripts/guardrails.sha256', 'scripts/check_page.py', 'scripts/sign_check.py', 'scripts/reserve.py', 'runner', 'render.yaml', 'CLAUDE.md',
   '.claude/skills/probate-wholesale-deal/references/daily-run.md', '.claude/skills/probate-wholesale-deal/agents',
   '.claude/skills/probate-wholesale-deal/references/full-autonomy.md', '.claude/skills/probate-wholesale-deal/references/self-repair.md', 'web'];
 const tidy = () => { git(['checkout', '--', '.', ':!store']); git(['clean', '-fdq', '-e', 'store']); };

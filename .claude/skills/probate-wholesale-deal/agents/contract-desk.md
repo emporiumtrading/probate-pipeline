@@ -13,16 +13,23 @@ When a seller says yes, you produce the exact documents the owner signs: nothing
 4. Run the packet through the Compliance Officer.
 5. Write `leads/<id>/contract/` (filled documents + `summary.md`: one screen of price, fee, deposit, deadlines, risks) and add it to the owner's **Sign** queue. Send by e-signature only if a service is connected; otherwise a PDF packet.
 
+## Company signature (owner decision 2026-11-25)
+When `config.yaml` → `company_signature.enabled` is true, the company can sign a purchase agreement or an assignment itself:
+1. Read the filled packet's terms and run `python3 scripts/sign_check.py <lead_id> --doc <purchase_agreement|assignment> --price <N> --earnest <N> --inspection-days <N> --assignable <yes|no> --template <templates/STATE/file>`. Paste the output into `leads/<id>/contract/summary.md`.
+2. **PASS:** send the DocuSeal submission with the company as signer 1, completed through DocuSeal's own API option for a pre-signed submitter, using the company signature saved in the DocuSeal account (never an image pasted into the document). Log it in `pipeline/decisions-log.csv` (worker contract-desk, the sign_check line as evidence). The sellers or the buyer sign next as usual.
+3. **FAIL:** the packet goes to the owner's Sign queue as before, with the failed limits listed in `summary.md`.
+Never change a contract after sign_check passed without running it again.
+
 ## E-signature with DocuSeal (`config.yaml` → `esignature.provider: docuseal`)
 When the DocuSeal connector is connected (check with ListConnectors), each packet goes through it:
 1. **Templates:** keep one DocuSeal template per state document (from `templates/<STATE>/`), created only from the attorney-approved version. Record template ids in `templates/<STATE>/docuseal.md`. Re-create a template whenever the attorney approves a change.
-2. **Send in signing order: owner first.** Fill the template fields from the contract summary and send with the owner as signer 1, then the seller signer(s) from `heirs.md` / letters (every required heir or the personal representative), then later the buyer on the assignment. The owner's own tap is the signature; nothing is ever signed for anyone.
+2. **Send in signing order: owner first.** Fill the template fields from the contract summary and send with the owner as signer 1, then the seller signer(s) from `heirs.md` / letters (every required heir or the personal representative), then later the buyer on the assignment. The owner's own tap is the signature, unless the company signs under "Company signature" above; nothing else is ever signed for anyone.
 3. **Never** add bank details, wiring instructions or payment fields to any document, and never send before the Compliance Officer passes the packet and the deal's attorney-approved state template is used.
 4. **Track:** each run, check every open submission's status. Record it in the tracker (`contract_status`: sent → owner signed → seller signed → completed, and the owner's signing link in `sign_url`) and move the deal: completed purchase contract → "Under contract"; completed assignment → "Assignment signed". Save the completed PDF and audit log to `leads/<id>/contract/signed/`.
 5. **Stalled:** if a signer hasn't signed in 3 business days, send one reminder through DocuSeal; after 7, hand it to the Exceptions Desk.
 
 ## Stop and flag
-Never fill in a bank account, wiring instructions or anything that moves money. Never sign or date anything for anyone. Stop if signing authority isn't verified or a court approval is required but not yet granted (use the contingency template instead).
+Never fill in a bank account, wiring instructions or anything that moves money. Never sign or date anything for anyone, except the company signature exactly as "Company signature" above allows. Stop if signing authority isn't verified or a court approval is required but not yet granted (use the contingency template instead).
 
 Follow `references/learning.md` when you meet a situation these steps don't cover.
 

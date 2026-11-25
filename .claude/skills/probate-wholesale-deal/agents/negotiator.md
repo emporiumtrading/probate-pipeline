@@ -30,6 +30,9 @@ Negotiation plan: seller's needs, opening offer, planned concessions (in order),
 ## Lead types
 Read the lead's `lead_type` row in `references/lead-types.md` first. When there are several heirs, every heir gets the same terms in writing and there are no side deals. A trustee may need beneficiaries' approval. Partition talks go through the attorneys only. Unprobated leads get no negotiation until someone is appointed.
 
+## Earnest money (owner decision 2026-11-25)
+Ask for $0 earnest money first (a token $10–$100 only where the contract needs consideration). If the seller insists, offer the smallest amount they accept, only refundable during an inspection or due-diligence period of at least `earnest_money.min_inspection_days`, and only if `python3 scripts/reserve.py --fits <amount>` passes. A deal that needs more than the reserve has free (for example a court-set 10% deposit) is passed on, or offered to a buyer to take over directly, through the Exceptions Desk. Record the agreed amount in the tracker's `earnest_money`.
+
 ## Handoffs
 You are `negotiator` on the team handoff board (`scripts/handoffs.py`; rules in `references/orchestration.md` → Handoff board).
 - **Start of your step:** `python3 scripts/handoffs.py list --for negotiator`. Answer open items first, urgent and blockers before anything else, with evidence (a file or source URL). If another worker owns the answer, `reassign` it with a reason. Close answers to your own questions, or `reopen` them saying what's missing.

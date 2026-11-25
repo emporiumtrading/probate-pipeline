@@ -297,7 +297,12 @@ def guard_parts():
     hl = re.search(r"## Hard limits.*?(?=\n## )", dr, re.S)
     au = re.search(r"\nautonomy:\n(?:  [^\n]*\n)+", cfg)
     lt = re.search(r"\nlead_types:[^\n]*\n(?:  [^\n]*\n)+", cfg)
-    return {"hard_limits": hl.group(0) if hl else "", "autonomy": au.group(0) if au else "", "lead_types": lt.group(0) if lt else ""}
+    em = re.search(r"\nearnest_money:\n(?:  [^\n]*\n)+", cfg)
+    cs = re.search(r"\ncompany_signature:[^\n]*\n(?:  [^\n]*\n)+", cfg)
+    # The Legal Advisor records the resolution and attorney dates and switches it on; the limits are the owner's.
+    cs_lim = re.sub(r"\n  (enabled|resolution_signed_on|attorney_confirmed_on|attorney_confirmed_states):[^\n]*", "", cs.group(0)) if cs else ""
+    return {"hard_limits": hl.group(0) if hl else "", "autonomy": au.group(0) if au else "", "lead_types": lt.group(0) if lt else "",
+            "earnest_money": em.group(0) if em else "", "company_signature_limits": cs_lim}
 gpath = os.path.join(ROOT, "scripts", "guardrails.sha256")
 cur = {k: hashlib.sha256(v.encode()).hexdigest() for k, v in guard_parts().items()}
 if len(sys.argv) > 2 and sys.argv[2] == "--owner-approve-guardrails":
@@ -309,7 +314,7 @@ else:
     saved = dict(l.split() for l in open(gpath).read().splitlines() if l.strip())
     for k, v in cur.items():
         if not cur[k] or saved.get(k) != v:
-            fails.append(f"guardrail changed: {k} differs from the owner-approved version (Hard limits, autonomy and lead_types change only with the owner)")
+            fails.append(f"guardrail changed: {k} differs from the owner-approved version (Hard limits, autonomy, lead_types, earnest money and company-signature limits change only with the owner)")
 
 for w in warns:
     print("WARN ", w)

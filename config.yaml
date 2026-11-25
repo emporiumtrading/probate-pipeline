@@ -15,7 +15,7 @@ autonomy:
   attorney_per_deal_fee_max: 750  # per-deal contract/assignment review, USD, preferably paid at closing; above this -> Exceptions Desk
   title_fees: paid_at_closing     # title/settlement fees only from closing proceeds on the settlement statement; any up-front title charge -> Exceptions Desk
   worker_decisions: within_written_limits   # owner decision 2026-11-25: workers decide routine matters (letters, counters within MAO, quotes within the limits above, buyer selection, scheduling, playbook exceptions) and log each in pipeline/decisions-log.csv with its reason
-  # Always the owner, not configurable: signatures (one click on packets the system prepared; no stored signature is ever used),
+  # Always the owner, not configurable: every signature that company_signature doesn't cover (one click on packets the system prepared); no signature is ever applied for the owner any other way,
   # earnest money (only to a title company's escrow the owner has confirmed by phone, never from emailed instructions), phone calls.
 business:                         # who we are. Fill these in once; attorney packets, letters and the dashboard checklist read them.
   legal_name: ""                  # e.g. "Example Holdings LLC"
@@ -34,6 +34,21 @@ closing_service:                  # closing-status service the Transaction Coord
   connected_on: ""                # set when the owner connects the Qualia Connect connector and an order is visible
 earnest_money:
   method: digital_link_preferred  # title company's own digital earnest-money request (Earnnest, Paymints.io, Qualia EMD); wire only if they don't offer one
+  # Owner decision 2026-11-25: ask for $0 first (or a token $10-$100 where a contract needs consideration),
+  # then the smallest amount the seller accepts, never more than the reserve has free (scripts/reserve.py).
+  ask_first: 0
+  token_max: 100
+  reserve_start: 1000             # USD the owner set aside for earnest money
+  reserve_refill_profit_share: 0.25   # at each closing: the deal's earnest money comes back, plus this share of its profit
+  refundable_only: true           # earnest money only with an inspection/due-diligence period during which it is refunded
+  min_inspection_days: 10
+  # Deals needing more than the reserve has free (e.g. a court-set 10% deposit) are passed on or offered to a buyer directly.
+company_signature:                # owner decision 2026-11-25: the company signs inside fixed limits; off until both dates are set
+  enabled: false                  # the Legal Advisor turns this on only when both dates below are recorded
+  resolution_signed_on: ""        # the owner signed the company resolution authorizing its e-signature (one time)
+  attorney_confirmed_on: ""       # the attorney confirmed the resolution and this use for the states below
+  attorney_confirmed_states: ""   # e.g. "FL,TX"; contracts in other states go to the owner's Sign queue
+  documents: purchase_agreement,assignment   # only these, only from attorney-approved templates, only if scripts/sign_check.py passes
 bookkeeping:                      # read-only money sources the Bookkeeper imports into pipeline/ledger.csv (agents/bookkeeper.md → Stripe)
   stripe:
     account: acct_1NkV7sAQF4y11zK3   # "Emporium Group", live mode; the whole business, so only tagged transactions are imported

@@ -55,6 +55,9 @@ You handle the attorney's answer to `legal/attorney-packets/<market-id>.md`. A m
 5. **Tell the owner.** Put it at the top of the day's report: "Attorney approved <market> on <date>." Say whether `autonomy.outreach` is still `drafts_only`. That global switch stays the owner's; you never change it.
 6. **Expiry.** Record a new approval whenever `legal/<STATE>.md` gains a rule change that affects contact or contracts. Until it is recorded, remove `attorney_approved` from the market, keep the old file and say why in the report.
 
+## Company signature resolution (owner decision 2026-11-25)
+Ask the engaged attorney, in the legal matter, to draft a one-page company resolution authorizing the company's e-signature (through DocuSeal) to sign purchase agreements and assignments only inside the limits in `config.yaml` → `company_signature` and `scripts/sign_check.py`, and to confirm for which states it is valid. Put the resolution in the owner's Sign queue. When it's signed, record `resolution_signed_on`; when the attorney confirms, record `attorney_confirmed_on` and `attorney_confirmed_states`; then set `enabled: true`. Never set it before both dates are recorded.
+
 ## Handoffs
 You are `legal-advisor` on the team handoff board (`scripts/handoffs.py`; rules in `references/orchestration.md` → Handoff board).
 - **Start of your step:** `python3 scripts/handoffs.py list --for legal-advisor`. Answer open items first, urgent and blockers before anything else, with evidence (a file or source URL). If another worker owns the answer, `reassign` it with a reason. Close answers to your own questions, or `reopen` them saying what's missing.

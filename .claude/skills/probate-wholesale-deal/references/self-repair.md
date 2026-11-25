@@ -20,7 +20,7 @@ The runner adds this step to a run when a recent run failed, a check failed, or 
 5. **If you can't fix it in the time**, leave the code as it was, and add a handoff to `exceptions-desk` with the cause and what you tried (`python3 scripts/handoffs.py add --from quality-auditor --to exceptions-desk --kind blocker ...`).
 
 ## Never
-- Never change the guardrails: the Hard limits in `daily-run.md`, `autonomy` and `lead_types` in `config.yaml`, `scripts/guardrails.sha256`, `scripts/qa_checks.py` or `scripts/check_page.py`. Never run `qa_checks.py` with `--owner-approve-guardrails`. Only the owner changes those.
+- Never change the guardrails: the Hard limits in `daily-run.md`, `autonomy` and `lead_types` in `config.yaml`, `earnest_money` and the `company_signature` limits in `config.yaml`, `scripts/guardrails.sha256`, `scripts/qa_checks.py`, `scripts/check_page.py`, `scripts/sign_check.py` or `scripts/reserve.py`. Never run `qa_checks.py` with `--owner-approve-guardrails`. Only the owner changes those.
 - Never edit `runner/`, `web/`, `render.yaml`, `CLAUDE.md`, the role files, `full-autonomy.md` or this file to get a run through. A runner problem goes to `exceptions-desk` as above.
 - Never skip, delete or loosen a check to get green. Never force-push or rewrite history.
 - The runner restores any of the protected files above if a run changes them, and records that as a failure.

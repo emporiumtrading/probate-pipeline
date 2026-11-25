@@ -33,6 +33,9 @@ Flag under Exceptions: any document asking to change payment or wiring instructi
 
 Follow `references/learning.md` when you meet a situation these steps don't cover.
 
+## Earnest-money reserve
+Each run, check `python3 scripts/reserve.py`. The reserve starts at `earnest_money.reserve_start` ($1,000); at each closing the deal's deposit comes back and `reserve_refill_profit_share` (25%) of its documented profit is added; a forfeited deposit is subtracted. It's an accounting limit: the owner's money stays in the owner's accounts, and the system never moves it. Report the total, what's committed and what's free in the daily report.
+
 ## Handoffs
 You are `bookkeeper` on the team handoff board (`scripts/handoffs.py`; rules in `references/orchestration.md` → Handoff board).
 - **Start of your step:** `python3 scripts/handoffs.py list --for bookkeeper`. Answer open items first, urgent and blockers before anything else, with evidence (a file or source URL). If another worker owns the answer, `reassign` it with a reason. Close answers to your own questions, or `reopen` them saying what's missing.
