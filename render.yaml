@@ -5,10 +5,12 @@
 #
 # Runners (cron): replicate the claude.ai scheduled sessions on Render —
 # headless Claude Code runs the daily-run slices against a fresh repo clone.
-# Secrets to set per service in the Render UI or API:
-#   NVIDIA_API_KEY           (build.nvidia.com, free) and/or OPENROUTER_API_KEY (openrouter.ai, free models)
-#                            used only for written summaries; the slices are scripted (ENGINE=scripted)
-#   Optional: ENGINE=claude + CLAUDE_CODE_OAUTH_TOKEN to run full Claude Code slices instead (paid)
+# Engines (owner decision 2026-11-25): each run tries Claude first (cheap models), then
+# NVIDIA, then OpenRouter free models (both run the whole slice via runner/agent.mjs),
+# then the scripted run (no AI). Keys and models are entered on the dashboard's Setup
+# page -> "AI engines"; the dashboard saves keys here as env vars through Render's API
+# (needs RENDER_API_KEY on probate-dashboard). Never commit key values.
+#   ANTHROPIC_API_KEY, NVIDIA_API_KEY, OPENROUTER_API_KEY  (set from the dashboard)
 #   GITHUB_TOKEN             (repo scope — clone + push + doc store)
 #   RESEND_API_KEY           (optional — inbox/email channels)
 # Schedules are UTC (Render has no TZ); CT is UTC-6 in winter, UTC-5 in summer —
@@ -35,6 +37,8 @@ services:
         sync: false
       - key: SESSION_SECRET
         generateValue: true
+      - key: RENDER_API_KEY
+        sync: false
 
   # Daily slice A — 5:39 AM CT -> 11:39 UTC (morning: sourcing + deep-dives)
   - type: cron
@@ -45,13 +49,12 @@ services:
     buildCommand: cd runner && npm ci
     startCommand: node runner/run.mjs a
     envVars:
-      - key: MODEL
-        value: sonnet
       - {key: PIPELINE_REPO, value: emporiumtrading/probate-pipeline}
       - {key: STORE_REPO, value: emporiumtrading/probate-dashboard-store}
       - {key: STORE_BRANCH, value: dashboard-store}
       - {key: GITHUB_TOKEN, sync: false}
-      - {key: ENGINE, value: scripted}
+      - {key: ENGINE, value: auto}
+      - {key: ANTHROPIC_API_KEY, sync: false}
       - {key: NVIDIA_API_KEY, sync: false}
       - {key: OPENROUTER_API_KEY, sync: false}
       - {key: RESEND_API_KEY, sync: false}
@@ -65,13 +68,12 @@ services:
     buildCommand: cd runner && npm ci
     startCommand: node runner/run.mjs b
     envVars:
-      - key: MODEL
-        value: sonnet
       - {key: PIPELINE_REPO, value: emporiumtrading/probate-pipeline}
       - {key: STORE_REPO, value: emporiumtrading/probate-dashboard-store}
       - {key: STORE_BRANCH, value: dashboard-store}
       - {key: GITHUB_TOKEN, sync: false}
-      - {key: ENGINE, value: scripted}
+      - {key: ENGINE, value: auto}
+      - {key: ANTHROPIC_API_KEY, sync: false}
       - {key: NVIDIA_API_KEY, sync: false}
       - {key: OPENROUTER_API_KEY, sync: false}
       - {key: RESEND_API_KEY, sync: false}
@@ -85,13 +87,12 @@ services:
     buildCommand: cd runner && npm ci
     startCommand: node runner/run.mjs c
     envVars:
-      - key: MODEL
-        value: opus
       - {key: PIPELINE_REPO, value: emporiumtrading/probate-pipeline}
       - {key: STORE_REPO, value: emporiumtrading/probate-dashboard-store}
       - {key: STORE_BRANCH, value: dashboard-store}
       - {key: GITHUB_TOKEN, sync: false}
-      - {key: ENGINE, value: scripted}
+      - {key: ENGINE, value: auto}
+      - {key: ANTHROPIC_API_KEY, sync: false}
       - {key: NVIDIA_API_KEY, sync: false}
       - {key: OPENROUTER_API_KEY, sync: false}
       - {key: RESEND_API_KEY, sync: false}
@@ -105,13 +106,12 @@ services:
     buildCommand: cd runner && npm ci
     startCommand: node runner/run.mjs fast-desk
     envVars:
-      - key: MODEL
-        value: sonnet
       - {key: PIPELINE_REPO, value: emporiumtrading/probate-pipeline}
       - {key: STORE_REPO, value: emporiumtrading/probate-dashboard-store}
       - {key: STORE_BRANCH, value: dashboard-store}
       - {key: GITHUB_TOKEN, sync: false}
-      - {key: ENGINE, value: scripted}
+      - {key: ENGINE, value: auto}
+      - {key: ANTHROPIC_API_KEY, sync: false}
       - {key: NVIDIA_API_KEY, sync: false}
       - {key: OPENROUTER_API_KEY, sync: false}
       - {key: RESEND_API_KEY, sync: false}
