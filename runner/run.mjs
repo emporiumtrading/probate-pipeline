@@ -98,6 +98,14 @@ const ENGINES_ALL = ['claude', 'nvidia', 'openrouter', 'scripted'];
 const order = (Array.isArray(AI.engines) && AI.engines.length ? AI.engines.filter((e) => ENGINES_ALL.includes(e)) : ENGINES_ALL.slice())
   .concat(['scripted']).filter((e, i, a) => a.indexOf(e) === i);
 
+// Full autonomy switch (dashboard → top bar; web/preflight.js checked it before it turned on).
+const autoDoc = Object.entries(storeDocs).find(([p]) => p.endsWith('/settings/autonomy'));
+const AUTO = (autoDoc && autoDoc[1]) || {};
+const FULL = AUTO.full === true;
+console.log(`full autonomy: ${FULL ? 'on' : 'off'}`);
+// Test the sending/signing services and switch their channels on or off (runner/channels.py).
+{ const c = spawnSync('python3', ['runner/channels.py'], { cwd: WORK, env: agentEnv, encoding: 'utf8' }); process.stdout.write(c.stdout || ''); }
+
 const wl = JSON.parse(spawnSync('python3', ['runner/workload.py', SLICE], { cwd: WORK, encoding: 'utf8' }).stdout || '{"level":"light"}');
 console.log('workload:', JSON.stringify(wl));
 
@@ -119,6 +127,7 @@ const shellEnv = { ...engineEnv }; for (const k of ['NVIDIA_API_KEY', 'OPENROUTE
 const promptPath = path.join(WORK, 'runner', 'prompts', `${SLICE}.md`);
 if (!fs.existsSync(promptPath)) { console.error(`no prompt for slice '${SLICE}' (${promptPath})`); process.exit(1); }
 const basePrompt = fs.readFileSync(promptPath, 'utf8');
+const FULL_NOTE = 'FULL AUTONOMY IS ON. The owner turned it on after every check passed. Follow .claude/skills/probate-wholesale-deal/references/full-autonomy.md for the whole run.\n\n';
 const REPAIR = 'Before the job below: self-repair. Follow .claude/skills/probate-wholesale-deal/references/self-repair.md (at most 25 minutes), then do the job.\n\n';
 const CLAUDE_BIN = path.join(path.dirname(new URL(import.meta.url).pathname), 'node_modules', '.bin', 'claude');
 
@@ -135,7 +144,8 @@ const ACCOUNT = /credit balance|billing|insufficient|quota|invalid.{0,20}(api.?k
 
 const startSha = spawnSync('git', ['rev-parse', 'HEAD'], { cwd: WORK, encoding: 'utf8' }).stdout.trim();
 const PROTECTED = ['scripts/qa_checks.py', 'scripts/guardrails.sha256', 'scripts/check_page.py', 'runner', 'render.yaml', 'CLAUDE.md',
-  '.claude/skills/probate-wholesale-deal/references/daily-run.md', '.claude/skills/probate-wholesale-deal/agents'];
+  '.claude/skills/probate-wholesale-deal/references/daily-run.md', '.claude/skills/probate-wholesale-deal/agents',
+  '.claude/skills/probate-wholesale-deal/references/full-autonomy.md', '.claude/skills/probate-wholesale-deal/references/self-repair.md', 'web'];
 const tidy = () => { git(['checkout', '--', '.', ':!store']); git(['clean', '-fdq', '-e', 'store']); };
 const commitAs = (label) => {
   git(['add', '-A']);
@@ -198,7 +208,7 @@ engines: for (const eng of order) {
     const model = LADDERS[eng][i];
     const minutes = Math.floor((deadline - Date.now()) / 60000);
     if (minutes < 5) { notes.push(`${eng}: out of time`); break; }
-    const prompt = (wl.repair ? REPAIR : '') + (feedback ? `The previous attempt's result failed the checks:\n${feedback}\nFix that first, then finish the job.\n\n` : '') + basePrompt;
+    const prompt = (FULL ? FULL_NOTE : '') + (wl.repair ? REPAIR : '') + (feedback ? `The previous attempt's result failed the checks:\n${feedback}\nFix that first, then finish the job.\n\n` : '') + basePrompt;
     console.log(`--- slice ${SLICE} | ${eng} ${model} | ${wl.level} | ${new Date().toISOString()} ---`);
     let ok, why, tail = '';
     if (eng === 'claude') {
@@ -232,6 +242,15 @@ const result = code !== 0 || used === 'none' ? 'fail' : (used === 'scripted' && 
 writeFailures();
 fs.appendFileSync(hp, [new Date().toISOString(), SLICE, wl.level, used, result, verified, notes.join('; ')].map(csvq).join(',') + '\n');
 commitAs('run record');
+
+// The owner's notices: signature needed, deposit confirmed, deal closed with profit (runner/notify.py).
+{
+  const vd = path.join(WORK, '..', 'verify-data');
+  if (!fs.existsSync(path.join(vd, 'queues.csv'))) spawnSync('python3', ['scripts/build_dashboard_data.py', vd], { cwd: WORK });
+  const n = spawnSync('python3', ['runner/notify.py', vd], { cwd: WORK, encoding: 'utf8', env: { ...engineEnv, OWNER_NOTIFY_EMAIL: AUTO.notifyEmail || '' } });
+  process.stdout.write((n.stdout || '') + (n.stderr || ''));
+  commitAs('owner notices');
+}
 
 /* ---------- 4. backstop push ---------- */
 git(['add', '-A']);

@@ -21,6 +21,6 @@ The runner adds this step to a run when a recent run failed, a check failed, or 
 
 ## Never
 - Never change the guardrails: the Hard limits in `daily-run.md`, `autonomy` and `lead_types` in `config.yaml`, `scripts/guardrails.sha256`, `scripts/qa_checks.py` or `scripts/check_page.py`. Never run `qa_checks.py` with `--owner-approve-guardrails`. Only the owner changes those.
-- Never edit `runner/`, `render.yaml`, `CLAUDE.md` or the role files to get a run through. A runner problem goes to `exceptions-desk` as above.
+- Never edit `runner/`, `web/`, `render.yaml`, `CLAUDE.md`, the role files, `full-autonomy.md` or this file to get a run through. A runner problem goes to `exceptions-desk` as above.
 - Never skip, delete or loosen a check to get green. Never force-push or rewrite history.
 - The runner restores any of the protected files above if a run changes them, and records that as a failure.

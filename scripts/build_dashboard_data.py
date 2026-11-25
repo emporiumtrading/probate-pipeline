@@ -402,9 +402,9 @@ BIZ_LABEL = {"legal_name": "Company legal name", "entity_state": "State of forma
              "signer": "Who signs contracts", "title_company": "Title company for earnest money"}
 for k, lbl in BIZ_LABEL.items():
     item("Business identity", lbl, bool(biz.get(k)), "Setup page → Business identity → Configure", "Attorney packets, letters, trust with attorneys", "business", k)
-CH = {"mail_sending": ("Letters sent without you", "Open a print-and-mail account, enter it under Setup → Channels; the runner then asks for its API key in Claude's secure form and tests it"),
-      "email_sending": ("Email sent without you", "Connect the Resend connector (Setup → Channels → Connect), enter the sending address; the runner tests it"),
-      "inbox_connected": ("Replies read automatically", "Connect the business mailbox's connector (Setup → Channels → Connect); the runner tests it"),
+CH = {"mail_sending": ("Letters sent without you", "Open a Lob account (lob.com), then Setup → Sending and signing services → paste its live_ API key. The next run tests it and switches this on"),
+      "email_sending": ("Email sent without you", "Open a Resend account (resend.com), verify your business email's domain there, then Setup → Sending and signing services → paste the API key. The next run tests it and switches this on"),
+      "inbox_connected": ("Replies read automatically", "In Resend, turn on receiving for your business domain (add the MX record it shows). With the Resend key saved, the next run tests it and switches this on"),
       "mail_scanning": ("Mailed replies arrive by email", "Virtual mailbox that scans mail to the business email; enter it under Setup → Channels"),
       "voicemail_to_email": ("Voicemails arrive by email", "Phone service with voicemail-to-email; enter it under Setup → Channels")}
 for k, (lbl, fix) in CH.items():
@@ -413,7 +413,7 @@ for k, (lbl, fix) in CH.items():
 item("Autonomy", "Outreach set to autonomous", autonomy.get("outreach") == "autonomous", "Setup page → Autonomy → Configure (after the items above)", "Letters go out without per-message approval", "autonomy", "outreach")
 ES = cfg_block("esignature")
 item("Channels", "E-signature service connected" + (f" ({ES.get('provider','').title()})" if ES.get("provider") else ""), bool(ES.get("connected_on")),
-     "Connect the DocuSeal connector at claude.ai → Settings → Connectors; the runner then sends itself a test document and marks this done", "Contracts go to you and the seller for signature without paperwork", "channels", "esignature")
+     "Open a DocuSeal account (docuseal.com), then Setup → Sending and signing services → paste its API key. The next run tests it and switches this on", "Contracts go to you and the seller for signature without paperwork", "channels", "esignature")
 BK = (re.search(r"^bookkeeping:.*\n\s+stripe:.*\n((?:\s{4}.*\n)+)", open(os.path.join(ROOT, "config.yaml")).read(), re.M) or [None, ""])[1]
 item("Channels", "Stripe connected for bookkeeping (read-only)", bool(re.search(r"connected_on:\s*\d{4}-\d\d-\d\d", BK)),
      "Connect the Stripe connector at claude.ai → Settings → Connectors; the Bookkeeper then imports only transactions tagged 'probate' or a lead id", "Fees and expenses paid through Stripe land in the ledger without typing them in", "channels", "bookkeeping_stripe")

@@ -18,6 +18,11 @@
       models: [['meta-llama/llama-3.3-70b-instruct:free', 'Llama 3.3 70B (free)'], ['qwen/qwen3-coder:free', 'Qwen3 Coder (free)'], ['deepseek/deepseek-chat-v3.1:free', 'DeepSeek V3.1 (free)']],
       defaults: { mainRuns: 'meta-llama/llama-3.3-70b-instruct:free', fastDesk: 'meta-llama/llama-3.3-70b-instruct:free' } },
   ];
+  const SERVICES = [
+    { name: 'Email (Resend)', key: 'RESEND_API_KEY', note: 'Sends email to estates and buyers, reads replies, and sends you the deposit and closing notices. Verify your business email domain in Resend first.' },
+    { name: 'Letters by mail (Lob)', key: 'LOB_API_KEY', note: 'Prints and mails letters. Use the live_ key; test keys never mail anything.' },
+    { name: 'E-signature (DocuSeal)', key: 'DOCUSEAL_API_KEY', note: 'Sends contracts to you and the seller for one-tap signature.' },
+  ];
   const h = (tag, attrs, ...kids) => {
     const e = document.createElement(tag);
     for (const [k, v] of Object.entries(attrs || {})) { if (k === 'text') e.textContent = v; else if (k.startsWith('on')) e.addEventListener(k.slice(2), v); else e.setAttribute(k, v); }
@@ -91,6 +96,13 @@
         msg));
     }
     card.append(h('p', { class: 'pp-sub', text: 'Last resort: the scripted run always stays on, so a run still happens with no AI at all.' }));
+    card.append(h('h2', { text: 'Sending and signing services' }),
+      h('p', { class: 'pp-sub', text: 'The workers send letters, email and signature packets through these. Each key is checked when you save it; the next run tests the service and switches the channel on by itself.' }));
+    for (const svc of SERVICES) {
+      const msg = h('p', { class: 'pp-sub', 'aria-live': 'polite' });
+      card.append(h('div', { class: 'pp-card', style: 'margin:10px 0' }, h('h3', { text: svc.name }), h('p', { class: 'pp-sub', text: svc.note }),
+        keyRow(svc, st.j, msg, () => render(card)), msg));
+    }
   };
 
   const mount = () => {

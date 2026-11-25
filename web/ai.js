@@ -27,6 +27,17 @@ const KEYS = {
   OPENROUTER_API_KEY: { label: 'OpenRouter', check: async (v) => {
     const r = await fetch('https://openrouter.ai/api/v1/key', { headers: { Authorization: `Bearer ${v}` }, signal: AbortSignal.timeout(20000) });
     return r.ok ? null : `OpenRouter answered ${r.status}`; } },
+  // Services the workers send and sign through (the runner tests them and switches the channel on).
+  RESEND_API_KEY: { label: 'Email (Resend)', service: true, check: async (v) => {
+    const r = await fetch('https://api.resend.com/domains', { headers: { Authorization: `Bearer ${v}` }, signal: AbortSignal.timeout(20000) });
+    return r.ok ? null : `Resend answered ${r.status}`; } },
+  LOB_API_KEY: { label: 'Letters by mail (Lob)', service: true, check: async (v) => {
+    const r = await fetch('https://api.lob.com/v1/addresses?limit=1', { headers: { Authorization: 'Basic ' + Buffer.from(v + ':').toString('base64') }, signal: AbortSignal.timeout(20000) });
+    if (!r.ok) return `Lob answered ${r.status}`;
+    return v.startsWith('live_') ? null : 'that is a Lob test key; letters only go out with a live_ key'; } },
+  DOCUSEAL_API_KEY: { label: 'E-signature (DocuSeal)', service: true, check: async (v) => {
+    const r = await fetch('https://api.docuseal.com/templates?limit=1', { headers: { 'X-Auth-Token': v }, signal: AbortSignal.timeout(20000) });
+    return r.ok ? null : `DocuSeal answered ${r.status}`; } },
 };
 
 const render = async (method, p, body) => {
@@ -62,13 +73,13 @@ const shareRenderKey = async (svcs) => {
 };
 
 const status = async () => {
-  if (!RENDER_KEY) return { renderReady: false, services: [], keys: Object.fromEntries(Object.entries(KEYS).map(([k, d]) => [k, { label: d.label, set: false, last4: '' }])) };
+  if (!RENDER_KEY) return { renderReady: false, services: [], keys: Object.fromEntries(Object.entries(KEYS).map(([k, d]) => [k, { label: d.label, service: !!d.service, set: false, last4: '' }])) };
   const svcs = await runnerServices();
   await shareRenderKey(svcs).catch((e) => console.log('render key share failed:', e.message));
   const vars = await render('GET', `/services/${svcs[0].id}/env-vars?limit=100`);
   const have = Object.fromEntries((vars || []).map((x) => [x.envVar.key, x.envVar.value || '']));
   return { renderReady: true, services: svcs.map((s) => s.name),
-    keys: Object.fromEntries(Object.entries(KEYS).map(([k, d]) => [k, { label: d.label, set: !!have[k], last4: have[k] ? have[k].slice(-4) : '' }])) };
+    keys: Object.fromEntries(Object.entries(KEYS).map(([k, d]) => [k, { label: d.label, service: !!d.service, set: !!have[k], last4: have[k] ? have[k].slice(-4) : '' }])) };
 };
 
 const redeploy = (svcs) => Promise.allSettled(svcs.map((s) => render('POST', `/services/${s.id}/deploys`, { clearCache: 'do_not_clear' })));

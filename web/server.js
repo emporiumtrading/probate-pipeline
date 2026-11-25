@@ -15,6 +15,7 @@ const fs = require('fs');
 const path = require('path');
 const store = require('./store');
 const ai = require('./ai');
+const preflight = require('./preflight');
 
 const ROOT = path.join(__dirname, '..');
 const DASH = path.join(ROOT, 'dashboard');
@@ -85,7 +86,7 @@ const page = () => {
     `<script>window.__PP_USER=${JSON.stringify(USER)};</script></head><body>` +
     '<div class="ei-bar"><span class="ei-brand">Emporium Investments</span><a class="ei-out" href="/logout">Sign out</a></div>';
   const injected = html.replace('<script src="app.js">',
-    '<script src="/vendor/d3.min.js"></script><script src="/dash-runtime.js"></script><script src="/ai-settings.js" defer></script><script src="app.js">');
+    '<script src="/vendor/d3.min.js"></script><script src="/dash-runtime.js"></script><script src="/ai-settings.js" defer></script><script src="/autonomy-ui.js" defer></script><script src="app.js">');
   return head + injected + '</body></html>';
 };
 
@@ -126,7 +127,7 @@ const server = http.createServer(async (req, res) => {
 
   try {
     if (p === '/' || p === '/index.html') return send(res, 200, page(), MIME['.html']);
-    if (p === '/dash-runtime.js' || p === '/theme.css' || p === '/ai-settings.js') return safe(res, __dirname, p.slice(1));
+    if (p === '/dash-runtime.js' || p === '/theme.css' || p === '/ai-settings.js' || p === '/autonomy-ui.js') return safe(res, __dirname, p.slice(1));
     if (p.startsWith('/vendor/')) return safe(res, __dirname, p.slice(1));
     if (p.startsWith('/data/')) return safe(res, DATA, p.slice(6));
 
@@ -144,6 +145,16 @@ const server = http.createServer(async (req, res) => {
       return send(res, 200, '{}', MIME['.json']);
     }
     if (p === '/api/doc') return send(res, 405, 'method not allowed');
+
+    // Full autonomy switch (see preflight.js): the server re-checks before turning it on.
+    if (p === '/api/autonomy' && req.method === 'GET') return send(res, 200, JSON.stringify(await preflight.check(USER)), MIME['.json']);
+    if ((p === '/api/autonomy' || p === '/api/autonomy/notify') && req.method === 'POST') {
+      if (!String(req.headers['content-type'] || '').startsWith('application/json')) return send(res, 415, 'json only');
+      const body = await readBody(req);
+      const r = p === '/api/autonomy' ? await preflight.setSwitch(USER, body.on === true) : await preflight.setNotify(USER, body.email);
+      console.log(`autonomy ${p.endsWith('notify') ? 'notice email' : (body.on ? 'on' : 'off')}: ${r.ok ? 'ok' : r.error}`);
+      return send(res, r.ok ? 200 : 400, JSON.stringify(r), MIME['.json']);
+    }
 
     // AI engine keys: stored only as env vars on the runner cron jobs (see ai.js).
     if (p === '/api/ai' && req.method === 'GET') return send(res, 200, JSON.stringify(await ai.status()), MIME['.json']);
