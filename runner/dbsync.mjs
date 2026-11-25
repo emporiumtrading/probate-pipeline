@@ -25,6 +25,7 @@ create table if not exists files (path text primary key, content text not null, 
 create table if not exists file_history (id bigserial primary key, path text not null, content text, change text not null, at timestamptz not null default now(), git_commit text);
 create table if not exists store_docs (path text primary key, data jsonb not null, hash text not null, updated_at timestamptz not null default now(), deleted_at timestamptz);
 create table if not exists store_history (id bigserial primary key, path text not null, data jsonb, change text not null, at timestamptz not null default now());
+create table if not exists datasets (dataset text primary key, columns text[] not null, updated_at timestamptz not null default now());
 create table if not exists dashboard_data (name text primary key, content text not null, built_at timestamptz not null default now(), git_commit text);
 create table if not exists sync_runs (id bigserial primary key, at timestamptz not null default now(), slice text, git_commit text,
   datasets int, rows int, rows_changed int, files_changed int, docs_changed int);
@@ -86,6 +87,9 @@ export async function syncDb({ cwd, storeDocs = {}, slice = '', dataDir = '' }) 
     for (const ds of csvs) {
       datasets++;
       const { head, rows } = parseCsv(fs.readFileSync(path.join(cwd, ds), 'utf8'));
+      // Column order as in the CSV (jsonb doesn't keep key order); the Data page shows columns in this order.
+      await client.query(`insert into datasets (dataset, columns) values ($1,$2)
+        on conflict (dataset) do update set columns = excluded.columns, updated_at = now()`, [ds, head]);
       const cur = new Map((await client.query('select row_key, hash, deleted_at from records where dataset = $1', [ds])).rows.map((r) => [r.row_key, r]));
       const now = new Set();
       for (const [k, o] of keyed(head, rows)) {

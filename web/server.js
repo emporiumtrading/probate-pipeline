@@ -87,7 +87,7 @@ const page = () => {
     `<script>window.__PP_USER=${JSON.stringify(USER)};</script></head><body>` +
     '<div class="ei-bar"><span class="ei-brand">Emporium Investments</span><a class="ei-out" href="/logout">Sign out</a></div>';
   const injected = html.replace('<script src="app.js">',
-    '<script src="/vendor/d3.min.js"></script><script src="/dash-runtime.js"></script><script src="/ai-settings.js" defer></script><script src="/autonomy-ui.js" defer></script><script src="/ops-ui.js" defer></script><script src="app.js">');
+    '<script src="/vendor/d3.min.js"></script><script src="/dash-runtime.js"></script><script src="/ai-settings.js" defer></script><script src="/autonomy-ui.js" defer></script><script src="/ops-ui.js" defer></script><script src="/data-ui.js" defer></script><script src="app.js">');
   return head + injected + '</body></html>';
 };
 
@@ -128,7 +128,7 @@ const server = http.createServer(async (req, res) => {
 
   try {
     if (p === '/' || p === '/index.html') return send(res, 200, page(), MIME['.html']);
-    if (p === '/dash-runtime.js' || p === '/theme.css' || p === '/ai-settings.js' || p === '/autonomy-ui.js' || p === '/ops-ui.js') return safe(res, __dirname, p.slice(1));
+    if (p === '/dash-runtime.js' || p === '/theme.css' || p === '/ai-settings.js' || p === '/autonomy-ui.js' || p === '/ops-ui.js' || p === '/data-ui.js') return safe(res, __dirname, p.slice(1));
     if (p.startsWith('/vendor/')) return safe(res, __dirname, p.slice(1));
     if (p.startsWith('/data/')) {
       // Live from the database (the latest checked run); the files built at deploy are the fallback.
@@ -141,6 +141,16 @@ const server = http.createServer(async (req, res) => {
         }
       }
       return safe(res, DATA, name);
+    }
+    // Data page: read-only browse of the database (web/db.js → browse).
+    if (p.startsWith('/api/dbview/') && req.method === 'GET') {
+      const fn = Object.prototype.hasOwnProperty.call(db.browse, p.slice(12)) ? db.browse[p.slice(12)] : null;
+      if (!fn) return send(res, 404, 'not found');
+      try { return send(res, 200, JSON.stringify(await fn(Object.fromEntries(u.searchParams))), MIME['.json']); }
+      catch (e) {
+        if (!e.status) console.error('dbview failed:', p, e.message);
+        return send(res, e.status || 500, JSON.stringify({ error: e.status ? e.message : 'query failed' }), MIME['.json']);
+      }
     }
     if (p === '/api/data-status' && req.method === 'GET') return send(res, 200, JSON.stringify(await db.status()), MIME['.json']);
 
