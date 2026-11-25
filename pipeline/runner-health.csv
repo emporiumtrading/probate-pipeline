@@ -1,0 +1,2 @@
+date,slice,level,engine,result,verify,notes
+"2026-11-25T20:47:28.366Z","fast-desk","light","scripted","ok","pass","board:1f87bf9855; claude: no key; nvidia: no key; openrouter: no key"
