@@ -2,3 +2,4 @@ __pycache__/
 node_modules/
 web/data/
 web/store.json
+.claude/worktrees/
