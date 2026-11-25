@@ -25,6 +25,7 @@ create table if not exists files (path text primary key, content text not null, 
 create table if not exists file_history (id bigserial primary key, path text not null, content text, change text not null, at timestamptz not null default now(), git_commit text);
 create table if not exists store_docs (path text primary key, data jsonb not null, hash text not null, updated_at timestamptz not null default now(), deleted_at timestamptz);
 create table if not exists store_history (id bigserial primary key, path text not null, data jsonb, change text not null, at timestamptz not null default now());
+create table if not exists dashboard_data (name text primary key, content text not null, built_at timestamptz not null default now(), git_commit text);
 create table if not exists sync_runs (id bigserial primary key, at timestamptz not null default now(), slice text, git_commit text,
   datasets int, rows int, rows_changed int, files_changed int, docs_changed int);
 create or replace view leads as select row_key as lead_id, data, last_seen from records where dataset = 'pipeline/deal-tracker.csv' and deleted_at is null;
@@ -70,12 +71,12 @@ const keyed = (head, rows) => {
   });
 };
 
-export async function syncDb({ cwd, storeDocs = {}, slice = '' }) {
+export async function syncDb({ cwd, storeDocs = {}, slice = '', dataDir = '' }) {
   if (!process.env.DATABASE_URL) return 'db sync skipped: no DATABASE_URL';
   const commit = spawnSync('git', ['rev-parse', 'HEAD'], { cwd, encoding: 'utf8' }).stdout.trim();
   const client = new pg.Client({ connectionString: process.env.DATABASE_URL, ssl: /sslmode=require/.test(process.env.DATABASE_URL) ? { rejectUnauthorized: false } : false });
   await client.connect();
-  let rowsTotal = 0, rowsChanged = 0, filesChanged = 0, docsChanged = 0, datasets = 0;
+  let published = 0, rowsTotal = 0, rowsChanged = 0, filesChanged = 0, docsChanged = 0, datasets = 0;
   try {
     await client.query(SCHEMA);
     await client.query('begin');
@@ -137,6 +138,16 @@ export async function syncDb({ cwd, storeDocs = {}, slice = '' }) {
       docsChanged++;
     }
 
+    // 4. The dashboard's datasets, as built and checked this run (qa_checks.py passed); the website reads these live.
+    if (dataDir && fs.existsSync(dataDir)) {
+      for (const name of fs.readdirSync(dataDir).filter((n) => /\.(csv|json)$/.test(n))) {
+        await client.query(`insert into dashboard_data (name, content, built_at, git_commit) values ($1,$2,now(),$3)
+          on conflict (name) do update set content = excluded.content, built_at = now(), git_commit = excluded.git_commit`,
+          [name, fs.readFileSync(path.join(dataDir, name), 'utf8'), commit]);
+        published++;
+      }
+    }
+
     await client.query('insert into sync_runs (slice, git_commit, datasets, rows, rows_changed, files_changed, docs_changed) values ($1,$2,$3,$4,$5,$6,$7)',
       [slice, commit, datasets, rowsTotal, rowsChanged, filesChanged, docsChanged]);
     await client.query('commit');
@@ -146,5 +157,5 @@ export async function syncDb({ cwd, storeDocs = {}, slice = '' }) {
   } finally {
     await client.end();
   }
-  return `db sync: ${datasets} datasets, ${rowsTotal} rows (${rowsChanged} changed), ${filesChanged} files changed, ${docsChanged} dashboard saves changed`;
+  return `db sync: ${datasets} datasets, ${rowsTotal} rows (${rowsChanged} changed), ${filesChanged} files changed, ${docsChanged} dashboard saves changed${dataDir ? ', dashboard data ' + (published ? `published (${published} files)` : 'not published') : ''}`;
 }

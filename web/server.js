@@ -16,6 +16,7 @@ const path = require('path');
 const store = require('./store');
 const ai = require('./ai');
 const preflight = require('./preflight');
+const db = require('./db');
 
 const ROOT = path.join(__dirname, '..');
 const DASH = path.join(ROOT, 'dashboard');
@@ -129,7 +130,19 @@ const server = http.createServer(async (req, res) => {
     if (p === '/' || p === '/index.html') return send(res, 200, page(), MIME['.html']);
     if (p === '/dash-runtime.js' || p === '/theme.css' || p === '/ai-settings.js' || p === '/autonomy-ui.js' || p === '/ops-ui.js') return safe(res, __dirname, p.slice(1));
     if (p.startsWith('/vendor/')) return safe(res, __dirname, p.slice(1));
-    if (p.startsWith('/data/')) return safe(res, DATA, p.slice(6));
+    if (p.startsWith('/data/')) {
+      // Live from the database (the latest checked run); the files built at deploy are the fallback.
+      const name = p.slice(6);
+      if (/^[\w.-]+\.(csv|json)$/.test(name)) {
+        const row = await db.getData(name);
+        if (row) {
+          res.setHeader('X-Data-Built', new Date(row.builtAt).toISOString());
+          return send(res, 200, row.content, MIME[path.extname(name)] || 'text/plain; charset=utf-8');
+        }
+      }
+      return safe(res, DATA, name);
+    }
+    if (p === '/api/data-status' && req.method === 'GET') return send(res, 200, JSON.stringify(await db.status()), MIME['.json']);
 
     if (p.startsWith('/api/col/') && req.method === 'GET') {
       return send(res, 200, JSON.stringify(store.listCol(p.slice(9))), MIME['.json']);

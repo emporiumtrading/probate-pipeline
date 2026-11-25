@@ -261,7 +261,12 @@ git(['pull', '--rebase', 'origin', 'main']);
 git(['push', 'origin', 'HEAD:main']);
 
 /* ---------- 5. copy everything into Postgres (runner/dbsync.mjs); the repo stays the source of truth ---------- */
-try { console.log(await syncDb({ cwd: WORK, storeDocs, slice: SLICE })); } catch (e) { console.log('db sync: failed', e.message); }
+// The dashboard reads its data live from the database, so only a build that passed the checks is published.
+// Rebuilt after the run's last commits (run record, notices) and checked again before publishing.
+const finalCheck = verified === 'pass' ? verify() : { ok: false };
+const checkedData = finalCheck.ok ? path.join(WORK, '..', 'verify-data') : '';
+if (!checkedData) console.log('db sync: dashboard data not published (checks did not pass)');
+try { console.log(await syncDb({ cwd: WORK, storeDocs, slice: SLICE, dataDir: checkedData })); } catch (e) { console.log('db sync: failed', e.message); }
 
 /* ---------- 6. deploy what changed (Render's deploy-on-push isn't firing) ---------- */
 try { for (const l of await syncDeploys(WORK)) console.log('deploy:', l); } catch (e) { console.log('deploy: failed', e.message); }

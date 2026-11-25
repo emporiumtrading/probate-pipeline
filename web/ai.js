@@ -84,6 +84,19 @@ const shareRenderKey = async (svcs) => {
     }
   }
   if (changed) await redeploy(svcs);   // so the jobs pick the new settings up
+  // The dashboard reads its data live from the same database (web/db.js): set the address here too,
+  // and restart once to load it. After the restart the address matches, so this doesn't repeat.
+  if (db) {
+    const ci = await render('GET', `/postgres/${db.id}/connection-info`);
+    const url = ci && ci.internalConnectionString;
+    const me = ((await render('GET', `/services?name=${encodeURIComponent(process.env.DASHBOARD_SERVICE || 'probate-dashboard')}&limit=5`)) || [])
+      .map((x) => x.service).find((x) => x && x.name === (process.env.DASHBOARD_SERVICE || 'probate-dashboard'));
+    if (url && me && process.env.DATABASE_URL !== url) {
+      await render('PUT', `/services/${me.id}/env-vars/DATABASE_URL`, { value: url });
+      await render('POST', `/services/${me.id}/deploys`, { clearCache: 'do_not_clear' });
+      console.log('dashboard: database address set; restarting to read data live');
+    }
+  }
   keyShared = true;
 };
 

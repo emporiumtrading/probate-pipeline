@@ -67,11 +67,15 @@
       const x = await api('/api/autonomy/notify', { email: mail.value });
       saved.textContent = x.ok ? 'Saved.' : ((x.j && x.j.error) || `Not saved (${x.status})`);
     } });
+    const ds = await api('/api/data-status');
+    const fresh = h('span', { class: 'pp-sub', style: 'flex-basis:100%;margin:0', text: !ds.ok ? '' : ds.j.source === 'database'
+      ? `Data: live from the database, as of the last run (${new Date(ds.j.builtAt).toLocaleString()}).`
+      : `Data: from the last deploy (${ds.j.reason}).` });
     bar.replaceChildren(
       h('label', { for: 'fa-switch', style: 'display:flex;gap:8px;align-items:center;font-weight:600' }, sw, document.createTextNode('Full autonomy')),
       h('span', { class: 'pp-sub', text: c.on ? `On since ${c.since.slice(0, 10)}: you'll only hear about signatures, deposits and closings.` : (c.ready ? 'Off. Everything is ready: flip it to turn it on.' : `Off. ${c.blocking.length} thing${c.blocking.length === 1 ? '' : 's'} to do first.`) }),
       h('span', { style: 'margin-left:auto;display:flex;gap:6px;align-items:center' }, h('span', { class: 'pp-sub', text: 'Notices go to' }), mail, saveMail, saved),
-      !c.on && !c.ready ? h('button', { type: 'button', class: 'pp-btn', text: 'What\'s missing?', onclick: () => showMissing(c) }) : null);
+      !c.on && !c.ready ? h('button', { type: 'button', class: 'pp-btn', text: 'What\'s missing?', onclick: () => showMissing(c) }) : null, fresh);
   };
 
   const mount = () => {
