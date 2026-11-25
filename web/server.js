@@ -86,7 +86,7 @@ const page = () => {
     `<script>window.__PP_USER=${JSON.stringify(USER)};</script></head><body>` +
     '<div class="ei-bar"><span class="ei-brand">Emporium Investments</span><a class="ei-out" href="/logout">Sign out</a></div>';
   const injected = html.replace('<script src="app.js">',
-    '<script src="/vendor/d3.min.js"></script><script src="/dash-runtime.js"></script><script src="/ai-settings.js" defer></script><script src="/autonomy-ui.js" defer></script><script src="app.js">');
+    '<script src="/vendor/d3.min.js"></script><script src="/dash-runtime.js"></script><script src="/ai-settings.js" defer></script><script src="/autonomy-ui.js" defer></script><script src="/ops-ui.js" defer></script><script src="app.js">');
   return head + injected + '</body></html>';
 };
 
@@ -127,7 +127,7 @@ const server = http.createServer(async (req, res) => {
 
   try {
     if (p === '/' || p === '/index.html') return send(res, 200, page(), MIME['.html']);
-    if (p === '/dash-runtime.js' || p === '/theme.css' || p === '/ai-settings.js' || p === '/autonomy-ui.js') return safe(res, __dirname, p.slice(1));
+    if (p === '/dash-runtime.js' || p === '/theme.css' || p === '/ai-settings.js' || p === '/autonomy-ui.js' || p === '/ops-ui.js') return safe(res, __dirname, p.slice(1));
     if (p.startsWith('/vendor/')) return safe(res, __dirname, p.slice(1));
     if (p.startsWith('/data/')) return safe(res, DATA, p.slice(6));
 

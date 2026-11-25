@@ -460,7 +460,30 @@ for r in ready:
     if r["area_id"].startswith("market-") and r["item_key"] in ("attorney", "packet", "approved_on"):
         _lmk.append({"market": r["area"], "step": {"attorney": "Attorney engaged", "packet": "Packet built", "approved_on": "Templates approved"}[r["item_key"]], "status": r["status"], "next": r["how_to_fix"]})
 write("legal_markets.csv", ["market", "step", "status", "next"], _lmk)
+# Signing: the company's own e-signature (config.yaml → company_signature; owner decision 2026-11-25). Optional: without it, contracts come to the owner as one-tap signatures.
+_CSG = cfg_block("company_signature")
+item("Signing", "Company resolution signed (lets the company e-sign deals inside fixed limits)", bool(re.match(r"\d{4}-", _CSG.get("resolution_signed_on", ""))),
+     "The Legal Advisor has the attorney draft it and puts it in your Sign queue; one signature, once", "Contracts inside the limits signed without you", "signing", "resolution_signed_on")
+item("Signing", "Attorney confirmed the company e-signature" + (f" ({_CSG.get('attorney_confirmed_states')})" if _CSG.get("attorney_confirmed_states") else ""),
+     bool(re.match(r"\d{4}-", _CSG.get("attorney_confirmed_on", ""))), "Runs on its own: the Legal Advisor asks the attorney and records the answer", "Contracts inside the limits signed without you", "signing", "attorney_confirmed_on")
 write("readiness.csv", ["area", "item", "status", "how_to_fix", "unlocks", "area_id", "item_key"], ready)
+
+# Earnest-money reserve (scripts/reserve.py) and the runner's record of each run (pipeline/runner-health.csv).
+try:
+    _rv = json.loads(subprocess.run([sys.executable, os.path.join(ROOT, "scripts", "reserve.py")], cwd=ROOT, capture_output=True, text=True).stdout)
+    _em = cfg_block("earnest_money")
+    _n, _s = float(_em.get("normal_deal_share") or 0.33), float(_em.get("strong_deal_share") or 0.5)
+    write("reserve.csv", ["start", "refill_from_profit", "forfeited", "total", "committed", "available", "normal_cap", "strong_cap", "open_deposits", "company_signature"],
+          [{**{k: _rv.get(k) for k in ("start", "refill_from_profit", "forfeited", "total", "committed", "available")},
+            "normal_cap": round(_rv["total"] * _n), "strong_cap": round(_rv["total"] * _s), "open_deposits": len(_rv.get("open_deposits", [])),
+            "company_signature": "on" if _CSG.get("enabled") == "true" else "off"}])
+except Exception as _e:
+    print("reserve: skipped", _e)
+    write("reserve.csv", ["start", "refill_from_profit", "forfeited", "total", "committed", "available", "normal_cap", "strong_cap", "open_deposits", "company_signature"], [])
+_rh = []
+if os.path.exists(os.path.join(ROOT, "pipeline", "runner-health.csv")):
+    _rh = list(csv.DictReader(open(os.path.join(ROOT, "pipeline", "runner-health.csv"), newline="")))[-40:][::-1]
+write("runner_health.csv", ["date", "slice", "level", "engine", "result", "verify", "notes"], [{k: r.get(k, "") for k in ("date", "slice", "level", "engine", "result", "verify", "notes")} for r in _rh])
 
 # ---- buyers per market (counts only, no names) ----
 bpath = os.path.join(ROOT, "pipeline", "buyers", "buyers.csv")

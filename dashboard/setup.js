@@ -52,7 +52,8 @@
       const foot = document.createElement('div'); foot.className = 'pp-row';
       const when = document.createElement('span'); when.className = 'pp-sub'; when.style.margin = '0'; when.textContent = s && s.saved_at ? `Saved ${String(s.saved_at).slice(0, 10)}` : 'Nothing saved yet';
       const b = document.createElement('button'); b.type = 'button'; b.className = 'pp-btn pp-btn-primary'; b.textContent = 'Configure';
-      if (!KIND(id)) { b.disabled = true; b.title = 'Available after the next data refresh'; }
+      if (id === 'signing') { b.textContent = 'Runs on its own'; b.className = 'pp-btn'; b.disabled = true; b.title = 'The Legal Advisor handles this; you only sign the resolution when it reaches your Sign queue'; }
+      else if (!KIND(id)) { b.disabled = true; b.title = 'Available after the next data refresh'; }
       b.onclick = () => PP.openSetup(id, area, items.some((r) => r.item_key === 'licensed_or_partnered'));
       foot.append(when, b);
       card.append(row, m, ul, foot);
