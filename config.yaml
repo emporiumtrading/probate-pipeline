@@ -40,6 +40,10 @@ earnest_money:
   token_max: 100
   reserve_start: 1000             # USD the owner set aside for earnest money
   reserve_refill_profit_share: 0.25   # at each closing: the deal's earnest money comes back, plus this share of its profit
+  normal_deal_share: 0.33         # owner decision 2026-11-25: one deal's deposit is at most a third of the reserve (3 deals at once)
+  strong_deal_share: 0.5          # up to half for a deal likely to close (authority verified, buyers matched, margin; scripts/reserve.py)
+  strong_min_buyers: 3
+  strong_min_margin: 10000        # buyer_max minus our contract price, USD
   refundable_only: true           # earnest money only with an inspection/due-diligence period during which it is refunded
   min_inspection_days: 10
   # Deals needing more than the reserve has free (e.g. a court-set 10% deposit) are passed on or offered to a buyer directly.

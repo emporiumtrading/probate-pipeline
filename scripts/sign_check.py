@@ -65,7 +65,7 @@ if a.doc == "purchase_agreement":
     if a.inspection_days < int(float(em.get("min_inspection_days", "10") or 10)):
         fails.append(f"fewer than {em.get('min_inspection_days', '10')} inspection days to walk away (with any deposit refunded)")
     if a.earnest > 0:
-        r = subprocess.run([sys.executable, "scripts/reserve.py", "--fits", str(a.earnest)], capture_output=True, text=True)
+        r = subprocess.run([sys.executable, "scripts/reserve.py", "--fits", str(a.earnest), "--lead", a.lead_id], capture_output=True, text=True)
         if r.returncode != 0:
             fails.append(r.stdout.strip())
 

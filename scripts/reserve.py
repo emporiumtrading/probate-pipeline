@@ -8,8 +8,13 @@
 The reserve is an accounting limit, not an account: the system never moves money.
 The owner pays each deposit through the title company after confirming its escrow by phone.
 
-Usage: python3 scripts/reserve.py            -> JSON summary
-       python3 scripts/reserve.py --fits 500 -> exit 0 if $500 fits in what's available, else 1
+Per deal (owner decision 2026-11-25): a deposit is at most normal_deal_share of the total
+(a third: three deals at once), or strong_deal_share (half) for a deal likely to close:
+the signer's authority is verified (letters issued), at least strong_min_buyers vetted
+cash buyers match its price, and buyer_max - our price >= strong_min_margin.
+
+Usage: python3 scripts/reserve.py                        -> JSON summary
+       python3 scripts/reserve.py --fits 500 [--lead ID]  -> exit 0 if $500 fits for that deal, else 1
 """
 import csv, json, re, sys
 
@@ -58,9 +63,42 @@ for t in tracker:
 total = start + refill - forfeited
 out = {"start": start, "refill_from_profit": round(refill, 2), "forfeited": forfeited, "total": round(total, 2),
        "committed": committed, "available": round(total - committed, 2), "open_deposits": open_deals}
+
+
+def strong(lid):
+    """Why this deal counts as likely to close, or None."""
+    t = next((r for r in tracker if r.get("lead_id") == lid), None)
+    if not t:
+        return None
+    li = (t.get("letters_issued") or "").strip().lower()
+    if not li or li.startswith(("unknown", "no", "pending", "n/a")):
+        return None
+    price = money(t.get("target_price") or t.get("mao"))
+    margin = money(t.get("buyer_max")) - price
+    if not price or margin < cfg("strong_min_margin", 10000):
+        return None
+    n = 0
+    for b in rows("pipeline/buyers/buyers.csv"):
+        if not lid.startswith((b.get("market_id") or "?") + "-") or (b.get("stop") or "").lower() in ("yes", "true"):
+            continue
+        if (b.get("status") or "").lower() not in ("vetted", "active", "verified"):
+            continue
+        lo, hi = money(b.get("price_min")), money(b.get("price_max"))
+        if (not lo or lo <= price) and (not hi or price <= hi):
+            n += 1
+    if n < cfg("strong_min_buyers", 3):
+        return None
+    return f"letters issued, {n} matched buyers, ${margin:,.0f} margin"
+
+
 if len(sys.argv) > 2 and sys.argv[1] == "--fits":
     need = money(sys.argv[2])
-    ok = need <= out["available"]
-    print(f"reserve: ${need:,.0f} {'fits' if ok else 'does NOT fit'} (available ${out['available']:,.0f} of ${out['total']:,.0f})")
+    lid = sys.argv[4] if len(sys.argv) > 4 and sys.argv[3] == "--lead" else ""
+    why = strong(lid) if lid else None
+    cap = round(out["total"] * cfg("strong_deal_share" if why else "normal_deal_share", 0.5 if why else 0.33), 2)
+    own = sum(d["earnest"] for d in open_deals if d["lead_id"] == lid)  # a deal re-checking its own deposit
+    ok = need <= out["available"] + own and need <= cap
+    print(f"reserve: ${need:,.0f} {'fits' if ok else 'does NOT fit'} (per-deal cap ${cap:,.0f} as a "
+          f"{'strong deal: ' + why if why else 'normal deal'}; available ${out['available']:,.0f} of ${out['total']:,.0f})")
     sys.exit(0 if ok else 1)
 print(json.dumps(out, indent=2))
