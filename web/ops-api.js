@@ -8,6 +8,9 @@
      POST /api/ops/deploy {"service": ...}  redeploy a pipeline service
      GET  /api/ops/logs?service=&limit=     recent log lines of a pipeline service
      GET  /api/ops/db/<view>?...            the Data page's read-only database views
+     POST /api/ops/task {"action": "open", "title": ...}            record a task the owner gave (returns its id)
+     POST /api/ops/task {"action": "progress"|"done"|"failed", "id": ..., "result": ...}
+     GET  /api/ops/tasks                    the task list (the owner's chat window shows the outcomes)
    Runs and deploys are capped at 12 an hour. Every call is logged. */
 'use strict';
 const crypto = require('crypto');
@@ -57,10 +60,15 @@ const spend = () => {
   actions.push(now);
 };
 
-async function handle(req, res, p, u, send, readBody, db) {
+// Hermes's task list lives in the dashboard's doc store under hermes/tasks/<id>.
+const TASKS = 'hermes/tasks';
+const tasks = (store) => store.listCol(TASKS).sort((a, b) => String(b.updatedAt).localeCompare(String(a.updatedAt))).slice(0, 100);
+const clean = (v, n) => String(v || '').replace(/[\u0000-\u0008\u000b-\u001f]/g, '').slice(0, n);
+
+async function handle(req, res, p, u, send, readBody, db, store) {
   const json = (code, v) => send(res, code, JSON.stringify(v), 'application/json; charset=utf-8');
   if (!authorized(req)) return send(res, 401, 'not authorized');
-  if (!RENDER_KEY && !p.startsWith('/api/ops/db/')) return json(503, { error: 'RENDER_API_KEY is not set on the dashboard yet' });
+  if (!RENDER_KEY && !/^\/api\/ops\/(db\/|tasks?$)/.test(p)) return json(503, { error: 'RENDER_API_KEY is not set on the dashboard yet' });
   try {
     if (p === '/api/ops/services' && req.method === 'GET') {
       const out = [];
@@ -90,6 +98,29 @@ async function handle(req, res, p, u, send, readBody, db) {
       const lines = ((r && r.logs) || []).map((l) => `${l.timestamp} ${l.message}`).reverse();
       return json(200, { service: s.name, lines });
     }
+    if (p === '/api/ops/tasks' && req.method === 'GET') return json(200, tasks(store));
+    if (p === '/api/ops/task' && req.method === 'POST') {
+      if (!String(req.headers['content-type'] || '').startsWith('application/json')) return send(res, 415, 'json only');
+      const b = await readBody(req);
+      const now = new Date().toISOString();
+      if (b.action === 'open') {
+        const title = clean(b.title, 200).trim();
+        if (!title) return json(400, { error: 'title needed' });
+        const id = now.replace(/\D/g, '').slice(0, 14) + '-' + crypto.randomBytes(3).toString('hex');
+        await store.setDoc(`${TASKS}/${id}`, { title, status: 'open', openedAt: now, updatedAt: now, progress: '', result: '' });
+        console.log(`ops: task opened ${id}`);
+        return json(200, { id });
+      }
+      const id = clean(b.id, 40);
+      const t = /^[\w-]+$/.test(id) && store.getDoc(`${TASKS}/${id}`);
+      if (!t) return json(404, { error: 'no such task' });
+      if (b.action === 'progress') await store.setDoc(`${TASKS}/${id}`, { ...t, progress: clean(b.result, 120), updatedAt: now });
+      else if (b.action === 'done' || b.action === 'failed') {
+        await store.setDoc(`${TASKS}/${id}`, { ...t, status: b.action, result: clean(b.result, 1500), closedAt: now, updatedAt: now });
+        console.log(`ops: task ${b.action} ${id}`);
+      } else return json(400, { error: 'action must be open, progress, done or failed' });
+      return json(200, { ok: true });
+    }
     if (p.startsWith('/api/ops/db/') && req.method === 'GET') {
       const fn = Object.prototype.hasOwnProperty.call(db.browse, p.slice(12)) ? db.browse[p.slice(12)] : null;
       if (!fn) return send(res, 404, 'not found');
@@ -102,4 +133,4 @@ async function handle(req, res, p, u, send, readBody, db) {
   }
 }
 
-module.exports = { handle };
+module.exports = { handle, tasks };

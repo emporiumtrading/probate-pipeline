@@ -129,7 +129,7 @@ const server = http.createServer(async (req, res) => {
     return res.end();
   }
   // Hermes's narrow door to Render (its own key, not the owner's login): web/ops-api.js.
-  if (p.startsWith('/api/ops/')) return ops.handle(req, res, p, u, send, readBody, db);
+  if (p.startsWith('/api/ops/')) return ops.handle(req, res, p, u, send, readBody, db, store);
   if (!authed(req)) {
     if (req.method === 'GET' && (p === '/' || p === '/index.html' || p === '/login')) return send(res, 200, landing(''), MIME['.html']);
     return send(res, 401, 'login required');
@@ -160,6 +160,8 @@ const server = http.createServer(async (req, res) => {
         return send(res, 200, JSON.stringify(r.ok ? { ok: true, detail: j } : { ok: false, reason: `Hermes answered ${r.status} (it may still be starting)` }), MIME['.json']);
       } catch (e) { return send(res, 200, JSON.stringify({ ok: false, reason: 'Hermes is starting or asleep; try again in a minute' }), MIME['.json']); }
     }
+    // Tasks the owner gave Hermes, with their outcome (Hermes records them through /api/ops/task).
+    if (p === '/api/hermes/tasks' && req.method === 'GET') return send(res, 200, JSON.stringify(ops.tasks(store)), MIME['.json']);
     if (p === '/api/hermes/chat' && req.method === 'POST') {
       if (!String(req.headers['content-type'] || '').startsWith('application/json')) return send(res, 415, 'json only');
       if (!HERMES_URL || !HERMES_KEY) return send(res, 503, 'Hermes isn\'t connected to the dashboard yet');

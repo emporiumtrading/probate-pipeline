@@ -6,6 +6,11 @@
 #   pipeline-ops logs <service> [n]     last n log lines (default 100)
 #   pipeline-ops db <view> [query]      read-only database views: summary, records (dataset=, q=),
 #                                       history (dataset=, key=), files (q=), file (path=), saves, syncs
+#   pipeline-ops task open "<title>"    record a task the owner gave you; prints its id
+#   pipeline-ops task progress <id> "<where it stands>"
+#   pipeline-ops task done <id> "<what was done, with numbers>"
+#   pipeline-ops task failed <id> "<why, and what is needed>"
+#   pipeline-ops tasks                  the task list (open ones first to check)
 set -eu
 BASE="${DASHBOARD_URL:-https://probate-dashboard.onrender.com}"
 name() { [[ "${1:-}" =~ ^[a-z0-9-]{1,40}$ ]] || { echo "bad service name" >&2; exit 2; }; }
@@ -15,5 +20,13 @@ case "${1:-}" in
   run|deploy) name "${2:-}"; call -H 'Content-Type: application/json' -d "{\"service\":\"$2\"}" "$BASE/api/ops/$1" ;;
   logs) name "${2:-}"; call "$BASE/api/ops/logs?service=$2&limit=${3:-100}" ;;
   db) [[ "${2:-}" =~ ^[a-zA-Z]{1,20}$ ]] || { echo "bad view" >&2; exit 2; }; call -G "$BASE/api/ops/db/$2" ${3:+--data "$3"} ;;
-  *) sed -n '2,8p' "$0"; exit 2 ;;
+  tasks) call "$BASE/api/ops/tasks" ;;
+  task)
+    case "${2:-}" in
+      open) body=$(python3 -c 'import json,sys; print(json.dumps({"action":"open","title":sys.argv[1]}))' "${3:?title}") ;;
+      progress|done|failed) body=$(python3 -c 'import json,sys; print(json.dumps({"action":sys.argv[1],"id":sys.argv[2],"result":sys.argv[3]}))' "$2" "${3:?task id}" "${4:-}") ;;
+      *) echo "task open|progress|done|failed" >&2; exit 2 ;;
+    esac
+    call -H 'Content-Type: application/json' -d "$body" "$BASE/api/ops/task" ;;
+  *) sed -n '2,13p' "$0"; exit 2 ;;
 esac

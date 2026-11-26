@@ -45,8 +45,10 @@ def today():
 
 
 def workers():
-    """Every worker with a role file, plus the owner. New workers join automatically."""
-    return {os.path.basename(f)[:-3] for f in glob.glob(os.path.join(AGENTS, "*.md"))} | {"owner"}
+    """Every worker with a role file, plus the owner and Hermes (the orchestrator, hermes/SOUL.md:
+    it assigns work to the workers and answers what they send it; it has no owner powers here).
+    New workers join automatically."""
+    return {os.path.basename(f)[:-3] for f in glob.glob(os.path.join(AGENTS, "*.md"))} | {"owner", "hermes"}
 
 
 def leads():
