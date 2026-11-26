@@ -139,6 +139,7 @@ const LADDERS = {
   nvidia: ['meta/llama-3.3-70b-instruct', 'qwen/qwen3-coder-480b-a35b-instruct', 'deepseek-ai/deepseek-v3.1', 'openai/gpt-oss-120b'],
   openrouter: ['meta-llama/llama-3.3-70b-instruct:free', 'qwen/qwen3-coder:free', 'deepseek/deepseek-chat-v3.1:free'],
 };
+console.log(`claude models allowed: ${LADDERS.claude.join(', ')} (cap: ${AI.claudeMax || 'default, up to claude-sonnet-5-5'}; Setup → AI engines)`);
 const picked = {};
 const pickLadder = (eng) => {
   if (picked[eng] || !['nvidia', 'openrouter'].includes(eng)) return;
