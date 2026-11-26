@@ -13,14 +13,19 @@ owner hasn't entered stays as a placeholder, and a licence placeholder is kept a
 """
 import glob, os, re, sys
 
-import yaml
-
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 def business():
-    cfg = yaml.safe_load(open(os.path.join(ROOT, "config.yaml"))) or {}
-    return {k: str(v or "").strip() for k, v in (cfg.get("business") or {}).items()}
+    """config.yaml → business, read without a YAML library (the Render jobs' Python has none)."""
+    txt = open(os.path.join(ROOT, "config.yaml")).read()
+    m = re.search(r"(?m)^business:.*\n((?:[ \t]+.*\n|\n)*?)(?=^\S)", txt)
+    out = {}
+    for line in (m.group(1) if m else "").splitlines():
+        mm = re.match(r'^  (\w+):[ \t]*(?:"((?:[^"\\]|\\.)*)"|([^#\n]*?))[ \t]*(?:#.*)?$', line)
+        if mm:
+            out[mm.group(1)] = (mm.group(2) if mm.group(2) is not None else mm.group(3) or "").replace('\\"', '"').strip()
+    return out
 
 
 def block(b, licence):

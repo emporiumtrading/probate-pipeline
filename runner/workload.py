@@ -63,7 +63,10 @@ heavy = (SLICE in ("a", "b") or out["negotiation"] or out["urgent"] or out["esca
 # The fast desk also stays idle when the board is exactly as its last run left it.
 out["board"] = hashlib.sha1("|".join(sorted(f"{r.get('id')}:{r.get('status')}:{r.get('hops')}" for r in work)).encode()).hexdigest()[:10]
 last_fd = next((r for r in reversed(health) if r.get("slice") == "fast-desk"), {})
-unchanged = f"board:{out['board']}" in (last_fd.get("notes") or "") and last_fd.get("result") in ("ok", "fallback")
+# Only if that run's AI actually worked the board: a run that fell back to the scripted engine left the
+# work undone, so the same board still needs an AI engine.
+unchanged = f"board:{out['board']}" in (last_fd.get("notes") or "") and last_fd.get("result") == "ok" \
+    and last_fd.get("engine") != "scripted"
 idle = SLICE == "fast-desk" and not (out["decisions"] or out["inbox"] or out["failedRecent"]) and (not out["handoffs"] or unchanged)
 out["level"] = "idle" if idle else ("heavy" if heavy else "light")
 out["repair"] = bool(out["failedRecent"] or out["brokenSources"])

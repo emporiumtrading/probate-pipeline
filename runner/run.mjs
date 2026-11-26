@@ -86,6 +86,11 @@ const counts = {
   'setup-areas': importFile('setup-areas', 'setup/areas'),
 };
 console.log('store import docs:', JSON.stringify(counts));
+// The attorney-packet builder needs PyYAML, which the Render jobs' Python doesn't ship: install it once if missing.
+if (spawnSync('python3', ['-c', 'import yaml'], { cwd: WORK }).status !== 0) {
+  const pip = spawnSync('python3', ['-m', 'pip', 'install', '--user', '--quiet', '--disable-pip-version-check', 'pyyaml'], { cwd: WORK, encoding: 'utf8' });
+  console.log(`pyyaml: ${pip.status === 0 ? 'installed' : 'could not install: ' + `${pip.stderr || pip.stdout || ''}`.trim().slice(-200)}`);
+}
 // Your Setup saves first (owner decision 2026-11-26): the Business identity is written into config.yaml, every
 // market's attorney packet is rebuilt from it, and held letter drafts get your details as the sender.
 for (const [cmd, label] of [[['scripts/owner_settings.py', 'import', path.join(IMP, 'setup-areas.json')], 'settings'],
