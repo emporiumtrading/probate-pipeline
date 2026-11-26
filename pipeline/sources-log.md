@@ -137,3 +137,5 @@
 | 2026-11-25 | tx-harris | https://www.cclerk.hctx.net/applications/websearch/CourtSearch.aspx?CaseType=Probate | responds | automated re-test |
 | 2026-11-25 | tn-shelby | https://www.probatecourt.shelbycountytn.gov | no response | automated re-test |
 | 2026-11-25 | pa-philadelphia | https://www.phila.gov/departments/register-of-wills/ | responds | automated re-test |
+| 2026-11-26 | fl-hillsborough | publicrec.hillsclerk.com/Probate/dailyfilings (2026-11-25..2026-11-25) | worked | 20261125: 79 rows, 6 estates; 3 new leads |
+| 2026-11-26 | oh-franklin | probatesearch PBODateInx.ndm (from 20261124, 25 pages) + Parcel_Features | worked | 46 cases, 12 estates kept, 3 new leads |

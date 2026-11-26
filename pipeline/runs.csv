@@ -4,3 +4,4 @@ date,new_leads,updated_leads,approvals_waiting,legal_changes,pushed
 2026-11-21,2,1,29,none (legal files verified 2026-11-19; next re-check 2026-12-19),yes
 2026-11-22,9,0,29,none (legal files verified 2026-11-19; next re-check 2026-12-19),yes
 2026-11-25,20,0,29,none (automated run; legal refresh not part of scripted runs),yes
+2026-11-26,6,0,29,none (automated run; legal refresh not part of scripted runs),yes
