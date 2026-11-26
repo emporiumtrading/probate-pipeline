@@ -8,7 +8,7 @@ Dear Ms. Clous,
 
 I understand you represent the Estate of James E. Meier (Franklin County Probate Case No. 648151). Please pass along my condolences to the family.
 
-My name is Emporium Investments. I'm a local real-estate investor. I'd like to make an as-is cash offer on 324 Sheldon Ave if the executor decides that selling it would help settle the estate. I want to be upfront about two things:
+My name is Iyoobsa Ero. I'm a local real-estate investor. I'd like to make an as-is cash offer on 324 Sheldon Ave if the executor decides that selling it would help settle the estate. I want to be upfront about two things:
 - I am a real-estate wholesaler. I may assign my purchase contract to another buyer before closing, and I may earn a fee from that buyer.
 - Before anyone signs a contract, I will provide the written wholesaler disclosure required by Ohio Revised Code 5301.95, and the executor is welcome to have you or any other advisor review everything.
 

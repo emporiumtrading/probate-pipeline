@@ -1,7 +1,7 @@
 # Outreach drafts — tx-harris-549060 (DRAFTS ONLY — nothing sent; hold until letters testamentary issue; owner approval + Compliance check required)
 
 ## Letter 1 — to the estate's attorney (mail)
-Emporium Investments, Emporium Investments, [mailing address], [phone/email]
+Iyoobsa Ero, Emporium Investments, 208 South LaSalle Street, Suite 814 Chicago Illinois 60604, +1-773-236-7749 · iero@emporium-investments.com
 
 [Date]
 
@@ -24,7 +24,7 @@ I understand your office is handling Mrs. Barrilleaux's estate. If the family de
 If the family plans to keep the house or list it, no reply is needed. If you'd like me not to write again, just let me know.
 
 Sincerely,
-[Owner name]
+Iyoobsa Ero
 
 ## Call script (manual, attorney's office only, after DNC/Texas no-call scrub and attorney OK on SB 140)
 "Hi, this is [name]. I wrote to Mr. Wilson about the Barrilleaux estate house on Nell Street. I'm an investor who buys as-is and may assign the contract. Once the executor is appointed, would the family like a written offer?"

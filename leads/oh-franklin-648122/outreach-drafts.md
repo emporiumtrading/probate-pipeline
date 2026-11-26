@@ -2,7 +2,7 @@
 **DRAFTS ONLY — nothing sent. Owner approval required.** Recipient: attorney of record for the applicant (no executor appointed). Office number from the Supreme Court of Ohio attorney directory (reg. 0097044) before any call; DNC scrub. Don't contact family members directly.
 
 ## Letter 1 — to counsel
-Emporium Investments
+Iyoobsa Ero, Manager - Emporium Investments
 Emporium Investments
 208 South LaSalle Street, Suite 814 Chicago Illinois 60604
 +1-773-236-7749 · iero@emporium-investments.com
@@ -27,7 +27,7 @@ If the family is considering selling, I'd be glad to make an as-is cash offer. I
 
 To be upfront: I'm an investor and may assign my purchase contract to another buyer. Under Ohio law (R.C. 5301.95) I will give each owner a separate written wholesaler disclosure before any contract.
 
-If the family plans to keep or list the house, that's completely fine. You can reach me at [phone / email]; if you'd prefer I not follow up, just let me know and I won't.
+If the family plans to keep or list the house, that's completely fine. You can reach me at +1-773-236-7749 · iero@emporium-investments.com; if you'd prefer I not follow up, just let me know and I won't.
 
 Sincerely,
 [Name]

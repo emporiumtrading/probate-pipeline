@@ -4,7 +4,7 @@
 **Note:** Atty Kacie D. Waugh is also counsel or fiduciary on cases 648208, 648257 in this batch. Send each estate its own letter (one contact per estate per 7 days), ideally the same day so she sees one consistent approach; never mention other estates in a letter.
 
 ## Letter 1 - to counsel
-Emporium Investments
+Iyoobsa Ero, Manager - Emporium Investments
 Emporium Investments
 208 South LaSalle Street, Suite 814 Chicago Illinois 60604
 +1-773-236-7749 · iero@emporium-investments.com

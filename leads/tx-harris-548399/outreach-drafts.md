@@ -2,7 +2,7 @@
 Recipient: the SEA applicant (an heir; no attorney of record). Mail only.
 
 ## Letter 1 — to Angelita Gutierrez Oliver (mail)
-Emporium Investments, Emporium Investments, [mailing address], [phone/email]
+Iyoobsa Ero, Emporium Investments, 208 South LaSalle Street, Suite 814 Chicago Illinois 60604, +1-773-236-7749 · iero@emporium-investments.com
 
 [Date]
 
@@ -25,7 +25,7 @@ I'm sorry for your family's loss. I saw in the county records that a small estat
 If the family wants to keep the property, no reply is needed. If you'd like me not to write again, tell me and I won't.
 
 Sincerely,
-[Owner name]
+Iyoobsa Ero
 
 ## Call script
 None — no attorney of record and no consent; mail only until the heir replies.

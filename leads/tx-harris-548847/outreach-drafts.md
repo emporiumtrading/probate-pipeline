@@ -1,7 +1,7 @@
 # Outreach drafts — tx-harris-548847 (DRAFTS ONLY — nothing sent; owner approval + Compliance check required)
 
 ## Letter 1 — to the estate's attorney (mail)
-Emporium Investments, Emporium Investments, [mailing address], [phone/email]
+Iyoobsa Ero, Emporium Investments, 208 South LaSalle Street, Suite 814 Chicago Illinois 60604, +1-773-236-7749 · iero@emporium-investments.com
 
 [Date]
 
@@ -27,7 +27,7 @@ What I can offer:
 If the estate is not selling, or prefers to list the houses, no reply is needed. If you would like me to stop writing, tell me and I will.
 
 Sincerely,
-[Owner name]
+Iyoobsa Ero
 
 ## Call script (manual, only after DNC/Texas no-call scrub and attorney OK on SB 140; to the attorney's office only)
 "Hi, this is [name]. I sent Ms. Akers a letter about the Abrarpour estate's two houses in Camino South. I'm an investor who buys as-is with tenants in place and may assign the contract. Is the executor planning to sell, and would a written offer be useful? … Thank you — I'll follow up by mail."

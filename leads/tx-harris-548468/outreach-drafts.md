@@ -1,7 +1,7 @@
 # Outreach drafts — tx-harris-548468 (DRAFTS ONLY — nothing sent; owner approval + Compliance check required)
 
 ## Letter 1 — to the estates' attorney (mail)
-Emporium Investments, Emporium Investments, [mailing address], [phone/email]
+Iyoobsa Ero, Emporium Investments, 208 South LaSalle Street, Suite 814 Chicago Illinois 60604, +1-773-236-7749 · iero@emporium-investments.com
 
 [Date]
 
@@ -27,7 +27,7 @@ What I can offer:
 If the estates are not selling, or prefer to list the house, no reply is needed. If you would like me to stop writing, tell me and I will.
 
 Sincerely,
-[Owner name]
+Iyoobsa Ero
 
 ## Call script (manual, only after DNC/Texas no-call scrub and attorney OK on SB 140; to the attorney's office only)
 "Hi, this is [name]. I sent Ms. Master a letter about the Baggett estates' house on Cayton Street. I'm an investor who buys as-is and may assign the contract. Is the representative planning to sell once letters issue, and would she like a written offer? … Thank you — I'll follow up by mail."

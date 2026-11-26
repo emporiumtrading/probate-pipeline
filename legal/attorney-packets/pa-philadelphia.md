@@ -7,7 +7,7 @@ Prepared 2026-11-26 from `legal/PA.md` (last verified 2026-11-19). This packet a
 - Mailing address: 208 South LaSalle Street, Suite 814 Chicago Illinois 60604
 - Phone: +1-773-236-7749 · Email: iero@emporium-investments.com · Website: https://www.emporium-investments.com
 - Signs contracts: Iyoobsa Ero, Manager - Emporium Investments
-- Title company holding earnest money: **[missing: fill in config.yaml → business]**
+- Title company holding earnest money: chosen for this market by our Professional Network (shortlist in network/pa-philadelphia.md); earnest money is only ever held in a title company's escrow account
 - Licensed in PA, or licensed partner, if required: not yet
 
 ## What we do

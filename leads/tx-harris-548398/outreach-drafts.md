@@ -1,7 +1,7 @@
 # Outreach drafts — tx-harris-548398 (DRAFTS ONLY — nothing sent; owner approval + Compliance check required)
 
 ## Letter 1 — to the estate's attorney (mail)
-Emporium Investments, Emporium Investments, [mailing address], [phone/email]
+Iyoobsa Ero, Emporium Investments, 208 South LaSalle Street, Suite 814 Chicago Illinois 60604, +1-773-236-7749 · iero@emporium-investments.com
 
 [Date]
 
@@ -24,7 +24,7 @@ I see from the court records that your office is probating Mrs. Cardenas's will.
 If the family isn't selling, no reply is needed, and if you'd prefer I not write again, please tell me.
 
 Sincerely,
-[Owner name]
+Iyoobsa Ero
 
 ## Call script (manual, attorney's office only, after DNC/Texas no-call scrub and attorney OK on SB 140)
 "Hi, this is [name]. I wrote to Ms. Garcia about the Cardenas estate house on Van Street in South Houston. I'm an investor who buys as-is and may assign the contract. When the executor is appointed, would the family like a written offer?"

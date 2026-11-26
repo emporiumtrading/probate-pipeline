@@ -2,7 +2,7 @@
 **DRAFTS ONLY — nothing sent. Owner approval required.** Recipient: counsel for the applicant in the reopened estate. Office number from the Supreme Court of Ohio attorney directory (reg. 0015775) before any call; DNC scrub. Don't contact relatives directly.
 
 ## Letter 1 — to counsel
-Emporium Investments
+Iyoobsa Ero, Manager - Emporium Investments
 Emporium Investments
 208 South LaSalle Street, Suite 814 Chicago Illinois 60604
 +1-773-236-7749 · iero@emporium-investments.com
@@ -26,7 +26,7 @@ If the house at 809 Bulen Ave is going to be sold — whether by the estate or b
 
 To be upfront: I'm an investor and may assign my purchase contract to another buyer. Under Ohio law (R.C. 5301.95) I will provide the owner's representative a separate written wholesaler disclosure before any contract.
 
-If the family has other plans, that's fine. You can reach me at [phone / email], and if you'd prefer I not follow up, just let me know.
+If the family has other plans, that's fine. You can reach me at +1-773-236-7749 · iero@emporium-investments.com, and if you'd prefer I not follow up, just let me know.
 
 Sincerely,
 [Name]

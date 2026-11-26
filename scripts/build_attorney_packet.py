@@ -68,7 +68,7 @@ def build(m, cfg_text, templates, biz):
         f"- Mailing address: {b('mailing_address')}",
         f"- Phone: {b('phone')} · Email: {b('email')} · Website: {b('website')}",
         f"- Signs contracts: {b('signer')}",
-        f"- Title company holding earnest money: {b('title_company')}",
+        f"- Title company holding earnest money: " + ((biz.get('title_company') or '').strip() or f"chosen for this market by our Professional Network (shortlist in network/{m['id']}.md); earnest money is only ever held in a title company's escrow account"),
         f"- Licensed in {st}, or licensed partner, if required: {'yes' if m.get('licensed_or_partnered') else 'not yet'}",
         "",
         "## What we do",

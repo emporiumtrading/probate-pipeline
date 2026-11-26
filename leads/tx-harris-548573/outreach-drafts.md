@@ -2,7 +2,7 @@
 Note: the applicant has no attorney of record (pro se), so the first letter goes to her directly by mail. Do not send before the owner and Compliance approve; do not call or text.
 
 ## Letter 1 — to the applicant (mail)
-Emporium Investments, Emporium Investments, [mailing address], [phone/email]
+Iyoobsa Ero, Emporium Investments, 208 South LaSalle Street, Suite 814 Chicago Illinois 60604, +1-773-236-7749 · iero@emporium-investments.com
 
 [Date]
 
@@ -27,7 +27,7 @@ I buy houses for cash in their current condition. If it would help:
 If the family isn't selling, no reply is needed. If you'd like me not to write again, just let me know and I won't.
 
 Sincerely,
-[Owner name]
+Iyoobsa Ero
 
 ## Call script
 None: no phone number, and calls/texts are on hold pending the SB 140 question (legal/TX.md). Reply by mail or email only if she writes back.

@@ -45,14 +45,43 @@ def fill(text, b):
         lic = re.search(r"licen[cs]e #[^/\]]*(?:or licensed partner)?(?:, if any)?", m.group(0))
         return block(b, lic.group(0) if lic else "")
     out = SENDER.sub(sender, text)
-    if b.get("signer"):
-        out = out.replace("[Your name]", b["signer"])
-    if b.get("signer") or b.get("legal_name"):
-        out = out.replace("[Owner name / company]", ", ".join(x for x in (b.get("signer"), b.get("legal_name")) if x))
+    person = person_name(b)
+    if person:
+        out = out.replace("[Your name]", person).replace("[Owner name]", person)   # the person, without a title
+    if person or b.get("legal_name"):
+        out = out.replace("[Owner name / company]", ", ".join(x for x in (person, b.get("legal_name")) if x))
+    if b.get("mailing_address"):
+        out = out.replace("[mailing address]", b["mailing_address"])
+    contact = " · ".join(x for x in (b.get("phone"), b.get("email")) if x)
+    if contact:
+        out = re.sub(r"\[phone ?/ ?email\]", contact, out)
+    return out
+
+
+def person_name(b):
+    """The signer's own name ("Jane Doe" from "Jane Doe, Manager - Acme LLC")."""
+    sg = (b.get("signer") or "").strip()
+    return re.split(r"\s*[,–—-]\s+", sg)[0].strip() if sg else ""
+
+
+STATE = os.path.join(ROOT, "pipeline", "signature-applied.json")
+CLOSINGS = r"(?:Sincerely|Regards|Kind regards|Best regards|Respectfully|Thank you|With sympathy|Warm regards),?"
+
+
+def update(text, old, b):
+    """Replace a sender block (and sign-off names) written earlier with the current details."""
+    out = text.replace(block(old, ""), block(b, ""))
+    op, np_ = person_name(old), person_name(b)
+    if op and np_ and op != np_:
+        out = re.sub(rf"(?m)^({CLOSINGS}[ \t]*\n){re.escape(op)}$", lambda m: m.group(1) + np_, out)
+        out = out.replace(f"My name is {op}.", f"My name is {np_}.")
+        if old.get("legal_name"):
+            out = out.replace(f"{op}, {old['legal_name']}", f"{np_}, {b.get('legal_name') or old['legal_name']}")
     return out
 
 
 def main():
+    import json
     b = business()
     files = sorted(glob.glob(os.path.join(ROOT, "leads", "*", "outreach-drafts.md")))
     if "--check" in sys.argv:
@@ -62,13 +91,16 @@ def main():
     if not (b.get("legal_name") or b.get("signer")):
         print("fill_signature: no business details yet (Setup → Business identity); drafts left as they are")
         return
+    old = json.load(open(STATE)) if os.path.exists(STATE) else None
     changed = 0
     for f in files:
         t = open(f).read()
-        n = fill(t, b)
+        n = fill(update(t, old, b) if old and old != b else t, b)
         if n != t:
             open(f, "w").write(n)
             changed += 1
+    keep = {k: b.get(k, "") for k in ("signer", "legal_name", "mailing_address", "phone", "email")}
+    json.dump(keep, open(STATE, "w"), indent=1, sort_keys=True)
     print(f"fill_signature: sender details filled in {changed} of {len(files)} drafts")
 
 

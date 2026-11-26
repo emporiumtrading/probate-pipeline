@@ -4,7 +4,7 @@
 Timing note: send the letter now if approved (introduces us); make no offer until letters of authority issue (hearing 12/17/2026).
 
 ## Letter 1 — to the estate attorney
-Emporium Investments
+Iyoobsa Ero, Manager - Emporium Investments
 Emporium Investments
 208 South LaSalle Street, Suite 814 Chicago Illinois 60604
 +1-773-236-7749 · iero@emporium-investments.com
@@ -28,7 +28,7 @@ If the estate decides to sell 2353 Dawnlight Ave, I would like to make an as-is 
 
 I want to be upfront: I am an investor, and I may assign my purchase contract to another buyer before closing. Ohio law (R.C. 5301.95) requires me to give the record owner a separate written wholesaler disclosure before any contract, and I will do that.
 
-If the family isn't interested or the timing isn't right, that's completely fine. You can reach me at [phone / email]. If you'd prefer I not follow up, just let me know and I won't.
+If the family isn't interested or the timing isn't right, that's completely fine. You can reach me at +1-773-236-7749 · iero@emporium-investments.com. If you'd prefer I not follow up, just let me know and I won't.
 
 Sincerely,
 [Name]
