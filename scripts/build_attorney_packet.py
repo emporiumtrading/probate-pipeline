@@ -90,6 +90,10 @@ def build(m, cfg_text, templates, biz):
     if missing:
         L += ["## Not yet researched", "", "Our legal file has no section for: " + ", ".join(missing) + ". Please advise.", ""]
     L += ["## Templates to review", "", templates, ""]
+    loi = os.path.join(ROOT, "templates", "buyer-letter-of-intent.md")
+    if os.path.exists(loi):   # owner decision 2026-11-26: vetted buyers sign it before we offer them contracts
+        L += ["## Buyer letter of intent (non-binding) to review", "", "We ask vetted cash buyers to sign this before we offer them contracts. Please confirm it is non-binding and lawful in this state, and answer the questions at its end.", "",
+              open(loi).read().split("# Buyer Letter of Intent", 1)[-1].split("\n", 1)[-1].strip(), ""]
     L += [
         "## Sign-off",
         "",

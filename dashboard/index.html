@@ -149,6 +149,7 @@
       <button class="pp-tab" role="tab" data-page="pipeline" aria-selected="false">Pipeline</button>
       <button class="pp-tab" role="tab" data-page="deal" aria-selected="false">Deal detail</button>
       <button class="pp-tab" role="tab" data-page="messages" aria-selected="false">Messages <span class="pp-badge" data-draw="bMsgs" data-source="msgCounts" data-field="awaiting" data-row="0"></span></button>
+      <button class="pp-tab" role="tab" data-page="buyers" aria-selected="false">Buyers <span class="pp-badge" data-draw="bBuyers" data-source="buyersF"></span></button>
       <button class="pp-tab" role="tab" data-page="queues" aria-selected="false">Your queues <span class="pp-badge" data-draw="bQueue" data-source="kpis" data-field="queue" data-row="0"></span></button>
       <button class="pp-tab" role="tab" data-page="money" aria-selected="false">Sign, wire &amp; money <span class="pp-badge" data-draw="bMoney" data-source="queueCounts" data-field="money" data-row="0"></span></button>
       <button class="pp-tab" role="tab" data-page="markets" aria-selected="false">Markets &amp; legal</button>
@@ -285,6 +286,44 @@
       </table>
     </div>
 
+  </section>
+
+  <section class="pp-page" id="buyers" hidden>
+    <p class="pp-sub">Cash buyers found in public deed records, vetted and warmed up by the Buyer-List worker so each contract has buyers ready before it's signed. Contact details stay in the private repo; this page shows what we know about each buyer and where they stand.</p>
+    <div class="pp-tiles">
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="byTotal" data-source="buyersF">—</div><div class="pp-lbl">Buyers in these filters</div></div>
+      <div class="pp-card pp-tile pp-t-ok"><div class="pp-num" data-draw="byVetted" data-source="buyersF">—</div><div class="pp-lbl">Vetted (funds or closings checked)</div></div>
+      <div class="pp-card pp-tile pp-t-warn"><div class="pp-num" data-draw="byWarm" data-source="buyersF">—</div><div class="pp-lbl">Warm or hot (in conversation)</div></div>
+      <div class="pp-card pp-tile pp-t-ok"><div class="pp-num" data-draw="byLoi" data-source="buyersF">—</div><div class="pp-lbl">Signed a letter of intent</div></div>
+      <div class="pp-card pp-tile pp-t-ok"><div class="pp-num" data-draw="byStandby" data-source="buyersF">—</div><div class="pp-lbl">On standby for our next contract</div></div>
+      <div class="pp-card pp-tile pp-t-ok"><div class="pp-num" data-draw="byReady" data-source="buyersF">—</div><div class="pp-lbl">Ready to buy now (checked in the last 60 days)</div></div>
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="byBuys" data-source="buyersF">—</div><div class="pp-lbl">Cash purchases in the last 12 months, all shown buyers</div></div>
+    </div>
+    <div class="pp-card pp-filterbar">
+      <div class="pp-filters">
+        <label>Status<select class="dash-select" data-draw="byStatusSel" aria-label="Buyer status" data-source="buyers_list"></select></label>
+        <label>Warmth<select class="dash-select" data-draw="byWarmSel" aria-label="Warmth" data-source="buyers_list"></select></label>
+        <label>City / area<select class="dash-select" data-draw="byCitySel" aria-label="City or area" data-source="buyers_list"></select></label>
+        <label>Sentiment<select class="dash-select" data-draw="bySentSel" aria-label="Sentiment" data-source="buyers_list"></select></label>
+        <label>Letter of intent<select class="dash-select" data-draw="byLoiSel" aria-label="Letter of intent" data-source="buyers_list"></select></label>
+        <label>Purchases (12 months)<select class="dash-select" data-draw="byMinSel" aria-label="Minimum purchases in 12 months"></select></label>
+        <button class="pp-btn" id="pp-by-reset" type="button">Clear</button>
+      </div>
+      <p class="pp-sub pp-filter-sum" data-draw="bySummary" data-source="buyersF" aria-live="polite"></p>
+    </div>
+    <div class="pp-grid">
+      <div class="pp-card" id="by-funnel"><h2>Where the buyers stand</h2><p class="pp-sub">From found in records to on standby for a contract, within the filters.</p><div class="pp-chart" data-draw="byFunnelChart" data-source="buyersF"></div></div>
+      <div class="pp-card" id="by-area"><h2>Buyers by market</h2><p class="pp-sub">How many buyers we have in each live market, within the filters.</p><div class="pp-chart" data-draw="byMarketChart" data-source="buyersF"></div></div>
+    </div>
+    <div class="pp-card pp-wrap" id="by-table"><h2>All buyers</h2><p class="pp-sub">Best fit first (score: purchases, how recently they bought, how far along they are). Click a row for everything we know about that buyer.</p>
+      <table data-source="buyersF" data-row-key="buyer_id">
+        <thead><tr><th class="pp-n" data-field="score">Score</th><th data-field="name">Buyer</th><th data-field="city">City / area</th><th data-field="county">County</th><th data-field="state">State</th><th data-field="status">Status</th><th data-field="warmth">Warmth</th><th data-field="sentiment">Sentiment</th><th data-field="max_pct_arv">Pays up to</th><th class="pp-n" data-field="close_days_confirmed">Closes in</th><th class="pp-n" data-field="purchases_12m">Buys (12 mo)</th><th class="pp-n" data-field="median_price_12m">Median price</th><th data-field="price_min">Price range</th><th data-field="last_purchase_date">Last buy</th><th data-field="loi_status">Letter of intent</th><th data-field="standby">Standby</th><th data-field="ready_to_buy">Ready to buy</th><th data-field="red_flags">Red flags</th></tr></thead>
+        <tbody data-draw="buyerRows"></tbody>
+      </table>
+    </div>
+    <dialog class="pp-dlg pp-dlg-wide" id="pp-buyer-dlg" aria-labelledby="pp-buyer-title"><div class="pp-dlg-body">
+      <div class="pp-dlg-head"><h2 id="pp-buyer-title">Buyer</h2><button type="button" class="pp-btn" id="pp-buyer-close">Close</button></div>
+      <div id="pp-buyer-body"></div></div></dialog>
   </section>
 
   <section class="pp-page" id="queues" hidden>
@@ -609,4 +648,5 @@
 <script src="setup.js"></script>
 <script src="messages.js"></script>
 <script src="team.js"></script>
+<script src="buyers.js"></script>
 <script src="tables.js"></script>

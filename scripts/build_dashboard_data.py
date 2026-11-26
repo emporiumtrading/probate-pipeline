@@ -542,6 +542,63 @@ for m in live:
                    "warning": "Deal under contract with fewer than 5 vetted buyers" if uc and vetted < 5 else ("No buyers yet" if not rows_m else "")})
 write("buyers.csv", ["market", "county", "state", "found", "confirmed", "vetted", "deals_under_contract", "warning"], bstats)
 
+# ---- the buyer list itself (Buyers page): public-record and business details only, stop-list buyers excluded ----
+_mk = {m["market"]: m for m in live}
+_ST = {"found": 0, "contacted": 2, "confirmed": 6, "vetted": 10}
+def _bscore(b):
+    if (b.get("score") or "").strip():
+        return b["score"]
+    try:
+        n = int(float(b.get("purchases_12m") or 0))
+    except ValueError:
+        n = 0
+    try:
+        days = (datetime.date.today() - datetime.date.fromisoformat(b.get("last_purchase_date") or "")).days
+    except ValueError:
+        days = 999
+    sc = min(n, 20) * 2 + (6 if days <= 90 else 3 if days <= 180 else 0) + _ST.get(b.get("status") or "", 0)
+    sc += 10 if b.get("loi_status") == "signed" else 0
+    sc += 4 if (b.get("warmth") or "") == "hot" else 2 if (b.get("warmth") or "") == "warm" else 0
+    sc -= 8 * len([x for x in (b.get("red_flags") or "").split(";") if x.strip()])   # each red flag costs a lot
+    sc -= 10 if (b.get("end_buyer") or "").lower() == "wholesaler" else 0          # resells contracts: not an end buyer
+    sc += 6 if (b.get("ready_to_buy") or "").lower().startswith("yes") else 0
+    sc += {"eager": 4, "interested": 2, "neutral": 0, "hesitant": -2, "not interested": -6}.get((b.get("sentiment") or "").lower(), 0)
+    try:
+        sc += 5 * min(int(b.get("deals_closed_with_us") or 0), 4)   # closed with us before: the best predictor
+    except ValueError:
+        pass
+    try:
+        cd = int(b.get("close_days_confirmed") or b.get("closes_in_days") or 0)
+        sc += 4 if 0 < cd <= 10 else 2 if 0 < cd <= 21 else 0   # closes in days, not weeks
+    except ValueError:
+        pass
+    return str(sc)
+BUYER_COLS = ["buyer_id", "market_id", "county", "state", "city", "name", "entity_type", "status", "warmth", "standby", "loi_status",
+              "purchases_12m", "median_price_12m", "last_purchase_date", "areas", "price_min", "price_max", "rehab_level", "strategy",
+              "closes_in_days", "proof_of_funds", "cash_verified", "entity_status", "entity_checked_on", "registered_agent",
+              "contact_on_file", "website", "mailing_address", "intro_status", "last_contact",
+              "next_followup", "loi_sent_on", "loi_signed_on", "buy_box_notes", "home_state", "sentiment", "sentiment_notes",
+              "max_pct_arv", "max_assignment_fee", "emd_offered", "close_days_confirmed", "deals_closed_with_us",
+              "end_buyer", "osint_status", "osint_checked_on", "red_flags", "ready_to_buy", "response_hours",
+              "source_url", "source_date", "notes", "score"]
+_blist = []
+for b in brows:
+    if (b.get("stop") or "").lower() == "yes":
+        continue
+    m = _mk.get(b.get("market_id"), {})
+    r = {c: (b.get(c) or "") for c in BUYER_COLS}
+    # Privacy (qa_checks.py): contact details stay in the private repo file; the page shows only whether we have one.
+    r["contact_on_file"] = "yes" if (b.get("public_email") or b.get("public_phone")) else "no"
+    if (b.get("entity_type") or "").lower() in ("person", "individual"):
+        r["mailing_address"] = ""   # an individual's address isn't shown, even from public records
+    if not m and b.get("market_id"):   # a market not live yet (expansion queue): show its id
+        r["county"] = b["market_id"]
+    r.update(county=r["county"] if not m else m.get("county", ""), state=m.get("state", "") or (b.get("market_id") or "")[:2].upper(), status=b.get("status") or "found",
+             warmth=b.get("warmth") or "cold", standby=b.get("standby") or "no", loi_status=b.get("loi_status") or "none", score=_bscore(b))
+    _blist.append(r)
+_blist.sort(key=lambda r: -float(r["score"] or 0))
+write("buyers_list.csv", BUYER_COLS, _blist)
+
 # ---- replies waiting (no names) ----
 ipath = os.path.join(ROOT, "pipeline", "inbox-log.csv")
 irows = list(csv.DictReader(open(ipath))) if os.path.exists(ipath) else []
