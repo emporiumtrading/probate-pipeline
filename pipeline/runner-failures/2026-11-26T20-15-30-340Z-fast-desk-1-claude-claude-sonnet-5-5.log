@@ -1,0 +1,2 @@
+FAIL  pipeline/buyers/progress-notes.txt: only buyers.csv and research notes (pipeline/buyers/dossiers/*.md) belong here; never store buyer documents
+QA: 80 leads, 1 failures, 6 warnings
