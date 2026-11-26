@@ -482,7 +482,7 @@
 
   <section class="pp-page" id="setup" hidden>
     <div class="pp-card pp-tile" id="setup-head"><h2>What still stands between the pipeline and running on its own</h2><p class="pp-sub">Click <b>Configure</b> on any area to enter its details or connect its services. What you save is kept in this dashboard, private to you, and the daily run applies it, so pushes to the repo never clear it. Signatures, wire confirmations and calls always stay with you.</p>
-      <div class="pp-meter" role="progressbar" aria-label="Setup progress"><div data-draw="setupBar" data-source="health"></div></div><p class="pp-sub" style="margin-top:6px" data-draw="setupBarLabel" data-source="health">—</p></div>
+      <div class="pp-meter" role="progressbar" aria-label="Setup progress"><div data-draw="setupBar" data-source="readiness ownerSettings"></div></div><p class="pp-sub" style="margin-top:6px" data-draw="setupBarLabel" data-source="health">—</p></div>
     <div class="pp-cards" id="setup-areas" data-draw="setupCards" data-source="readiness ownerSettings"></div>
     <details class="pp-card" id="setup-list"><summary>Every setup step</summary><div class="pp-wrap">
       <table data-source="readiness" data-row-key="area,item">

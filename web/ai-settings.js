@@ -71,6 +71,7 @@
 
   const render = async (card) => {
     const [st, doc] = await Promise.all([api('/api/ai'), api(`/api/doc?path=${encodeURIComponent(DOC)}`)]);
+    if (st.ok && st.j && st.j.keys) { window.PP = window.PP || {}; window.PP.aiKeys = st.j.keys; window.dispatchEvent(new Event('pp-keys')); }
     settings = (doc.ok && doc.j) || {};
     card.replaceChildren();
     card.append(h('h2', { text: 'AI engines for the scheduled runs' }),

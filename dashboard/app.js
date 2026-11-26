@@ -133,10 +133,7 @@ dash.calc('setupCounts', { title: 'Setup steps missing', description: 'Setup ste
   dash.draw('gMeter', meter(() => { const r = PP.first('feeGoal'); return r && +r.goal ? +r.pct : null; }));
   dash.draw('paceMeter', meter(() => { const r = PP.first('pace'); return r && +r.target_closings ? 100 * (+r.closed || 0) / +r.target_closings : null; }));
   dash.draw('covMeter', meter(() => { const r = PP.first('health'); return r && +r.coverage_total ? 100 * (+r.coverage_works || 0) / +r.coverage_total : null; }));
-  dash.draw('setupBar', meter(() => { const r = PP.first('health'); return r && +r.readiness_total ? 100 * (+r.readiness_done || 0) / +r.readiness_total : null; }));
-  dash.draw('setupBarLabel', (el) => { const r = PP.first('health'); if (!r) { el.textContent = '—'; return; }
-    const done = +r.readiness_done || 0, total = +r.readiness_total || 0, pct = total ? Math.round(100 * done / total) : 0;
-    el.textContent = `${done} of ${total} setup steps done (${pct}%). Each one you finish turns its row green.`; });
+  // setupBar / setupBarLabel live in setup.js (they count what you've saved, not just the last run's check).
 
   dash.draw('freshness', {
     mount: () => setInterval(() => dash.draw('freshness'), 10 * 60 * 1000),

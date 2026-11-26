@@ -16,8 +16,12 @@
   const saved = (id) => { const d = dash.data('ownerSettings'); return d.status === 'ok' ? (d.data || []).find((r) => r.id === id) || null : null; };
   // A setting saved on this page shows at once: "saved" until the daily run applies it, then the run's own status.
   const BIZ = ['legal_name', 'entity_state', 'mailing_address', 'phone', 'email', 'website', 'signer', 'title_company'];
+  // A service key saved on this page switches its channel on at the next run.
+  const CH_KEY = { mail_sending: 'LOB_API_KEY', email_sending: 'RESEND_API_KEY', esignature: 'DOCUSEAL_API_KEY' };
   const live = (r) => {
     if (r.status === 'done') return r;
+    const keys = (window.PP && PP.aiKeys) || {};
+    if (r.area_id === 'channels' && CH_KEY[r.item_key] && keys[CH_KEY[r.item_key]] && keys[CH_KEY[r.item_key]].set) return { ...r, status: 'key saved, checked at next run' };
     const s = saved(r.area_id); if (!s) return r;
     const k = r.item_key, on = (v) => v === true || v === 'true';
     if (r.area_id === 'business' && BIZ.includes(k) && String(s[k] || '').trim()) return { ...r, status: 'saved, applies at next run' };
@@ -27,6 +31,19 @@
     return r;
   };
   const areaRows = () => { const d = dash.data('readiness'); return d.status === 'ok' ? d.data.map(live) : []; };
+  // Overall progress: done, plus what you've saved that the next run confirms (it updates as you save).
+  dash.draw('setupBar', (el) => { const rows = areaRows(); const done = rows.filter((r) => r.status === 'done').length;
+    const pend = rows.filter((r) => r.status !== 'done' && r.status !== 'missing').length;
+    const n = rows.length || 1, solid = done + pend ? Math.round(100 * done / (done + pend)) : 100;
+    el.style.width = Math.round(100 * (done + pend) / n) + '%';
+    el.style.background = `linear-gradient(90deg, var(--pp-tile, var(--pp-accent)) ${solid}%, color-mix(in srgb, var(--pp-tile, var(--pp-accent)) 40%, transparent) ${solid}%)`;
+    if (el.parentElement) el.parentElement.setAttribute('aria-valuenow', String(rows.length ? Math.round(100 * done / rows.length) : 0)); });
+  dash.draw('setupBarLabel', (el) => { const rows = areaRows(); if (!rows.length) { el.textContent = '—'; return; }
+    const done = rows.filter((r) => r.status === 'done').length, miss = rows.filter((r) => r.status === 'missing').length, pend = rows.length - done - miss;
+    el.textContent = `${done} of ${rows.length} setup steps done (${Math.round(100 * done / rows.length)}%)` + (pend ? `, ${pend} saved or in progress (lighter bar), confirmed at the next run` : '') + `. ${miss} still to do; each one you finish turns its row green.`; });
+  const redrawSetup = () => ['setupBar', 'setupBarLabel', 'setupCards', 'readyRows'].forEach((n) => dash.draw(n));
+  window.addEventListener('pp-setup-saved', redrawSetup);
+  window.addEventListener('pp-keys', redrawSetup);
   const say = (msg, cls) => { S.msg = msg; S.msgCls = cls || ''; dash.draw('cfgMsg'); };
 
   // ---- area cards ----
