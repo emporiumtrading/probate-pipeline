@@ -2,7 +2,10 @@
 **DRAFTS ONLY — nothing sent. Owner approval required.** Recipient: counsel of record for the petitioner (Ivan Thaddeus Lenoir, per the clerk filing). Get the office address/phone from The Florida Bar member directory before sending; scrub any phone number against the National and Florida DNC lists before a manual call. Don't contact heirs or occupants directly.
 
 ## Letter 1 — to counsel
-[Your name / company / mailing address / phone / email]
+Emporium Investments
+Emporium Investments
+208 South LaSalle Street, Suite 814 Chicago Illinois 60604
++1-773-236-7749 · iero@emporium-investments.com
 
 2026-11-__
 

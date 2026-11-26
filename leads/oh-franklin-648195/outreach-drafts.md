@@ -4,7 +4,11 @@
 Timing note: send the letter now if approved (introduces us); make no offer until letters of authority issue (hearing 12/17/2026).
 
 ## Letter 1 — to the estate attorney
-[Your name / company / mailing address / phone / email / license # or licensed partner, if any]
+Emporium Investments
+Emporium Investments
+208 South LaSalle Street, Suite 814 Chicago Illinois 60604
++1-773-236-7749 · iero@emporium-investments.com
+[license # or licensed partner, if any]
 
 2026-11-__
 

@@ -3,7 +3,10 @@
 **HOLD until the 1973 deed confirms 'Jacqueline E Adams' is the decedent Jacqueline Yvonne Adams.**
 
 ## Letter 1 — to counsel
-[Your name / company / mailing address / phone / email]
+Emporium Investments
+Emporium Investments
+208 South LaSalle Street, Suite 814 Chicago Illinois 60604
++1-773-236-7749 · iero@emporium-investments.com
 
 2026-11-__
 

@@ -1,7 +1,7 @@
 # Outreach drafts — tx-harris-548604 (DRAFTS ONLY — nothing sent; owner approval + Compliance check required)
 
 ## Letter 1 — to the estate's attorney (mail)
-[Owner name / company], [mailing address], [phone/email]
+Emporium Investments, Emporium Investments, [mailing address], [phone/email]
 
 [Date]
 

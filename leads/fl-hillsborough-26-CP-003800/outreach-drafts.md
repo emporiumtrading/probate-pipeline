@@ -3,7 +3,10 @@
 **HOLD until the deed check confirms the parcel belongs to Chester B. Webb Jr. (not Sr.) — see title.md.**
 
 ## Letter 1 — to counsel
-[Your name / company / mailing address / phone / email]
+Emporium Investments
+Emporium Investments
+208 South LaSalle Street, Suite 814 Chicago Illinois 60604
++1-773-236-7749 · iero@emporium-investments.com
 
 2026-11-__
 

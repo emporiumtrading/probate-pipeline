@@ -2,7 +2,10 @@
 **DRAFTS ONLY - nothing sent. Owner approval required.** Recipient: estate counsel of record (letters: Yes - 2026-11-02). Office address and phone from the Supreme Court of Ohio attorney directory (reg. 0082855) before sending; DNC-scrub any number before a call. Do not contact family members directly.
 
 ## Letter 1 - to counsel
-[Your name / company / mailing address / phone / email]
+Emporium Investments
+Emporium Investments
+208 South LaSalle Street, Suite 814 Chicago Illinois 60604
++1-773-236-7749 · iero@emporium-investments.com
 
 2026-11-__
 

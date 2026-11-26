@@ -8,7 +8,7 @@ Dear Mr. Rathburn,
 
 I understand you represent the Estate of John F. Brandt (Franklin County Probate Case No. 648136). Please pass along my condolences to the family.
 
-My name is [Your name]. I'm a local real-estate investor, and I'd like to make an as-is cash offer on 1272 Moler Road if the executor decides that selling it would help settle the estate. To be upfront:
+My name is Emporium Investments. I'm a local real-estate investor, and I'd like to make an as-is cash offer on 1272 Moler Road if the executor decides that selling it would help settle the estate. To be upfront:
 - I am a real-estate wholesaler. I may assign my purchase contract to another buyer before closing and may earn a fee from that buyer.
 - Before any contract is signed, I will provide the written wholesaler disclosure required by Ohio Revised Code 5301.95, and the executor is welcome to have you review everything.
 

@@ -2,7 +2,7 @@
 Note: the applicant has no attorney of record (pro se), so the first letter goes to her directly by mail. Do not send before the owner and Compliance approve; do not call or text.
 
 ## Letter 1 — to the applicant (mail)
-[Owner name / company], [mailing address], [phone/email]
+Emporium Investments, Emporium Investments, [mailing address], [phone/email]
 
 [Date]
 

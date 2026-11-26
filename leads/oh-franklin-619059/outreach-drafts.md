@@ -2,7 +2,11 @@
 **DRAFTS ONLY — nothing sent. Owner approval required.** Recipient: counsel for the applicant in the reopened estate. Office number from the Supreme Court of Ohio attorney directory (reg. 0015775) before any call; DNC scrub. Don't contact relatives directly.
 
 ## Letter 1 — to counsel
-[Your name / company / address / phone / email / license # or licensed partner]
+Emporium Investments
+Emporium Investments
+208 South LaSalle Street, Suite 814 Chicago Illinois 60604
++1-773-236-7749 · iero@emporium-investments.com
+[license # or licensed partner]
 
 2026-11-__
 

@@ -3,7 +3,10 @@
 **HOLD until the petition shows Rebecca Stettler is NOT the surviving spouse living in the house; if she is, mark the lead Dead and do not send.**
 
 ## Letter 1 — to counsel
-[Your name / company / mailing address / phone / email]
+Emporium Investments
+Emporium Investments
+208 South LaSalle Street, Suite 814 Chicago Illinois 60604
++1-773-236-7749 · iero@emporium-investments.com
 
 2026-11-__
 

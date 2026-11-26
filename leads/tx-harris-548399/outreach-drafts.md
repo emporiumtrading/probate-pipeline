@@ -2,7 +2,7 @@
 Recipient: the SEA applicant (an heir; no attorney of record). Mail only.
 
 ## Letter 1 — to Angelita Gutierrez Oliver (mail)
-[Owner name / company], [mailing address], [phone/email]
+Emporium Investments, Emporium Investments, [mailing address], [phone/email]
 
 [Date]
 
