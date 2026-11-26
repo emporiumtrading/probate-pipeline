@@ -24,7 +24,7 @@ business:                         # who we are. Fill these in once; attorney pac
   phone: "+1-773-236-7749"  # answered by a person or answering service
   email: "iero@emporium-investments.com"  # business email used for outreach and replies
   website: "https://www.emporium-investments.com"
-  signer: "Emporium Investments"  # person who signs contracts for the company
+  signer: "Iyoobsa Ero, Manager - Emporium Investments"  # person who signs contracts for the company
   title_company: ""               # default title company that holds earnest money
   insurance: ""                   # optional: business liability / E&O policy (carrier, policy no., renewal date); doesn't block anything
 esignature:                       # e-signature service the Contract Desk sends packets through (agents/contract-desk.md)

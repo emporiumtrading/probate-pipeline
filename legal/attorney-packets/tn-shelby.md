@@ -1,12 +1,12 @@
 # Attorney review packet: Shelby County, TN
 
-Prepared 2026-11-20 from `legal/TN.md` (last verified 2026-11-19). This packet asks a licensed TN attorney to review and approve how we contact estates and contract for probate property in this county. Nothing here is legal advice; every rule below is our own research and is listed for the attorney to confirm or correct.
+Prepared 2026-11-26 from `legal/TN.md` (last verified 2026-11-19). This packet asks a licensed TN attorney to review and approve how we contact estates and contract for probate property in this county. Nothing here is legal advice; every rule below is our own research and is listed for the attorney to confirm or correct.
 
 ## Who we are
-- Company: **[missing: fill in config.yaml → business]** (formed in **[missing: fill in config.yaml → business]**)
-- Mailing address: **[missing: fill in config.yaml → business]**
-- Phone: **[missing: fill in config.yaml → business]** · Email: **[missing: fill in config.yaml → business]** · Website: **[missing: fill in config.yaml → business]**
-- Signs contracts: **[missing: fill in config.yaml → business]**
+- Company: Emporium Investments (formed in IL)
+- Mailing address: 208 South LaSalle Street, Suite 814 Chicago Illinois 60604
+- Phone: +1-773-236-7749 · Email: iero@emporium-investments.com · Website: https://www.emporium-investments.com
+- Signs contracts: Iyoobsa Ero, Manager - Emporium Investments
 - Title company holding earnest money: **[missing: fill in config.yaml → business]**
 - Licensed in TN, or licensed partner, if required: not yet
 
