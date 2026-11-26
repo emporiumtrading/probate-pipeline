@@ -1,5 +1,5 @@
 /* hermes-ui.js — chat with Hermes, the orchestrator of the pipeline (Render site only).
-   A floating chat window over the app: the "Ask Hermes" button (and the Hermes tab) opens it;
+   A floating chat window over the app: the "Probate AI Assistant" button (bottom right) opens it;
    it can be dragged by its title bar, resized from its corner, minimized and closed, and it
    remembers where it was. The app stays usable behind it.
    Messages stream through the dashboard server (/api/hermes/chat), which holds Hermes's key.
@@ -221,8 +221,6 @@
   const mount = () => {
     if (document.getElementById('hermes-win')) return;
     document.body.append(panel, launch);
-    const nav = document.querySelector('.pp-tabs');
-    if (nav) nav.append(h('button', { class: 'pp-tab', type: 'button', 'aria-haspopup': 'dialog', text: 'AI Assistant', onclick: (e) => { e.preventDefault(); open(); } }));
     render(); apply(); checkStatus(); refreshTasks();
     setInterval(refreshTasks, 45000);
     if (location.hash === '#hermes') open();
