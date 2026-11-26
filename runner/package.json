@@ -6,7 +6,7 @@
     "node": ">=20"
   },
   "dependencies": {
-    "@anthropic-ai/claude-code": "2.1.71",
+    "@anthropic-ai/claude-code": "2.1.332",
     "pg": "^8.23.1"
   }
 }

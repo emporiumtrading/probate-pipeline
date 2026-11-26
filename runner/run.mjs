@@ -86,6 +86,14 @@ const counts = {
   'setup-areas': importFile('setup-areas', 'setup/areas'),
 };
 console.log('store import docs:', JSON.stringify(counts));
+// Your Setup saves first (owner decision 2026-11-26): the Business identity is written into config.yaml, every
+// market's attorney packet is rebuilt from it, and held letter drafts get your details as the sender.
+for (const [cmd, label] of [[['scripts/owner_settings.py', 'import', path.join(IMP, 'setup-areas.json')], 'settings'],
+  [['scripts/build_attorney_packet.py'], 'packets'], [['scripts/fill_signature.py'], 'drafts']]) {
+  const r = spawnSync('python3', cmd, { cwd: WORK, encoding: 'utf8' });
+  const out = `${r.stdout || ''}${r.stderr || ''}`.trim().split('\n').filter((l) => !/^wrote /.test(l)).join(' | ');
+  console.log(`${label}: ${out.slice(0, 400) || 'ok'}`);
+}
 
 /* ---------- 3. run the slice ---------- */
 // Dynamic: measure the waiting work, pick the starting model from that, climb a
@@ -248,7 +256,8 @@ engines: for (const eng of order) {
     console.log(`--- slice ${SLICE} | ${eng} ${model} | ${wl.level} | ${new Date().toISOString()} ---`);
     let ok, why, tail = '';
     if (eng === 'claude') {
-      const r = await runProc(CLAUDE_BIN, ['-p', prompt, '--model', model, '--dangerously-skip-permissions', '--verbose'], engineEnv, minutes);
+      // IS_SANDBOX: the job runs in its own throwaway container; newer Claude Code refuses to skip permission prompts as root without it.
+      const r = await runProc(CLAUDE_BIN, ['-p', prompt, '--model', model, '--dangerously-skip-permissions', '--verbose'], { ...engineEnv, IS_SANDBOX: '1' }, minutes);
       ok = r.code === 0; why = `exit ${r.code}`; tail = r.tail;
     } else {
       const r = await runAgent({ provider: eng, model, prompt, cwd: WORK, env: shellEnv, minutes });

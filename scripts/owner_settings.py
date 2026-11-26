@@ -153,6 +153,36 @@ def parse_db_list(text):
     return areas
 
 
+CONFIG = os.path.join(ROOT, "config.yaml")
+
+
+def apply_business(areas):
+    """Write the Business identity saved on the Setup page into config.yaml → business, so every part
+    of the system (attorney packets, letters, notices, the email-channel check, the workers) uses it.
+    Only non-empty saved fields are written; nothing else in config.yaml is touched."""
+    biz = {k: v for k, v in (areas.get("business") or {}).items() if k in SCHEMA["business"] and str(v or "").strip()}
+    if not biz:
+        return 0
+    txt = open(CONFIG).read()
+    m = re.search(r"(?m)^business:.*\n((?:[ \t]+.*\n|\n)*?)(?=^\S)", txt)
+    if not m:
+        return 0
+    block, n = m.group(1), 0
+    for k, v in biz.items():
+        val = str(v).strip().replace("\\", "\\\\").replace('"', '\\"').replace("\n", " ")
+        line = re.compile(rf'(?m)^(  {re.escape(k)}:[ \t]*)("[^"\n]*"|[^#\n]*?)([ \t]*#.*)?$')
+        if line.search(block):
+            new = line.sub(lambda mm: f'{mm.group(1)}"{val}"' + (("  " + mm.group(3).strip()) if mm.group(3) else ""), block, count=1)
+        else:
+            new = block.rstrip("\n") + f'\n  {k}: "{val}"\n'
+        if new != block:
+            n += 1
+            block = new
+    if n:
+        open(CONFIG, "w").write(txt[:m.start(1)] + block + txt[m.end(1):])
+    return n
+
+
 def main():
     if len(sys.argv) >= 3 and sys.argv[1] == "import":
         raw = parse_db_list(open(sys.argv[2]).read())
@@ -165,6 +195,9 @@ def main():
         json.dump({"source": "dashboard Setup page (owner)", "areas": dict(sorted(good.items()))}, open(OUT, "w"), indent=2, sort_keys=True)
         open(OUT, "a").write("\n")
         print(f"owner settings: {len(good)} areas imported to pipeline/owner-settings.json")
+        n = apply_business(good)
+        if n:
+            print(f"owner settings: {n} business details written into config.yaml")
         for b in bad:
             print("REFUSED", b)
         sys.exit(1 if bad else 0)
