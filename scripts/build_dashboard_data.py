@@ -409,6 +409,10 @@ BIZ_LABEL = {"legal_name": "Company legal name", "entity_state": "State of forma
              "phone": "Business phone answered by a person", "email": "Business email", "website": "Website",
              "signer": "Who signs contracts", "title_company": "Title company for earnest money"}
 for k, lbl in BIZ_LABEL.items():
+    if k == "title_company":   # optional: the Professional Network picks one per market (network/<market>.md)
+        item("Business identity", "Default title company (optional; chosen per market by the system)", bool(biz.get(k)),
+             "Nothing to do: the Professional Network shortlists and picks an investor-friendly title company in each market. Enter one only if you already have a favourite", "A preferred title company everywhere", "business", k)
+        continue
     item("Business identity", lbl, bool(biz.get(k)), "Setup page → Business identity → Configure", "Attorney packets, letters, trust with attorneys", "business", k)
 item("Business identity", "Business insurance (optional)", bool(biz.get("insurance")),
      "Ask your CPA or attorney about general liability and errors-and-omissions cover once the company exists; then Setup → Business identity → Configure", "Protection if a deal goes wrong", "business", "insurance")
