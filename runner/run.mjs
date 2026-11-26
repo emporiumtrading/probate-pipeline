@@ -26,6 +26,7 @@ import path from 'node:path';
 import { runAgent } from './agent.mjs';
 import { syncDeploys } from './deploy.mjs';
 import { syncDb } from './dbsync.mjs';
+import { restoreWorkcache, saveWorkcache } from './workcache.mjs';
 
 const SLICE = process.argv[2] || 'a';
 const PIPELINE_REPO = process.env.PIPELINE_REPO || 'emporiumtrading/probate-pipeline';
@@ -86,6 +87,8 @@ const counts = {
   'setup-areas': importFile('setup-areas', 'setup/areas'),
 };
 console.log('store import docs:', JSON.stringify(counts));
+// Workers' working data (bulk extracts, research caches, where a long job stopped) comes back from the database.
+try { console.log(await restoreWorkcache(WORK)); } catch (e) { console.log('workcache: restore failed', e.message); }
 // The attorney-packet builder needs PyYAML, which the Render jobs' Python doesn't ship: install it once if missing.
 if (spawnSync('python3', ['-c', 'import yaml'], { cwd: WORK }).status !== 0) {
   const pip = spawnSync('python3', ['-m', 'pip', 'install', '--user', '--quiet', '--disable-pip-version-check', '--break-system-packages', 'pyyaml'], { cwd: WORK, encoding: 'utf8' });
@@ -322,6 +325,7 @@ git(['push', 'origin', 'HEAD:main']);
 const finalCheck = verified === 'pass' ? verify() : { ok: false };
 const checkedData = finalCheck.ok ? path.join(WORK, '..', 'verify-data') : '';
 if (!checkedData) console.log('db sync: dashboard data not published (checks did not pass)');
+try { console.log(await saveWorkcache(WORK)); } catch (e) { console.log('workcache: save failed', e.message); }
 try { console.log(await syncDb({ cwd: WORK, storeDocs, slice: SLICE, dataDir: checkedData })); } catch (e) { console.log('db sync: failed', e.message); }
 
 /* ---------- 6. deploy what changed (Render's deploy-on-push isn't firing) ---------- */

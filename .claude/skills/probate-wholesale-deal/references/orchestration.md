@@ -86,3 +86,7 @@ Every transition is logged in `leads/<id>/timeline.md` with date, actor and evid
 | Do-Not-Call scrubbing | National DNC registry access plus each state's list | Without it, **no** calls or texts are drafted |
 
 If a service is missing, the system degrades to the next-best manual step and lists it in the report. It never pretends something was sent.
+
+## Working data between runs (owner decision 2026-11-26)
+Every run starts on a fresh machine. Code, instructions and the pipeline's records live in the repo (reviewed, checked, reversible). Bulky working data (bulk downloads reduced to the rows you need, research caches, where a long job stopped) goes in `workcache/<worker>/`, which is git-ignored and which the runner restores from the database before the run and saves back after it (`runner/workcache.mjs`; 50 MB per file, 1 GB in total). Never put secrets or bank details there.
+
