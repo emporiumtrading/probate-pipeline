@@ -18,9 +18,9 @@ One row per buyer per market. Columns:
 
 ## Keep the list growing (owner decision 2026-11-26)
 The goal is a deep, fully vetted list in every market we work, so a contract can be assigned in days, not weeks.
-- **Every live market, every run,** until it has at least 50 `found`-or-better and 10 `vetted` buyers; then keep topping it up as buyers go quiet.
+- **As many as the records show (owner decision 2026-11-26: a very large list).** In every live market, capture every repeat cash buyer in the public records: anyone (company or investor) with two or more cash purchases of residential property in the last 24 months, in the county and every city in it. No per-run or per-market cap; when a single run can't finish a county, continue from where it stopped next run (keep the query and offset in `pipeline/sources-log.md`). Minimum before a market counts as covered: 200 found and 25 vetted, or every repeat buyer in the records if there are fewer.
 - **Neighbouring counties and out-of-state buyers.** Buyers who bought in our counties but are based elsewhere count for our markets (record their `home_state`); also search the counties next to each live market, since many investors work a metro area.
-- **The next two markets in `expansion_queue`,** so buyers are ready before a market goes live (`market_id` = that market's id).
+- **Every state in `expansion_queue`, in queue order,** so buyers are ready before a market goes live (`market_id` = that market's id), starting with the biggest cities' counties; then statewide.
 - Never stop at "found": a buyer is only useful once vetted and warmed up (below).
 
 ## Research on every buyer (OSINT, public sources only; owner decision 2026-11-26)
@@ -60,7 +60,7 @@ After each reply, set `sentiment` to one of `eager`, `interested`, `neutral`, `h
 A non-binding letter in which a vetted buyer states their buy box, the most they pay (share of ARV), the assignment fee and earnest money they accept, how fast they close, and that they won't contact sellers or estates directly. Template: `templates/buyer-letter-of-intent.md`. It goes out only after the market's attorney has approved it (it's in each market's attorney packet) and through the company's e-signature service (`esignature`). Record `loi_status` (`none` → `sent` → `signed`), `loi_sent_on`, `loi_signed_on` and the signed file in `loi_file` (kept in `pipeline/buyers/docs/`). It is not a purchase contract and doesn't bind the buyer to buy; the assignment contract does that when a deal comes.
 
 ## Daily work
-1. For each live market with fewer than 50 `found`-or-better buyers, add up to 25 new ones from the sources above (and neighbouring counties, out-of-state buyers and the next expansion markets, as above). Then move buyers forward: vet, introduce, follow up, record sentiment and money answers, send letters of intent.
+1. Add every new repeat cash buyer the sources show for each live market, with no cap (and neighbouring counties, out-of-state buyers and the next expansion markets, as above). Then move buyers forward, best score first: research, vet, introduce, follow up, record sentiment and money answers, send letters of intent. Volume never replaces vetting: a buyer counts for a deal only when vetted.
 2. Use what buyers actually paid to check the market's `buyer_pct` in `config.yaml`: if the median cash price for distressed houses in the area is consistently below `buyer_pct × ARV`, flag it in the report so the Deal Analyst lowers MAO. Don't change `buyer_pct` yourself.
 3. Draft a short introduction to new buyers (who we are, the areas we work, a question about their buy box). It goes through the Compliance Officer and the same `autonomy.outreach` setting as seller outreach. In Florida and any market whose legal file restricts marketing a contract, follow that file (private list only, never advertise the house).
 4. Report per market: buyers found / confirmed / vetted, and any market with a deal under contract and fewer than 5 vetted buyers, as a top-of-report warning.
