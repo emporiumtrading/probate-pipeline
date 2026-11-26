@@ -185,9 +185,9 @@ markets:
 # Market expansion: each run tries the next counties in this queue (see daily-run step 3b).
 expansion_per_run: 6              # queued counties tested per run (was 3); a county goes live only when its docket and parcel sources work
 expansion_queue:   # large metros first; legal status per state is checked before any lead is worked
-  - {county: Cuyahoga, state: OH, city: Cleveland}
-  - {county: Hamilton, state: OH, city: Cincinnati}
-  - {county: Montgomery, state: OH, city: Dayton}
+  - {county: Cuyahoga, state: OH, city: Cleveland, status: blocked, blocked_until: 2026-12-26}
+  - {county: Hamilton, state: OH, city: Cincinnati, status: blocked, blocked_until: 2026-12-26}
+  - {county: Montgomery, state: OH, city: Dayton, status: blocked, blocked_until: 2026-12-26}
   - {county: Summit, state: OH, city: Akron}
   - {county: Lucas, state: OH, city: Toledo}
   - {county: Marion, state: IN, city: Indianapolis}

@@ -139,3 +139,10 @@
 | 2026-11-25 | pa-philadelphia | https://www.phila.gov/departments/register-of-wills/ | responds | automated re-test |
 | 2026-11-26 | fl-hillsborough | publicrec.hillsclerk.com/Probate/dailyfilings (2026-11-25..2026-11-25) | worked | 20261125: 79 rows, 6 estates; 3 new leads |
 | 2026-11-26 | oh-franklin | probatesearch PBODateInx.ndm (from 20261124, 25 pages) + Parcel_Features | worked | 46 cases, 12 estates kept, 3 new leads |
+| 2026-11-26 | tx-harris | www.cclerk.hctx.net/applications/websearch/CourtSearch.aspx?CaseType=Probate | responds (200); not searched this slice | ASP.NET postback form (viewstate, date-range fields); robots.txt disallows only /Forms/; terms not yet checked for automated use, so no filing sweep run. Manual: https://www.cclerk.hctx.net/applications/websearch/CourtSearch.aspx?CaseType=Probate |
+| 2026-11-26 | tn-shelby | www.probatecourt.shelbycountytn.gov | no response (connection failed) | 5th day down; backing off. register.shelby.tn.us robots.txt reachable (not used this slice) |
+| 2026-11-26 | pa-philadelphia | www.phila.gov/departments/register-of-wills/ | blocked (403) | research only (PA Act 52); no robots.txt on phila.gov (404) |
+| 2026-11-26 | expansion: oh-cuyahoga | probate.cuyahogacounty.gov/pa (probate docket); gis.cuyahogacounty.us CCFO services (parcels) | probate 500 error; GIS 403 | 3b test. Probate docket is name/case search, not a filing-date index; parcel layer not reachable. Blocked 30 days (config expansion_queue status) |
+| 2026-11-26 | expansion: oh-hamilton | www.probatect.org/court-records/court-record-search | blocked (403) | 3b test. Blocked 30 days |
+| 2026-11-26 | expansion: oh-montgomery | go.mcohio.org/applications/probate/prodcfm/casesearchx.cfm | responds (public form) | 3b test. Search is by last/first name or case number only, no filing-date index, so it cannot source leads. Blocked 30 days |
+| 2026-11-26 | expansion: oh-summit, oh-lucas, in-marion | (queue) | not tested this slice | Slice B ran out of time for these; next slice picks them up |
