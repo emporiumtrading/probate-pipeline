@@ -10,7 +10,8 @@ fails, callers fall back to template text, so a run never depends on it.
 Env: NVIDIA_API_KEY, NVIDIA_MODEL (default meta/llama-3.3-70b-instruct),
      OPENROUTER_API_KEY, OPENROUTER_MODEL (default meta-llama/llama-3.3-70b-instruct:free)
 """
-import json, os, urllib.request
+import json, os, sys, urllib.error, urllib.request
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "runner"))
 
 PROVIDERS = [
     ("NVIDIA_API_KEY", "https://integrate.api.nvidia.com/v1/chat/completions",
@@ -29,18 +30,34 @@ def summarize(facts, max_tokens=220):
         key = os.environ.get(key_env)
         if not key:
             continue
-        body = json.dumps({"model": model(), "max_tokens": max_tokens, "temperature": 0.2,
-                           "messages": [{"role": "system", "content": SYSTEM},
-                                        {"role": "user", "content": "Facts:\n" + facts + "\n\nWrite the note."}]}).encode()
-        req = urllib.request.Request(url, data=body, headers={"Authorization": "Bearer " + key, "Content-Type": "application/json",
-                                                              "User-Agent": "probate-pipeline-runner"})
-        try:
-            with urllib.request.urlopen(req, timeout=60) as r:
-                out = json.load(r)["choices"][0]["message"]["content"].strip()
-            if out:
-                return out, key_env.split("_")[0].lower()
-        except Exception as e:  # rate limit, outage, bad model id: try the next provider
-            print(f"ai_assist: {key_env.split('_')[0].lower()} failed: {str(e)[:120]}")
+        prov = key_env.split("_")[0].lower()
+        models = [model()]
+        for attempt in range(3):
+            if attempt >= len(models):
+                break
+            body = json.dumps({"model": models[attempt], "max_tokens": max_tokens, "temperature": 0.2,
+                               "messages": [{"role": "system", "content": SYSTEM},
+                                            {"role": "user", "content": "Facts:\n" + facts + "\n\nWrite the note."}]}).encode()
+            req = urllib.request.Request(url, data=body, headers={"Authorization": "Bearer " + key, "Content-Type": "application/json",
+                                                                  "User-Agent": "probate-pipeline-runner"})
+            try:
+                with urllib.request.urlopen(req, timeout=60) as r:
+                    out = json.load(r)["choices"][0]["message"]["content"].strip()
+                if out:
+                    return out, prov
+            except urllib.error.HTTPError as e:
+                print(f"ai_assist: {prov} {models[attempt]} failed: HTTP {e.code}")
+                if e.code in (400, 404, 410) and attempt == 0:   # model retired or renamed: use what's offered now
+                    try:
+                        import pick_models
+                        models += [m for m in pick_models.ranked_models(prov, key) if m not in models][:2]
+                    except Exception as e2:
+                        print(f"ai_assist: couldn't list {prov} models: {str(e2)[:80]}")
+                elif e.code == 429:
+                    break   # out of free requests: next provider
+            except Exception as e:  # outage: next provider
+                print(f"ai_assist: {prov} failed: {str(e)[:120]}")
+                break
     return None, None
 
 

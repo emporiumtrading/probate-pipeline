@@ -85,6 +85,25 @@ def probe(base, key, mid):
         return False
 
 
+def ranked_models(provider, key):
+    """Chat models the provider offers now, best first, without test calls (for short text jobs)."""
+    prov = PROVIDERS[provider]
+    listed = get(f'{prov["base"]}/models', key).get('data') or []
+    out = []
+    for m in listed:
+        mid = m.get('id') or ''
+        if not mid or NOT_CHAT.search(mid):
+            continue
+        if provider == 'openrouter' and not mid.endswith(':free'):
+            continue
+        sz = size_b(mid)
+        if sz is not None and sz < MIN_SIZE_B:
+            continue
+        out.append(mid)
+    unstable = re.compile(r'preview|experimental|beta|alpha', re.I)
+    return sorted(set(out), key=lambda x: (not unstable.search(x), score(x)), reverse=True)
+
+
 def main():
     args = sys.argv[1:]
     if not args or args[0] not in PROVIDERS:
@@ -126,7 +145,9 @@ def main():
     if not cands:
         return 1
 
-    ranked = sorted(set(cands), key=score, reverse=True)
+    # Preview, experimental and beta models are the first to be retired: use them only if nothing else is offered.
+    UNSTABLE = re.compile(r'preview|experimental|\bexp\b|-exp-|beta|alpha|\btest\b', re.I)
+    ranked = sorted(set(cands), key=lambda m: (not UNSTABLE.search(m), score(m)), reverse=True)
     ranked = [p for p in prefer if p in ranked] + [m for m in ranked if m not in prefer]
     if prov['probe']:
         tried = ranked[:max(n * 2, 8)]

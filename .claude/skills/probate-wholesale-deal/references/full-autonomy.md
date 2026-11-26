@@ -5,6 +5,8 @@ The owner turns this on with the **Full autonomy** switch on the dashboard, only
 2. **A deposit is confirmed** (the title company received the earnest money).
 3. **A deal closed**, with its profit from the ledger's documented rows.
 
+And, separately, at most one email a day if the system itself has stayed broken for 24 hours despite the automatic repairs (every run failed, or no AI engine finished a run), saying what's wrong and what would fix it (owner decision 2026-11-26).
+
 Everything else is decided by the workers and the Exceptions Desk, within the written limits in `config.yaml` → `autonomy`, and logged in `pipeline/decisions-log.csv` with the reason.
 
 ## What changes

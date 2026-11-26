@@ -15,7 +15,7 @@
   ];
   const saved = (id) => { const d = dash.data('ownerSettings'); return d.status === 'ok' ? (d.data || []).find((r) => r.id === id) || null : null; };
   // A setting saved on this page shows at once: "saved" until the daily run applies it, then the run's own status.
-  const BIZ = ['legal_name', 'entity_state', 'mailing_address', 'phone', 'email', 'website', 'signer', 'title_company'];
+  const BIZ = ['legal_name', 'entity_state', 'mailing_address', 'phone', 'email', 'website', 'signer', 'title_company', 'insurance'];
   // A service key saved on this page switches its channel on at the next run.
   const CH_KEY = { mail_sending: 'LOB_API_KEY', email_sending: 'RESEND_API_KEY', esignature: 'DOCUSEAL_API_KEY' };
   const live = (r) => {

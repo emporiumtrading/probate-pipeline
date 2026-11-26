@@ -25,7 +25,7 @@ TEXT, BOOL, DATE = "text", "bool", "date"
 CHANNELS = ("mail_sending", "email_sending", "inbox_connected", "mail_scanning", "voicemail_to_email")
 SCHEMA = {
     "business": {"legal_name": TEXT, "entity_state": "state", "mailing_address": TEXT, "phone": "phone", "email": "email",
-                 "website": "url", "signer": TEXT, "title_company": TEXT},
+                 "website": "url", "signer": TEXT, "title_company": TEXT, "insurance": TEXT},
     "channels": {**{f"{c}_provider": TEXT for c in CHANNELS}, **{f"{c}_address": TEXT for c in CHANNELS},
                  **{f"{c}_ready": BOOL for c in CHANNELS}},
     "autonomy": {"outreach": ("drafts_only", "autonomous"), "confirmed": BOOL, "confirm_text": TEXT},

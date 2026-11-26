@@ -4,7 +4,8 @@
 Emails the owner (OWNER_NOTIFY_EMAIL) through Resend, once each, when:
   - a deal needs their signature (Sign queue), or an escrow to confirm by phone (Wire queue),
   - a title company has received the earnest money (deposit confirmed),
-  - a deal closes (with its profit from the ledger's actual rows).
+  - a deal closes (with its profit from the ledger's actual rows),
+  - the system itself has stayed broken for 24 hours (at most once a day; owner decision 2026-11-26).
 Sent notices are recorded in pipeline/owner-notices.csv so nothing repeats.
 Never includes bank or wiring details. Usage: python3 runner/notify.py <dashboard-data-dir>
 """
@@ -70,13 +71,40 @@ for lid, t in tracker.items():
                        f"{t.get('address', '')} closed. Fee received ${income:,.0f}, costs ${cost:,.0f}, profit ${income - cost:,.0f} "
                        f"(from the ledger's documented rows)."))
 
+# The system itself (owner decision 2026-11-26): at most one email a day, only when something has stayed
+# broken for 24 hours despite the automatic repairs: every run failed, or no AI engine finished a run.
+health = rows("pipeline/runner-health.csv")
+now = datetime.datetime.now(datetime.timezone.utc)
+def _age_h(r):
+    try:
+        return (now - datetime.datetime.fromisoformat(r["date"].replace("Z", "+00:00"))).total_seconds() / 3600
+    except (KeyError, ValueError):
+        return 1e9
+day = [r for r in health if _age_h(r) <= 24]
+if len(day) >= 3 and any(_age_h(r) >= 20 for r in day):   # a full day's worth of runs to judge by
+    failed = all(r.get("result") == "fail" or r.get("verify") == "fail" for r in day)
+    no_ai = not failed and all(r.get("engine") == "scripted" for r in day if r.get("level") != "idle") \
+        and any(r.get("level") != "idle" for r in day)
+    if failed or no_ai:
+        last = day[-1].get("notes", "")[:600]
+        why = ("every run in the last 24 hours failed its checks" if failed else
+               "no AI engine finished a run in the last 24 hours; the pipeline ran on its scripted backup only (new leads and checks, but no letters, negotiation or follow-ups)")
+        fix = []
+        if re.search(r"credit balance|billing|invalid.{0,20}api.?key|authentication", last, re.I): fix.append("Check the Claude key and its credit balance (console.anthropic.com).")
+        if "free-models-per-day" in last: fix.append("OpenRouter's free daily limit is used up: add $10 of credit at openrouter.ai to raise it to 1,000 requests a day, or add an NVIDIA key.")
+        if "no key" in last and "nvidia" in last: fix.append("An NVIDIA key (free at build.nvidia.com) adds a second backup engine.")
+        events.append((f"system:{now.date().isoformat()}", "Your pipeline needs a look: " + ("runs are failing" if failed else "the AI engines aren't finishing"),
+                       f"In short: {why}.\nThe automatic repair and the AI assistant's hourly check haven't fixed it.\n"
+                       + ("What you can do: " + " ".join(fix) + "\n" if fix else "Open the dashboard → Operations → How each run went, or ask the AI assistant what's wrong.\n")
+                       + f"Last run's notes: {last}"))
+
 new = [e for e in events if e[0] not in sent]
 if not os.path.exists(LOG):
     open(LOG, "w").write("date,key,subject\n")
 for key, subject, body in new:
     req = urllib.request.Request("https://api.resend.com/emails", method="POST",
                                  data=json.dumps({"from": FROM, "to": [TO], "subject": subject,
-                                                  "text": body + "\n\nThis is an automatic notice from your probate pipeline. Nothing else needs you."}).encode(),
+                                                  "text": body + ("" if key.startswith("system:") else "\n\nThis is an automatic notice from your probate pipeline. Nothing else needs you.")}).encode(),
                                  headers={"Authorization": f"Bearer {KEY}", "Content-Type": "application/json", "User-Agent": "probate-pipeline-runner"})
     try:
         urllib.request.urlopen(req, timeout=30).read()

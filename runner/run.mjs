@@ -148,7 +148,9 @@ const CLAUDE_BIN = path.join(path.dirname(new URL(import.meta.url).pathname), 'n
 
 // Run a process, mirror its output, and keep the tail for diagnosis.
 const runProc = (cmd, args, env, minutes) => new Promise((resolve) => {
-  const child = spawn(cmd, args, { cwd: WORK, env });
+  // stdin closed: `claude -p` reads piped input before it starts, so an open pipe made it wait forever
+  // (every Claude attempt sat silent until the time limit killed it, exit 143).
+  const child = spawn(cmd, args, { cwd: WORK, env, stdio: ['ignore', 'pipe', 'pipe'] });
   let tail = '';
   const take = (d, out) => { out.write(d); tail = (tail + d).slice(-20000); };
   child.stdout.on('data', (d) => take(d, process.stdout)); child.stderr.on('data', (d) => take(d, process.stderr));

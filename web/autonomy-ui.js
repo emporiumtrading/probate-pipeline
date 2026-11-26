@@ -73,7 +73,7 @@
       : `Data: from the last deploy (${ds.j.reason}).` });
     bar.replaceChildren(
       h('label', { for: 'fa-switch', style: 'display:flex;gap:8px;align-items:center;font-weight:600' }, sw, document.createTextNode('Full autonomy')),
-      h('span', { class: 'pp-sub', text: c.on ? `On since ${c.since.slice(0, 10)}: you'll only hear about signatures, deposits and closings.` : (c.ready ? 'Off. Everything is ready: flip it to turn it on.' : `Off. ${c.blocking.length} thing${c.blocking.length === 1 ? '' : 's'} to do first` + ((c.saved || []).length ? ` · ${c.saved.length} saved, confirmed at the next run.` : '.')) }),
+      h('span', { class: 'pp-sub', text: c.on ? `On since ${c.since.slice(0, 10)}: you'll only hear about signatures, deposits and closings (and once a day if the system stays broken).` : (c.ready ? 'Off. Everything is ready: flip it to turn it on.' : `Off. ${c.blocking.length} thing${c.blocking.length === 1 ? '' : 's'} to do first` + ((c.saved || []).length ? ` · ${c.saved.length} saved, confirmed at the next run.` : '.')) }),
       h('span', { style: 'margin-left:auto;display:flex;gap:6px;align-items:center' }, h('span', { class: 'pp-sub', text: 'Notices go to' }), mail, saveMail, saved),
       !c.on && !c.ready ? h('button', { type: 'button', class: 'pp-btn', text: 'What\'s missing?', onclick: () => showMissing(c) }) : null, fresh);
   };

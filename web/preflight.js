@@ -39,7 +39,7 @@ const parseCsv = (txt) => {
 
 // Which setup-checklist items block full autonomy (the rest only limit a market or are optional).
 const BLOCKS = {
-  business: (k) => k !== 'website',
+  business: (k) => k !== 'website' && k !== 'insurance',
   channels: (k) => ['mail_sending', 'email_sending', 'inbox_connected', 'mail_scanning', 'voicemail_to_email', 'esignature'].includes(k),
 };
 

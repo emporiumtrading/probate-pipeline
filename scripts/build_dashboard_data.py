@@ -410,6 +410,8 @@ BIZ_LABEL = {"legal_name": "Company legal name", "entity_state": "State of forma
              "signer": "Who signs contracts", "title_company": "Title company for earnest money"}
 for k, lbl in BIZ_LABEL.items():
     item("Business identity", lbl, bool(biz.get(k)), "Setup page → Business identity → Configure", "Attorney packets, letters, trust with attorneys", "business", k)
+item("Business identity", "Business insurance (optional)", bool(biz.get("insurance")),
+     "Ask your CPA or attorney about general liability and errors-and-omissions cover once the company exists; then Setup → Business identity → Configure", "Protection if a deal goes wrong", "business", "insurance")
 CH = {"mail_sending": ("Letters sent without you", "Open a Lob account (lob.com), then Setup → Sending and signing services → paste its live_ API key. The next run tests it and switches this on"),
       "email_sending": ("Email sent without you", "Open a Resend account (resend.com), verify your business email's domain there, then Setup → Sending and signing services → paste the API key. The next run tests it and switches this on"),
       "inbox_connected": ("Replies read automatically", "In Resend, turn on receiving for your business domain (add the MX record it shows). With the Resend key saved, the next run tests it and switches this on"),
