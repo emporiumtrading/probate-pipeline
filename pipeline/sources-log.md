@@ -146,3 +146,4 @@
 | 2026-11-26 | expansion: oh-hamilton | www.probatect.org/court-records/court-record-search | blocked (403) | 3b test. Blocked 30 days |
 | 2026-11-26 | expansion: oh-montgomery | go.mcohio.org/applications/probate/prodcfm/casesearchx.cfm | responds (public form) | 3b test. Search is by last/first name or case number only, no filing-date index, so it cannot source leads. Blocked 30 days |
 | 2026-11-26 | expansion: oh-summit, oh-lucas, in-marion | (queue) | not tested this slice | Slice B ran out of time for these; next slice picks them up |
+| 2026-11-26 | fl-hillsborough buyer vetting (H-0009) | search.sunbiz.org (FL entity registry) | blocked (Cloudflare challenge, 403) | manual only: owner link https://search.sunbiz.org/Inquiry/CorporationSearch/ByName. Not bypassed. Next: try FL DOS bulk data (dos.fl.gov/sunbiz/other-services/data-downloads/, check terms) or OpenCorporates terms before the next attempt |
