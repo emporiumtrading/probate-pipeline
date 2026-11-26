@@ -129,6 +129,7 @@
       if (!db || !user) throw new Error('unavailable');
       const uid = await user.id();
       await db.doc(`data/users/${uid}/setup/areas/${S.area}`).set({ ...out, saved_at: new Date().toISOString() });
+      window.dispatchEvent(new Event('pp-setup-saved'));   // the Full autonomy count updates right away
       say('Saved. The next daily run applies it, and this card updates after that run.', 'pp-ok');
     } catch (e) {
       say("That wasn't saved: only the dashboard's owner can save setup settings. Nothing was changed.", 'pp-bad');

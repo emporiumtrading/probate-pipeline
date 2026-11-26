@@ -73,7 +73,7 @@
       : `Data: from the last deploy (${ds.j.reason}).` });
     bar.replaceChildren(
       h('label', { for: 'fa-switch', style: 'display:flex;gap:8px;align-items:center;font-weight:600' }, sw, document.createTextNode('Full autonomy')),
-      h('span', { class: 'pp-sub', text: c.on ? `On since ${c.since.slice(0, 10)}: you'll only hear about signatures, deposits and closings.` : (c.ready ? 'Off. Everything is ready: flip it to turn it on.' : `Off. ${c.blocking.length} thing${c.blocking.length === 1 ? '' : 's'} to do first.`) }),
+      h('span', { class: 'pp-sub', text: c.on ? `On since ${c.since.slice(0, 10)}: you'll only hear about signatures, deposits and closings.` : (c.ready ? 'Off. Everything is ready: flip it to turn it on.' : `Off. ${c.blocking.length} thing${c.blocking.length === 1 ? '' : 's'} to do first` + ((c.saved || []).length ? ` · ${c.saved.length} saved, confirmed at the next run.` : '.')) }),
       h('span', { style: 'margin-left:auto;display:flex;gap:6px;align-items:center' }, h('span', { class: 'pp-sub', text: 'Notices go to' }), mail, saveMail, saved),
       !c.on && !c.ready ? h('button', { type: 'button', class: 'pp-btn', text: 'What\'s missing?', onclick: () => showMissing(c) }) : null, fresh);
   };
@@ -84,6 +84,12 @@
     if (top && top.parentNode) top.parentNode.insertBefore(bar, top.nextSibling); else document.body.prepend(bar);
     document.body.append(dlg);
     render().catch((e) => { bar.textContent = `Full autonomy status failed to load: ${e.message}`; });
+    // Keep the count current: after a Setup save or key save, when you come back to the tab, and every minute
+    // (not while you're typing in the bar).
+    const again = () => { if (!bar.contains(document.activeElement)) render().catch(() => {}); };
+    window.addEventListener('pp-setup-saved', again);
+    window.addEventListener('focus', again);
+    setInterval(again, 60000);
   };
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount); else mount();
 })();
