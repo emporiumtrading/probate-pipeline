@@ -11,4 +11,4 @@ Environment differences — this run is on a headless Linux box, not claude.ai:
 - **Dashboard (step 6):** same rule — don't publish anything; Render rebuilds from the repo on push.
 - **git:** origin is already authenticated. Commit and push as fast-desk.md step 5 says.
 
-Most firings should end at "Nothing waiting." — be that cheap.
+When nothing is waiting, end at "Nothing waiting." — be that cheap. When **urgent** handoffs are open, use your time (up to about 35 minutes) to make real progress on them as fast-desk.md step 2 says: work them one after another, most valuable part first; if one is blocked (a site refuses, a key is missing), record that with a progress note and move straight on to the next urgent item. Don't end early while urgent work you can do remains.
