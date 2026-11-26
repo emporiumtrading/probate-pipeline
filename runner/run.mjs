@@ -88,7 +88,7 @@ const counts = {
 console.log('store import docs:', JSON.stringify(counts));
 // The attorney-packet builder needs PyYAML, which the Render jobs' Python doesn't ship: install it once if missing.
 if (spawnSync('python3', ['-c', 'import yaml'], { cwd: WORK }).status !== 0) {
-  const pip = spawnSync('python3', ['-m', 'pip', 'install', '--user', '--quiet', '--disable-pip-version-check', 'pyyaml'], { cwd: WORK, encoding: 'utf8' });
+  const pip = spawnSync('python3', ['-m', 'pip', 'install', '--user', '--quiet', '--disable-pip-version-check', '--break-system-packages', 'pyyaml'], { cwd: WORK, encoding: 'utf8' });
   console.log(`pyyaml: ${pip.status === 0 ? 'installed' : 'could not install: ' + `${pip.stderr || pip.stdout || ''}`.trim().slice(-200)}`);
 }
 // Your Setup saves first (owner decision 2026-11-26): the Business identity is written into config.yaml, every
@@ -98,6 +98,12 @@ for (const [cmd, label] of [[['scripts/owner_settings.py', 'import', path.join(I
   const r = spawnSync('python3', cmd, { cwd: WORK, encoding: 'utf8' });
   const out = `${r.stdout || ''}${r.stderr || ''}`.trim().split('\n').filter((l) => !/^wrote /.test(l)).join(' | ');
   console.log(`${label}: ${out.slice(0, 400) || 'ok'}`);
+}
+// Save what that changed before any engine starts, so the run's workers see it as done, not as stray edits.
+spawnSync('git', ['add', '-A', 'config.yaml', 'pipeline/owner-settings.json', 'legal/attorney-packets', 'leads'], { cwd: WORK });
+if (spawnSync('git', ['diff', '--cached', '--quiet'], { cwd: WORK }).status !== 0) {
+  spawnSync('git', ['-c', 'user.name=Pipeline runner', '-c', 'user.email=runner@probate-pipeline.local', 'commit', '-q', '-m', 'Runner: apply your Setup saves (business details, attorney packets, letter signatures)'], { cwd: WORK });
+  console.log('setup saves: committed');
 }
 
 /* ---------- 3. run the slice ---------- */
