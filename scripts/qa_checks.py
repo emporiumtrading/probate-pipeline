@@ -125,6 +125,12 @@ if len(st) < 51:
 for need in ("negotiation_limit", "outreach:", "closings_per_month"):
     if need not in cfg:
         fails.append(f"config.yaml missing {need}")
+# Buyer files and research notes: never bank details (proof of funds is recorded as a summary only)
+for _bf in glob.glob(os.path.join(ROOT, "pipeline", "buyers", "**", "*"), recursive=True):
+    if os.path.isfile(_bf) and not _bf.endswith(".csv"):
+        fails.append(f"{os.path.relpath(_bf, ROOT)}: only buyers.csv and research notes (pipeline/buyers/dossiers/*.md) belong here; never store buyer documents") if "/dossiers/" not in _bf else None
+    if os.path.isfile(_bf) and re.search(r"(?i)\brouting\s*(no|number|#)|\baccount\s*(no|number|#)\s*[:#]?\s*\d|\biban\b|\bswift\s*(code)?\s*[:#]", open(_bf, errors="ignore").read()):
+        fails.append(f"{os.path.relpath(_bf, ROOT)} appears to contain bank or account details: remove them (record a proof-of-funds summary only)")
 if re.search(r"(routing|account)_number|iban|swift", cfg, re.I):
     fails.append("config.yaml appears to contain bank details: remove them")
 

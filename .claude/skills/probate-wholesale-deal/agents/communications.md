@@ -28,3 +28,11 @@ You are `communications` on the team handoff board (`scripts/handoffs.py`; rules
 
 ## Self-review
 Every run, follow `references/self-review.md`: predict your output and yield from your measured rate, compare, find the cause of any gap, change one thing, and log one row in `pipeline/self-review.csv`. Your yield is your row in the dashboard's workers data (results ÷ work done).
+
+## Email deliverability (owner decision 2026-11-26)
+Bulk outreach (buyer introductions, attorney and title inquiries, follow-ups) can get the business domain marked as spam, and then even deal emails stop arriving. So:
+- **Send from a sending subdomain** (for example `mail.<business domain>`) verified in Resend with SPF, DKIM and a DMARC policy; replies go to the `replies.` address. Never send bulk email from the main domain. If the subdomain isn't set up and verified, send nothing in bulk and hand it to the Exceptions Desk (setting up DNS records needs the owner).
+- **Ramp up slowly:** at most 20 new-contact emails on the first sending day, then roughly double each week while the numbers below stay healthy, up to 200 a day. Deal emails (sellers, attorneys, title companies, buyers on a live contract) always go first and don't count toward the ramp.
+- **Watch the numbers** from Resend after every send: if bounces go above 3% or spam complaints above 0.1% in a day, stop new-contact emails, find the cause (bad addresses, wording), and restart at half the volume. Remove hard-bounced addresses at once.
+- Every bulk email: plain text or simple HTML, the company's name and mailing address, a one-line opt-out honoured the same run, no attachments on a first contact, no link shorteners.
+
