@@ -36,6 +36,21 @@ dash.calc('oppsView', { title: 'Opportunities on the Opportunities page', descri
   fn: (opps) => { const p = dash.params(); const min = +p.oppMin || 0;
     return opps.filter((r) => (!p.oppStage || r.stage === p.oppStage) && (!p.oppType || (r.lead_type || 'probate') === p.oppType)
       && (!p.oppCity || `${r.city}, ${r.state}` === p.oppCity) && (+r.potential_earnings || 0) >= min); } });
+// Attorneys (Markets & legal): who has agreed to work with us, and where each live market stands.
+const ATT_RANK = { engaged: 0, 'engagement letter to sign': 1, chosen: 2, quoted: 3, contacted: 4, verified: 5, candidate: 6 };
+dash.calc('attorneysEngaged', { title: 'Attorneys working with us', description: 'Engaged attorneys, and those whose engagement letter waits for the owner.', inputs: ['attorney_candidates'],
+  fn: (a) => a.filter((r) => r.status === 'engaged' || r.status === 'engagement letter to sign').sort((x, y) => (ATT_RANK[x.status] - ATT_RANK[y.status]) || x.market.localeCompare(y.market)) });
+dash.calc('attorneyByMarket', { title: 'Attorney sourcing by market', description: 'Each live market: candidates found, the best so far and the next step.', inputs: ['markets', 'attorney_candidates'],
+  fn: (markets, a) => markets.filter((m) => /^Live/.test(m.status || '') && m.county).map((m) => {
+    const id = `${m.state.toLowerCase()}-${m.county.toLowerCase().replace(/ county$/, '').replace(/[^a-z]+/g, '-').replace(/-+$/, '')}`;
+    const c = a.filter((r) => r.market === id && !['declined', 'rejected'].includes(r.status)).sort((x, y) => ((ATT_RANK[x.status] ?? 9) - (ATT_RANK[y.status] ?? 9)) || (+y.score || 0) - (+x.score || 0));
+    const b = c[0];
+    const stage = !b ? 'Searching' : b.status === 'engaged' ? 'Engaged' : b.status === 'engagement letter to sign' ? 'Waiting for your signature'
+      : b.status === 'chosen' ? 'Chosen, letter being prepared' : b.status === 'quoted' ? 'Quotes in' : b.status === 'contacted' ? 'Asked for quotes' : 'Found, licence checked';
+    const next = !b ? 'The Professional Network searches the state bar directory at its next run' : b.status === 'engaged' ? 'The Legal Advisor sends this market\'s attorney packet'
+      : b.status === 'engagement letter to sign' ? 'Sign it on Sign, wire & money' : ['verified', 'candidate'].includes(b.status) ? 'Quotes are asked by email once business email (Resend) works' : 'The Professional Network compares quotes and picks the best';
+    return { market: `${m.county} County, ${m.state}`, stage, candidates: c.length, best: b ? `${b.name}${b.firm ? ', ' + b.firm : ''}` : '—', next };
+  }) });
 dash.calc('oppsByCity', { title: 'Opportunities by city', description: 'Count and potential earnings of GO/NEGOTIATE deals per city, within the filters.', inputs: ['oppsView'],
   fn: (oppsView) => d3.rollups(oppsView, (v) => ({ deals: v.length, earnings: d3.sum(v, (r) => +r.potential_earnings || 0), state: v[0].state }), (r) => r.city + ', ' + r.state).map(([city, o]) => ({ city, ...o })).sort((a, b) => b.deals - a.deals) });
 dash.calc('queuesF', { title: 'Your queues', description: 'Approve, sign and wire items within the filters.', inputs: ['queues'],
@@ -125,6 +140,8 @@ dash.calc('setupCounts', { title: 'Setup steps missing', description: 'Setup ste
       if (c === 'status') { const s = document.createElement('span'); s.className = 'pp-chip ' + (v === 'done' || v === 'answered' || v === 'closed' ? 'pp-ok' : v === 'missing' ? 'pp-bad' : 'pp-warn'); s.textContent = v || '—'; td.appendChild(s); }
       else { td.textContent = v || '—'; if (c === 'last_message' || c === 'next' || c === 'purpose') td.className = 'pp-w'; } }); }); };
   dash.draw('legalMatterRows', ppTable('legal_matters', ['provider', 'matter_id', 'purpose', 'status', 'last_checked', 'last_message', 'covered_states', 'fees_quoted'], 'No attorney-review matters yet.'));
+  dash.draw('attorneyEngagedRows', ppTable('attorneysEngaged', ['market', 'name', 'firm', 'bar_number', 'bar_verified_on', 'status', 'quote', 'email'], 'None yet. No attorney has agreed to work with us so far: they are being sourced (below), and the best one per market is asked for a quote once business email works.'));
+  dash.draw('attorneyMarketRows', ppTable('attorneyByMarket', ['market', 'stage', 'candidates', 'best', 'next'], 'No live markets.'));
   dash.draw('attorneyRows', ppTable('attorney_candidates', ['market', 'name', 'firm', 'bar_number', 'bar_verified_on', 'focus', 'score', 'status', 'quote'], 'No candidates yet: the Professional Network fills this in on its next run.'));
   dash.draw('legalMarketRows', ppTable('legal_markets', ['market', 'step', 'status', 'next'], 'No live markets.'));
   dash.draw('stageName', (el) => { el.textContent = dash.params().stage || 'Outreach drafted'; });

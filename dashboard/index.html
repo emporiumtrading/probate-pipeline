@@ -406,12 +406,23 @@
         <thead><tr><th>Service</th><th>Matter</th><th>About</th><th>Status</th><th>Last checked</th><th>Last message</th><th>States covered</th><th>Fees quoted</th></tr></thead>
         <tbody data-draw="legalMatterRows" data-source="legal_matters"></tbody>
       </table>
-      <h3 style="margin-top:16px">Attorneys the system is sourcing</h3>
-      <p class="pp-sub">The Professional Network finds 3 to 5 licensed probate / real-estate attorneys per market from the state bar's directory, checks each licence, scores them and proposes the best. You only sign the engagement letter.</p>
+      <h3 style="margin-top:16px">Attorneys working with us</h3>
+      <p class="pp-sub">Attorneys who have agreed to work with us (engaged), or whose engagement letter is waiting for your signature. Only an engaged attorney can approve a market's letters and contracts.</p>
+      <table data-source="attorneysEngaged" data-row-key="market,name">
+        <thead><tr><th>Market</th><th>Name</th><th>Firm</th><th>Bar #</th><th>Licence checked</th><th>Status</th><th>Fees agreed</th><th>Email</th></tr></thead>
+        <tbody data-draw="attorneyEngagedRows" data-source="attorneysEngaged"></tbody>
+      </table>
+      <h3 style="margin-top:16px">Attorneys by market</h3>
+      <p class="pp-sub">Where each live market stands: the system finds 3 to 5 licensed probate / real-estate attorneys per market from the state bar's directory, checks each licence, scores them, asks the best for quotes once business email works, and puts the winner's engagement letter in your Sign queue.</p>
+      <table data-source="attorneyByMarket" data-row-key="market">
+        <thead><tr><th>Market</th><th>Stage</th><th class="pp-n">Candidates</th><th>Best so far</th><th>Next</th></tr></thead>
+        <tbody data-draw="attorneyMarketRows" data-source="attorneyByMarket"></tbody>
+      </table>
+      <details style="margin-top:12px"><summary>Every candidate</summary><div class="pp-wrap">
       <table data-source="attorney_candidates" data-row-key="market,name">
         <thead><tr><th>Market</th><th>Name</th><th>Firm</th><th>Bar #</th><th>Licence checked</th><th>Focus</th><th class="pp-n">Score</th><th>Status</th><th>Quote</th></tr></thead>
         <tbody data-draw="attorneyRows" data-source="attorney_candidates"></tbody>
-      </table>
+      </table></div></details>
       <h3 style="margin-top:16px">Where each market stands</h3>
       <table data-source="legal_markets" data-row-key="market,step" style="margin-top:12px">
         <thead><tr><th>Market</th><th>Step</th><th>Status</th><th>Next</th></tr></thead>
