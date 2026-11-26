@@ -11,7 +11,7 @@
     { id: 'claude', name: 'Claude', key: 'ANTHROPIC_API_KEY', note: 'Runs first. Billed to your Anthropic account.',
       models: [['claude-haiku-5-5', 'Haiku 5.5 (cheapest)'], ['claude-sonnet-5-5', 'Sonnet 5.5'], ['claude-opus-5-5', 'Opus 5.5 (most expensive)']],
       defaults: { mainRuns: 'claude-sonnet-5-5', fastDesk: 'claude-haiku-5-5' } },
-    { id: 'nvidia', name: 'NVIDIA', key: 'NVIDIA_API_KEY', note: 'Backup: runs the whole job if Claude fails or runs out. Free tier at build.nvidia.com. Models are picked by themselves each run from what NVIDIA offers that day and tested first, so retired ones are skipped.',
+    { id: 'nvidia', name: 'NVIDIA', key: 'NVIDIA_API_KEY', note: 'Backup: runs the whole job if Claude fails or runs out. Free tier at build.nvidia.com.',
       models: [['meta/llama-3.3-70b-instruct', 'Llama 3.3 70B'], ['qwen/qwen3-coder-480b-a35b-instruct', 'Qwen3 Coder'], ['deepseek-ai/deepseek-v3.1', 'DeepSeek V3.1'], ['openai/gpt-oss-120b', 'gpt-oss 120B']],
       defaults: { mainRuns: 'meta/llama-3.3-70b-instruct', fastDesk: 'meta/llama-3.3-70b-instruct' } },
     { id: 'openrouter', name: 'OpenRouter (free models)', key: 'OPENROUTER_API_KEY', note: 'Second backup, free models.',
@@ -92,7 +92,7 @@
         h('h3', {}, h('label', {}, toggle, document.createTextNode(` ${eng.name}`))),
         h('p', { class: 'pp-sub', text: eng.note }),
         keyRow(eng, st.j, msg, () => render(card)),
-        eng.id === 'claude' ? capPicker(msg) : h('p', { class: 'pp-sub', text: `Models, picked automatically from cheapest up: ${eng.models.map((m) => m[1]).join(' → ')}.` }),
+        eng.id === 'claude' ? capPicker(msg) : h('p', { class: 'pp-sub', text: 'Models are picked by themselves each run: the system asks the provider which free models it offers that day, keeps the ones that can do the work, tests them, and starts with the quickest. Retired models are skipped without anyone touching this page.' }),
         msg));
     }
     card.append(h('p', { class: 'pp-sub', text: 'Last resort: the scripted run always stays on, so a run still happens with no AI at all.' }));

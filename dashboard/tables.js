@@ -72,6 +72,7 @@
       } else if (none) none.remove();
       const total = data.length, shownN = Math.min(st.shown, hits.length);
       bar.hidden = total < 6;
+      table.classList.toggle('pp-kit-empty', !total);
       count.textContent = !total ? '' : q ? `${hits.length} of ${total} match` + (shownN < hits.length ? ` · showing ${shownN}` : '')
         : (shownN < total ? `Showing ${shownN} of ${total}` : `${total} ${total === 1 ? 'row' : 'rows'}`);
       const left = hits.length - shownN;
@@ -96,6 +97,8 @@
     .pp-tkit-more { display: flex; gap: 8px; justify-content: center; margin-top: 10px; }
     .pp th.pp-sortable { cursor: pointer; user-select: none; }
     .pp th.pp-sortable:hover, .pp th.pp-sortable:focus-visible { color: var(--color-fg); outline: none; }
+    .pp table.pp-kit-empty th.pp-sortable { cursor: default; }
+    .pp table.pp-kit-empty th.pp-sortable::after { content: none; }
     .pp th.pp-sortable::after { content: " ↕"; opacity: .35; font-size: 10px; }
     .pp th[aria-sort="ascending"]::after { content: " ▲"; opacity: .9; }
     .pp th[aria-sort="descending"]::after { content: " ▼"; opacity: .9; }

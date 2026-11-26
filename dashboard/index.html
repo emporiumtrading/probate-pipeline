@@ -83,7 +83,8 @@
 .pp-area-card { display: flex; flex-direction: column; gap: 8px; }
 .pp-area-card .pp-row { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
 .pp-area-card ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 4px; font-size: var(--cds-font-size-caption); }
-.pp-area-card li { display: flex; justify-content: space-between; gap: 8px; }
+.pp-area-card li { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.pp-area-card li .pp-chip { white-space: nowrap; flex-shrink: 0; }
 .pp-btn-primary { background: var(--color-fg); color: var(--color-bg); border-color: var(--color-fg); }
 .pp-dlg { border: 1px solid var(--color-border-line); border-radius: var(--cds-radius); background: var(--color-panel); color: var(--color-fg); padding: 0; width: min(640px, 94vw); max-height: 88vh; }
 .pp-dlg::backdrop { background: rgb(0 0 0 / 0.35); }
@@ -304,7 +305,7 @@
       <p class="pp-sub">Approving is your instruction to send. Each letter still goes through the compliance check, the contact limits and the attorney rules before anything is mailed. <b>Read</b> opens the letter, where you can also ask for changes.</p>
       <p class="pp-dlg-msg" data-draw="qMsg" role="status"></p>
       <table data-source="queuesF" data-row-key="queue,lead_id">
-        <thead><tr><th data-field="queue">Queue</th><th data-field="address">Property</th><th data-field="city">City</th><th data-field="state">State</th><th data-field="item">What</th><th data-field="due">Due</th><th data-field="decision">Your decision</th><th>Actions</th></tr></thead>
+        <thead><tr><th data-field="queue">Queue</th><th data-field="address">Property</th><th data-field="city">City</th><th data-field="state">State</th><th data-field="item">What</th><th data-field="due">Due</th><th data-field="decision">Your decision</th><th data-nosort>Actions</th></tr></thead>
         <tbody data-draw="queueRows"></tbody>
       </table>
     </div>
@@ -335,7 +336,7 @@
       <p class="pp-sub">Contracts waiting for your signature and earnest-money deposits due. <b>Sign now</b> opens the signing page; mark each one done here once it's finished.</p>
       <p class="pp-dlg-msg" data-draw="moMsg" role="status"></p>
       <table data-source="queuesF" data-row-key="queue,lead_id">
-        <thead><tr><th data-field="queue">Queue</th><th data-field="address">Property</th><th data-field="city">City</th><th data-field="state">State</th><th data-field="item">What</th><th data-field="due">Due</th><th data-field="decision">Your decision</th><th>Actions</th></tr></thead>
+        <thead><tr><th data-field="queue">Queue</th><th data-field="address">Property</th><th data-field="city">City</th><th data-field="state">State</th><th data-field="item">What</th><th data-field="due">Due</th><th data-field="decision">Your decision</th><th data-nosort>Actions</th></tr></thead>
         <tbody data-draw="moneyQueueRows"></tbody>
       </table>
     </div>

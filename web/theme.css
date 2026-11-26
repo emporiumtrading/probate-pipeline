@@ -54,3 +54,12 @@ body {
 .ei-brand { font-family: "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif; letter-spacing: .04em; color: #e5cf97; font-size: 16px; }
 .ei-out { color: #f6f1e6; text-decoration: none; border: 1px solid rgba(200,164,90,.45); padding: 6px 12px; border-radius: 8px; }
 .ei-out:hover { background: rgba(200,164,90,.15); }
+
+/* One typeface everywhere, including the pieces added around the dashboard (top bar, settings, chat). */
+body { font-family: var(--font-anthropic-sans); color: var(--color-fg); }
+button, input, select, textarea { font-family: inherit; }
+.pp input[type=password], .pp input[type=text], .pp input[type=email], .pp input[type=search], .pp input:not([type]), .pp select, .pp textarea,
+body > div input[type=email], body > div input[type=text] {
+  font-size: var(--cds-font-size-caption); color: var(--color-fg); background: var(--color-panel);
+  border: 1px solid var(--color-border-line); border-radius: 8px; padding: 6px 9px; }
+.pp input[type=checkbox] { width: 16px; height: 16px; accent-color: var(--color-fg); vertical-align: -3px; }
