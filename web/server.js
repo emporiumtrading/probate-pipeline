@@ -153,18 +153,18 @@ const server = http.createServer(async (req, res) => {
     }
     // Hermes chat: status, and a streaming proxy to Hermes's /v1/chat/completions.
     if (p === '/api/hermes/status' && req.method === 'GET') {
-      if (!HERMES_URL || !HERMES_KEY) return send(res, 200, JSON.stringify({ ok: false, reason: 'Hermes isn\'t connected to the dashboard yet' }), MIME['.json']);
+      if (!HERMES_URL || !HERMES_KEY) return send(res, 200, JSON.stringify({ ok: false, reason: 'the assistant isn\'t connected to the dashboard yet' }), MIME['.json']);
       try {
         const r = await fetch(`${HERMES_URL}/health/detailed`, { headers: { Authorization: `Bearer ${HERMES_KEY}` }, signal: AbortSignal.timeout(20000) });
         const j = await r.json().catch(() => ({}));
-        return send(res, 200, JSON.stringify(r.ok ? { ok: true, detail: j } : { ok: false, reason: `Hermes answered ${r.status} (it may still be starting)` }), MIME['.json']);
-      } catch (e) { return send(res, 200, JSON.stringify({ ok: false, reason: 'Hermes is starting or asleep; try again in a minute' }), MIME['.json']); }
+        return send(res, 200, JSON.stringify(r.ok ? { ok: true, detail: j } : { ok: false, reason: `the assistant answered ${r.status} (it may still be starting)` }), MIME['.json']);
+      } catch (e) { return send(res, 200, JSON.stringify({ ok: false, reason: 'the assistant is starting or asleep; try again in a minute' }), MIME['.json']); }
     }
     // Tasks the owner gave Hermes, with their outcome (Hermes records them through /api/ops/task).
     if (p === '/api/hermes/tasks' && req.method === 'GET') return send(res, 200, JSON.stringify(ops.tasks(store)), MIME['.json']);
     if (p === '/api/hermes/chat' && req.method === 'POST') {
       if (!String(req.headers['content-type'] || '').startsWith('application/json')) return send(res, 415, 'json only');
-      if (!HERMES_URL || !HERMES_KEY) return send(res, 503, 'Hermes isn\'t connected to the dashboard yet');
+      if (!HERMES_URL || !HERMES_KEY) return send(res, 503, 'The assistant isn\'t connected to the dashboard yet');
       const body = await readBody(req);
       const messages = (Array.isArray(body.messages) ? body.messages : []).slice(-40)
         .filter((m) => m && ['user', 'assistant'].includes(m.role) && typeof m.content === 'string')
@@ -178,8 +178,8 @@ const server = http.createServer(async (req, res) => {
         up = await fetch(`${HERMES_URL}/v1/chat/completions`, { method: 'POST', signal: ac.signal,
           headers: { Authorization: `Bearer ${HERMES_KEY}`, 'Content-Type': 'application/json', 'X-Hermes-Session-Id': `dashboard-${session}` },
           body: JSON.stringify({ model: 'hermes', stream: true, messages }) });
-      } catch (e) { return send(res, 502, 'Hermes is starting or unreachable; try again in a minute'); }
-      if (!up.ok || !up.body) return send(res, 502, `Hermes answered ${up.status}`);
+      } catch (e) { return send(res, 502, 'The assistant is starting or unreachable; try again in a minute'); }
+      if (!up.ok || !up.body) return send(res, 502, `The assistant answered ${up.status}`);
       res.writeHead(200, { 'Content-Type': 'text/event-stream; charset=utf-8', 'Cache-Control': 'no-store', 'X-Accel-Buffering': 'no', ...SEC_HEADERS });
       Readable.fromWeb(up.body).on('error', () => res.end()).pipe(res);
       return;

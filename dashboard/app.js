@@ -32,8 +32,12 @@ dash.calc('deal', { title: 'Chosen deal', description: 'The deal picked on the D
   fn: (leadsF, opps) => { const id = dash.params().lead; const r = leadsF.find((x) => x.lead_id === id) || opps[0] || leadsF[0]; return r ? [r] : []; } });
 dash.calc('earnByState', { title: 'Potential earnings by state', description: 'Sum of potential earnings and count of GO/NEGOTIATE deals per state, within the filters.', inputs: ['opps'],
   fn: (opps) => d3.rollups(opps, (v) => ({ earnings: d3.sum(v, (r) => +r.potential_earnings || 0), deals: v.length }), (r) => r.state).map(([state, o]) => ({ state, ...o })).sort((a, b) => b.earnings - a.earnings) });
-dash.calc('oppsByCity', { title: 'Opportunities by city', description: 'Count and potential earnings of GO/NEGOTIATE deals per city, within the filters.', inputs: ['opps'],
-  fn: (opps) => d3.rollups(opps, (v) => ({ deals: v.length, earnings: d3.sum(v, (r) => +r.potential_earnings || 0), state: v[0].state }), (r) => r.city + ', ' + r.state).map(([city, o]) => ({ city, ...o })).sort((a, b) => b.deals - a.deals) });
+dash.calc('oppsView', { title: 'Opportunities on the Opportunities page', description: 'Opportunities within the State/County filters and the page\'s own Stage, Type, City and minimum-earnings filters.', inputs: ['opps'],
+  fn: (opps) => { const p = dash.params(); const min = +p.oppMin || 0;
+    return opps.filter((r) => (!p.oppStage || r.stage === p.oppStage) && (!p.oppType || (r.lead_type || 'probate') === p.oppType)
+      && (!p.oppCity || `${r.city}, ${r.state}` === p.oppCity) && (+r.potential_earnings || 0) >= min); } });
+dash.calc('oppsByCity', { title: 'Opportunities by city', description: 'Count and potential earnings of GO/NEGOTIATE deals per city, within the filters.', inputs: ['oppsView'],
+  fn: (oppsView) => d3.rollups(oppsView, (v) => ({ deals: v.length, earnings: d3.sum(v, (r) => +r.potential_earnings || 0), state: v[0].state }), (r) => r.city + ', ' + r.state).map(([city, o]) => ({ city, ...o })).sort((a, b) => b.deals - a.deals) });
 dash.calc('queuesF', { title: 'Your queues', description: 'Approve, sign and wire items within the filters.', inputs: ['queues'],
   fn: (queues) => { const p = dash.params(); return queues.filter((r) => (!p.state || r.state === p.state) && (!p.county || r.county === p.county)); } });
 dash.calc('queueCounts', { title: 'Queue counts', description: 'Items per queue within the filters.', inputs: ['queuesF'],
@@ -120,8 +124,8 @@ dash.calc('setupCounts', { title: 'Setup steps missing', description: 'Setup ste
     d.data.forEach((r) => { const tr = tb.insertRow(); cols.forEach((c) => { const td = tr.insertCell(); const v = r[c] || '';
       if (c === 'status') { const s = document.createElement('span'); s.className = 'pp-chip ' + (v === 'done' || v === 'answered' || v === 'closed' ? 'pp-ok' : v === 'missing' ? 'pp-bad' : 'pp-warn'); s.textContent = v || '—'; td.appendChild(s); }
       else { td.textContent = v || '—'; if (c === 'last_message' || c === 'next' || c === 'purpose') td.className = 'pp-w'; } }); }); };
-  dash.draw('legalMatterRows', ppTable('legalMatters', ['provider', 'matter_id', 'purpose', 'status', 'last_checked', 'last_message', 'covered_states', 'fees_quoted'], 'No attorney-review matters yet.'));
-  dash.draw('legalMarketRows', ppTable('legalMarkets', ['market', 'step', 'status', 'next'], 'No live markets.'));
+  dash.draw('legalMatterRows', ppTable('legal_matters', ['provider', 'matter_id', 'purpose', 'status', 'last_checked', 'last_message', 'covered_states', 'fees_quoted'], 'No attorney-review matters yet.'));
+  dash.draw('legalMarketRows', ppTable('legal_markets', ['market', 'step', 'status', 'next'], 'No live markets.'));
   dash.draw('stageName', (el) => { el.textContent = dash.params().stage || 'Outreach drafted'; });
 
   const meter = (get) => (el) => { const v = get(); el.style.width = (v === null ? 0 : Math.max(0, Math.min(100, v))) + '%'; if (el.parentElement) el.parentElement.setAttribute('aria-valuenow', String(v === null ? 0 : Math.round(v))); };
@@ -165,6 +169,24 @@ dash.calc('setupCounts', { title: 'Setup steps missing', description: 'Setup ste
     const p = dash.params(); sel.value = (p.county && st) ? p.county : '';
     sel.onchange = () => { const [cty, s] = (sel.value || '').split('|'); dash.setParams(sel.value ? (s ? { county: cty, state: s, lead: null } : { county: cty, lead: null }) : { county: null, lead: null }); };
   });
+  // Deal detail: find a deal by typing, step through deals in order, and the key numbers at a glance.
+  const dealOrder = () => { const l = dash.data('leadsF'); return l.status === 'ok' ? [...l.data].sort((a, b) => (b.is_opportunity === 'yes') - (a.is_opportunity === 'yes') || (+b.potential_earnings || 0) - (+a.potential_earnings || 0)) : []; };
+  const dealLabel = (r) => `${r.address}, ${r.city} ${r.state} · ${r.verdict}`;
+  dash.draw('dealList', (dl) => { dl.replaceChildren(...dealOrder().map((r) => { const o = document.createElement('option'); o.value = dealLabel(r); return o; })); });
+  dash.draw('dealPos', (el) => { const rows = dealOrder(), d = PP.first('deal'); const i = d ? rows.findIndex((r) => r.lead_id === d.lead_id) : -1;
+    el.textContent = rows.length ? `Deal ${i + 1} of ${rows.length}, opportunities first, highest potential earnings first` : ''; });
+  const step = (k) => { const rows = dealOrder(), d = PP.first('deal'); if (!rows.length) return;
+    const i = d ? rows.findIndex((r) => r.lead_id === d.lead_id) : -1; const n = rows[(i + k + rows.length) % rows.length]; dash.setParams({ lead: n.lead_id }); };
+  document.querySelectorAll('#pp-deal-prev').forEach((b) => b.addEventListener('click', () => step(-1)));
+  document.querySelectorAll('#pp-deal-next').forEach((b) => b.addEventListener('click', () => step(1)));
+  document.querySelectorAll('#pp-deal-q').forEach((inp) => inp.addEventListener('change', () => {
+    const q = inp.value.trim().toLowerCase(); if (!q) return;
+    const r = dealOrder().find((x) => dealLabel(x).toLowerCase() === q) || dealOrder().find((x) => `${dealLabel(x)} ${x.lead_id}`.toLowerCase().includes(q));
+    if (r) { dash.setParams({ lead: r.lead_id }); inp.value = ''; } }));
+  dash.draw('dKeyNums', (el) => { const r = PP.first('deal'); el.replaceChildren(); if (!r) return;
+    [['Potential earnings', PP.money(r.potential_earnings)], ['Target contract price', PP.money(r.target_price)], ['Cash-buyer max', PP.money(r.buyer_max)],
+     ['After-repair value', PP.money(r.arv_mid)], ['Next step due', PP.txt(r.next_action_date)]].forEach(([l, v]) => {
+      const d = document.createElement('div'); const b = document.createElement('b'); b.textContent = v; const s = document.createElement('span'); s.textContent = l; d.append(b, s); el.appendChild(d); }); });
   dash.draw('dealSel', (sel) => {
     const l = dash.data('leadsF');
     const rows = l.status === 'ok' ? [...l.data].sort((a, b) => (b.is_opportunity === 'yes') - (a.is_opportunity === 'yes') || (+b.potential_earnings || 0) - (+a.potential_earnings || 0)) : [];
@@ -222,9 +244,29 @@ dash.calc('setupCounts', { title: 'Setup steps missing', description: 'Setup ste
   dash.draw('ledgerRows', (tb) => PP.rows(tb, 'ledger', [{ f: 'date' }, { f: 'lead_id', fmt: PP.txt }, { f: 'type', fmt: (v) => LTYPE[v] || PP.txt(v) }, { f: 'category', fmt: PP.txt },
     { f: 'amount', fmt: M, cls: 'pp-n' }, { f: 'status', chip: (v) => v === 'actual' ? 'pp-ok' : 'pp-warn' }, { f: 'counterparty_role', fmt: PP.txt }, { f: 'doc_ref', fmt: PP.txt }],
     'No entries yet. The Bookkeeper records a fee or expense only when a document backs it (settlement statement, invoice or receipt); fees on signed contracts show as forecast.'));
-  dash.draw('oppRows', (tb) => PP.rows(tb, 'opps', [{ f: 'address' }, { f: 'city' }, { f: 'state' }, { f: 'lead_type' },
+  // Opportunities page filters (they drive both charts and the table).
+  const optSel = (label, values, fmt) => (sel) => {
+    const d = dash.data('opps'); const p = dash.params()[label];
+    const vals = d.status === 'ok' ? values(d.data) : [];
+    sel.replaceChildren(new Option('All', ''), ...vals.map((v) => new Option(fmt ? fmt(v) : v, v)));
+    sel.value = p && vals.includes(p) ? p : '';
+    sel.onchange = () => dash.setParams({ [label]: sel.value || null });
+  };
+  const byCount = (key) => (rows) => d3.rollups(rows, (v) => v.length, key).sort((a, b) => b[1] - a[1]).map(([k]) => k).filter(Boolean);
+  dash.draw('oppStageSel', optSel('oppStage', byCount((r) => r.stage)));
+  dash.draw('oppTypeSel', optSel('oppType', byCount((r) => r.lead_type || 'probate'), (v) => v.replace(/_/g, ' ')));
+  dash.draw('oppCitySel', optSel('oppCity', byCount((r) => `${r.city}, ${r.state}`)));
+  dash.draw('oppMinSel', (sel) => { const p = +dash.params().oppMin || 0;
+    sel.replaceChildren(...[0, 10000, 20000, 30000, 40000].map((v) => new Option(v ? `${PP.money(v)}+` : 'Any', String(v))));
+    sel.value = String(p); sel.onchange = () => dash.setParams({ oppMin: +sel.value ? sel.value : null }); });
+  dash.draw('oppSummary', (el) => { const v = dash.data('oppsView'), a = dash.data('opps');
+    if (v.status !== 'ok' || a.status !== 'ok') { el.textContent = ''; return; }
+    const t = d3.sum(v.data, (r) => +r.potential_earnings || 0);
+    el.textContent = `${v.data.length} of ${a.data.length} opportunities · ${PP.money(t)} potential earnings`; });
+  document.querySelectorAll('#pp-op-reset').forEach((b) => b.addEventListener('click', () => dash.setParams({ oppStage: null, oppType: null, oppCity: null, oppMin: null })));
+  dash.draw('oppRows', (tb) => PP.rows(tb, 'oppsView', [{ f: 'address' }, { f: 'city' }, { f: 'state' }, { f: 'verdict', chip: PP.verdictCls }, { f: 'lead_type', fmt: (v) => (v || 'probate').replace(/_/g, ' ') },
     { f: 'potential_earnings', fmt: M, cls: 'pp-n', bar: (r) => PP.stateColor(r.state) }, { f: 'target_price', fmt: M, cls: 'pp-n' }, { f: 'buyer_max', fmt: M, cls: 'pp-n' }, { f: 'arv_mid', fmt: M, cls: 'pp-n' },
-    { f: 'stage' }, { f: 'next_action_date' }], 'No opportunities in this state or county yet.', PP.openDeal));
+    { f: 'stage' }, { f: 'next_action_date' }], 'No opportunities match these filters.', PP.openDeal));
   dash.draw('stageRows', (tb) => { const sel = dash.params().stage || 'Outreach drafted';
     PP.rows(tb, 'stageCounts', [{ f: 'stage_order', cls: 'pp-n' }, { f: 'stage' }, { f: 'team' }, { f: 'owner_action', fmt: (v) => PP.owner[v] || v, chip: (v) => v ? 'pp-warn' : '' },
       { f: 'count', cls: 'pp-n' }, { f: 'earnings', fmt: (v) => +v ? M(v) : '—', cls: 'pp-n' }], 'No stages.', (r) => dash.setParams({ stage: r.stage }));

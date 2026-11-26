@@ -44,22 +44,22 @@
   ` }));
 
   /* ---------- window ---------- */
-  const dot = h('span', { class: 'hw-dot', title: 'Checking Hermes…' });
+  const dot = h('span', { class: 'hw-dot', title: 'Checking the assistant…' });
   const minBtn = h('button', { type: 'button', 'aria-label': 'Minimize', title: 'Minimize', text: '–' });
   const closeBtn = h('button', { type: 'button', 'aria-label': 'Close', title: 'Close', text: '×' });
   const newBtn = h('button', { type: 'button', 'aria-label': 'New conversation', title: 'New conversation', text: '+' });
-  const bar = h('div', { class: 'hw-bar' }, dot, h('b', { text: 'Hermes' }), newBtn, minBtn, closeBtn);
-  const status = h('p', { class: 'pp-sub', style: 'margin:0;font-size:12px', 'aria-live': 'polite', text: 'Checking Hermes…' });
+  const bar = h('div', { class: 'hw-bar' }, dot, h('b', { text: 'Probate AI Assistant' }), newBtn, minBtn, closeBtn);
+  const status = h('p', { class: 'pp-sub', style: 'margin:0;font-size:12px', 'aria-live': 'polite', text: 'Checking the assistant…' });
   const tasksBox = h('div', { class: 'hw-tasks', 'aria-live': 'polite' });
-  const log = h('div', { class: 'hw-log', role: 'log', 'aria-live': 'polite', 'aria-label': 'Conversation with Hermes' });
-  const input = h('textarea', { rows: '2', placeholder: 'Ask Hermes, or give it a task. Enter sends; Shift+Enter for a new line.', 'aria-label': 'Message to Hermes' });
+  const log = h('div', { class: 'hw-log', role: 'log', 'aria-live': 'polite', 'aria-label': 'Conversation with the Probate AI Assistant' });
+  const input = h('textarea', { rows: '2', placeholder: 'Ask the assistant, or give it a task. Enter sends; Shift+Enter for a new line.', 'aria-label': 'Message to the Probate AI Assistant' });
   const sendBtn = h('button', { type: 'button', class: 'pp-btn pp-btn-primary', text: 'Send' });
   const stopBtn = h('button', { type: 'button', class: 'pp-btn', text: 'Stop', hidden: '' });
-  const panel = h('div', { id: 'hermes-win', role: 'dialog', 'aria-label': 'Chat with Hermes', hidden: '' },
+  const panel = h('div', { id: 'hermes-win', role: 'dialog', 'aria-label': 'Chat with the Probate AI Assistant', hidden: '' },
     bar, h('div', { class: 'hw-body' }, status, tasksBox, log, input, h('div', { style: 'display:flex;gap:8px' }, sendBtn, stopBtn)));
   const badge = h('span', { class: 'hw-badge', hidden: '' });
-  const launch = h('button', { type: 'button', id: 'hermes-launch', class: 'pp-btn pp-btn-primary', 'aria-label': 'Chat with Hermes',
-    style: 'position:fixed;right:18px;bottom:18px;z-index:999;box-shadow:0 4px 14px rgba(0,0,0,.18)' }, 'Ask Hermes', badge);
+  const launch = h('button', { type: 'button', id: 'hermes-launch', class: 'pp-btn pp-btn-primary', 'aria-label': 'Chat with the Probate AI Assistant',
+    style: 'position:fixed;right:18px;bottom:18px;z-index:999;box-shadow:0 4px 14px rgba(0,0,0,.18)' }, 'Probate AI Assistant', badge);
 
   const clamp = () => {
     const r = panel.getBoundingClientRect();
@@ -107,7 +107,7 @@
     const mine = role === 'user';
     const b = h('div', { style: `align-self:${mine ? 'flex-end' : 'flex-start'};max-width:88%;padding:8px 10px;border-radius:12px;white-space:pre-wrap;word-wrap:break-word;font-size:14px;` +
       (mine ? 'background:#1f2a44;color:#fff' : note ? 'background:#eef6f0;border:1px solid #cfe5d6' : 'background:#f4f3ee;border:1px solid #e5e5e5') });
-    b.append(h('div', { style: `margin:0 0 3px;font-size:11px;${mine ? 'color:#cfd6e6' : 'color:#6f6c66'}`, text: mine ? 'You' : note ? 'Hermes · task update' : 'Hermes' }));
+    b.append(h('div', { style: `margin:0 0 3px;font-size:11px;${mine ? 'color:#cfd6e6' : 'color:#6f6c66'}`, text: mine ? 'You' : note ? 'AI Assistant · task update' : 'AI Assistant' }));
     const body = h('div', { text });
     b.append(body);
     log.append(b);
@@ -116,7 +116,7 @@
   };
   const render = () => {
     log.replaceChildren();
-    if (!conv.messages.length) log.append(h('p', { class: 'pp-sub', style: 'font-size:13px', text: 'Hermes runs the pipeline for you and confirms every task when it is done. Try: "How did today\'s runs go?", "What needs my signature?", "Start the midday run now", or "Which market makes us the most money?"' }));
+    if (!conv.messages.length) log.append(h('p', { class: 'pp-sub', style: 'font-size:13px', text: 'The Probate AI Assistant runs the pipeline for you and confirms every task when it is done. Try: "How did today\'s runs go?", "What needs my signature?", "Start the midday run now", or "Which market makes us the most money?"' }));
     conv.messages.forEach((m) => bubble(m.role, m.content, m.note));
   };
 
@@ -163,12 +163,12 @@
         }
       }
       steps.textContent = '';
-      if (!answer) { answer = '(Hermes finished without a written answer.)'; out.textContent = answer; }
+      if (!answer) { answer = '(The assistant finished without a written answer.)'; out.textContent = answer; }
     } catch (e) {
       steps.textContent = '';
       if (e.name === 'AbortError') { answer = answer ? answer + '\n\n(stopped)' : '(stopped)'; out.textContent = answer; }
       else {
-        out.textContent = answer || `Couldn't reach Hermes: ${String(e.message || e).slice(0, 200)}`;
+        out.textContent = answer || `Couldn't reach the assistant: ${String(e.message || e).slice(0, 200)}`;
         if (!answer) { conv.messages.pop(); save(); ctrl = null; sendBtn.disabled = false; stopBtn.hidden = true; return; }
       }
     }
@@ -188,7 +188,7 @@
       const j = await (await fetch('/api/hermes/status', { credentials: 'same-origin' })).json();
       dot.style.background = j.ok ? '#3fb871' : '#d08a2a';
       dot.title = status.textContent = j.ok ? 'Online: answers questions, starts runs, directs the workers and fixes problems, inside the guardrails.' : `Not available yet: ${j.reason}.`;
-    } catch { dot.style.background = '#999'; status.textContent = 'Hermes status unavailable.'; }
+    } catch { dot.style.background = '#999'; status.textContent = 'Assistant status unavailable.'; }
   };
   let unseen = [];
   const markSeen = () => {
@@ -222,7 +222,7 @@
     if (document.getElementById('hermes-win')) return;
     document.body.append(panel, launch);
     const nav = document.querySelector('.pp-tabs');
-    if (nav) nav.append(h('button', { class: 'pp-tab', type: 'button', 'aria-haspopup': 'dialog', text: 'Hermes', onclick: (e) => { e.preventDefault(); open(); } }));
+    if (nav) nav.append(h('button', { class: 'pp-tab', type: 'button', 'aria-haspopup': 'dialog', text: 'AI Assistant', onclick: (e) => { e.preventDefault(); open(); } }));
     render(); apply(); checkStatus(); refreshTasks();
     setInterval(refreshTasks, 45000);
     if (location.hash === '#hermes') open();

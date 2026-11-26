@@ -7,6 +7,14 @@ Personal names and contact details are never written (anyone who can open the da
 """
 import csv, datetime, glob, json, math, os, re, subprocess, sys
 
+
+def _cut(v, n):
+    """Shorten text for the dashboard at a word boundary, with an ellipsis, instead of mid-word."""
+    v = " ".join(str(v or "").split())
+    if len(v) <= n:
+        return v
+    return v[:n].rsplit(" ", 1)[0].rstrip(" ,;:-(") + "…"
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(ROOT, "dashboard-data")
 os.makedirs(OUT, exist_ok=True)
@@ -136,10 +144,10 @@ for r in tracker:
         "arv_mid": r["arv_mid"], "repairs_mid": r["repairs_mid"], "buyer_max": int(bmax) if bmax is not None else "",
         "target_price": int(tgt) if tgt is not None else "", "mao": r["mao"],
         "potential_earnings": int(earn) if earn is not None else "", "asking": r["asking"],
-        "authority": (r["letters_issued"] or "")[:90], "court_step": (r["court_confirmation"] or "")[:90],
-        "occupancy": (r["occupancy"] or "")[:60], "next_action": (r["next_action"] or "")[:140],
+        "authority": _cut(r["letters_issued"], 200), "court_step": _cut(r["court_confirmation"], 200),
+        "occupancy": _cut(r["occupancy"], 160), "next_action": _cut(r["next_action"], 240),
         "next_action_date": r["next_action_date"], "touch_count": r["touch_count"], "last_touch_date": r["last_touch_date"],
-        "summary": (r["notes"] or "")[:220],
+        "summary": _cut(r["notes"], 400),
         "earnest_money": r.get("earnest_money", ""), "earnest_status": r.get("earnest_status", ""),
         "contract_status": r.get("contract_status", ""), "title_company": r.get("title_company", ""),
     })

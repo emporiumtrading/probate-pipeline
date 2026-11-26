@@ -20,6 +20,19 @@
 .pp-badge { font-size: 11px; line-height: 16px; min-width: 16px; padding: 0 5px; border-radius: 999px; background: var(--color-warn); color: var(--color-bg); text-align: center; }
 .pp-badge:empty { display: none; }
 .pp-filters { display: flex; flex-wrap: wrap; gap: var(--cds-gap-sm); align-items: end; }
+.pp-filterbar { display: flex; flex-wrap: wrap; gap: 6px 18px; align-items: end; justify-content: space-between; padding: 12px var(--cds-pad-lg); }
+.pp-filterbar .pp-filter-sum { margin: 0; }
+.pp-filters select { font: inherit; font-size: var(--cds-font-size-caption); color: var(--color-fg); background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: 8px; padding: 5px 8px; min-width: 120px; }
+.pp-wtiles { grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); }
+.pp-wtiles .pp-chip { white-space: nowrap; max-width: 100%; overflow: hidden; text-overflow: ellipsis; }
+.pp-msg-filters input { min-width: 260px; font-size: var(--cds-font-size-caption) !important; padding: 5px 9px !important; }
+.pp-dealbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: end; }
+.pp-dealbar input { font: inherit; font-size: var(--cds-font-size-caption); color: var(--color-fg); background: var(--color-panel); border: 1px solid var(--color-border-line); border-radius: 8px; padding: 6px 9px; min-width: 280px; }
+.pp-dealbar select { max-width: 420px; }
+.pp-keynums { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-top: 12px; }
+.pp-keynums div { background: var(--color-bg); border: 1px solid var(--color-border-line); border-radius: 10px; padding: 8px 12px; }
+.pp-keynums b { display: block; font-family: var(--font-anthropic-serif); font-weight: 400; font-size: 1.3rem; font-variant-numeric: tabular-nums; }
+.pp-keynums span { font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
 .pp-filters label { display: flex; flex-direction: column; gap: 3px; font-size: var(--cds-font-size-caption); color: var(--color-fg-muted); }
 .pp-btn { font: inherit; font-size: var(--cds-font-size-caption); padding: 6px 10px; border-radius: var(--cds-radius); border: 1px solid var(--color-border-line); background: var(--color-panel); color: var(--color-fg); cursor: pointer; }
 .pp-page { display: flex; flex-direction: column; gap: var(--cds-gap-md); }
@@ -110,7 +123,7 @@
 @media print { .pp-bar { position: static; } .pp-tabs, .pp-filters { display: none; } }
 #deal-progress .pp-tip { white-space: normal; max-width: 300px; }
 .pp-small { font-size: var(--cds-font-size-caption); margin: 4px 0 0; }
-.pp-stage-legend { list-style: none; margin: var(--cds-gap-sm) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr)); gap: 4px 12px; font-size: var(--cds-font-size-caption); }
+.pp-stage-legend { list-style: none; margin: var(--cds-gap-sm) 0 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 230px), 1fr)); gap: 4px 12px; font-size: var(--cds-font-size-caption); }
 .pp-stage-legend li { color: var(--color-fg-muted); cursor: help; }
 .pp-stage-legend li .pp-n2 { display: inline-block; min-width: 1.6em; font-variant-numeric: tabular-nums; }
 .pp-stage-legend li.pp-done { color: var(--color-fg); }
@@ -166,13 +179,23 @@
   </section>
 
   <section class="pp-page" id="opportunities" hidden>
-    <div class="pp-grid">
-      <div class="pp-card" id="op-scatter"><h2>Value vs earnings</h2><p class="pp-sub">Each dot is a deal: after-repair value across, potential earnings up. Click a dot to open it.</p><div class="pp-chart" data-draw="scatterChart" data-source="opps"></div></div>
-      <div class="pp-card" id="op-city"><h2>Opportunities by city</h2><p class="pp-sub">Count of GO and NEGOTIATE deals.</p><div class="pp-chart" data-draw="cityChart" data-source="oppsByCity"></div></div>
+    <div class="pp-card pp-filterbar">
+      <div class="pp-filters">
+        <label>Stage<select class="dash-select" data-draw="oppStageSel" aria-label="Stage" data-source="opps"></select></label>
+        <label>Type<select class="dash-select" data-draw="oppTypeSel" aria-label="Lead type" data-source="opps"></select></label>
+        <label>City<select class="dash-select" data-draw="oppCitySel" aria-label="City" data-source="opps"></select></label>
+        <label>Potential earnings<select class="dash-select" data-draw="oppMinSel" aria-label="Minimum potential earnings"></select></label>
+        <button class="pp-btn" id="pp-op-reset" type="button">Clear</button>
+      </div>
+      <p class="pp-sub pp-filter-sum" data-draw="oppSummary" data-source="oppsView" aria-live="polite"></p>
     </div>
-    <div class="pp-card pp-wrap" id="op-table"><h2>All opportunities</h2><p class="pp-sub">Highest potential earnings first. Click a row to open the deal.</p>
-      <table data-source="opps" data-row-key="lead_id">
-        <thead><tr><th data-field="address">Property</th><th data-field="city">City</th><th data-field="state">State</th><th data-field="lead_type">Type</th><th class="pp-n" data-field="potential_earnings">Potential earnings</th><th class="pp-n" data-field="target_price">Target price</th><th class="pp-n" data-field="buyer_max">Cash-buyer max</th><th class="pp-n" data-field="arv_mid">After-repair value</th><th data-field="stage">Stage</th><th data-field="next_action_date">Next step due</th></tr></thead>
+    <div class="pp-grid">
+      <div class="pp-card" id="op-scatter"><h2>Value vs earnings</h2><p class="pp-sub">Each dot is a deal: after-repair value across, potential earnings up. Click a dot to open it.</p><div class="pp-chart" data-draw="scatterChart" data-source="oppsView"></div></div>
+      <div class="pp-card" id="op-city"><h2>Opportunities by city</h2><p class="pp-sub">Count of GO and NEGOTIATE deals, top 12. Click a bar to filter the page to that city.</p><div class="pp-chart" data-draw="cityChart" data-source="oppsByCity"></div></div>
+    </div>
+    <div class="pp-card pp-wrap" id="op-table"><h2>All opportunities</h2><p class="pp-sub">Highest potential earnings first, within the filters above. Click a column to sort, a row to open the deal.</p>
+      <table data-source="oppsView" data-row-key="lead_id">
+        <thead><tr><th data-field="address">Property</th><th data-field="city">City</th><th data-field="state">State</th><th data-field="verdict">Verdict</th><th data-field="lead_type">Type</th><th class="pp-n" data-field="potential_earnings">Potential earnings</th><th class="pp-n" data-field="target_price">Target price</th><th class="pp-n" data-field="buyer_max">Cash-buyer max</th><th class="pp-n" data-field="arv_mid">After-repair value</th><th data-field="stage">Stage</th><th data-field="next_action_date">Next step due</th></tr></thead>
         <tbody data-draw="oppRows"></tbody>
       </table>
     </div>
@@ -198,8 +221,15 @@
   </section>
 
   <section class="pp-page" id="deal" hidden>
-    <div class="pp-filters"><label>Deal<select class="dash-select" data-draw="dealSel" aria-label="Deal" data-source="leadsF"></select></label></div>
-    <div class="pp-card" id="deal-head"><h2 data-draw="dTitle" data-source="deal" data-field="address" data-row="0">—</h2><p class="pp-sub" data-draw="dLoc">—</p><div data-draw="dChips"></div></div>
+    <div class="pp-card pp-filterbar"><div class="pp-filters pp-dealbar">
+      <label>Find a deal<input type="search" id="pp-deal-q" list="pp-deal-list" placeholder="Type an address, city or lead id" autocomplete="off"></label>
+      <datalist id="pp-deal-list" data-draw="dealList" data-source="leadsF"></datalist>
+      <label>Deal<select class="dash-select" data-draw="dealSel" aria-label="Deal" data-source="leadsF"></select></label>
+      <button class="pp-btn" type="button" id="pp-deal-prev" aria-label="Previous deal">◀ Previous</button>
+      <button class="pp-btn" type="button" id="pp-deal-next" aria-label="Next deal">Next ▶</button>
+    </div><p class="pp-sub pp-filter-sum" data-draw="dealPos" data-source="leadsF"></p></div>
+    <div class="pp-card" id="deal-head"><h2 data-draw="dTitle" data-source="deal" data-field="address" data-row="0">—</h2><p class="pp-sub" data-draw="dLoc">—</p><div data-draw="dChips"></div>
+      <div class="pp-keynums" data-draw="dKeyNums" data-source="deal"></div></div>
     <div class="pp-grid">
       <div class="pp-card" id="deal-ladder"><h2>The price ladder</h2><p class="pp-sub">From after-repair value down to your fee. Potential earnings = cash-buyer max − target price.</p><div class="pp-chart" data-draw="ladderChart" data-source="deal"></div></div>
       <div class="pp-card" id="deal-status"><h2>Status and next step</h2>
@@ -237,18 +267,18 @@
       <div class="pp-card pp-tile pp-t-muted"><div class="pp-num" data-draw="mgChanges" data-source="msgCounts" data-field="changes" data-row="0">—</div><div class="pp-lbl">Changes requested or rejected</div></div>
       <div class="pp-card pp-tile pp-t-muted"><div class="pp-num" data-draw="mgAtt" data-source="msgCounts" data-field="attachments" data-row="0">—</div><div class="pp-lbl">Attachments</div></div>
     </div>
-    <div class="pp-filters pp-msg-filters">
+    <div class="pp-card pp-filterbar"><div class="pp-filters pp-msg-filters">
       <label>Status<select class="dash-select" data-draw="msgStatusSel" aria-label="Message status" data-source="messages"></select></label>
       <label>Kind<select class="dash-select" data-draw="msgChanSel" aria-label="Message kind" data-source="messages"></select></label>
       <label>Search<input type="search" id="pp-msg-q" placeholder="Address, city, recipient or words" autocomplete="off"></label>
-    </div>
+    </div></div>
     <div class="pp-grid">
       <div class="pp-card" id="mg-status"><h2>Messages by status</h2><p class="pp-sub">Within the filters. Click a bar to show only that status.</p><div class="pp-chart" data-draw="msgStatusChart" data-source="messagesF"></div></div>
       <div class="pp-card" id="mg-state"><h2>Messages by state</h2><p class="pp-sub">Letters and emails, within the filters.</p><div class="pp-chart" data-draw="msgStateChart" data-source="messagesF"></div></div>
     </div>
     <div class="pp-card" id="mg-days"><h2>Drafted per day</h2><p class="pp-sub">Messages by the day they were drafted.</p><div class="pp-chart" data-draw="msgDayChart" data-source="messagesF"></div></div>
     <div class="pp-card pp-wrap" id="mg-table"><h2>All messages</h2><p class="pp-sub">Click a row to read the message, its attachments and the notes behind it, and to approve, ask for changes or reject.</p>
-      <table data-source="messagesF" data-row-key="msg_id">
+      <table data-source="messagesF" data-row-key="msg_id" data-kit="nosearch">
         <thead><tr><th data-field="created">Drafted</th><th data-field="address">Property</th><th data-field="city">City</th><th data-field="state">State</th><th data-field="channel">Kind</th><th data-field="to">To</th><th data-field="status">Status</th><th class="pp-n" data-field="attachment_count">Attachments</th><th class="pp-n" data-field="words">Words</th></tr></thead>
         <tbody data-draw="msgRows"></tbody>
       </table>
@@ -371,13 +401,13 @@
     <div class="pp-card pp-wrap" id="mk-legal">
       <h2>Attorney review</h2>
       <p class="pp-sub">Matters with the attorney-review service, and where each market stands: attorney engaged, packet built, templates approved. The Legal Advisor updates this every evening run.</p>
-      <table data-source="legalMatters" data-row-key="matter_id">
+      <table data-source="legal_matters" data-row-key="matter_id">
         <thead><tr><th>Service</th><th>Matter</th><th>About</th><th>Status</th><th>Last checked</th><th>Last message</th><th>States covered</th><th>Fees quoted</th></tr></thead>
-        <tbody data-draw="legalMatterRows" data-source="legalMatters"></tbody>
+        <tbody data-draw="legalMatterRows" data-source="legal_matters"></tbody>
       </table>
-      <table data-source="legalMarkets" data-row-key="market,step" style="margin-top:12px">
+      <table data-source="legal_markets" data-row-key="market,step" style="margin-top:12px">
         <thead><tr><th>Market</th><th>Step</th><th>Status</th><th>Next</th></tr></thead>
-        <tbody data-draw="legalMarketRows" data-source="legalMarkets"></tbody>
+        <tbody data-draw="legalMarketRows" data-source="legal_markets"></tbody>
       </table>
     </div>
     <div class="pp-tiles">
@@ -389,7 +419,7 @@
     </div>
     <div class="pp-card" id="mk-map"><h2>Every state at a glance</h2><p class="pp-sub">Best status of each state's markets. Click a state to filter the whole dashboard to it.</p><div class="pp-chart" data-draw="stateMap" data-source="stateStatus" style="min-height:300px"></div></div>
     <div class="pp-card" id="mk-cov"><h2>Public-record coverage in live counties</h2><p class="pp-sub">Which record types each live county can be searched for automatically.</p><div class="pp-chart" data-draw="coverageHeat" data-source="coverageLive"></div></div>
-    <div class="pp-card pp-wrap" id="mk-table">
+    <div class="pp-card pp-wrap" id="mk-table"><h2>All markets</h2><p class="pp-sub">Every county in the plan and where it stands. Click a column to sort, a row to filter the dashboard to that county.</p>
       <table data-source="marketsF" data-row-key="state,county">
         <thead><tr><th data-field="state">State</th><th data-field="county">County</th><th data-field="city">City</th><th data-field="status">Status</th><th data-field="legal_file">Legal file</th><th class="pp-n" data-field="leads">Leads</th><th class="pp-n" data-field="opportunities">Opportunities</th><th data-field="last_checked">Last checked</th></tr></thead>
         <tbody data-draw="marketRows"></tbody>
@@ -559,3 +589,4 @@
 <script src="setup.js"></script>
 <script src="messages.js"></script>
 <script src="team.js"></script>
+<script src="tables.js"></script>

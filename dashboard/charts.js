@@ -75,7 +75,7 @@
   C.scatter = (el, rows, o) => {
     el.replaceChildren();
     if (!rows.length) return C.empty(el, o.empty || 'Nothing to plot yet.');
-    const W = el.clientWidth || 360, H = 240, m = { t: 12, r: 14, b: 34, l: 52 };
+    const W = el.clientWidth || 360, H = Math.round(Math.max(240, Math.min(380, W * 0.55))), m = { t: 12, r: 14, b: 34, l: 52 };
     const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${W} ${H}`).attr('role', 'img')
       .attr('aria-label', `${o.title}: ` + rows.map((r) => `${o.label(r)} ${o.xFmt(o.x(r))}, ${o.yFmt(o.y(r))}`).join('; '));
     const x = d3.scaleLinear().domain([0, d3.max(rows, o.x) || 1]).nice(4).range([m.l, W - m.r]);
@@ -117,6 +117,22 @@
     CA: [1, 4], UT: [2, 4], CO: [3, 4], NE: [4, 4], MO: [5, 4], KY: [6, 4], WV: [7, 4], VA: [8, 4], MD: [9, 4], DE: [10, 4],
     AZ: [2, 5], NM: [3, 5], KS: [4, 5], AR: [5, 5], TN: [6, 5], NC: [7, 5], SC: [8, 5], DC: [9, 5],
     OK: [4, 6], LA: [5, 6], MS: [6, 6], AL: [7, 6], GA: [8, 6], HI: [0, 7], TX: [4, 7], FL: [9, 7] };
+
+  // Charts are drawn at their box's width in pixels. A chart drawn while its page was hidden (width 0)
+  // or before the window was resized would otherwise be stretched, with oversized text and labels running
+  // into the bars; so every chart is redrawn whenever its width changes (its page opens, the window resizes).
+  if (window.ResizeObserver) {
+    const pending = new Set(); let frame = 0;
+    const flush = () => { frame = 0; const names = [...pending]; pending.clear(); names.forEach((n) => dash.draw(n)); };
+    const ro = new ResizeObserver((entries) => {
+      entries.forEach((e) => { const el = e.target, w = Math.round(e.contentRect.width);
+        if (w === el.__ppW) return; const had = el.__ppW; el.__ppW = w;
+        if (w > 0 && had !== undefined) pending.add(el.getAttribute('data-draw')); });
+      if (pending.size && !frame) frame = requestAnimationFrame(flush);
+    });
+    const watch = () => document.querySelectorAll('.pp-chart[data-draw]').forEach((el) => { if (!el.__ppObs) { el.__ppObs = 1; ro.observe(el); } });
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', watch); else watch();
+  }
 })();
 
 (function () {
@@ -204,12 +220,14 @@
       row.append(top, m); const note = rateNote(rk, what, unit); if (note) { const p = el_('p', 'pp-step-note', note); if (r['src_' + rk] === 'assumed') p.classList.add('pp-step-assumed'); row.appendChild(p); } list.appendChild(row); });
     el.appendChild(list); });
 
-  dash.draw('scatterChart', (el) => { const d = dash.data('opps'); if (!ok(d)) return C.notReady(el, d);
+  dash.draw('scatterChart', (el) => { const d = dash.data('oppsView'); if (!ok(d)) return C.notReady(el, d);
     C.scatter(el, d.data, { title: 'After-repair value vs potential earnings', x: (r) => +r.arv_mid || 0, y: (r) => +r.potential_earnings || 0, color: (r) => PP.stateColor(r.state),
-      label: (r) => `${r.address}, ${r.city} ${r.state}`, xFmt: MK, yFmt: M, onClick: PP.openDeal, legend: d.data.length ? statesLegend(d.data) : null, empty: 'No opportunities in this state or county yet.' }); });
+      label: (r) => `${r.address}, ${r.city} ${r.state}`, xFmt: MK, yFmt: M, onClick: PP.openDeal, legend: d.data.length ? statesLegend(d.data) : null, empty: 'No opportunities match these filters.' }); });
   dash.draw('cityChart', (el) => { const d = dash.data('oppsByCity'); if (!ok(d)) return C.notReady(el, d);
     C.hbars(el, d.data.slice(0, 12), { title: 'Opportunities by city', label: (r) => r.city, value: (r) => r.deals, fmt: (v) => String(v), color: (r) => PP.stateColor(r.state),
-      tip: (r) => `${r.city}: ${r.deals} deals, ${M(r.earnings)} potential`, legend: d.data.length ? statesLegend(d.data) : null, empty: 'No opportunities yet.' }); });
+      tip: (r) => `${r.city}: ${r.deals} deals, ${M(r.earnings)} potential · click to ${dash.params().oppCity === r.city ? 'show all cities' : 'filter to this city'}`,
+      selected: (r) => dash.params().oppCity === r.city, onClick: (r) => dash.setParams({ oppCity: dash.params().oppCity === r.city ? null : r.city }),
+      legend: d.data.length ? statesLegend(d.data) : null, empty: 'No opportunities match these filters.' }); });
 
   dash.draw('stageChart', (el) => { const d = dash.data('stageCounts'); if (!ok(d)) return C.notReady(el, d);
     const sel = dash.params().stage || 'Outreach drafted';
@@ -261,7 +279,7 @@
   dash.draw('stateMap', (el) => { const d = dash.data('stateStatus'); if (!ok(d)) return C.notReady(el, d);
     el.replaceChildren(); const by = Object.fromEntries(d.data.map((r) => [r.state, r])); const sel = dash.params().state;
     const W = el.clientWidth || 600, cols = 12, rowsN = 8, gap = 4, s = Math.min(46, (W - gap * (cols - 1)) / cols), H = rowsN * (s + gap);
-    const svg = d3.select(el).append('svg').attr('width', '100%').attr('viewBox', `0 0 ${cols * (s + gap)} ${H}`).attr('role', 'img')
+    const svg = d3.select(el).append('svg').attr('width', cols * (s + gap)).attr('height', H).style('max-width', '100%').style('height', 'auto').style('margin', '0 auto').attr('viewBox', `0 0 ${cols * (s + gap)} ${H}`).attr('role', 'img')
       .attr('aria-label', 'Market status by state: ' + d.data.map((r) => `${r.state} ${r.status}`).join(', '));
     const fill = (st) => { const r = by[st]; if (!r) return 'var(--cds-chart-grid)'; return PP.statusVar(PP.marketCls(r.status)); };
     const tip = C.tip(el);
@@ -306,7 +324,7 @@
       fmt: (v) => String(v), empty: 'No buyer data yet.' }); });
   // Workers measure different things (estates screened vs deals analyzed), so no shared axis: one card per worker with its own yield meter.
   dash.draw('workersChart', (el) => { const d = dash.data('workers'); if (!ok(d)) return C.notReady(el, d);
-    el.replaceChildren(); const grid = document.createElement('div'); grid.className = 'pp-tiles'; grid.setAttribute('role', 'list');
+    el.replaceChildren(); const grid = document.createElement('div'); grid.className = 'pp-tiles pp-wtiles'; grid.setAttribute('role', 'list');
     const order = (r) => /^Active/.test(r.status) ? 0 : /you/i.test(r.status) ? 1 : 2;
     [...d.data].sort((a, b) => order(a) - order(b) || (+b.done || 0) - (+a.done || 0)).forEach((r) => {
       const cls = PP.workerCls(r.status); const card = document.createElement('div'); card.setAttribute('role', 'listitem');
