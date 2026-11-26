@@ -14,7 +14,10 @@
 set -eu
 BASE="${DASHBOARD_URL:-https://probate-dashboard.onrender.com}"
 name() { [[ "${1:-}" =~ ^[a-z0-9-]{1,40}$ ]] || { echo "bad service name" >&2; exit 2; }; }
-call() { curl -sS --max-time 120 -H "Authorization: Bearer ${API_SERVER_KEY:?}" "$@"; echo; }
+# The key comes from the private file boot.sh writes (Hermes doesn't hand its environment to commands).
+KEY="${API_SERVER_KEY:-$(cat "${HERMES_HOME:-/opt/data}/.probate/ops_key" 2>/dev/null)}"
+[ -n "$KEY" ] || { echo "pipeline-ops: no key (restart the probate-hermes service)" >&2; exit 2; }
+call() { curl -sS --max-time 120 -H "Authorization: Bearer $KEY" "$@"; echo; }
 case "${1:-}" in
   services) call "$BASE/api/ops/services" ;;
   run|deploy) name "${2:-}"; call -H 'Content-Type: application/json' -d "{\"service\":\"$2\"}" "$BASE/api/ops/$1" ;;

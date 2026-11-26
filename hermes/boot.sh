@@ -13,11 +13,17 @@ for v in RENDER_API_KEY DATABASE_URL RESEND_API_KEY LOB_API_KEY DOCUSEAL_API_KEY
   [ -n "${!v:-}" ] && log "dropping $v (Hermes doesn't hold it)"; unset "$v"
 done
 mkdir -p "$HH/workspace"
+# Hermes doesn't pass its secrets to the commands it runs, so the two credentials its commands need are
+# kept in private files only its own user can read: its key for the dashboard's ops door (pipeline-ops)
+# and the GitHub token for git. Rewritten on every start.
+SEC="$HH/.probate"; umask 077; mkdir -p "$SEC"; chmod 700 "$SEC"
+printf '%s' "${API_SERVER_KEY:-}" > "$SEC/ops_key"
 
 # 1. The pipeline repo is Hermes's workspace (CLAUDE.md there is loaded as project context).
 if [ -n "${GITHUB_TOKEN:-}" ]; then
-  # The token stays out of .git/config: git asks this helper for it from the environment.
-  git config --global credential.helper '!f() { echo username=x-access-token; echo "password=${GITHUB_TOKEN}"; }; f'
+  # The token stays out of .git/config and the environment: git reads it from the private file.
+  printf 'https://x-access-token:%s@github.com\n' "$GITHUB_TOKEN" > "$SEC/git-credentials"
+  git config --global credential.helper "store --file $SEC/git-credentials"
   URL="https://github.com/${REPO}.git"
   if [ -d "$WS/.git" ]; then
     git -C "$WS" remote set-url origin "$URL"
@@ -25,6 +31,7 @@ if [ -n "${GITHUB_TOKEN:-}" ]; then
   else
     git clone -q "$URL" "$WS" && log "workspace cloned" || log "clone failed"
   fi
+  git -C "$WS" config credential.helper "store --file $SEC/git-credentials" 2>/dev/null
   git -C "$WS" config user.name "Hermes" 2>/dev/null
   git -C "$WS" config user.email "hermes@probate-pipeline.local" 2>/dev/null
 else
@@ -103,6 +110,8 @@ approvals:
     - "*GIT_COMMITTER_NAME*"
     - "*--author*"
     - "*credential*"
+    - "*.probate/*"
+    - "*ops_key*"
 cron:
   catch_up_missed: false
   # Only the hourly supervision job below; Hermes can't add jobs of its own (a planted
