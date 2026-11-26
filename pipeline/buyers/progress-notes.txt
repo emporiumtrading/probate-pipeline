@@ -1,1 +1,3 @@
 2026-11-26: H-0009 done 0 of 25 entity checks; Sunbiz blocked (see sources-log), next: FL DOS bulk corporate data download, then recorder mortgage check
+2026-11-26 21:05: H-0009 FL DOS public SFTP (sftp.floridados.gov, credentials published on dos.fl.gov data-downloads page, free) works; Quarterly/Cor/cordata.zip (~GB) downloading to /tmp, next: match 25 buyer names -> entity_status/registered_agent in buyers.csv, then recorder mortgage check
+2026-11-26 21:10: H-0009 done 22 of 25 entity checks (active per FL DOS Oct-2026 quarterly file); fl-hb-003, 015, 016 not found by exact name, next: check those by hand/alt names, then recorder mortgage check, cash-purchase counts, ranking, intro drafts
