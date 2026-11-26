@@ -16,6 +16,7 @@ New workers are created only through `references/new-worker.md`, start in `trial
 | Role | File | Owns |
 |---|---|---|
 | Researcher | `agents/researcher.md` | Estate case, property facts, comps, cash buyers nearby, contact info |
+| Legal Counsel | `agents/legal-counsel.md` | Drafts and maintains every legal document per state (purchase, assignment, disclosures, buyer letter of intent) for attorney approval; litigation-risk file per deal (`leads/<id>/legal-risk.md`); first response to disputes (`legal/disputes/`); 50-state legal watch — drafts and briefs for the engaged attorney, never legal advice |
 | Legal & Tax Advisor | `agents/legal-advisor.md` | State wholesaling rules, probate authority, contract and marketing compliance, entity and tax questions — issue-spotting with sources, never legal advice |
 | Deal Analyst | `agents/deal-analyst.md` | ARV, repairs, MAO, sensitivity, hidden costs, backup exits |
 | Acquisitions | `agents/acquisitions.md` | Outreach, follow-up cadence, discovery questions, tracker |

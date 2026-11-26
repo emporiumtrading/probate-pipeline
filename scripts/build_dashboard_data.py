@@ -719,6 +719,8 @@ workers = [
       "Active" if _rows("pipeline/exceptions.csv") else "Not started"),
     W("Heir & Title Tracer", "Works out who holds title and who must sign", _count("leads/*/heirs.md"), "heir traces",
       _count("leads/*/heirs.md"), "completed", _last("leads/*/heirs.md"), "Active" if _count("leads/*/heirs.md") else "Not started"),
+    W("Legal Counsel", "Drafts legal documents per state; litigation-risk file per deal; dispute briefs", _count("leads/*/legal-risk.md") + _count("legal/disputes/*/brief.md"), "risk files and dispute briefs",
+      _count("templates/*/*") + _count("templates/*.md"), "document drafts", _last("leads/*/legal-risk.md"), "Active" if _count("leads/*/legal-risk.md") else "Not started"),
     W("Legal & Tax Advisor", "Keeps each state's legal file current; flags deal issues", len(_legal), "state legal files",
       _fresh_legal, "verified in last 30 days", _last("legal"), "Active"),
     W("Deal Analyst", "Values, repairs, max offer, price floors, verdict", _analyzed, "deals analyzed",
@@ -760,7 +762,7 @@ workers = [
       _closed, "closed", _last("leads/*/title.md"), "Active", f"{_contract} under contract"),
 ]
 _ROLE_FILE = {"Source Mapper": "source-mapper.md", "Researcher": "researcher.md", "Heir & Title Tracer": "heir-tracer.md", "Exceptions Desk": "exceptions-desk.md",
-    "Legal & Tax Advisor": "legal-advisor.md", "Deal Analyst": "deal-analyst.md", "Acquisitions": "acquisitions.md",
+    "Legal & Tax Advisor": "legal-advisor.md", "Legal Counsel": "legal-counsel.md", "Deal Analyst": "deal-analyst.md", "Acquisitions": "acquisitions.md",
     "Compliance Officer": "compliance-officer.md", "Communications": "communications.md", "Reply Desk": "reply-desk.md",
     "Negotiator": "negotiator.md", "Buyer-List Builder": "buyer-list.md", "Dispositions": "dispositions.md",
     "Professional Network": "professional-network.md", "Tax & Lien Checker": "tax-lien-checker.md", "Contact Finder": "contact-finder.md",

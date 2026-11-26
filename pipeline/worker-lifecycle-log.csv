@@ -19,3 +19,4 @@ date,worker,from_status,to_status,reason,evidence
 2026-11-25,source-mapper,,active,existing worker when the lifecycle started (owner decision 2026-11-25),agents/source-mapper.md
 2026-11-25,tax-lien-checker,,active,existing worker when the lifecycle started (owner decision 2026-11-25),agents/tax-lien-checker.md
 2026-11-25,transaction-coordinator,,active,existing worker when the lifecycle started (owner decision 2026-11-25),agents/transaction-coordinator.md
+2026-11-26,legal-counsel,,trial,new role file registered,agents/legal-counsel.md
