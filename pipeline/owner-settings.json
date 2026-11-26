@@ -1,4 +1,16 @@
 {
-  "areas": {},
+  "areas": {
+    "business": {
+      "email": "",
+      "entity_state": "IL",
+      "legal_name": "Emporium Investments",
+      "mailing_address": "",
+      "phone": "",
+      "saved_at": "2026-11-26T00:38:27.093Z",
+      "signer": "Emporium Investments",
+      "title_company": "",
+      "website": ""
+    }
+  },
   "source": "dashboard Setup page (owner)"
 }
