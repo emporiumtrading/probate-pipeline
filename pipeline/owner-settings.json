@@ -1,15 +1,16 @@
 {
   "areas": {
     "business": {
-      "email": "",
+      "email": "iero@emporium-investments.com",
       "entity_state": "IL",
+      "insurance": "",
       "legal_name": "Emporium Investments",
-      "mailing_address": "",
-      "phone": "",
-      "saved_at": "2026-11-26T00:38:27.093Z",
+      "mailing_address": "208 South LaSalle Street, Suite 814 Chicago Illinois 60604",
+      "phone": "+1-773-236-7749",
+      "saved_at": "2026-11-26T15:26:07.234Z",
       "signer": "Emporium Investments",
       "title_company": "",
-      "website": ""
+      "website": "https://www.emporium-investments.com"
     }
   },
   "source": "dashboard Setup page (owner)"
