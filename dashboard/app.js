@@ -125,6 +125,7 @@ dash.calc('setupCounts', { title: 'Setup steps missing', description: 'Setup ste
       if (c === 'status') { const s = document.createElement('span'); s.className = 'pp-chip ' + (v === 'done' || v === 'answered' || v === 'closed' ? 'pp-ok' : v === 'missing' ? 'pp-bad' : 'pp-warn'); s.textContent = v || '—'; td.appendChild(s); }
       else { td.textContent = v || '—'; if (c === 'last_message' || c === 'next' || c === 'purpose') td.className = 'pp-w'; } }); }); };
   dash.draw('legalMatterRows', ppTable('legal_matters', ['provider', 'matter_id', 'purpose', 'status', 'last_checked', 'last_message', 'covered_states', 'fees_quoted'], 'No attorney-review matters yet.'));
+  dash.draw('attorneyRows', ppTable('attorney_candidates', ['market', 'name', 'firm', 'bar_number', 'bar_verified_on', 'focus', 'score', 'status', 'quote'], 'No candidates yet: the Professional Network fills this in on its next run.'));
   dash.draw('legalMarketRows', ppTable('legal_markets', ['market', 'step', 'status', 'next'], 'No live markets.'));
   dash.draw('stageName', (el) => { el.textContent = dash.params().stage || 'Outreach drafted'; });
 

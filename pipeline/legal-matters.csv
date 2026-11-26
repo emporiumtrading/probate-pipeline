@@ -1,2 +1,2 @@
 matter_id,provider,market_id,purpose,status,opened,last_checked,last_message_at,last_message,covered_states,fees_quoted
-691d3c80-be1b-45cd-b2f2-f9c2ba40d09c,General Legal,all,"State coverage and fee terms (licensed states, wholesale/probate experience, pricing, turnaround)",in_progress,2026-11-22,2026-11-22,,Question sent; no reply yet,,
+691d3c80-be1b-45cd-b2f2-f9c2ba40d09c,General Legal,all,"State coverage and fee terms (licensed states, wholesale/probate experience, pricing, turnaround)",declined,2026-11-22,2026-11-26,2026-11-22,Their attorney declined: probate matters are outside General Legal's expertise; matter closed. Attorneys are now sourced directly.,,

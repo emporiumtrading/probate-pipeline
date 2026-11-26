@@ -64,7 +64,9 @@ legal_service:                    # attorney review service used by the Legal Ad
   provider: general_legal         # connected by the owner 2026-11-22
   connected_on: 2026-11-22
   coverage_matter: 691d3c80-be1b-45cd-b2f2-f9c2ba40d09c   # question: licensed states, wholesale/probate experience, fees, turnaround
-  coverage_status: asked          # asked -> answered (then list covered_states)
+  coverage_status: declined       # asked -> answered (then list covered_states) | declined
+  declined_on: 2026-11-22         # their attorney: probate matters are outside their expertise; matter closed
+  sourcing: professional_network  # owner decision 2026-11-26: the system sources attorneys itself (agents/professional-network.md → Sourcing attorneys)
   covered_states: ""              # e.g. "FL, OH, TX" once they answer
   market_matters: ""              # market-id:matter-id pairs once a packet is submitted
 channels:                         # set each to true only once it is actually working

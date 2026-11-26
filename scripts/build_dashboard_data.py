@@ -431,10 +431,27 @@ item("Channels", "Closing status from the title company (Qualia Connect)", bool(
 LS = cfg_block("legal_service")
 _prov = {"general_legal": "General Legal", "legalzoom": "LegalZoom", "rocket_lawyer": "Rocket Lawyer"}.get(LS.get("provider", ""), LS.get("provider", ""))
 _cov = [x.strip().upper() for x in (LS.get("covered_states") or "").split(",") if x.strip()]
-item("Attorneys", "Attorney review service connected" + (f" ({_prov})" if _prov else ""), bool(LS.get("provider") and LS.get("connected_on")),
-     "Connect an attorney-review connector (for example General Legal) at claude.ai → Settings → Connectors", "Sending attorney packets and getting redlines back without email", "legal", "provider")
-item("Attorneys", "Service confirmed its licensed states and fees", True if LS.get("coverage_status") == "answered" else ("waiting for check" if LS.get("coverage_status") == "asked" else False),
-     "The Legal Advisor asked in the service's coverage matter and checks for the answer every evening run", "Knowing which markets the service can cover", "legal", "coverage")
+_declined = LS.get("coverage_status") == "declined"
+# Attorneys are sourced by the system itself (owner decision 2026-11-26): the Professional Network finds,
+# verifies and scores a licensed attorney per market and keeps pipeline/attorney-candidates.csv current.
+_acp = os.path.join(ROOT, "pipeline", "attorney-candidates.csv")
+_acand = list(csv.DictReader(open(_acp))) if os.path.exists(_acp) else []
+_ARANK = {"engaged": 0, "engagement letter to sign": 1, "chosen": 1, "quoted": 2, "contacted": 3, "verified": 4, "candidate": 5, "declined": 9, "rejected": 9}
+def _best_att(mk):
+    c = [r for r in _acand if r.get("market") == mk and _ARANK.get(r.get("status", ""), 8) < 9]
+    return sorted(c, key=lambda r: (_ARANK.get(r.get("status", ""), 8), -float(r.get("score") or 0)))[0] if c else None
+write("attorney_candidates.csv", ["market", "state", "name", "firm", "bar_number", "bar_verified_on", "focus", "score", "status", "quote", "source", "updated"],
+      sorted(_acand, key=lambda r: (r.get("market", ""), _ARANK.get(r.get("status", ""), 8), -float(r.get("score") or 0))))
+if _declined:
+    item("Attorneys", f"Attorney review service ({_prov}) declined probate work" + (f" on {LS.get('declined_on')}" if LS.get("declined_on") else ""), True,
+         "Nothing to do: the Professional Network sources a licensed attorney for each market itself from the state bar's directory, verifies the licence and fills it in here", "—", "legal", "provider")
+    item("Attorneys", "Attorneys sourced by the system for every live market", True if all(_best_att(m["market"]) for m in live) else ("waiting for check" if _acand else False),
+         "The Professional Network searches each state bar's directory for probate and real-estate attorneys, checks the licence, scores them and proposes the best one per market (pipeline/attorney-candidates.csv)", "An attorney ready to engage in each market", "legal", "sourcing")
+else:
+    item("Attorneys", "Attorney review service connected" + (f" ({_prov})" if _prov else ""), bool(LS.get("provider") and LS.get("connected_on")),
+         "Connect an attorney-review connector (for example General Legal) at claude.ai → Settings → Connectors", "Sending attorney packets and getting redlines back without email", "legal", "provider")
+    item("Attorneys", "Service confirmed its licensed states and fees", True if LS.get("coverage_status") == "answered" else ("waiting for check" if LS.get("coverage_status") == "asked" else False),
+         "The Legal Advisor asked in the service's coverage matter and checks for the answer every evening run", "Knowing which markets the service can cover", "legal", "coverage")
 for m in live:
     body = (re.search(rf"\n  - id: {re.escape(m['market'])}\n(.*?)(?=\n  - id: |\n\S|\Z)", cfg_txt, re.S) or [None, ""])
     body = body.group(1) if hasattr(body, "group") else ""
@@ -448,12 +465,20 @@ for m in live:
              f"Setup page → {lbl} → Configure: licence or licensed partner (Legal Advisor confirms against legal/{m['state']}.md)", "Any outreach in this market", aid, "licensed_or_partnered")
     _mm = dict(x.split(":", 1) for x in (LS.get("market_matters") or "").split() if ":" in x)
     _att = (re.search(r"\n\s+attorney:\s*([^\n#]+)", "\n" + body) or [None, ""])[1].strip()
+    _ba = _best_att(m["market"])
+    _who = f"{_ba['name']}, {_ba['firm']}".strip(", ") if _ba else ""
     if _att: _ast = True
-    elif m["market"] in _mm: _ast = "waiting for check"
-    elif LS.get("provider") and (not _cov or m["state"] in _cov): _ast = "waiting for check" if LS.get("coverage_status") == "asked" else False
+    elif m["market"] in _mm and not _declined: _ast = "waiting for check"
+    elif _ba: _ast = "waiting for check"
+    elif LS.get("provider") and not _declined and (not _cov or m["state"] in _cov): _ast = "waiting for check" if LS.get("coverage_status") == "asked" else False
     else: _ast = False
-    item(lbl, "Attorney engaged for this state", _ast, (f"{_prov}: packet submitted (matter {_mm[m['market']][:8]}…)" if m["market"] in _mm else
-         (f"Waiting for {_prov} to confirm a {m['state']}-licensed attorney; then the packet is submitted (needs your company details first)" if _prov else f"Engage a {m['state']}-licensed attorney from network/{m['market']}.md")),
+    if _att: _afix = f"Engaged: {_att}"
+    elif _ba: _afix = (f"Proposed by the system: {_who}" + (f" (bar #{_ba['bar_number']}, licence checked {_ba['bar_verified_on']})" if _ba.get("bar_number") else "")
+                      + f" · {_ba.get('status') or 'candidate'}" + (f" · quote {_ba['quote']}" if _ba.get("quote") else "")
+                      + ". You only sign the engagement letter when it reaches your Sign queue.")
+    elif m["market"] in _mm and not _declined: _afix = f"{_prov}: packet submitted (matter {_mm[m['market']][:8]}…)"
+    else: _afix = f"The Professional Network is sourcing a {m['state']}-licensed probate / real-estate attorney from the state bar's directory and fills it in here; nothing for you to do"
+    item(lbl, "Attorney engaged for this state" + (f" · {_ba['name']}" if _ba and not _att else ""), _ast, _afix,
          "Attorney review of this market's letters and contracts", aid, "attorney")
     item(lbl, "Attorney packet built", pk, "Built automatically by the runner (scripts/build_attorney_packet.py)", "Attorney review", aid, "packet")
     item(lbl, "Attorney approved templates", True if appr else ("waiting for check" if mo.get("approved_on") else False), (f"The Legal Advisor sends legal/attorney-packets/{m['market']}.md to the engaged attorney and records the approval itself; you only sign the attorney's engagement letter" if OUTREACH_MODE == "autonomous" else f"Send legal/attorney-packets/{m['market']}.md to a local attorney; record the approval on Setup page → {lbl} → Configure"), "Autonomous sending here", aid, "approved_on")

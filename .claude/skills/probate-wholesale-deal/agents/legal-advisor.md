@@ -35,6 +35,7 @@ Safe defaults until answered: license or licensed partner; written assignment di
 ```
 
 ## Attorney review through a connected service
+**Status 2026-11-26:** General Legal declined probate work on 2026-11-22 (matter closed; `config.yaml` → `legal_service.coverage_status: declined`). Attorneys are now sourced by the Professional Network (`agents/professional-network.md` → Sourcing attorneys). Once a market's attorney is engaged, send them its packet by email from the business address and follow the steps below by email instead of a matter thread. Use a connected service again only if the owner connects another one and it confirms coverage for that state.
 When an attorney-review connector is connected (for example General Legal, LegalZoom or Rocket Lawyer; check with ListConnectors), use it to get each market's attorney packet reviewed. The service only connects you to people: approval still comes from a licensed attorney in that market's state, never from an AI tool.
 1. **Coverage first.** Before submitting, confirm the service has an attorney licensed in the market's state (its location or coverage tool, or ask in the matter thread). If it can't cover a state, say so in the report and leave that market to the Professional Network's direct shortlist.
 2. **Submit.** Upload `legal/attorney-packets/<market-id>.md` (only once its "Who we are" section has no **[missing]** lines) with the contract templates, and open a matter titled "<market-id> wholesale outreach and contract review". Record the matter id in `network/<market-id>.md`.
