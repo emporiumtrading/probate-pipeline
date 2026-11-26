@@ -135,23 +135,43 @@ dash.calc('setupCounts', { title: 'Setup steps missing', description: 'Setup ste
   dash.draw('covMeter', meter(() => { const r = PP.first('health'); return r && +r.coverage_total ? 100 * (+r.coverage_works || 0) / +r.coverage_total : null; }));
   // setupBar / setupBarLabel live in setup.js (they count what you've saved, not just the last run's check).
 
+  // Freshness: how old the data on screen is, and a button to refresh it now (starts the fast desk run;
+  // the page picks the new data up by itself when the run publishes it, usually within minutes).
+  let updating = 0;
   dash.draw('freshness', {
-    mount: () => setInterval(() => dash.draw('freshness'), 10 * 60 * 1000),
+    mount: () => setInterval(() => dash.draw('freshness'), 60 * 1000),
     update: (el) => {
       const h = dash.data('health');
-      if (h.status === 'error') { el.textContent = 'Could not load data health, so freshness is unknown.'; el.className = 'pp-fresh pp-bad'; return; }
-      if (h.status !== 'ok' || !h.data || !h.data[0]) { el.textContent = 'Loading…'; el.className = 'pp-fresh'; return; }
-      const r = h.data[0]; const t = Date.parse(r.built_at || ''); const hrs = isNaN(t) ? null : (Date.now() - t) / 3600000;
-      const saved = String(r.last_run_saved || '').toLowerCase().startsWith('no');
-      const age = hrs === null ? `built ${r.built}` : hrs < 1 ? 'updated less than an hour ago' : hrs < 48 ? `updated ${Math.round(hrs)} hours ago` : `updated ${Math.round(hrs / 24)} days ago`;
-      let msg = `● Data ${age} · last daily run ${r.last_run || 'none yet'}`, cls = 'pp-fresh pp-ok';
-      if (hrs === null || hrs > 26) { msg = `⚠ Data is stale: ${age}. The daily runner refreshes this 3 times a day, so it is probably blocked. Open the "Probate pipeline daily runner" session and approve any waiting permission (choose always allow).`; cls = 'pp-fresh pp-bad'; }
-      else if (hrs > 14) { msg = `◐ Data ${age}: older than expected (refreshes about every 6 hours).`; cls = 'pp-fresh pp-neg'; }
-      if (saved) { msg += ' · last run was NOT saved to GitHub'; cls = 'pp-fresh pp-bad'; }
-      el.textContent = msg; el.className = cls;
+      el.replaceChildren();
+      const say = (t, cls) => { el.className = 'pp-fresh ' + cls; el.append(document.createTextNode(t)); };
+      if (h.status === 'error') return say('Could not load data health, so freshness is unknown.', 'pp-bad');
+      if (h.status !== 'ok' || !h.data || !h.data[0]) return say('Loading…', '');
+      const r = h.data[0]; const t = Date.parse(r.built_at || ''); const mins = isNaN(t) ? null : (Date.now() - t) / 60000;
+      const age = mins === null ? `built ${r.built}` : mins < 2 ? 'updated just now' : mins < 60 ? `updated ${Math.round(mins)} min ago`
+        : mins < 48 * 60 ? `updated ${Math.round(mins / 60)} h ago` : `updated ${Math.round(mins / 1440)} days ago`;
+      // Runs publish about 8 times a day; the longest planned gap is overnight (about 10 hours).
+      let msg = `● Data ${age} · refreshes on its own after every run`, cls = 'pp-ok';
+      if (mins === null || mins > 26 * 60) { msg = `⚠ Data is stale: ${age}. The runs may be failing: see Operations → How each run went. The AI assistant checks the runs every hour and restarts a missed one.`; cls = 'pp-bad'; }
+      else if (mins > 12 * 60) { msg = `◐ Data ${age}: older than expected (runs publish about 8 times a day).`; cls = 'pp-neg'; }
+      if (String(r.last_run_saved || '').toLowerCase().startsWith('no')) { msg += ' · last run was NOT saved to GitHub'; cls = 'pp-bad'; }
+      say(msg, cls);
+      const b = document.createElement('button'); b.type = 'button'; b.className = 'pp-btn'; b.style.cssText = 'margin-left:10px;padding:2px 10px';
+      const busy = updating && Date.now() - updating < 20 * 60000;
+      b.textContent = busy ? 'Updating… (a few minutes)' : 'Update now'; b.disabled = !!busy;
+      b.title = 'Start a run now; the page shows the new data by itself when it finishes';
+      b.onclick = async () => {
+        b.disabled = true; b.textContent = 'Starting…';
+        try { const x = await fetch('/api/update-now', { method: 'POST', credentials: 'same-origin', headers: { 'Content-Type': 'application/json' }, body: '{}' });
+          const j = await x.json().catch(() => ({}));
+          if (!x.ok) { b.textContent = j.error ? `Couldn't start: ${j.error}` : `Couldn't start (${x.status})`; b.disabled = false; return; }
+          updating = Date.now(); dash.draw('freshness');
+        } catch { b.textContent = 'Couldn\'t start: offline?'; b.disabled = false; }
+      };
+      el.append(b);
     },
     unmount: (el, timer) => clearInterval(timer),
   });
+  window.addEventListener('pp-data-updated', () => { updating = 0; });
 
   dash.draw('stateSel', (sel) => {
     const m = dash.data('markets');

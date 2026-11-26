@@ -195,7 +195,19 @@ const server = http.createServer(async (req, res) => {
         return send(res, e.status || 500, JSON.stringify({ error: e.status ? e.message : 'query failed' }), MIME['.json']);
       }
     }
-    if (p === '/api/data-status' && req.method === 'GET') return send(res, 200, JSON.stringify(await db.status()), MIME['.json']);
+    if (p === '/api/data-status' && req.method === 'GET') {
+      const st = await db.status();
+      if (!st.builtAt) {   // not in the database yet: the copy built at deploy
+        try { const h = fs.readFileSync(path.join(DATA, 'health.csv'), 'utf8').split('\n'); const cols = h[0].split(','); const i = cols.indexOf('built_at');
+          if (i >= 0 && h[1]) st.builtAt = h[1].split(',')[i]; } catch { /* no build */ }
+      }
+      return send(res, 200, JSON.stringify(st), MIME['.json']);
+    }
+    if (p === '/api/update-now' && req.method === 'POST') {
+      if (!String(req.headers['content-type'] || '').startsWith('application/json')) return send(res, 415, 'json only');
+      try { return send(res, 200, JSON.stringify(await ops.startRun('probate-fast-desk')), MIME['.json']); }
+      catch (e) { return send(res, e.status || 502, JSON.stringify({ error: e.status ? e.message : 'Render did not accept the request' }), MIME['.json']); }
+    }
 
     if (p.startsWith('/api/col/') && req.method === 'GET') {
       return send(res, 200, JSON.stringify(store.listCol(p.slice(9))), MIME['.json']);

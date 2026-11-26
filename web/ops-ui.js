@@ -60,5 +60,10 @@
   };
 
   const mount = () => { reserveCard().catch(() => {}); runsCard().catch(() => {}); };
+  // Rebuild both cards whenever a run publishes new data (dash-runtime.js → pp-data-updated).
+  window.addEventListener('pp-data-updated', () => {
+    ['earnest-reserve', 'run-record'].forEach((id) => { const el = document.getElementById(id); if (el) el.remove(); });
+    mount();
+  });
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', mount); else mount();
 })();

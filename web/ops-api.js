@@ -133,4 +133,15 @@ async function handle(req, res, p, u, send, readBody, db, store) {
   }
 }
 
-module.exports = { handle, tasks };
+// "Update now" on the dashboard (owner's login): start the fast desk so the data refreshes within minutes.
+// Shares the hourly cap with Hermes's runs and deploys.
+const startRun = async (name) => {
+  if (!RENDER_KEY) { const e = new Error('RENDER_API_KEY is not set on the dashboard yet'); e.status = 503; throw e; }
+  if (!CRONS.includes(name)) { const e = new Error('not a runner job'); e.status = 400; throw e; }
+  const s = await find(name); spend();
+  await render('POST', `/cron-jobs/${s.id}/runs`);
+  console.log(`ops: run ${name} (by the owner: Update now)`);
+  return { ok: true, started: name, at: new Date().toISOString() };
+};
+
+module.exports = { handle, tasks, startRun };

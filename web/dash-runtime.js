@@ -97,14 +97,14 @@
     return { status: 'loading' };
   };
 
-  const loadFile = async (name, url) => {
+  const loadFile = async (name, url, keep) => {
     try {
       const res = await fetch(ORIGIN + url, { credentials: 'same-origin' });
       if (!res.ok) throw new Error(String(res.status));
       DATA[name] = url.endsWith('.json')
         ? { status: 'ok', data: await res.json() }
         : { status: 'ok', data: d3.csvParse(await res.text()) };
-    } catch (e) { console.error('dataset failed:', name, e); DATA[name] = { status: 'error' }; }
+    } catch (e) { if (keep && DATA[name] && DATA[name].status === 'ok') return; console.error('dataset failed:', name, e); DATA[name] = { status: 'error' }; }
   };
 
   const loadDbSet = async (name, col) => {
@@ -203,7 +203,40 @@
     ]);
     booted = true;
     renderAll();
+    live();
   };
+
+  /* ---------- live updates ----------
+     Every run publishes freshly built and checked data. Every minute (and when the tab comes back into
+     view) the page asks when the data was last published; if it's newer, it reloads every dataset and
+     redraws every card, keeping filters, sorting and the page you're on. Your own saves (decisions,
+     Setup) are re-read each time too, so a change made on another device shows within a minute. */
+  let lastBuilt = null, polling = false;
+  const poll = async () => {
+    if (polling || document.hidden) return;
+    polling = true;
+    try {
+      const r = await fetch(ORIGIN + '/api/data-status', { credentials: 'same-origin' });
+      const j = r.ok ? await r.json() : {};
+      const built = j.builtAt || null;
+      const snap = () => JSON.stringify(Object.keys(DB_SETS).map((n) => DATA[n] && DATA[n].data));
+      const before = snap();
+      const changed = !!(built && lastBuilt && built !== lastBuilt);
+      const jobs = Object.entries(DB_SETS).map(([n, c]) => loadDbSet(n, c));
+      if (changed) jobs.push(...Object.entries(FILES).map(([n, u]) => loadFile(n, u, true)));
+      if (built) lastBuilt = built;
+      await Promise.all(jobs);
+      if (changed || snap() !== before) renderAll();   // redraw only when something actually changed
+      if (changed) window.dispatchEvent(new CustomEvent('pp-data-updated', { detail: j }));
+    } catch (e) { /* offline for a moment: try again next time */ }
+    polling = false;
+  };
+  const live = () => {
+    poll();
+    setInterval(poll, 60000);
+    document.addEventListener('visibilitychange', () => { if (!document.hidden) poll(); });
+  };
+  dash.refreshNow = poll;
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', () => { bootPromise = boot(); });

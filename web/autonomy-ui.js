@@ -88,6 +88,7 @@
     // (not while you're typing in the bar).
     const again = () => { if (!bar.contains(document.activeElement)) render().catch(() => {}); };
     window.addEventListener('pp-setup-saved', again);
+    window.addEventListener('pp-data-updated', again);
     window.addEventListener('focus', again);
     setInterval(again, 60000);
   };
