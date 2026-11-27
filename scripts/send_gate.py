@@ -43,7 +43,9 @@ def gate(lead_id, first):
         why.append(f"lead is {r['stage']}")
     # market
     mk = None
-    for mid, body in re.findall(r"\n  - id: (\S+)\n((?:    .*\n|\s*\n)*)", cfg.split("\nexpansion_queue")[0]):
+    for blk in cfg.split("\nexpansion_queue")[0].split("\n  - id: ")[1:]:
+        mid, _, body = blk.partition("\n")
+        mid, body = mid.strip(), "\n" + body
         if re.search(rf"\n?    state: {st}\b", body) and re.search(rf"    county: {re.escape(county)}\b", body):
             mk = (mid, body)
     if not mk:

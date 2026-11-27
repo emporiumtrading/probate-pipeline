@@ -99,7 +99,9 @@ if (spawnSync('python3', ['-c', 'import yaml'], { cwd: WORK }).status !== 0) {
 // Your Setup saves first (owner decision 2026-11-26): the Business identity is written into config.yaml, every
 // market's attorney packet is rebuilt from it, and held letter drafts get your details as the sender.
 for (const [cmd, label] of [[['scripts/owner_settings.py', 'import', path.join(IMP, 'setup-areas.json')], 'settings'],
-  [['scripts/build_attorney_packet.py'], 'packets'], [['scripts/fill_signature.py'], 'drafts'], [['scripts/match_buyers.py'], 'buyer pairing']]) {
+  [['scripts/build_attorney_packet.py'], 'packets'], [['scripts/fill_signature.py'], 'drafts'], [['scripts/match_buyers.py'], 'buyer pairing'],
+  // Attorney candidates from the Law.AI directory (owner request 2026-11-27): no AI needed, morning slice only.
+  ...(SLICE === 'a' ? [[['scripts/find_attorneys.py'], 'attorney candidates']] : [])]) {
   const r = spawnSync('python3', cmd, { cwd: WORK, encoding: 'utf8' });
   const out = `${r.stdout || ''}${r.stderr || ''}`.trim().split('\n').filter((l) => !/^wrote /.test(l)).join(' | ');
   console.log(`${label}: ${out.slice(0, 400) || 'ok'}`);
