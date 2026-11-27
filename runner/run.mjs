@@ -294,7 +294,8 @@ console.log(`--- engine used: ${used} | checks: ${verified}${notes.length ? ' | 
 
 // Drafts the workers wrote this run get the sender's details at once, and the buyer pairing reflects today's
 // leads and vetting (owner decision 2026-11-27: placeholders are filled as drafts are made, not a run later).
-for (const [cmd, label] of [[['scripts/fill_signature.py'], 'drafts'], [['scripts/match_buyers.py'], 'buyer pairing']]) {
+for (const [cmd, label] of [[['scripts/fill_signature.py'], 'drafts'], [['scripts/match_buyers.py'], 'buyer pairing'],
+  ...(process.env.PROXYPICS_API_KEY && fs.existsSync(path.join(WORK, 'pipeline', 'field-inspections.csv')) ? [[['scripts/proxypics.py', 'status'], 'field inspections']] : [])]) {
   const r = spawnSync('python3', cmd, { cwd: WORK, encoding: 'utf8' });
   console.log(`${label} (after the run): ${`${r.stdout || ''}${r.stderr || ''}`.trim().slice(0, 300) || 'ok'}`);
 }

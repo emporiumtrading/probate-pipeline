@@ -22,6 +22,7 @@
     { name: 'Email (Resend)', key: 'RESEND_API_KEY', note: 'Sends email to estates and buyers, reads replies, and sends you the deposit and closing notices. Verify your business email domain in Resend first.' },
     { name: 'Letters by mail (Lob)', key: 'LOB_API_KEY', note: 'Prints and mails letters. Use the live_ key; test keys never mail anything.' },
     { name: 'E-signature (DocuSeal)', key: 'DOCUSEAL_API_KEY', note: 'Sends contracts to you and the seller for one-tap signature.' },
+    { name: 'Field inspections (ProxyPics)', key: 'PROXYPICS_API_KEY', note: 'Nationwide photos and condition reports, ordered by the Field Inspections worker within the $150-a-visit limit. Your card stays on file at ProxyPics, never here.' },
   ];
   const h = (tag, attrs, ...kids) => {
     const e = document.createElement(tag);

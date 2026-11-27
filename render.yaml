@@ -13,6 +13,7 @@
 #   ANTHROPIC_API_KEY, NVIDIA_API_KEY, OPENROUTER_API_KEY  (set from the dashboard)
 #   GITHUB_TOKEN             (repo scope — clone + push + doc store)
 #   RESEND_API_KEY           (optional — inbox/email channels)
+#   PROXYPICS_API_KEY        (field inspections; saved from Setup → Sending and signing services)
 # Schedules are UTC (Render has no TZ); CT is UTC-6 in winter, UTC-5 in summer —
 # expect a 1h drift during daylight saving unless the cron lines are adjusted.
 databases:
@@ -94,6 +95,7 @@ services:
       - {key: NVIDIA_API_KEY, sync: false}
       - {key: OPENROUTER_API_KEY, sync: false}
       - {key: RESEND_API_KEY, sync: false}
+      - {key: PROXYPICS_API_KEY, sync: false}
       - {key: RENDER_API_KEY, sync: false}   # copied here by the dashboard; used to deploy after each run
       - {key: DATABASE_URL, fromDatabase: {name: probate-db, property: connectionString}}   # the dashboard also copies it here
 
@@ -115,6 +117,7 @@ services:
       - {key: NVIDIA_API_KEY, sync: false}
       - {key: OPENROUTER_API_KEY, sync: false}
       - {key: RESEND_API_KEY, sync: false}
+      - {key: PROXYPICS_API_KEY, sync: false}
       - {key: RENDER_API_KEY, sync: false}   # copied here by the dashboard; used to deploy after each run
       - {key: DATABASE_URL, fromDatabase: {name: probate-db, property: connectionString}}   # the dashboard also copies it here
 
@@ -136,6 +139,7 @@ services:
       - {key: NVIDIA_API_KEY, sync: false}
       - {key: OPENROUTER_API_KEY, sync: false}
       - {key: RESEND_API_KEY, sync: false}
+      - {key: PROXYPICS_API_KEY, sync: false}
       - {key: RENDER_API_KEY, sync: false}   # copied here by the dashboard; used to deploy after each run
       - {key: DATABASE_URL, fromDatabase: {name: probate-db, property: connectionString}}   # the dashboard also copies it here
 
@@ -157,5 +161,6 @@ services:
       - {key: NVIDIA_API_KEY, sync: false}
       - {key: OPENROUTER_API_KEY, sync: false}
       - {key: RESEND_API_KEY, sync: false}
+      - {key: PROXYPICS_API_KEY, sync: false}
       - {key: RENDER_API_KEY, sync: false}   # copied here by the dashboard; used to deploy after each run
       - {key: DATABASE_URL, fromDatabase: {name: probate-db, property: connectionString}}   # the dashboard also copies it here

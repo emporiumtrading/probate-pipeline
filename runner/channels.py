@@ -81,6 +81,19 @@ if not ok and cur:
     cfg = re.sub(r"(\nesignature:.*?\n\s+connected_on:\s*)\"?[^\"\s#]*\"?", lambda m: m.group(1) + '""', cfg, count=1, flags=re.S)
 print(f"channels: esignature={ok} ({why})")
 
+# Field inspections (ProxyPics; owner decision 2026-11-27): a read-only call to the account's order templates.
+k = os.environ.get("PROXYPICS_API_KEY")
+ok, why = False, "no key"
+if k:
+    try:
+        t = get("https://api.proxypics.com/api/v3/photo-request-templates", {"x-api-key": k, "Accept": "application/json"})
+        ok, why = True, f"ok, {len(t) if isinstance(t, list) else '?'} order templates"
+    except Exception as e:
+        why = f"ProxyPics error {str(e)[:80]}"
+if k:   # with no key, an account the owner ticked on the Setup page stays as it is
+    set_flag("field_inspections", ok)
+print(f"channels: field_inspections={ok} ({why})")
+
 if cfg != orig:
     open("config.yaml", "w").write(cfg)
     print("channels: config.yaml updated")

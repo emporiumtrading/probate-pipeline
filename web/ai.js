@@ -19,7 +19,7 @@ const NAMES = (process.env.RUNNER_SERVICES || 'probate-slice-a,probate-slice-b,p
 // password and no sending/signing keys; it reaches Render through the dashboard's narrow
 // /api/ops door (web/ops-api.js), and the runner jobs do all sending and signing.
 const HERMES = process.env.HERMES_SERVICE || 'probate-hermes';
-const HERMES_FORBIDDEN = ['RENDER_API_KEY', 'DATABASE_URL', 'RESEND_API_KEY', 'LOB_API_KEY', 'DOCUSEAL_API_KEY'];
+const HERMES_FORBIDDEN = ['RENDER_API_KEY', 'DATABASE_URL', 'RESEND_API_KEY', 'LOB_API_KEY', 'DOCUSEAL_API_KEY', 'PROXYPICS_API_KEY'];
 
 const KEYS = {
   ANTHROPIC_API_KEY: { label: 'Claude (Anthropic)', check: async (v) => {
@@ -48,6 +48,11 @@ const KEYS = {
   DOCUSEAL_API_KEY: { label: 'E-signature (DocuSeal)', service: true, check: async (v) => {
     const r = await fetch('https://api.docuseal.com/templates?limit=1', { headers: { 'X-Auth-Token': v }, signal: AbortSignal.timeout(20000) });
     return r.ok ? null : `DocuSeal answered ${r.status}`; } },
+  // Field inspections (owner decision 2026-11-27): ProxyPics, nationwide photo and property-data collection. Checked with a
+  // read-only call (the account's order templates); orders cost money and are placed only by the Field Inspections worker.
+  PROXYPICS_API_KEY: { label: 'Field inspections (ProxyPics)', service: true, check: async (v) => {
+    const r = await fetch('https://api.proxypics.com/api/v3/photo-request-templates', { headers: { 'x-api-key': v, Accept: 'application/json' }, signal: AbortSignal.timeout(20000) });
+    return r.ok ? null : `ProxyPics answered ${r.status}`; } },
 };
 
 const render = async (method, p, body) => {

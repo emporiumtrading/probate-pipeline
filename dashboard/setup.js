@@ -17,7 +17,7 @@
   // A setting saved on this page shows at once: "saved" until the daily run applies it, then the run's own status.
   const BIZ = ['legal_name', 'entity_state', 'mailing_address', 'phone', 'email', 'website', 'signer', 'title_company', 'insurance'];
   // A service key saved on this page switches its channel on at the next run.
-  const CH_KEY = { mail_sending: 'LOB_API_KEY', email_sending: 'RESEND_API_KEY', esignature: 'DOCUSEAL_API_KEY' };
+  const CH_KEY = { mail_sending: 'LOB_API_KEY', email_sending: 'RESEND_API_KEY', esignature: 'DOCUSEAL_API_KEY', field_inspections: 'PROXYPICS_API_KEY' };
   const live = (r) => {
     if (r.status === 'done') return r;
     const keys = (window.PP && PP.aiKeys) || {};
