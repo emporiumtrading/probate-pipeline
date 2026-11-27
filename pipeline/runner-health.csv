@@ -19,3 +19,4 @@ date,slice,level,engine,result,verify,notes
 "2026-11-26T22:48:23.356Z","fast-desk","heavy","claude claude-sonnet-5-5","ok","pass","board:dac3603ca3"
 "2026-11-26T23:42:14.306Z","c","heavy","claude claude-sonnet-5-5","ok","pass","board:dac3603ca3"
 "2026-11-27T00:23:29.192Z","fast-desk","heavy","claude claude-sonnet-5-5","ok","pass","board:dac3603ca3"
+"2026-11-27T00:33:17.266Z","fast-desk","idle","scripted","ok","pass","board:dac3603ca3; nothing waiting: no AI needed; nvidia: no key; nothing waiting: no AI needed"
