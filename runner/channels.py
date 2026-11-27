@@ -80,7 +80,8 @@ if k:
         ok = bool(biz_domain) and (bool(subs) or biz_domain in good)
         send_from = subs[0] if subs else (biz_domain if ok else "")
         why = (f"ok, sending domain {send_from}" + ("" if subs else " (no mail. subdomain yet: bulk mail waits until one is verified)")) if ok \
-            else (f"verify a sending subdomain such as mail.{biz_domain} in Resend" if biz_domain else "business email not set")
+            else ((f"add the DNS records listed above at the DNS host, then Resend verifies {', '.join(sorted(d.get('name','') for d in doms if biz_domain in d.get('name','')))}"
+                   if any(biz_domain in d.get("name", "") for d in doms) else f"add {biz_domain} (or mail.{biz_domain}) in Resend") if biz_domain else "business email not set")
         if send_from:
             open("pipeline/sending-domain.txt", "w").write(send_from + "\n")   # Communications sends bulk mail from this domain
     except urllib.error.HTTPError as e:
