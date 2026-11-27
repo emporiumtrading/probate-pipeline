@@ -66,6 +66,26 @@ Also in the purchase agreement (attorney to draft): "and/or assigns" language; p
 4. Quarterly estimated payments; which costs are deductible (marketing, skip tracing, data tools, mileage, lost earnest money)?
 5. Will the title company issue a 1099-S/1099-MISC for our fee?
 
+## The rules our system follows in this state
+
+Every worker checks these before acting. "unknown" means we act as if the strictest rule applies. Please confirm or correct each line.
+
+| Rule | What we have | Correct? / your correction |
+|---|---|---|
+| Licence to wholesale | no | |
+| Wholesaler disclosure | yes | |
+| Seller cancellation (days) | none | |
+| Fee splits with unlicensed people | unknown | |
+| Court approval of estate sales | depends | |
+| Estate price floor | 80% of appraised (consent sale) | |
+| Small-estate limit ($) | unknown | |
+| Tax sale type | unknown | |
+| Redemption after tax sale | unknown | |
+| Redemption period (months) | unknown | |
+| Extra contact rules | unknown | |
+
+Notes: R.C. 5301.95: without the wholesaler disclosure the owner may cancel any time before closing. Consent sale needs every heir's written consent and no minors.
+
 ## Templates to review
 
 ## Letter to personal representative

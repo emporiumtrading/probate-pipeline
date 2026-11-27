@@ -1,0 +1,12 @@
+date,state,field,old,new,sources
+2026-11-27,FL,wholesale_license,unknown,no,"legal/FL.md §1.1-1.6, §2.1-2.3"
+2026-11-27,FL,wholesale_disclosure,unknown,no,"legal/FL.md §1.1-1.6, §2.1-2.3"
+2026-11-27,FL,seller_cancel_days,unknown,none,"legal/FL.md §1.1-1.6, §2.1-2.3"
+2026-11-27,FL,fee_split_allowed,unknown,no,"legal/FL.md §1.1-1.6, §2.1-2.3"
+2026-11-27,FL,probate_court_approval,unknown,intestate_only,"legal/FL.md §1.1-1.6, §2.1-2.3"
+2026-11-27,FL,estate_price_floor,unknown,none,"legal/FL.md §1.1-1.6, §2.1-2.3"
+2026-11-27,OH,wholesale_license,unknown,no,"legal/OH.md §1.1-1.6, §2.2"
+2026-11-27,OH,wholesale_disclosure,unknown,yes,"legal/OH.md §1.1-1.6, §2.2"
+2026-11-27,OH,seller_cancel_days,unknown,none,"legal/OH.md §1.1-1.6, §2.2"
+2026-11-27,OH,probate_court_approval,unknown,depends,"legal/OH.md §1.1-1.6, §2.2"
+2026-11-27,OH,estate_price_floor,unknown,80% of appraised (consent sale),"legal/OH.md §1.1-1.6, §2.2"

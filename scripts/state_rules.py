@@ -20,6 +20,8 @@ import sys
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PATH = os.path.join(ROOT, "legal", "state-rules.csv")
+LOG = os.path.join(ROOT, "legal", "state-rules-log.csv")   # every change: who can see what changed, when, from which source
+LOG_COLS = ["date", "state", "field", "old", "new", "sources"]
 STATES = ("AL AK AZ AR CA CO CT DE DC FL GA HI ID IL IN IA KS KY LA ME MD MA MI MN MS MO MT NE NV NH NJ NM NY NC ND OH OK "
           "OR PA RI SC SD TN TX UT VT VA WA WV WI WY").split()
 NUM = r"^(\d+(\.\d+)?|unknown|none)$"
@@ -76,6 +78,22 @@ def blank(st):
     return r
 
 
+def _logged():
+    if not hasattr(_logged, "v"):
+        last = {}
+        for x in (csv.DictReader(open(LOG)) if os.path.exists(LOG) else []):
+            last[(x["state"], x["field"])] = x["new"]
+        _logged.v = {(st, f, v) for (st, f), v in last.items()}
+    return _logged.v
+
+
+def stale(r, days):
+    try:
+        return (datetime.date.today() - datetime.date.fromisoformat(r.get("last_verified") or "")).days > days
+    except ValueError:
+        return False
+
+
 def check(rows, full=True):
     errs = []
     seen = {r["state"] for r in rows}
@@ -93,6 +111,16 @@ def check(rows, full=True):
                 errs.append(f"state-rules: {r['state']} is {r['rules_status']} with no last_verified date")
             if not os.path.exists(os.path.join(ROOT, "legal", f"{r['state']}.md")):
                 errs.append(f"state-rules: {r['state']} is {r['rules_status']} with no legal/{r['state']}.md")
+            unk = [k for k in LABEL if r.get(k) == "unknown"]
+            if unk:
+                errs.append(f"state-rules: {r['state']} is {r['rules_status']} but still has unknown rules ({', '.join(unk[:3])})")
+        filled = [k for k in LABEL if r.get(k, "unknown") != "unknown"]
+        if filled and f"legal/{r['state']}.md" not in (r.get("sources") or ""):
+            errs.append(f"state-rules: {r['state']} has rules filled in but its sources don't cite legal/{r['state']}.md")
+        if full:
+            for k in filled:
+                if (r["state"], k, r[k]) not in _logged():
+                    errs.append(f"state-rules: {r['state']} {k}='{r[k]}' was not recorded with scripts/state_rules.py set (no log entry)")
     return errs
 
 
@@ -137,16 +165,25 @@ def main(a):
         r = next((x for x in rows if x["state"] == a[1].upper()), None)
         if not r:
             sys.exit(f"no row for {a[1]}")
+        old = dict(r)
         for kv in a[2:]:
             k, v = kv.split("=", 1)
-            if k not in RULES:
-                sys.exit(f"unknown field {k}")
+            if k not in RULES or k == "last_verified":
+                sys.exit(f"unknown or automatic field {k}")
             r[k] = v
-        r["last_verified"] = r["last_verified"] or datetime.date.today().isoformat()
+        r["last_verified"] = datetime.date.today().isoformat()
         e = check([r], full=False)
         if e:
             sys.exit("\n".join(e))
         save(rows)
+        new_log = not os.path.exists(LOG)
+        with open(LOG, "a", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=LOG_COLS)
+            if new_log:
+                w.writeheader()
+            for k in RULES:
+                if k not in ("last_verified", "sources", "notes") and old.get(k) != r.get(k):
+                    w.writerow({"date": r["last_verified"], "state": r["state"], "field": k, "old": old.get(k, ""), "new": r[k], "sources": r.get("sources", "")})
         print(show(r["state"]))
     else:
         sys.exit(__doc__)

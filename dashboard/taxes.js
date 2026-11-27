@@ -36,6 +36,15 @@
     { f: 'list_status', chip: (v) => v === 'Working' ? 'pp-ok' : v === 'Not found yet' ? '' : 'pp-warn' }, { f: 'list_source' },
     { f: 'leads', cls: 'pp-n' }, { f: 'owed', cls: 'pp-n', fmt: (v) => M(+v || 0) }, { f: 'next_sale' }], 'No live counties.'));
 
+  // This deal's state rules (Deal detail page)
+  const SRL = { status: 'Research status', wholesale_license: 'Licence needed to wholesale', wholesale_disclosure: 'Wholesaler disclosure required',
+    seller_cancel_days: 'Seller cancellation (days)', probate_court_approval: 'Court approval of the sale', estate_price_floor: 'Minimum estate price',
+    tax_sale_type: 'Tax sale type', tax_redemption_after_sale: 'Family can redeem after a tax sale', contact_rules: 'Extra contact rules', last_verified: 'Last checked' };
+  dash.draw('dRules', (el) => { el.replaceChildren(); const d = PP.first('deal'); const s = dash.data('state_rules');
+    const r = d && s.status === 'ok' ? s.data.find((x) => x.state === d.state) : null;
+    if (!r) { const li = document.createElement('li'); li.textContent = d ? `No rules row for ${d.state} yet.` : '—'; el.appendChild(li); return; }
+    Object.entries(SRL).forEach(([k, lbl]) => { const li = document.createElement('li'); li.textContent = `${lbl}: ${r[k] || '—'}`; el.appendChild(li); }); });
+
   // State rules (Markets & legal page): one row per state + DC from legal/state-rules.csv.
   dash.draw('srNote', (el) => { const d = dash.data('state_rules'); const rows = d.status === 'ok' ? d.data : [];
     const done = rows.filter((r) => r.status !== 'Not started').length;

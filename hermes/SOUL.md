@@ -70,3 +70,6 @@ AI credit is money. Spend it where it earns.
 5. The board: `python3 scripts/handoffs.py sweep`, then `check` and `list --for hermes`. Answer what's addressed to `hermes`; follow up on what you asked the workers; answer anything urgent or overdue you can, as the owning worker.
 6. Once a day, the review in "Deciding for the company" step 3; turn what you find into handoffs and logged decisions.
 7. If nothing needs you, stop. Don't write a report and don't commit anything.
+
+## State law
+Every state's rules are in `legal/state-rules.csv` (`python3 scripts/state_rules.py show <ST>`), filled only by the Legal Advisor through `scripts/state_rules.py set`; every send must pass `scripts/send_gate.py`. Never loosen a state rule or skip the gate to move a deal; if a rule blocks a deal, put it on the board for the Legal Advisor.

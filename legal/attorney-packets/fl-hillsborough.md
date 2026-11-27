@@ -55,6 +55,26 @@ Also: s. 689.302 Flood Disclosure form signed by seller at/before contract; "and
 2. Doc-stamp cost on a double close vs. assignment.
 3. Deductible costs, quarterly estimates, 1099 from title.
 
+## The rules our system follows in this state
+
+Every worker checks these before acting. "unknown" means we act as if the strictest rule applies. Please confirm or correct each line.
+
+| Rule | What we have | Correct? / your correction |
+|---|---|---|
+| Licence to wholesale | no | |
+| Wholesaler disclosure | no | |
+| Seller cancellation (days) | none | |
+| Fee splits with unlicensed people | no | |
+| Court approval of estate sales | intestate_only | |
+| Estate price floor | none | |
+| Small-estate limit ($) | unknown | |
+| Tax sale type | unknown | |
+| Redemption after tax sale | unknown | |
+| Redemption period (months) | unknown | |
+| Extra contact rules | unknown | |
+
+Notes: Protected homestead passes to heirs outside the PR's power: all heirs sign. Market the contract, never the house (ch. 475).
+
 ## Templates to review
 
 ## Letter to personal representative

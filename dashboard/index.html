@@ -270,6 +270,7 @@
         <thead><tr><th data-field="rank">#</th><th data-field="buyer">Buyer</th><th data-field="fit">Fit</th><th data-field="why">Why they fit</th><th data-field="status">Status</th><th data-field="warmth">Warmth</th><th data-field="standby">Standby</th><th data-field="ready_to_buy">Ready to buy</th></tr></thead>
         <tbody data-draw="dealBuyerRows"></tbody></table>
     </div>
+    <div class="pp-card" id="deal-rules"><h2>This state's rules</h2><p class="pp-sub">What every worker follows for this deal (legal/state-rules.csv). "unknown" means the strictest rule is assumed.</p><ul class="pp-list" data-draw="dRules" data-source="deal state_rules"></ul></div>
     <div class="pp-card pp-wrap" id="deal-handoffs"><h2>Questions between workers on this deal</h2><p class="pp-sub">Open blockers keep the deal where it is until they're answered.</p>
       <table data-source="handoffsDeal" data-row-key="id">
         <thead><tr><th data-field="id">#</th><th data-field="from_worker">From</th><th data-field="to_worker">To</th><th data-field="kind">Kind</th><th data-field="priority">Priority</th><th data-field="ask">Question or request</th><th data-field="needed_by">Due</th><th data-field="status">Status</th><th data-field="answer">Answer</th></tr></thead>

@@ -57,6 +57,24 @@ Also in the purchase agreement (attorney to draft): "and/or assigns"; signer cap
 1. Tax on assignment fees (ordinary income, SE tax); LLC vs. S-corp; Texas franchise tax filing.
 2. Quarterly estimates; deductible costs; 1099s from title.
 
+## The rules our system follows in this state
+
+Every worker checks these before acting. "unknown" means we act as if the strictest rule applies. Please confirm or correct each line.
+
+| Rule | What we have | Correct? / your correction |
+|---|---|---|
+| Licence to wholesale | unknown | |
+| Wholesaler disclosure | unknown | |
+| Seller cancellation (days) | unknown | |
+| Fee splits with unlicensed people | unknown | |
+| Court approval of estate sales | unknown | |
+| Estate price floor | unknown | |
+| Small-estate limit ($) | unknown | |
+| Tax sale type | unknown | |
+| Redemption after tax sale | unknown | |
+| Redemption period (months) | unknown | |
+| Extra contact rules | unknown | |
+
 ## Templates to review
 
 ## Letter to personal representative

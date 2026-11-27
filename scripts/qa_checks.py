@@ -238,7 +238,27 @@ for r in trk:
         fails.append(f"{r['lead_id']}: at '{stg}' but {st} has no state rules yet (legal/state-rules.csv): research only")
     if (r.get("lead_type") or "") == "tax_delinquent_inherited" and rule.get("tax_sale_type", "unknown") == "unknown":
         fails.append(f"{r['lead_id']}: tax-delinquent lead at '{stg}' but {st}'s tax-sale rules are unknown")
-for m in re.findall(r"\n  - id: (\S+)\n(?:    .*\n)*?    state: (\w\w)", cfg):
+_rd = int((re.search(r"legal_recheck_days:\s*(\d+)", cfg) or [None, "30"])[1])
+_mk_live = re.findall(r"\n  - id: (\S+)\n(?:    .*\n)*?    state: (\w\w)", cfg.split("\nexpansion_queue")[0])
+_appr_states = {st for mid, st in _mk_live if re.search(r"\n  - id: " + re.escape(mid) + r"\n(?:    .*\n|\s*\n)*?    attorney_approved: \d{4}-", cfg)}
+for mid, st in _mk_live:
+    if _srule.get(st, {}).get("rules_status", "not_started") == "not_started":
+        fails.append(f"state rules: live market {mid} is in {st}, whose rules aren't researched (a market goes live only after that)")
+for st, x in _srule.items():
+    if x.get("rules_status") == "attorney_approved" and st not in _appr_states:
+        fails.append(f"state rules: {st} marked attorney_approved but no {st} market has attorney_approved in config.yaml")
+    if x.get("rules_status") != "not_started" and _sr.stale(x, _rd):
+        warns.append(f"state rules: {st} last checked {x['last_verified']}, older than {_rd} days: Legal Advisor re-checks")
+    lf = os.path.join(ROOT, "legal", f"{st}.md")
+    if os.path.exists(lf):
+        lv = re.search(r"Last verified:\s*(\d{4}-\d{2}-\d{2})", open(lf).read())
+        if lv and x.get("last_verified") and lv.group(1) > x["last_verified"]:
+            warns.append(f"state rules: legal/{st}.md was re-verified {lv.group(1)}, after its rules row ({x['last_verified']}): update the row")
+# every send since the gate existed must have passed scripts/send_gate.py (Communications writes "gate PASS")
+for o in (csv.DictReader(open(os.path.join(ROOT, "pipeline", "outbound-log.csv"))) if os.path.exists(os.path.join(ROOT, "pipeline", "outbound-log.csv")) else []):
+    if (o.get("date") or "") >= "2026-11-28" and (o.get("status") or "").lower() == "sent" and "gate PASS" not in (o.get("compliance") or ""):
+        fails.append(f"outbound: {o.get('lead_id')} {o.get('item')} sent {o.get('date')} without a send_gate.py PASS")
+for m in _mk_live:
     _u = [k for k in _sr.LABEL if _srule.get(m[1], {}).get(k, "unknown") == "unknown"]
     if _u:
         warns.append(f"state rules: live market {m[0]} ({m[1]}) still has {len(_u)} unknown rules: {', '.join(_u[:4])}{'…' if len(_u) > 4 else ''}")

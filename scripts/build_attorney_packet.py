@@ -89,6 +89,18 @@ def build(m, cfg_text, templates, biz):
                 L += [f"## {k}", "", v or "_(none listed)_", ""]
     if missing:
         L += ["## Not yet researched", "", "Our legal file has no section for: " + ", ".join(missing) + ". Please advise.", ""]
+    # The state rules every worker follows (legal/state-rules.csv; owner request 2026-11-27): the attorney confirms or
+    # corrects each one, and only then may the Legal Advisor mark the state attorney_approved.
+    sys.path.insert(0, os.path.join(ROOT, "scripts"))
+    import state_rules as _sr
+    _row = {x["state"]: x for x in _sr.load()}.get(st, {})
+    L += ["## The rules our system follows in this state", "",
+          "Every worker checks these before acting. \"unknown\" means we act as if the strictest rule applies. Please confirm or correct each line.", "",
+          "| Rule | What we have | Correct? / your correction |", "|---|---|---|"]
+    L += [f"| {_sr.LABEL[k]} | {_row.get(k, 'unknown')} | |" for k in _sr.LABEL]
+    if _row.get("notes"):
+        L += ["", f"Notes: {_row['notes']}"]
+    L += [""]
     L += ["## Templates to review", "", templates, ""]
     loi = os.path.join(ROOT, "templates", "buyer-letter-of-intent.md")
     if os.path.exists(loi):   # owner decision 2026-11-26: vetted buyers sign it before we offer them contracts

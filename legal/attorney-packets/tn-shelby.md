@@ -58,6 +58,24 @@ Plus: separate written 3-business-day assignment notice to seller (keep proof of
 3. Federal income/SE tax treatment of fees; S-corp election threshold; quarterly estimates.
 4. TN recordation tax in assignment vs. double close; 1099 reporting by title.
 
+## The rules our system follows in this state
+
+Every worker checks these before acting. "unknown" means we act as if the strictest rule applies. Please confirm or correct each line.
+
+| Rule | What we have | Correct? / your correction |
+|---|---|---|
+| Licence to wholesale | unknown | |
+| Wholesaler disclosure | unknown | |
+| Seller cancellation (days) | unknown | |
+| Fee splits with unlicensed people | unknown | |
+| Court approval of estate sales | unknown | |
+| Estate price floor | unknown | |
+| Small-estate limit ($) | unknown | |
+| Tax sale type | unknown | |
+| Redemption after tax sale | unknown | |
+| Redemption period (months) | unknown | |
+| Extra contact rules | unknown | |
+
 ## Templates to review
 
 ## Letter to personal representative
