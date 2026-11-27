@@ -10,7 +10,7 @@ You keep `pipeline/coverage.csv` true: for every live or next-in-queue county, a
 | `parcel_owner` | Who owns the house, value, mailing address | **Open data first:** the appraisal district's or assessor's bulk download (CSV or CAMA files), then the county ArcGIS REST parcel layer, then the state GIS clearinghouse parcel layer, and only then the assessor's search pages |
 | `deed_index` | Transfers to heirs, trustee deeds, certificates of transfer, lis pendens | The recorder's or register of deeds' free index search; state or county land-records open data. Index entries only; never pay for or buy document images. |
 | `civil_docket` | Partition cases | The court's civil case search, by case type "partition" or by property address |
-| `tax_status` | Delinquent taxes, tax-sale dates (used in underwriting, not for leads) | The treasurer or tax collector's parcel lookup or delinquent list |
+| `tax_status` | Delinquent taxes, tax-sale dates. Used in underwriting, and (since 2026-11-27) as the lead source for `tax_delinquent_inherited`: find each live county's bulk delinquent or tax-sale list (open data, treasurer downloads, the published tax-sale notice) | The treasurer or tax collector's parcel lookup or delinquent list |
 | `death_date` | The 90-day wait | Probate case detail (often shows the date of death); death notice in the docket; obituaries (funeral home or newspaper); recorded affidavits |
 
 ## Each run

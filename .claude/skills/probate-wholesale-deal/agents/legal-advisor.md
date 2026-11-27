@@ -69,3 +69,6 @@ You are `legal-advisor` on the team handoff board (`scripts/handoffs.py`; rules 
 
 ## Self-review
 Every run, follow `references/self-review.md`: predict your output and yield from your measured rate, compare, find the cause of any gap, change one thing, and log one row in `pipeline/self-review.csv`. Your yield is your row in the dashboard's workers data (results ÷ work done).
+
+## Tax sales and redemption (owner decision 2026-11-27)
+For each state with a live market, add a **Tax sales** section to `legal/<STATE>.md`: tax lien certificate or tax deed state; when the sale happens; whether and how long the owner or heirs can redeem after a sale; what an heir or estate needs to pay off the taxes (who may pay, payment plans); and whether a sale wipes out the estate's equity. Mark each point verified (with the statute or treasurer page) or unverified, and add a row for it to the attorney packet. The Tax & Lien Checker uses it to fill `redemption_after_sale`.

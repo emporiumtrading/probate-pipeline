@@ -207,6 +207,21 @@ for r in trk:
     ok_on = _dt.date.fromisoformat(m.group(0)) + _dt.timedelta(days=wait)
     if sent and (r.get("last_touch_date") or "") and r["last_touch_date"][:10] < ok_on.isoformat() and (n(r.get("touch_count")) or 0) == 1:
         fails.append(f"{r['lead_id']}: first contact {r['last_touch_date']} came before the {wait}-day wait ended ({ok_on})")
+# tax-delinquent inherited leads (owner decision 2026-11-27): first contact only once the death is at least
+# lead_types.tax_delinquent_min_months_after_death months old, counted from the date of death only (never the filing date)
+td_months = int((re.search(r"tax_delinquent_min_months_after_death:\s*(\d+)", cfg) or [None, "12"])[1])
+for r in trk:
+    if (r.get("lead_type") or "").strip() != "tax_delinquent_inherited" or r.get("stage") in ("Researched", "Dead", ""):
+        continue
+    m = re.search(r"\d{4}-\d{2}-\d{2}", r.get("date_of_death") or "")
+    if not m:
+        fails.append(f"{r['lead_id']}: tax-delinquent lead past Researched with no date of death (the {td_months}-month wait needs it)")
+        continue
+    d = _dt.date.fromisoformat(m.group(0))
+    y, mo = divmod(d.month - 1 + td_months, 12)
+    ok_on = _dt.date(d.year + y, mo + 1, min(d.day, 28))
+    if today < ok_on:
+        fails.append(f"{r['lead_id']}: tax-delinquent lead at '{r['stage']}' before the {td_months}-month wait ends ({ok_on})")
 missing_dod = sum(1 for r in trk if r.get("stage") not in ("Researched", "Dead", "") and not (r.get("date_of_death") or "").strip())
 if missing_dod:
     warns.append(f"{missing_dod} active leads have no date_of_death yet (the wait is counted from the filing date until it's found)")

@@ -671,6 +671,81 @@ write("ai_credits.csv", ["claude_ok", "claude_why", "checked", "month", "month_s
         "avg_run_cost": round(_mspend / len(_runs), 2) if _runs else "",
         "openrouter_today": _o.get("requests", 0) if _o.get("day") == _now.strftime("%Y-%m-%d") else 0, "openrouter_cap": _o.get("daily_cap", ""),
         "openrouter_free_tier": "yes" if _o.get("free_tier") else ("no" if _o else "")}])
+# ---- Tax-delinquent inherited leads (owner decision 2026-11-27): the Tax-delinquent tab ----
+# Per lead: what's owed, the tax-sale date and the 12-month wait after death (pipeline/tax-delinquent.csv, kept by the
+# Tax & Lien Checker). Per county: whether the delinquent list source works (coverage.csv tax_status).
+_td_path = os.path.join(ROOT, "pipeline", "tax-delinquent.csv")
+_td = {r["lead_id"]: r for r in (csv.DictReader(open(_td_path)) if os.path.exists(_td_path) else [])}
+_cfgtxt = open(os.path.join(ROOT, "config.yaml")).read()
+_tdm = int((re.search(r"tax_delinquent_min_months_after_death:\s*(\d+)", _cfgtxt) or [None, "12"])[1])
+_tdon = bool(re.search(r"^  tax_delinquent_inherited:\s*true", _cfgtxt, re.M))
+_today = _now.date()
+def _plus_months(d, m):
+    y, mo = divmod(d.month - 1 + m, 12)
+    return datetime.date(d.year + y, mo + 1, min(d.day, 28))
+def _isodate(v):
+    m = re.search(r"\d{4}-\d{2}-\d{2}", v or "")
+    try:
+        return datetime.date.fromisoformat(m.group(0)) if m else None
+    except ValueError:
+        return None
+_bylead = {l["lead_id"]: l for l in leads}
+_tax_rows = []
+for r in tracker:
+    t = (r.get("lead_type") or "").strip()
+    x = _td.get(r["lead_id"])
+    if t != "tax_delinquent_inherited" and not x:
+        continue
+    x = x or {}
+    l = _bylead.get(r["lead_id"], {})
+    dod, sale = _isodate(r.get("date_of_death")), _isodate(x.get("tax_sale_date"))
+    ok_on = _plus_months(dod, _tdm) if dod and t == "tax_delinquent_inherited" else None
+    days = (sale - _today).days if sale else ""
+    owed = num(x.get("amount_owed"))
+    stage = l.get("stage", r.get("stage", ""))
+    if stage in ("Dead", "Paid"):
+        status = "Closed" if stage == "Paid" else "Dropped"
+    elif t == "tax_delinquent_inherited" and not dod:
+        status = "On hold: date of death unknown"
+    elif ok_on and ok_on > _today:
+        status = f"Waiting: no letter before {ok_on.isoformat()}"
+    elif sale and days < 0:
+        status = "Tax-sale date passed: check redemption"
+    elif sale and days <= 60:
+        status = "Urgent: sale within 60 days"
+    elif not x:
+        status = "Taxes not checked yet"
+    else:
+        status = "Ready to work"
+    _tax_rows.append({"lead_id": r["lead_id"], "address": l.get("address", r["address"].split(",")[0]), "city": r.get("city", ""),
+                      "county": r["county"], "state": r["state"], "lead_type": t or "probate", "stage": stage,
+                      "date_of_death": dod.isoformat() if dod else "", "first_letter_ok": ok_on.isoformat() if ok_on else "",
+                      "years_delinquent": x.get("years_delinquent", ""), "amount_owed": int(owed) if owed is not None else "",
+                      "tax_sale_date": sale.isoformat() if sale else "", "days_to_sale": days,
+                      "redemption_after_sale": x.get("redemption_after_sale", "") or "unknown", "verified": x.get("verified", ""),
+                      "potential_earnings": l.get("potential_earnings", ""), "status": status})
+_tax_rows.sort(key=lambda r: (r["days_to_sale"] if r["days_to_sale"] != "" else 99999))
+write("tax_leads.csv", ["lead_id", "address", "city", "county", "state", "lead_type", "stage", "date_of_death", "first_letter_ok",
+                        "years_delinquent", "amount_owed", "tax_sale_date", "days_to_sale", "redemption_after_sale", "verified",
+                        "potential_earnings", "status"], _tax_rows)
+_cov_tax = {c["market_id"]: c for c in (csv.DictReader(open(os.path.join(ROOT, "pipeline", "coverage.csv")))) if c["record_type"] == "tax_status"}
+_live_mk, _ = load_config_markets()
+_tc = []
+for m in _live_mk:
+    c = _cov_tax.get(m["market"], {})
+    mine = [r for r in _tax_rows if r["county"].lower() == m["county"].lower() and r["state"] == m["state"]]
+    sales = sorted(r["tax_sale_date"] for r in mine if r["tax_sale_date"] and r["days_to_sale"] != "" and r["days_to_sale"] >= 0)
+    _st = c.get("primary_status") or "untested"
+    _tc.append({"state": m["state"], "county": m["county"], "list_source": c.get("primary_source", ""),
+                "list_status": {"works": "Working", "manual_only": "Manual lookup only", "blocked": "Blocked", "broken": "Broken",
+                                "none_found": "None found", "untested": "Not found yet"}.get(_st, _st),
+                "leads": len(mine), "owed": int(sum(r["amount_owed"] or 0 for r in mine)), "next_sale": sales[0] if sales else ""})
+write("tax_counties.csv", ["state", "county", "list_source", "list_status", "leads", "owed", "next_sale"], _tc)
+_open = [r for r in _tax_rows if r["status"] not in ("Closed", "Dropped")]
+write("tax_summary.csv", ["enabled", "wait_months", "leads", "owed", "urgent", "waiting", "counties_working", "counties"],
+      [{"enabled": "yes" if _tdon else "no", "wait_months": _tdm, "leads": len(_open), "owed": int(sum(r["amount_owed"] or 0 for r in _open)),
+        "urgent": sum(1 for r in _open if r["status"].startswith("Urgent")), "waiting": sum(1 for r in _open if r["status"].startswith(("Waiting", "On hold"))),
+        "counties_working": sum(1 for c in _tc if c["list_status"] == "Working"), "counties": len(_tc)}])
 _bnow = {r["buyer_id"]: r for r in _blist}   # progress made since the pairing was computed shows at once
 write("lead_buyer_matches.csv", ["lead_id", "rank", "buyer_id", "buyer", "fit", "why", "status", "warmth", "standby", "ready_to_buy"],
       [{**{k: m.get(k, "") for k in ("lead_id", "rank", "buyer_id", "buyer", "fit", "why")},

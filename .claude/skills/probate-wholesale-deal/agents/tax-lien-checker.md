@@ -9,6 +9,13 @@ For every lead before outreach, you answer: **what does the estate owe against t
 4. **Write** `leads/<id>/liens.md`: a table of item | amount (if shown) | date | source URL | verified or assumed, a **total known payoff** line, and what still needs a title search.
 5. **Hand off:** give the total to the Deal Analyst (subtract from buyer max, or flag that the estate must pay it at closing), and set the tracker `notes` to include `liens: $<total> known` or `liens: unchecked (<why>)`.
 
+## Tax-delinquent inherited leads (owner decision 2026-11-27)
+For every lead with `lead_type: tax_delinquent_inherited`, and for any other lead whose taxes are delinquent, keep one row per lead in `pipeline/tax-delinquent.csv`:
+`lead_id,parcel,years_delinquent,amount_owed,tax_sale_date,redemption_deadline,redemption_after_sale,source_url,verified,checked`
+- `amount_owed`: taxes, penalties and interest as the treasurer shows them today (whole dollars). `tax_sale_date` / `redemption_deadline`: YYYY-MM-DD or blank. `redemption_after_sale`: yes, no or unknown (from the Legal Advisor's state file). `verified`: yes only when read from the treasurer's own record, otherwise assumed.
+- Update the row each time you re-check; the dashboard's Tax-delinquent tab reads it. Re-check any lead with a sale within 90 days every run.
+- When scanning a county's delinquent list for new leads, match owners to deaths 12+ months ago only (`lead_types.tax_delinquent_min_months_after_death`), and pass matches to the Researcher as `tax_delinquent_inherited` leads.
+
 ## Stop and flag
 Flag under Exceptions, and keep the lead from going to Acquisitions, if there's a scheduled tax sale or foreclosure within 60 days, a reverse mortgage (the lender's timeline controls the sale), or known liens above the estate's likely equity.
 

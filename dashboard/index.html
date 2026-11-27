@@ -162,6 +162,7 @@
       <button class="pp-tab" role="tab" data-page="buyers" aria-selected="false">Buyers <span class="pp-badge" data-draw="bBuyers" data-source="buyersF"></span></button>
       <button class="pp-tab" role="tab" data-page="queues" aria-selected="false">Your queues <span class="pp-badge" data-draw="bQueue" data-source="kpis" data-field="queue" data-row="0"></span></button>
       <button class="pp-tab" role="tab" data-page="money" aria-selected="false">Sign, wire &amp; money <span class="pp-badge" data-draw="bMoney" data-source="queueCounts" data-field="money" data-row="0"></span></button>
+      <button class="pp-tab" role="tab" data-page="taxes" aria-selected="false">Tax-delinquent <span class="pp-badge" data-draw="bTax" data-source="tax_summary" data-field="urgent" data-row="0"></span></button>
       <button class="pp-tab" role="tab" data-page="markets" aria-selected="false">Markets &amp; legal</button>
       <button class="pp-tab" role="tab" data-page="operations" aria-selected="false">Operations</button>
       <button class="pp-tab" role="tab" data-page="aispend" aria-selected="false">AI spend</button>
@@ -508,6 +509,28 @@
     </div>
   </section>
 
+  <section class="pp-page" id="taxes" hidden>
+    <div class="pp-tiles">
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="txLeads" data-source="tax_summary">—</div><div class="pp-lbl">Inherited houses with unpaid taxes</div></div>
+      <div class="pp-card pp-tile pp-t-warn"><div class="pp-num" data-draw="txOwed" data-source="tax_summary">—</div><div class="pp-lbl">Back taxes owed (paid from the sale at closing)</div></div>
+      <div class="pp-card pp-tile pp-t-bad"><div class="pp-num" data-draw="txUrgent" data-source="tax_summary">—</div><div class="pp-lbl">Tax sale within 60 days</div></div>
+      <div class="pp-card pp-tile pp-t-ok"><div class="pp-num" data-draw="txCounties" data-source="tax_summary">—</div><div class="pp-lbl">Counties with a working delinquent-tax list</div></div>
+    </div>
+    <div class="pp-grid">
+      <div class="pp-card"><h2>How this works</h2>
+        <p class="pp-sub">Some families inherit a house and fall behind on its property taxes. The county publishes a list of those houses, and sells the tax debt or the house itself if it stays unpaid. We match that list to owners who have died, then work the lead like any other probate deal: same letters, same offer math, same buyers, same closing.</p>
+        <p class="pp-sub">Three things are different. Our offer has to cover the back taxes, which the title company pays out of the sale, so the family's debt is cleared on closing day. The closing has to happen before the county's tax-sale date. And we never use the sale date to pressure anyone: the letter states it once, as a fact.</p>
+        <h3>The rule you set</h3><p class="pp-sub" data-draw="txRule" data-source="tax_summary">—</p></div>
+      <div class="pp-card"><h2>Time left before the tax sale</h2><div class="pp-chart" data-draw="txSaleChart" data-source="tax_leads"></div></div>
+    </div>
+    <div class="pp-card pp-wrap"><h2>Tax-delinquent leads</h2><p class="pp-sub">Soonest tax sale first. Click a row to open the deal.</p>
+      <table data-source="tax_leads" data-row-key="lead_id"><thead><tr><th data-field="address">Property</th><th data-field="city">City</th><th data-field="state">State</th><th data-field="status">Status</th><th class="pp-n" data-field="amount_owed">Owed</th><th class="pp-n" data-field="years_delinquent">Years behind</th><th data-field="tax_sale_date">Tax sale</th><th class="pp-n" data-field="days_to_sale">Days left</th><th data-field="redemption_after_sale">Can redeem after sale</th><th data-field="first_letter_ok">First letter allowed</th><th class="pp-n" data-field="potential_earnings">Potential earnings</th><th data-field="stage">Stage</th></tr></thead>
+        <tbody data-draw="txRows"></tbody></table></div>
+    <div class="pp-card pp-wrap"><h2>Delinquent-tax lists by county</h2><p class="pp-sub">Where each live county publishes its unpaid-tax or tax-sale list. The Source Mapper finds and tests these.</p>
+      <table data-source="tax_counties"><thead><tr><th data-field="state">State</th><th data-field="county">County</th><th data-field="list_status">List</th><th data-field="list_source">Source</th><th class="pp-n" data-field="leads">Leads</th><th class="pp-n" data-field="owed">Owed</th><th data-field="next_sale">Next tax sale</th></tr></thead>
+        <tbody data-draw="txCountyRows"></tbody></table></div>
+  </section>
+
   <section class="pp-page" id="aispend" hidden>
     <div class="pp-tiles">
       <div class="pp-card pp-tile"><div class="pp-num" data-draw="aiMonth" data-source="ai_credits">—</div><div class="pp-lbl">Claude this month (of the budget)</div></div>
@@ -701,4 +724,5 @@
 <script src="buyers.js"></script>
 <script src="threads.js"></script>
 <script src="aispend.js"></script>
+<script src="taxes.js"></script>
 <script src="tables.js"></script>
