@@ -64,7 +64,7 @@ bookkeeping:                      # read-only money sources the Bookkeeper impor
     mode: read_only                # stripe_api_read only; never stripe_api_write, never payouts, transfers or Connect
     tag: probate                   # import a transaction only if its description has this word or a tracker lead id
     connected_on: 2026-11-22       # owner chose read-only bookkeeping (option a); test read passed 2026-11-22
-    last_imported: ""              # date of the newest transaction read; next run reads from here
+    last_imported: 2026-11-27              # date of the newest transaction read; next run reads from here
 legal_service:                    # attorney review service used by the Legal Advisor (agents/legal-advisor.md → "Attorney review through a connected service")
   provider: general_legal         # connected by the owner 2026-11-22
   connected_on: 2026-11-22

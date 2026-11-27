@@ -2,6 +2,18 @@
  "openrouter": {
   "day": "2026-11-27",
   "requests": 1,
-  "exhausted": "2026-11-27"
+  "exhausted": "2026-11-27",
+  "free_tier": true,
+  "daily_cap": 50,
+  "credit_left": null
+ },
+ "claude": {
+  "checked": "2026-11-27T22:47:43.604Z",
+  "ok": false,
+  "why": "credit balance too low (add credit at console.anthropic.com, Settings, Billing)",
+  "blocked_since": "2026-11-27T22:47:43.604Z",
+  "month": "2026-11",
+  "month_spend_usd": 0,
+  "budget_usd": 0
  }
 }
