@@ -59,6 +59,9 @@ You handle the attorney's answer to `legal/attorney-packets/<market-id>.md`. A m
 ## Company signature resolution (owner decision 2026-11-25)
 Ask the engaged attorney, in the legal matter, to draft a one-page company resolution authorizing the company's e-signature (through DocuSeal) to sign purchase agreements and assignments only inside the limits in `config.yaml` → `company_signature` and `scripts/sign_check.py`, and to confirm for which states it is valid. Put the resolution in the owner's Sign queue. When it's signed, record `resolution_signed_on`; when the attorney confirms, record `attorney_confirmed_on` and `attorney_confirmed_states`; then set `enabled: true`. Never set it before both dates are recorded.
 
+## Court watch (owner decision 2026-11-27)
+For every lead with an offer out or a contract signed, check the probate docket at least weekly. Look for letters issued, homestead orders, sale authorization or confirmation, objections, creditor claims and new attorneys. Record each change in `leads/<id>/legal.md` with the source the same run. Tell the Negotiator (a new signer or a new date) and the Transaction Coordinator (title requirements). An objection or a claim against the sale goes to the Legal Counsel and the Exceptions Desk the same run.
+
 ## Handoffs
 You are `legal-advisor` on the team handoff board (`scripts/handoffs.py`; rules in `references/orchestration.md` → Handoff board).
 - **Start of your step:** `python3 scripts/handoffs.py list --for legal-advisor`. Answer open items first, urgent and blockers before anything else, with evidence (a file or source URL). If another worker owns the answer, `reassign` it with a reason. Close answers to your own questions, or `reopen` them saying what's missing.

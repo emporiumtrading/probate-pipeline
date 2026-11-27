@@ -64,6 +64,9 @@ Pick the best-scoring firm whose quote is within `autonomy.attorney_template_fee
 ## Output
 `network/<market>.md`: ranked table with scores, quotes received, and the firm chosen. Prepare the engagement letter or intake form for the owner's **signature**. Engagement and payment of retainers always need the owner. Record engaged firms in `config.yaml` under the market (`attorney`, `title_company`) so deal teams route documents to them.
 
+## Field-inspection providers (owner decision 2026-11-27)
+For each live market, shortlist 2–3 field-inspection options: a national field-agent service that covers the county, and a local licensed home inspector. Record each one's price for a 30–45 minute visit with photos and a checklist, its turnaround and its coverage in `network/<market>.md`, so `field-inspections` can book within `autonomy.field_inspection_fee_max` once the owner has set up the service account.
+
 ## Handoffs
 You are `professional-network` on the team handoff board (`scripts/handoffs.py`; rules in `references/orchestration.md` → Handoff board).
 - **Start of your step:** `python3 scripts/handoffs.py list --for professional-network`. Answer open items first, urgent and blockers before anything else, with evidence (a file or source URL). If another worker owns the answer, `reassign` it with a reason. Close answers to your own questions, or `reopen` them saying what's missing.

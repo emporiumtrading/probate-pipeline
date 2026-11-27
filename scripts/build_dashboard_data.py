@@ -439,11 +439,12 @@ item("Business identity", "Business insurance (optional)", bool(biz.get("insuran
      "Ask your CPA or attorney about general liability and errors-and-omissions cover once the company exists; then Setup → Business identity → Configure", "Protection if a deal goes wrong", "business", "insurance")
 CH = {"mail_sending": ("Letters sent without you", "Open a Lob account (lob.com), then Setup → Sending and signing services → paste its live_ API key. The next run tests it and switches this on"),
       "email_sending": ("Email sent without you", "Open a Resend account (resend.com), verify your business email's domain there, then Setup → Sending and signing services → paste the API key. The next run tests it and switches this on"),
-      "inbox_connected": ("Replies read automatically", "In Resend, turn on receiving for your business domain (add the MX record it shows). With the Resend key saved, the next run tests it and switches this on"),
+      "inbox_connected": ("Replies read automatically", "In Resend, turn on receiving for replies.emporium-investments.com (add the MX record it shows in Route 53). With the Resend key saved, the next run tests it and switches this on"),
       "mail_scanning": ("Mailed replies arrive by email", "Virtual mailbox that scans mail to the business email; enter it under Setup → Channels"),
-      "voicemail_to_email": ("Voicemails arrive by email", "Phone service with voicemail-to-email; enter it under Setup → Channels")}
+      "voicemail_to_email": ("Voicemails arrive by email", "Phone service with voicemail-to-email; enter it under Setup → Channels"),
+      "field_inspections": ("Someone can see a house (field inspections)", "Open an account with a field-inspection service that covers your markets (the Professional Network lists options in network/<market>.md), keep a card on file there, then tick it under Setup → Channels. Visits are booked within the $150 limit")}
 for k, (lbl, fix) in CH.items():
-    st = "done" if chan.get(k) == "true" else ("waiting for check" if _och.get(f"{k}_ready") else "missing")
+    st = "done" if chan.get(k) == "true" or (k == "field_inspections" and _och.get(f"{k}_ready")) else ("waiting for check" if _och.get(f"{k}_ready") else "missing")
     item("Channels", lbl, st, fix, "Reply desk and sending with no manual steps", "channels", k)
 item("Autonomy", "Outreach set to autonomous", autonomy.get("outreach") == "autonomous", "Setup page → Autonomy → Configure (after the items above)", "Letters go out without per-message approval", "autonomy", "outreach")
 ES = cfg_block("esignature")
@@ -754,6 +755,8 @@ workers = [
       _count("leads/*/heirs.md"), "completed", _last("leads/*/heirs.md"), "Active" if _count("leads/*/heirs.md") else "Not started"),
     W("Legal Counsel", "Drafts legal documents per state; litigation-risk file per deal; dispute briefs", _count("leads/*/legal-risk.md") + _count("legal/disputes/*/brief.md"), "risk files and dispute briefs",
       _count("templates/*/*") + _count("templates/*.md"), "document drafts", _last("leads/*/legal-risk.md"), "Active" if _count("leads/*/legal-risk.md") else "Not started"),
+    W("Field Inspections", "Photos, condition reports and final walk-throughs", _count("leads/*/inspection-*.md"), "inspections",
+      _count("leads/*/inspection-*.md"), "reports", _last("leads/*/inspection-*.md"), "Active" if _count("leads/*/inspection-*.md") else "Not started"),
     W("Legal & Tax Advisor", "Keeps each state's legal file current; flags deal issues", len(_legal), "state legal files",
       _fresh_legal, "verified in last 30 days", _last("legal"), "Active"),
     W("Deal Analyst", "Values, repairs, max offer, price floors, verdict", _analyzed, "deals analyzed",
@@ -795,7 +798,7 @@ workers = [
       _closed, "closed", _last("leads/*/title.md"), "Active", f"{_contract} under contract"),
 ]
 _ROLE_FILE = {"Source Mapper": "source-mapper.md", "Researcher": "researcher.md", "Heir & Title Tracer": "heir-tracer.md", "Exceptions Desk": "exceptions-desk.md",
-    "Legal & Tax Advisor": "legal-advisor.md", "Legal Counsel": "legal-counsel.md", "Deal Analyst": "deal-analyst.md", "Acquisitions": "acquisitions.md",
+    "Legal & Tax Advisor": "legal-advisor.md", "Legal Counsel": "legal-counsel.md", "Field Inspections": "field-inspections.md", "Deal Analyst": "deal-analyst.md", "Acquisitions": "acquisitions.md",
     "Compliance Officer": "compliance-officer.md", "Communications": "communications.md", "Reply Desk": "reply-desk.md",
     "Negotiator": "negotiator.md", "Buyer-List Builder": "buyer-list.md", "Dispositions": "dispositions.md",
     "Professional Network": "professional-network.md", "Tax & Lien Checker": "tax-lien-checker.md", "Contact Finder": "contact-finder.md",

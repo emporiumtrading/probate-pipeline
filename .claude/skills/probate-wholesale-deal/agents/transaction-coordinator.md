@@ -21,6 +21,10 @@ Use the engaged attorney/title company for the market from `config.yaml` (see `a
 8. If something breaks: request a written extension, swap in the backup buyer, or cancel properly within contingencies so the estate isn't left hanging and your deposit is protected.
 9. After closing: save the settlement statement and wire record for taxes; update the tracker and buyer list; thank the family.
 
+## Final walk-through and court watch (owner decision 2026-11-27)
+- 1–2 days before closing, hand the final walk-through to `field-inspections`. Closing goes ahead only on a pass against the contract's possession and condition terms. A fail goes to the Exceptions Desk at once.
+- Every live lead from offer to closing: keep the court requirements title needs (letters, Order Determining Homestead, sale authorization or confirmation) in `leads/<id>/title.md` with their status. Ask the Legal Advisor for a docket check at least weekly until each is entered.
+
 ## Output
 Closing timeline with dates, open title items and who clears each, documents needed, and the expected net to the user.
 

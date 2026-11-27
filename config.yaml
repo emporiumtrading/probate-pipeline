@@ -76,6 +76,7 @@ channels:                         # set each to true only once it is actually wo
   inbox_connected: false          # the business mailbox is readable by the daily run
   mail_scanning: false            # a virtual mailbox scans mailed replies and emails them to the business inbox
   voicemail_to_email: false       # the business phone emails voicemail transcripts to the business inbox
+  field_inspections: false        # the owner opened a field-inspection service account (card on file there, never here); Field Inspections books visits through it
 lead_types:                       # see .claude/skills/probate-wholesale-deal/references/lead-types.md
   probate: true
   post_probate_heirs: true

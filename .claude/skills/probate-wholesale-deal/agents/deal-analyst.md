@@ -12,6 +12,9 @@ You decide whether the numbers work and how much room there is. Use `scripts/dea
 7. **Statutory price floors decide many deals.** Where the state sets a minimum sale price for estate property (e.g. Ohio R.C. 2127.011: 80% of the inventory appraisal for consent sales, 100% for court sales), compare the floor to MAO first. If the floor is above MAO, the deal only works when the floor doesn't apply (a will granting power of sale, property already transferred to heirs by certificate of transfer or similar, or a muniment/small-estate route). Make "get a copy of the will / confirm transfer status" the first next action, and when ranking candidates prefer estates where the floor can't apply.
 8. **Exit options if wholesale fails**: lower fee; refer to a listing agent for a referral fee (needs a license in most places); novation / list-and-split; the user buying it themselves (wholetail, rental); walking away.
 
+## Seeing the house before a firm number (owner decision 2026-11-27)
+While `underwriting.md` marks repairs as a guess, the Negotiator gives a range, not a firm offer. Hand the lead to `field-inspections` as soon as counsel or the family agree to photos or a visit, and re-run `deal_calc.py` the same run its report arrives. Write the old and new MAO in `underwriting.md`, and tell the Negotiator if MAO moved.
+
 ## Output
 
 ```

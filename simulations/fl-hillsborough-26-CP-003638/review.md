@@ -28,3 +28,19 @@ A desk simulation of this lead from the first letter to closing. The lead's fact
 5. **Buyers not vetted.** Fixed in process: buyers are paired with each lead, and the research queue puts paired buyers first, at least 25 a run.
 6. **Setup items the sim had to assume:** Florida attorney approval, a tested mail channel, a Florida title company and connected e-signature (DocuSeal). These remain on the Setup page.
 7. **Moving help ("cash for keys").** No written limit exists, so the Negotiator could only agree to it because it stayed under MAO. *Suggest:* a written limit (for example up to $5,000, paid only through the title company at closing).
+
+## Who owns each gap now (owner decision 2026-11-27)
+| Gap | Responsible | What changed |
+|---|---|---|
+| No one can see a house | **Field Inspections** (new worker, in trial) | Family photos and video first, then a field agent or inspector up to $150 a visit; condition report before a firm offer; final walk-through before closing. Professional Network shortlists providers per market. Setup → Channels → "Someone can see a house". |
+| Repairs were a guess | Deal Analyst | No firm number while repairs are a guess; re-runs MAO when the inspection arrives. |
+| Moving help had no limit | Negotiator (+ Contract Desk, Bookkeeper) | Up to $5,000, inside MAO, paid only through the title company at closing after a vacant walk-through. |
+| Court orders weren't watched | Legal Advisor (court watch) + Transaction Coordinator | Weekly docket check for every lead with an offer or contract; title requirements tracked in title.md. |
+| Replies can't come in | Communications / Reply Desk | Owner sets up Resend receiving on replies.emporium-investments.com (Setup → Channels). |
+| No conversation record | Communications | leads/<id>/thread.csv, shown on Messages → Conversations. |
+| Recipient placeholders | Contact Finder | No draft is ready with a placeholder (handoff H-0017). |
+| Buyers not vetted | Buyer-List | Research queue, paired buyers first, 25 a run (handoff H-0018). |
+| Deal costs before closing | Bookkeeper | Field-inspection fees and moving-help credits recorded with their limits. |
+| FL attorney approval, mail channel, title company, e-signature | Legal Advisor, Communications, Professional Network, Contract Desk | Already their duties; still waiting on setup items. |
+
+The two dollar limits ($150 and $5,000) are guarded settings. They go into `config.yaml` only after the owner approves the guardrail change. Until then, both kinds of spending go to the Exceptions Desk first.

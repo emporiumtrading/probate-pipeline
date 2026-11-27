@@ -30,6 +30,7 @@ Run these as parallel subagents where the platform allows (one team per market f
 |---|---|---|
 | Legal | legal-advisor | When a state file is stale or a new state is added |
 | Legal documents and risk | legal-counsel | Every evening slice: document library, legal watch; a deal's risk file before any contract or assignment; disputes the same run they arrive |
+| Seeing the house | field-inspections | When a firm offer needs real condition data, and 1-2 days before every closing (final walk-through) |
 | Sourcing (one per market) | researcher | Daily |
 | Deal team (one per new lead) | researcher → deal-analyst → legal-advisor → transaction-coordinator → negotiator → dispositions → acquisitions | Daily for new leads |
 | Exceptions | exceptions-desk | Every run (evening slice and fast desk): before the report |

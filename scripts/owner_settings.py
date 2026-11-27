@@ -22,7 +22,7 @@ OUT = os.path.join(ROOT, "pipeline", "owner-settings.json")
 
 STATES = {"AL","AK","AZ","AR","CA","CO","CT","DE","DC","FL","GA","HI","ID","IL","IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ","NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA","WV","WI","WY"}
 TEXT, BOOL, DATE = "text", "bool", "date"
-CHANNELS = ("mail_sending", "email_sending", "inbox_connected", "mail_scanning", "voicemail_to_email")
+CHANNELS = ("mail_sending", "email_sending", "inbox_connected", "mail_scanning", "voicemail_to_email", "field_inspections")
 SCHEMA = {
     "business": {"legal_name": TEXT, "entity_state": "state", "mailing_address": TEXT, "phone": "phone", "email": "email",
                  "website": "url", "signer": TEXT, "title_company": TEXT, "insurance": TEXT},
@@ -183,6 +183,20 @@ def apply_business(areas):
     return n
 
 
+def apply_owner_switches(areas):
+    """Channels with nothing for a run to test (owner decision 2026-11-27): the field-inspection service account is the
+    owner's own word, so ticking it on the Setup page sets config.yaml → channels.field_inspections."""
+    want = "true" if (areas.get("channels") or {}).get("field_inspections_ready") is True else None
+    if not want:
+        return 0
+    txt = open(CONFIG).read()
+    new = re.sub(r"(?m)^(  field_inspections:[ \t]*)false", r"\g<1>true", txt, count=1)
+    if new != txt:
+        open(CONFIG, "w").write(new)
+        return 1
+    return 0
+
+
 def main():
     if len(sys.argv) >= 3 and sys.argv[1] == "import":
         raw = parse_db_list(open(sys.argv[2]).read())
@@ -198,6 +212,8 @@ def main():
         n = apply_business(good)
         if n:
             print(f"owner settings: {n} business details written into config.yaml")
+        if apply_owner_switches(good):
+            print("owner settings: field-inspection service account marked ready in config.yaml")
         for b in bad:
             print("REFUSED", b)
         sys.exit(1 if bad else 0)

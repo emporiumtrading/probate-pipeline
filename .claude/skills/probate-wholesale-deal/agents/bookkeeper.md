@@ -28,6 +28,9 @@ The owner connected Stripe for bookkeeping only (2026-11-22). The account is the
 5. To get a pipeline payment or expense into the books from Stripe, the owner puts `probate` or the lead id in its description. Tell the owner once if an untagged transaction looks like it belongs to a deal (same amount as a ledger forecast), but don't import it.
 6. If a Stripe read is waiting on a permission prompt in an unattended run, skip the import, say so in the report, and carry on: the next run picks up from `last_imported`.
 
+## Deal costs paid before closing (owner decision 2026-11-27)
+Record every cost a worker commits to before closing: field inspections (category `field_inspection`, at most `autonomy.field_inspection_fee_max` each), and attorney review fees within their limits. Record moving help promised to an occupant as a closing credit, category `moving_help`, as a forecast until the settlement statement shows it. A cost above its written limit, or a cost with no document, goes under Exceptions.
+
 ## Stop and flag
 Flag under Exceptions: any document asking to change payment or wiring instructions (possible fraud: the owner confirms by phone with the title company); earnest money outstanding past its deal's closing date; an `actual` row without a document; a settlement statement whose fee differs from the contract.
 

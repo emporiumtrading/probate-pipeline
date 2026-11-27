@@ -1,4 +1,5 @@
 worker,status,since,runs,score,last_review,notes
+field-inspections,trial,2026-11-27,0,,,new worker: shadow mode
 legal-counsel,trial,2026-11-26,0,,,new worker: shadow mode
 acquisitions,active,2026-11-25,0,,,"existing worker, listed active when the lifecycle started (owner decision 2026-11-25)"
 bookkeeper,active,2026-11-25,0,,,"existing worker, listed active when the lifecycle started (owner decision 2026-11-25)"
