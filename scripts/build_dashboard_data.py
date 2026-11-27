@@ -278,6 +278,27 @@ for f in sorted(glob.glob(os.path.join(ROOT, "leads", "*", "outreach-drafts.md")
 with open(os.path.join(OUT, "messages.json"), "w") as fh:
     json.dump(messages, fh)
 
+# ---- conversations: every message in and out, and what the workers did, per lead (owner decision 2026-11-27) ----
+# Real threads: leads/<id>/thread.csv (Communications appends each letter, email, reply and step). Simulations
+# (simulations/<id>/thread.csv) are shown with a SIMULATION label and never count as pipeline activity.
+_threads = []
+for base, sim in ((os.path.join(ROOT, "leads"), False), (os.path.join(ROOT, "simulations"), True)):
+    if not os.path.isdir(base):
+        continue
+    for lid in sorted(os.listdir(base)):
+        tp = os.path.join(base, lid, "thread.csv")
+        if not os.path.isfile(tp):
+            continue
+        lead = next((x for x in leads if x["lead_id"] == lid), {})
+        for i, t in enumerate(csv.DictReader(open(tp))):
+            _threads.append({"thread": ("sim:" if sim else "") + lid, "lead_id": lid, "simulation": "yes" if sim else "no",
+                             "address": lead.get("address", ""), "city": lead.get("city", ""), "state": lead.get("state", ""),
+                             "n": i + 1, "at": t.get("at", ""), "dir": t.get("dir", ""), "channel": t.get("channel", ""),
+                             "who": t.get("who", "")[:120], "worker": t.get("worker", "")[:60], "stage": t.get("stage", "")[:60],
+                             "text": t.get("text", "")[:6000], "note": t.get("note", "")[:1500]})
+with open(os.path.join(OUT, "conversations.json"), "w") as fh:
+    json.dump(_threads, fh)
+
 
 # ---- stages (full list, so empty stages still show) ----
 write("stages.csv", ["stage_order", "stage", "team", "owner_action", "meaning"],

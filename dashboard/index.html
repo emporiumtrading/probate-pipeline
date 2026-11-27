@@ -64,6 +64,16 @@
 .pp tr.pp-click { cursor: pointer; }
 .pp tr.pp-click:hover td { background: color-mix(in srgb, var(--pp-accent) 6%, transparent); }
 .pp tr.pp-sel td { background: color-mix(in srgb, var(--pp-accent) 10%, transparent); font-weight: var(--cds-font-weight-medium); }
+.pp-thread { display: flex; flex-direction: column; gap: 10px; max-height: 720px; overflow: auto; padding: 4px 2px; }
+.pp-cv { border: 1px solid var(--color-border-line); border-radius: 12px; padding: 10px 14px; max-width: 78%; background: var(--color-panel); }
+.pp-cv-out { align-self: flex-end; border-color: #4f7cac; background: rgba(79,124,172,.08); }
+.pp-cv-in { align-self: flex-start; border-color: #3c8d5a; background: rgba(60,141,90,.08); }
+.pp-cv-internal { align-self: center; max-width: 92%; border-style: dashed; font-size: 13px; }
+.pp-cv-owner { align-self: center; max-width: 92%; border-color: #c8a45a; background: rgba(200,164,90,.12); }
+.pp-cv-head { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 6px; font-size: 12px; }
+.pp-cv-head span { color: var(--color-fg-muted, #777); }
+.pp-cv-body { white-space: pre-wrap; line-height: 1.5; }
+.pp-cv-note { margin-top: 8px; font-size: 12px; color: var(--color-fg-muted, #777); border-top: 1px dotted var(--color-border-line); padding-top: 6px; white-space: pre-wrap; }
 .pp-chip { display: inline-flex; align-items: center; gap: 5px; padding: 1px 8px; border-radius: 999px; font-size: 11px; border: 1px solid currentColor; white-space: nowrap; }
 .pp-chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
 .pp-tile .pp-chip { white-space: normal; max-width: 100%; }
@@ -285,6 +295,10 @@
       <div class="pp-card" id="mg-state"><h2>Messages by state</h2><p class="pp-sub">Letters and emails, within the filters.</p><div class="pp-chart" data-draw="msgStateChart" data-source="messagesF"></div></div>
     </div>
     <div class="pp-card" id="mg-days"><h2>Drafted per day</h2><p class="pp-sub">Messages by the day they were drafted.</p><div class="pp-chart" data-draw="msgDayChart" data-source="messagesF"></div></div>
+    <div class="pp-card" id="mg-conv"><h2>Conversations</h2><p class="pp-sub">Every letter, email and reply on a lead in order, with what each worker did in between. Replies are read, classified, routed and answered by the workers within their limits; anything outside them comes to you.</p>
+      <div class="pp-filters"><label>Conversation<select class="dash-select" data-draw="convSel" data-source="conversations" aria-label="Conversation"></select></label></div>
+      <p class="pp-sub" data-draw="convSum" data-source="conversations"></p>
+      <div class="pp-thread" data-draw="convThread" data-source="conversations"></div></div>
     <div class="pp-card pp-wrap" id="mg-table"><h2>All messages</h2><p class="pp-sub">Click a row to read the message, its attachments and the notes behind it, and to approve, ask for changes or reject.</p>
       <table data-source="messagesF" data-row-key="msg_id" data-kit="nosearch">
         <thead><tr><th data-field="created">Drafted</th><th data-field="address">Property</th><th data-field="city">City</th><th data-field="state">State</th><th data-field="channel">Kind</th><th data-field="to">To</th><th data-field="status">Status</th><th class="pp-n" data-field="attachment_count">Attachments</th><th class="pp-n" data-field="words">Words</th></tr></thead>
@@ -657,4 +671,5 @@
 <script src="messages.js"></script>
 <script src="team.js"></script>
 <script src="buyers.js"></script>
+<script src="threads.js"></script>
 <script src="tables.js"></script>
