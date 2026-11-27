@@ -26,7 +26,7 @@
     const k = r.item_key, on = (v) => v === true || v === 'true';
     if (r.area_id === 'business' && BIZ.includes(k) && String(s[k] || '').trim()) return { ...r, status: 'saved, applies at next run' };
     if (r.area_id === 'autonomy' && s.outreach === 'autonomous' && on(s.confirmed)) return { ...r, status: 'saved, applies at next run' };
-    if (r.area_id === 'channels' && on(s[`${k}_ready`])) return { ...r, status: k === 'field_inspections' ? 'done' : 'waiting for check' };
+    if (r.area_id === 'channels' && on(s[`${k}_ready`])) return { ...r, status: (k === 'field_inspections' || k === 'mail_scanning') ? 'done' : 'waiting for check' };
     if (/^market-/.test(r.area_id || '') && ((k === 'approved_on' && s.approved_on) || (k === 'licensed_or_partnered' && on(s.licensed_or_partnered)))) return { ...r, status: 'waiting for check' };
     return r;
   };

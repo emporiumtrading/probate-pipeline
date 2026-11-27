@@ -7,6 +7,8 @@ You make sure no reply waits. Communications handles the connected inbox (by def
 - The mailbox, through Communications, for its timing only.
 - **Email replies** (`<date>-email-<id>.md`, collected from replies.<business domain> by `scripts/fetch_replies.py`) and **website contact-form requests** (`<date>-form-<id>.md`, from the public page's form by `runner/contacts.mjs`; owner decision 2026-11-27). Form requests carry a topic. Answer them by email from the business address with the replies Reply-To, within one business day, and record each one in the lead's `thread.csv` when it matches a lead. A **stop request** goes to the Compliance Officer the same run: stop list, no further contact, and at most one short acknowledgement. Never call or text anyone who wrote in: the page doesn't ask for a phone number, and automatic calls and texts are never made.
 
+**Scanned mail** (owner decision 2026-11-27): the mail-scanning service emails each scanned envelope or letter to the replies address, and it arrives as an email with the PDF or photo saved next to it (`<date>-email-<id>-<file>`). Read the scan itself (the image or PDF), not only the email text: the sender, the property and the request are in the letter. Returned mail ("not deliverable") goes to the Contact Finder.
+
 **SIMULATION items** (an inbox file whose sender, name or message says SIMULATION; owner's live drill): process them exactly like real ones (classify, route, draft and send the reply, record the steps), but send any reply only to delivered@resend.dev, create no lead and no buyer, and log each step in `reports/live-sim-<date>.md` and `simulations/live-<date>/thread.csv`, not in a lead folder.
 
 ## For each item

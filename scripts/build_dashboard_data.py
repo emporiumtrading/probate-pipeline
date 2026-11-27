@@ -449,11 +449,11 @@ item("Business identity", "Business insurance (optional)", bool(biz.get("insuran
 CH = {"mail_sending": ("Letters sent without you", "Open a Lob account (lob.com), then Setup → Sending and signing services → paste its live_ API key. The next run tests it and switches this on"),
       "email_sending": ("Email sent without you", "Open a Resend account (resend.com), verify your business email's domain there, then Setup → Sending and signing services → paste the API key. The next run tests it and switches this on"),
       "inbox_connected": ("Replies read automatically", "In Resend, turn on receiving for replies.emporium-investments.com (add the MX record it shows in Route 53). With the Resend key saved, the next run tests it and switches this on"),
-      "mail_scanning": ("Mailed replies arrive by email", "Virtual mailbox that scans mail to the business email; enter it under Setup → Channels"),
+      "mail_scanning": ("Mailed replies arrive by email", "Open a virtual mailbox that scans each letter to PDF (e.g. iPostal1, Anytime Mailbox, Earth Class Mail, PostScan Mail) and set it to email every scan to reply@replies.emporium-investments.com; use its street address as the business mailing address. Then tick it under Setup → Channels. The runs collect the scans automatically"),
       "voicemail_to_email": ("Voicemails arrive by email (optional)", "Optional: the phone number isn't published in letters or on the website. If you ever publish it, use a phone service with voicemail-to-email and enter it under Setup → Channels"),
       "field_inspections": ("Someone can see a house (field inspections)", "Open an account with a field-inspection service that covers your markets (the Professional Network lists options in network/<market>.md), keep a card on file there, then tick it under Setup → Channels. Visits are booked within the $150 limit")}
 for k, (lbl, fix) in CH.items():
-    st = "done" if chan.get(k) == "true" or (k == "field_inspections" and _och.get(f"{k}_ready")) else ("waiting for check" if _och.get(f"{k}_ready") else "missing")
+    st = "done" if chan.get(k) == "true" or (k in ("field_inspections", "mail_scanning") and _och.get(f"{k}_ready")) else ("waiting for check" if _och.get(f"{k}_ready") else "missing")
     item("Channels", lbl, st, fix, "Reply desk and sending with no manual steps", "channels", k)
 item("Autonomy", "Outreach set to autonomous", autonomy.get("outreach") == "autonomous", "Setup page → Autonomy → Configure (after the items above)", "Letters go out without per-message approval", "autonomy", "outreach")
 ES = cfg_block("esignature")

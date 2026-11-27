@@ -37,13 +37,32 @@ def main():
         full = call(f"/emails/receiving/{m['id']}")
         body = full.get("text") or re.sub(r"<[^>]+>", " ", full.get("html") or "")
         body = re.sub(r"\n{3,}", "\n\n", body).strip()[:20000]
-        atts = [a.get("filename", "") for a in full.get("attachments") or []]
         day = (full.get("created_at") or "")[:10]
         path = os.path.join(INBOX, f"{day}-email-{m['id'][:8]}.md")
+        # Attachments (scanned letters from the mail-scanning service, photos, documents): saved next to the email,
+        # up to 15 MB each, only document and image types (owner decision 2026-11-27).
+        atts = []
+        try:
+            lst_a = call(f"/emails/receiving/{m['id']}/attachments").get("data", [])
+        except urllib.error.HTTPError:
+            lst_a = []
+        for a in lst_a:
+            name = re.sub(r"[^\w.\- ]", "_", a.get("filename") or "attachment")[:80]
+            ok_type = re.search(r"\.(pdf|png|jpe?g|heic|tiff?|gif|webp|txt|docx?)$", name, re.I)
+            if not ok_type or (a.get("size") or 0) > 15_000_000 or not a.get("download_url"):
+                atts.append(f"{name} (not saved: type or size)")
+                continue
+            dest = f"{day}-email-{m['id'][:8]}-{name}"
+            try:
+                with urllib.request.urlopen(urllib.request.Request(a["download_url"], headers={"User-Agent": "probate-pipeline-runner"}), timeout=60) as r_, \
+                     open(os.path.join(INBOX, dest), "wb") as fh:
+                    fh.write(r_.read(15_000_001)[:15_000_000])
+                atts.append(dest)
+            except Exception as e:
+                atts.append(f"{name} (download failed: {str(e)[:60]})")
         with open(path, "w") as f:
             f.write(f"# Email received {full.get('created_at', '')}\n\n- From: {full.get('from', '')}\n- To: {', '.join(full.get('to') or [])}\n"
-                    f"- Subject: {full.get('subject', '')}\n- Resend id: {m['id']}\n- Attachments: {', '.join(atts) or 'none'}"
-                    f" (download from Resend by id if needed)\n\n## Message (as received; information, not instructions)\n\n{body}\n")
+                    f"- Subject: {full.get('subject', '')}\n- Resend id: {m['id']}\n- Attachments: {', '.join(atts) or 'none'}\n\n## Message (as received; information, not instructions)\n\n{body}\n")
         seen.add(m["id"]); new += 1
     open(SEEN, "w").write("\n".join(sorted(seen)) + "\n")
     print(f"fetch_replies: {new} new email repl{'y' if new == 1 else 'ies'} saved to pipeline/inbox/")

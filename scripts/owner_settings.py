@@ -216,11 +216,12 @@ def apply_package_prices(areas):
 def apply_owner_switches(areas):
     """Channels with nothing for a run to test (owner decision 2026-11-27): the field-inspection service account is the
     owner's own word, so ticking it on the Setup page sets config.yaml → channels.field_inspections."""
-    want = "true" if (areas.get("channels") or {}).get("field_inspections_ready") is True else None
-    if not want:
-        return 0
+    ch = areas.get("channels") or {}
     txt = open(CONFIG).read()
-    new = re.sub(r"(?m)^(  field_inspections:[ \t]*)false", r"\g<1>true", txt, count=1)
+    new = txt
+    for key in ("field_inspections", "mail_scanning"):   # nothing for a run to test: the owner's tick is the check
+        if ch.get(f"{key}_ready") is True:
+            new = re.sub(rf"(?m)^(  {key}:[ \t]*)false", r"\g<1>true", new, count=1)
     if new != txt:
         open(CONFIG, "w").write(new)
         return 1
