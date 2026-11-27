@@ -28,3 +28,4 @@ Sources searched 2026-11-21: web search "Tampa real estate attorney … wholesal
 - No documents uploaded yet. The Florida packet goes in only after (1) they confirm a Florida-licensed attorney and acceptable fees, and (2) the packet's "Who we are" section has no [missing] lines (owner fills the Setup page).
 - Each evening run: Legal Advisor checks this matter's thread (`list_thread_messages`), routes questions on the handoff board, and reports the answers.
 2026-11-27: H-0006 done 0 of 5 markets: bar directories block automated lookups (FL 403, TX unavailable, TN 403), so no attorney verified; next: Ohio Supreme Court attorney directory (check terms) or have a session with a browser verify FL candidates
+2026-11-27: H-0006 blocked: floridabar.org, texasbar.com 403/503 from this box; no attorney can be verified automatically. Next: manual lookups (URLs in sources-log) or Ohio/TN directories
