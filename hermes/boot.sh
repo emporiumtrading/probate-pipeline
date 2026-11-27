@@ -44,7 +44,9 @@ PRIMARY=""; FALLBACKS=""
 add_fb() { FALLBACKS="${FALLBACKS}  - provider: $1
     model: \"$2\"
 "; }
-if [ -n "${ANTHROPIC_API_KEY:-}" ]; then PRIMARY="anthropic|${HERMES_CLAUDE_MODEL:-claude-sonnet-5-5}"; fi
+# Economy (owner request 2026-11-27): Haiku by default; the hourly supervision runs on it all day, so it's the
+# assistant's biggest steady cost. HERMES_CLAUDE_MODEL can raise it if the owner ever wants.
+if [ -n "${ANTHROPIC_API_KEY:-}" ]; then PRIMARY="anthropic|${HERMES_CLAUDE_MODEL:-claude-haiku-5-5}"; fi
 if [ -n "${NVIDIA_API_KEY:-}" ]; then
   export NVIDIA_BASE_URL="${NVIDIA_BASE_URL:-https://integrate.api.nvidia.com/v1}"
   # Don't pin a model NVIDIA may retire: ask what it offers now, test them, strongest first,

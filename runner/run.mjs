@@ -28,7 +28,7 @@ import { syncDeploys } from './deploy.mjs';
 import { syncDb } from './dbsync.mjs';
 import { restoreWorkcache, saveWorkcache } from './workcache.mjs';
 import { pullContacts } from './contacts.mjs';
-import { checkCredits, recordSpend, noteOpenrouter } from './credits.mjs';
+import { checkCredits, recordSpend, noteOpenrouter, economy } from './credits.mjs';
 
 const SLICE = process.argv[2] || 'a';
 const PIPELINE_REPO = process.env.PIPELINE_REPO || 'emporiumtrading/probate-pipeline';
@@ -184,6 +184,18 @@ saveCredits();
 const budget = { claude: +(process.env.MAX_MINUTES || (FAST ? 40 : 120)), agent: +(process.env.AGENT_MINUTES || (FAST ? 40 : 100)), scripted: FAST ? 10 : 30 };
 const hasKey = { claude: !!(process.env.ANTHROPIC_API_KEY || process.env.CLAUDE_CODE_OAUTH_TOKEN),
   nvidia: !!process.env.NVIDIA_API_KEY, openrouter: !!process.env.OPENROUTER_API_KEY, scripted: true };
+// Spend economically (owner request 2026-11-27). Routine (light) work tries the free engines first and reaches Claude
+// only if they fail the checks; heavy work (deep-dives, negotiation, repairs) starts with Claude for quality. Past
+// today's share of the monthly budget, Claude gets its cheapest model and a short time limit. Light runs get shorter
+// Claude time limits anyway: time on Claude is money.
+const eco = economy(WORK);
+const freeReady = (e) => hasKey[e] && (e !== 'openrouter' || credits.openrouter.ok);
+const runOrder = (wl.level === 'light' || eco.over) && !wl.repair && ['nvidia', 'openrouter'].some(freeReady)
+  ? [...order.filter((e) => e === 'nvidia' || e === 'openrouter'), ...order.filter((e) => e !== 'nvidia' && e !== 'openrouter')]
+  : order;
+if (wl.level === 'light') budget.claude = Math.min(budget.claude, FAST ? 20 : 45);
+if (eco.over) { LADDERS.claude = [LADDERS.claude[0]]; budget.claude = Math.min(budget.claude, 15); }
+console.log(`economy: ${eco.budget ? `today $${eco.todaySpend} of $${eco.allowance} allowance${eco.over ? ' (used: cheapest Claude, 15 min max)' : ''}` : 'no monthly budget set'}; engine order ${runOrder.join(' > ')}; Claude up to ${budget.claude} min`);
 // Engines never see the Render key; the backup agents' shells get no AI keys either.
 const engineEnv = { ...agentEnv }; delete engineEnv.RENDER_API_KEY; delete engineEnv.DATABASE_URL;   // only the runner itself deploys and writes the database
 const shellEnv = { ...engineEnv }; for (const k of ['NVIDIA_API_KEY', 'OPENROUTER_API_KEY', 'ANTHROPIC_API_KEY', 'CLAUDE_CODE_OAUTH_TOKEN']) delete shellEnv[k];
@@ -275,7 +287,7 @@ const writeFailures = () => {
 
 let code = 1, used = 'none', verified = 'skip', feedback = '';
 const notes = [];
-engines: for (const eng of order) {
+engines: for (const eng of runOrder) {
   if (!hasKey[eng]) { notes.push(`${eng}: no key`); continue; }
   if (eng !== 'scripted' && wl.level === 'idle') { notes.push('nothing waiting: no AI needed'); continue; }
   if ((eng === 'claude' || eng === 'openrouter') && credits[eng] && !credits[eng].ok) { notes.push(`${eng}: ${credits[eng].why}`); continue; }

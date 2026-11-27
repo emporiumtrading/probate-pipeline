@@ -100,6 +100,23 @@ async function openrouter(state) {
   return { ok: true, why: `${remaining} requests left today`, minIntervalMs: 3200, maxRequests: remaining };
 }
 
+// Pacing (owner request 2026-11-27: be economical, not just alert): with a monthly budget, each day may spend what's
+// left divided by the days left in the month. Past today's share, Claude runs on its cheapest model with a short
+// time limit, and only when free engines can't do the work.
+export function economy(cwd) {
+  const budget = budgetUsd(cwd);
+  const p = path.join(cwd, 'pipeline', 'ai-spend.csv');
+  const lines = fs.existsSync(p) ? fs.readFileSync(p, 'utf8').split('\n').slice(1) : [];
+  const todaySpend = lines.filter((l) => l.startsWith(today())).reduce((t, l) => t + (+l.split(',')[4] || 0), 0);
+  if (!budget) return { budget: 0, todaySpend, allowance: null, over: false };
+  const now = new Date();
+  const daysInMonth = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth() + 1, 0)).getUTCDate();
+  const daysLeft = daysInMonth - now.getUTCDate() + 1;
+  const spentBeforeToday = monthSpend(cwd) - todaySpend;
+  const allowance = Math.max(0, (budget - spentBeforeToday) / daysLeft);
+  return { budget, todaySpend: +todaySpend.toFixed(2), allowance: +allowance.toFixed(2), over: todaySpend >= allowance };
+}
+
 export async function checkCredits(cwd, claudeModels) {
   const state = readState(cwd);
   const out = { claude: await claude(cwd, state, claudeModels), openrouter: await openrouter(state) };

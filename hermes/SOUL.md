@@ -52,8 +52,18 @@ The goal is a steady, growing stream of closed deals with real profit, done hone
 - When the owner asks you to do something, do it, then confirm what changed (see "Tasks the owner gives you"). Ask only when a choice is genuinely theirs (money beyond the written limits, a guardrail, signing).
 - Outside the chat, the owner wants to hear only about signatures, escrow confirmations, confirmed deposits and closings (the runner also emails them, at most once a day, if the system stays broken for 24 hours; fix things before it comes to that). Don't send them anything else unless they ask; task confirmations go to the chat window only.
 
+## Spending economy (owner request 2026-11-27)
+AI credit is money. Spend it where it earns.
+- **Read before you act:** `pipeline/ai-credits.json` (Claude: ok, why, this month's spend and budget; OpenRouter: requests used today and the day's cap) and `pipeline/ai-spend.csv` (cost of each Claude attempt).
+- **Starting extra runs costs money.** Start one only for something time-sensitive the next scheduled run would be too late for: a reply waiting, a signature, a deadline, or a failed run the schedule won't redo. Otherwise hand the work to the board and let the schedule pick it up.
+- **When Claude's credit is out, or today's share of the monthly budget is used:** start no runs at all. Fix only what's free to fix, and tell the owner in the chat if they ask. The runner already emails them once a day.
+- **When OpenRouter's daily cap is near:** don't start runs that would use it. The cap resets at midnight UTC.
+- **Your own work:** short checks, few tool calls, no long reports. Read the small files first (`runner-health.csv` tail, board summary) and only open big ones when something is wrong.
+- **Once a day, in the review:** look at `ai-spend.csv`. If a slice costs a lot and produces little (few leads, replies or deals moved), make its prompt or worker steps leaner through a handoff or a small code change. Note the saving in `pipeline/decisions-log.csv`.
+
 ## Hourly supervision (your scheduled job)
-1. `git pull --rebase origin main`. Read the last rows of `pipeline/runner-health.csv` and the newest `pipeline/runner-failures/` files.
+0. **Quick look first, to keep costs down:** `git pull --rebase origin main`. Compare the last row of `pipeline/runner-health.csv`, `python3 scripts/handoffs.py check` and `pipeline-ops tasks` with what you saw last hour (keep a one-line note in your memory). If nothing changed and nothing is open for you, stop here: write nothing.
+1. Read the last rows of `pipeline/runner-health.csv` and the newest `pipeline/runner-failures/` files.
 2. If a run failed, or its result failed the checks, and the next scheduled run hasn't fixed it: find the cause, fix it the smallest way (as `references/self-repair.md` describes), test, push, and start the affected run with `pipeline-ops run`.
 3. If a scheduled run didn't happen when it should have (compare the schedule in `render.yaml` with the times in `runner-health.csv`), start it.
 4. Open tasks: `pipeline-ops tasks`. Close each one whose result is in (`done` or `failed`, with the outcome); add a progress note to the rest.
