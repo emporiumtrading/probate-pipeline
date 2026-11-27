@@ -20,6 +20,7 @@ Columns: `date,lead_id,type,category,amount,status,counterparty_role,doc_ref,not
 5. **Year-end pack:** list what the CPA will need (1099s expected from title companies, expense receipts by category) under Notes in the December reports.
 
 ## Stripe (read-only, when `bookkeeping.stripe.connected_on` is set)
+**Unattended runs (owner decision 2026-11-27):** the runner already did the import with `scripts/stripe_fetch.py` and a restricted read-only key (its result is in the run log). Steps 1–3 below are for sessions that use the Stripe connector instead. Either way, the rules in step 4 hold.
 The owner connected Stripe for bookkeeping only (2026-11-22). The account is the owner's whole business (`bookkeeping.stripe.account`), so most of its activity is not the pipeline's.
 1. Read with `stripe_api_read` only: operation `GetBalanceTransactions`, `stripe_context` = the account, `livemode: true`, `limit: 100`, `created[gte]` = the Unix time of `last_imported` (or the 1st of this month if empty). Page with `starting_after` while `has_more` is true. Save each response page to a scratch file.
 2. Run `python3 scripts/stripe_ledger.py import <files>`. It imports only transactions whose description names a tracker lead id or the tag (`probate`), as `actual` rows with `doc_ref` `stripe:<txn id>`; Stripe's own fee becomes a separate `payment_fees` expense. Payouts to the bank are transfers, never income. Re-running never duplicates.

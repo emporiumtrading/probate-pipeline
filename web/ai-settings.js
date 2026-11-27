@@ -22,6 +22,8 @@
     { name: 'Email (Resend)', key: 'RESEND_API_KEY', note: 'Sends email to estates and buyers, reads replies, and sends you the deposit and closing notices. Verify your business email domain in Resend first.' },
     { name: 'Letters by mail (Lob)', key: 'LOB_API_KEY', note: 'Prints and mails letters. Use the live_ key; test keys never mail anything.' },
     { name: 'E-signature (DocuSeal)', key: 'DOCUSEAL_API_KEY', note: 'Sends contracts to you and the seller for one-tap signature.' },
+    { name: 'Stripe bookkeeping, live (read-only)', key: 'STRIPE_API_KEY', note: 'A restricted key (rk_live_) with Read on Balance and Balance transactions only. The Bookkeeper imports payments tagged "probate" or a lead id into the ledger. Secret keys (sk_) are refused: the system never moves money.' },
+    { name: 'Stripe bookkeeping, test mode (read-only)', key: 'STRIPE_TEST_API_KEY', note: 'Optional: a restricted test key (rk_test_) for trying things in Stripe test mode. Checked only; test money is never imported.' },
     { name: 'Field inspections (ProxyPics)', key: 'PROXYPICS_API_KEY', note: 'Nationwide photos and condition reports, ordered by the Field Inspections worker within the $150-a-visit limit. Your card stays on file at ProxyPics, never here.' },
   ];
   const h = (tag, attrs, ...kids) => {

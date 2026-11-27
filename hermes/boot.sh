@@ -9,7 +9,7 @@ WS="$HH/workspace/probate-pipeline"
 log() { echo "[probate-hermes] $*"; }
 # Hermes holds only its AI keys, the GitHub token and its own API key. Anything else that reaches
 # this service by mistake is dropped before Hermes starts (it reaches Render through pipeline-ops).
-for v in RENDER_API_KEY DATABASE_URL RESEND_API_KEY LOB_API_KEY DOCUSEAL_API_KEY PROXYPICS_API_KEY; do
+for v in RENDER_API_KEY DATABASE_URL RESEND_API_KEY LOB_API_KEY DOCUSEAL_API_KEY PROXYPICS_API_KEY STRIPE_API_KEY STRIPE_TEST_API_KEY; do
   [ -n "${!v:-}" ] && log "dropping $v (Hermes doesn't hold it)"; unset "$v"
 done
 mkdir -p "$HH/workspace"

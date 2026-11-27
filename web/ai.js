@@ -19,7 +19,7 @@ const NAMES = (process.env.RUNNER_SERVICES || 'probate-slice-a,probate-slice-b,p
 // password and no sending/signing keys; it reaches Render through the dashboard's narrow
 // /api/ops door (web/ops-api.js), and the runner jobs do all sending and signing.
 const HERMES = process.env.HERMES_SERVICE || 'probate-hermes';
-const HERMES_FORBIDDEN = ['RENDER_API_KEY', 'DATABASE_URL', 'RESEND_API_KEY', 'LOB_API_KEY', 'DOCUSEAL_API_KEY', 'PROXYPICS_API_KEY'];
+const HERMES_FORBIDDEN = ['RENDER_API_KEY', 'DATABASE_URL', 'RESEND_API_KEY', 'LOB_API_KEY', 'DOCUSEAL_API_KEY', 'PROXYPICS_API_KEY', 'STRIPE_API_KEY', 'STRIPE_TEST_API_KEY'];
 
 // The provider's own reason for refusing a key, shown to the owner on the Setup page (never the key itself).
 const why = async (r) => { try { const j = await r.json(); const m = (j.error && (j.error.message || j.error)) || j.message || j.error_description || ''; return m ? `: ${String(m).replace(/[.\s]+$/, "").slice(0, 160)}` : ''; } catch { return ''; } };
@@ -70,6 +70,18 @@ const KEYS = {
     return r.ok ? null : `DocuSeal answered ${r.status}${await why(r)}. Copy the key from DocuSeal → Settings → API`; } },
   // Field inspections (owner decision 2026-11-27): ProxyPics, nationwide photo and property-data collection. Checked with a
   // read-only call (the account's order templates); orders cost money and are placed only by the Field Inspections worker.
+  // Bookkeeping (owner decision 2026-11-27): Stripe restricted keys with read-only permissions only. A secret key
+  // (sk_) could move money, so it is refused; the system never writes to Stripe.
+  STRIPE_API_KEY: { label: 'Stripe bookkeeping, live (read-only)', service: true, check: async (v) => {
+    if (/^sk_/.test(v)) return 'that is a Stripe secret key, which can move money. Create a restricted key instead (Stripe → Developers → API keys → Create restricted key) with Read on Balance and Balance transactions, nothing else';
+    if (!v.startsWith('rk_live_')) return v.startsWith('rk_test_') ? 'that is a test-mode key: save it in the Stripe test field' : 'not a Stripe restricted live key (starts with rk_live_)';
+    const r = await fetch('https://api.stripe.com/v1/balance_transactions?limit=1', { headers: { Authorization: `Bearer ${v}` }, signal: AbortSignal.timeout(20000) });
+    return r.ok ? null : `Stripe answered ${r.status}${await why(r)}. Give the restricted key Read access to Balance transactions`; } },
+  STRIPE_TEST_API_KEY: { label: 'Stripe bookkeeping, test mode (read-only)', service: true, check: async (v) => {
+    if (/^sk_/.test(v)) return 'that is a Stripe secret key. Use a restricted test key (rk_test_) with read-only permissions';
+    if (!v.startsWith('rk_test_')) return 'not a Stripe restricted test key (starts with rk_test_)';
+    const r = await fetch('https://api.stripe.com/v1/balance', { headers: { Authorization: `Bearer ${v}` }, signal: AbortSignal.timeout(20000) });
+    return r.ok ? null : `Stripe answered ${r.status}${await why(r)}`; } },
   PROXYPICS_API_KEY: { label: 'Field inspections (ProxyPics)', service: true, check: async (v) => {
     const r = await fetch('https://api.proxypics.com/api/v3/photo-request-templates', { headers: { 'x-api-key': v, Accept: 'application/json' }, signal: AbortSignal.timeout(20000) });
     return r.ok ? null : `ProxyPics answered ${r.status}`; } },

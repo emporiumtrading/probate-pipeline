@@ -138,6 +138,8 @@ if (fs.existsSync(path.join(WORK, 'pipeline', 'live-sim-request.json'))) {
 // Email replies received on replies.<domain> go into pipeline/inbox/ for the Reply Desk (scripts/fetch_replies.py).
 if (process.env.RESEND_API_KEY) { const c = spawnSync('python3', ['scripts/fetch_replies.py'], { cwd: WORK, env: agentEnv, encoding: 'utf8' }); process.stdout.write((c.stdout || '') + (c.stderr || '').slice(0, 300)); }
 try { console.log(await pullContacts(WORK)); } catch (e) { console.log('contacts: failed', e.message); }
+// Read-only Stripe bookkeeping import (scripts/stripe_fetch.py; restricted read-only key).
+if (process.env.STRIPE_API_KEY || process.env.STRIPE_TEST_API_KEY) { const c = spawnSync('python3', ['scripts/stripe_fetch.py'], { cwd: WORK, env: agentEnv, encoding: 'utf8' }); process.stdout.write((c.stdout || '') + (c.stderr || '').slice(0, 300)); }
 
 const wl = JSON.parse(spawnSync('python3', ['runner/workload.py', SLICE], { cwd: WORK, encoding: 'utf8' }).stdout || '{"level":"light"}');
 console.log('workload:', JSON.stringify(wl));
