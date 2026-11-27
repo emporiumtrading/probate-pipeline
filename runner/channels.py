@@ -37,6 +37,23 @@ if k:
     try:
         doms = get("https://api.resend.com/domains", {"Authorization": f"Bearer {k}"}).get("data", [])
         good = {d.get("name", "").lower() for d in doms if d.get("status") == "verified"}
+        # For the business domain (and its subdomains) not yet verified: print the exact DNS records Resend wants,
+        # and keep them in pipeline/email-dns-records.csv so they can be added at the DNS host (public values only).
+        rows = []
+        for d in doms:
+            nm = d.get("name", "").lower()
+            if biz_domain and (nm == biz_domain or nm.endswith("." + biz_domain)):
+                det = get(f"https://api.resend.com/domains/{d.get('id')}", {"Authorization": f"Bearer {k}"})
+                for r in det.get("records") or []:
+                    rows.append([nm, d.get("status", ""), r.get("record", ""), r.get("name", ""), r.get("type", ""),
+                                 r.get("value", ""), str(r.get("priority", "") or ""), r.get("status", "")])
+                    if d.get("status") != "verified":
+                        print(f"channels: resend {nm} needs {r.get('type')} {r.get('name')} = {r.get('value')}"
+                              f"{(' priority ' + str(r.get('priority'))) if r.get('priority') is not None else ''} [{r.get('status')}]")
+        if rows:
+            import csv as _csv
+            with open("pipeline/email-dns-records.csv", "w", newline="") as fh:
+                w = _csv.writer(fh); w.writerow(["domain", "domain_status", "record", "name", "type", "value", "priority", "status"]); w.writerows(rows)
         # A verified sending subdomain of the business domain (e.g. mail.<domain>) is preferred for bulk mail
         # (agents/communications.md → Email deliverability); the main domain itself also counts.
         subs = sorted(d for d in good if biz_domain and d.endswith("." + biz_domain))
