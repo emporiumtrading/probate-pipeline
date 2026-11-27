@@ -1,0 +1,36 @@
+<!-- Company e-signature resolution (owner decision 2026-11-25; drafted 2026-11-27 so the owner can sign it now).
+     Sent by scripts/resolution_sign.py through DocuSeal to the owner's notices email. The engaged attorney later
+     confirms it (or supplies a corrected version) for each state; until then the company signature stays off.
+     {{legal_name}}, {{entity_state}}, {{signer}}, {{address}} are filled from config.yaml → business. -->
+<html><body style="font-family: Georgia, serif; font-size: 12pt; line-height: 1.45; max-width: 7in;">
+<h2 style="text-align:center;">WRITTEN CONSENT OF THE MANAGER<br>OF {{legal_name}}</h2>
+<p style="text-align:center;">(organized in {{entity_state}})<br>Authorizing the Company's Electronic Signature for Certain Contracts</p>
+
+<p>The undersigned, being the Manager of {{legal_name}} (the "Company"), with its principal address at {{address}}, acting without a meeting as permitted by the Company's operating agreement and the law of its state of formation, adopts the following resolutions:</p>
+
+<p><b>1. Authorized documents.</b> The Company may sign, by an electronic signature applied through its e-signature account (DocuSeal) in the name of the Company, only these documents: (a) agreements by which the Company agrees to buy residential real property; and (b) assignments of the Company's rights under those agreements to a buyer. No other document may be signed this way. Any deed, loan, guarantee, lease, settlement, engagement of a professional, or any document that moves money from the Company's accounts must be signed by the Manager personally.</p>
+
+<p><b>2. Limits.</b> The electronic signature may be applied to a document only if every one of the following is true at the time of signing, as checked by the Company's automated pre-signing check:</p>
+<ol>
+<li>the document was prepared from a template that a licensed attorney in the property's state has approved for the Company;</li>
+<li>a licensed attorney has confirmed this consent for that state;</li>
+<li>for a purchase agreement: the price does not exceed the Company's recorded maximum offer for that property, the agreement is assignable, and it gives the Company an inspection period of at least the number of days set in the Company's written limits, during which the Company may cancel and recover any deposit;</li>
+<li>any earnest-money deposit is refundable, is held by a title company or escrow agent, and fits within the deposit reserve set by the Manager;</li>
+<li>the Company has not been asked by the seller, the seller's attorney or any heir to stop contact.</li>
+</ol>
+
+<p><b>3. Record and notice.</b> Each electronically signed document, together with the result of the pre-signing check, shall be kept in the Company's records, and the Manager shall be notified when it is signed.</p>
+
+<p><b>4. Revocation.</b> The Manager may revoke or narrow this authority at any time by switching off the Company's e-signature setting or by written notice to the Company's records. Revocation does not affect documents already signed.</p>
+
+<p><b>5. Ratification.</b> Documents signed within these limits are ratified as acts of the Company.</p>
+
+<p>This consent is effective on the date signed below.</p>
+
+<p style="margin-top:2em;">{{legal_name}}</p>
+<p>By: <signature-field name="Manager signature" role="Manager" required="true" style="width:240px;height:60px;display:inline-block;"></signature-field></p>
+<p>Name and title: {{signer}}</p>
+<p>Date: <date-field name="Date signed" role="Manager" required="true" style="width:160px;height:24px;display:inline-block;"></date-field></p>
+
+<p style="margin-top:2em;font-size:10pt;color:#555;">Prepared from the Company's own written limits for review by its attorney. Not legal advice. The Company's e-signature remains switched off until a licensed attorney confirms this consent for each state.</p>
+</body></html>

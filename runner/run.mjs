@@ -130,6 +130,13 @@ const autoDoc = Object.entries(storeDocs).find(([p]) => p.endsWith('/settings/au
 const AUTO = (autoDoc && autoDoc[1]) || {};
 const FULL = AUTO.full === true;
 console.log(`full autonomy: ${FULL ? 'on' : 'off'}`);
+console.log(`notices email: ${AUTO.notifyEmail ? 'saved' : 'not saved'}`);
+// Company e-signature resolution (owner request 2026-11-27): sent once to the owner through DocuSeal, recorded when
+// signed (scripts/resolution_sign.py; no AI). The company signature still stays off until an attorney confirms it.
+{
+  const r = spawnSync('python3', ['scripts/resolution_sign.py'], { cwd: WORK, encoding: 'utf8', env: { ...process.env, OWNER_NOTIFY_EMAIL: AUTO.notifyEmail || '' } });
+  console.log(`${r.stdout || ''}${r.stderr || ''}`.trim().slice(0, 300) || 'resolution: ok');
+}
 // Test the sending/signing services and switch their channels on or off (runner/channels.py).
 { const c = spawnSync('python3', ['runner/channels.py'], { cwd: WORK, env: agentEnv, encoding: 'utf8' }); process.stdout.write(c.stdout || ''); }
 // A live simulation the owner asked for (scripts/live_sim.py): runs once when pipeline/live-sim-request.json exists.

@@ -533,7 +533,7 @@ write("legal_markets.csv", ["market", "step", "status", "next"], _lmk)
 # Signing: the company's own e-signature (config.yaml → company_signature; owner decision 2026-11-25). Optional: without it, contracts come to the owner as one-tap signatures.
 _CSG = cfg_block("company_signature")
 item("Signing", "Company resolution signed (lets the company e-sign deals inside fixed limits)", bool(re.match(r"\d{4}-", _CSG.get("resolution_signed_on", ""))),
-     "The Legal Advisor has the attorney draft it and puts it in your Sign queue; one signature, once", "Contracts inside the limits signed without you", "signing", "resolution_signed_on")
+     "Sent to your notices email through DocuSeal (scripts/resolution_sign.py); sign it once. A licensed attorney then confirms it per state before the company signs anything", "Contracts inside the limits signed without you", "signing", "resolution_signed_on")
 item("Signing", "Attorney confirmed the company e-signature" + (f" ({_CSG.get('attorney_confirmed_states')})" if _CSG.get("attorney_confirmed_states") else ""),
      bool(re.match(r"\d{4}-", _CSG.get("attorney_confirmed_on", ""))), "Runs on its own: the Legal Advisor asks the attorney and records the answer", "Contracts inside the limits signed without you", "signing", "attorney_confirmed_on")
 write("readiness.csv", ["area", "item", "status", "how_to_fix", "unlocks", "area_id", "item_key"], ready)
