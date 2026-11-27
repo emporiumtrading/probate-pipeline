@@ -88,7 +88,8 @@ lead_types:                       # see .claude/skills/probate-wholesale-deal/re
   trust: true
   ancillary: true
   partition: true
-  tax_delinquent_inherited: false   # off by owner decision 2026-11-20: too close to a death; families are still mourning
+  tax_delinquent_inherited: true    # on by owner decision 2026-11-27, only for deaths at least 12 months ago (was off 2026-11-20: too close to a death)
+  tax_delinquent_min_months_after_death: 12   # no first contact on a tax-delinquent lead until this many months after the date of death (owner decision 2026-11-27)
   unprobated: false               # off by owner decision 2026-11-20: too close to a death; families are still mourning
   min_days_after_death: 90        # no first contact for any type until this many days after the date of death (owner decision)
   guardianship: false             # vulnerable adults; only the owner may enable, after the attorney approves a process
