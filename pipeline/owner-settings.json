@@ -1,5 +1,11 @@
 {
   "areas": {
+    "autonomy": {
+      "confirm_text": "AUTHORIZE",
+      "confirmed": true,
+      "outreach": "drafts_only",
+      "saved_at": "2026-11-27T07:14:23.639Z"
+    },
     "business": {
       "email": "iero@emporium-investments.com",
       "entity_state": "IL",
@@ -15,7 +21,7 @@
     "channels": {
       "email_sending_address": "",
       "email_sending_provider": "",
-      "email_sending_ready": false,
+      "email_sending_ready": true,
       "field_inspections_price_exterior": "",
       "field_inspections_price_pdc": "",
       "field_inspections_price_pdr": "",
@@ -29,7 +35,7 @@
       "mail_sending_address": "",
       "mail_sending_provider": "",
       "mail_sending_ready": true,
-      "saved_at": "2026-11-27T06:38:11.327Z",
+      "saved_at": "2026-11-27T07:15:33.004Z",
       "voicemail_to_email_address": "",
       "voicemail_to_email_provider": "",
       "voicemail_to_email_ready": false
