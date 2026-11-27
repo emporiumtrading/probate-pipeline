@@ -113,7 +113,7 @@ ok-oklahoma,tax_status,,untested,,,,
 ok-oklahoma,death_date,,untested,,,,
 pa-philadelphia,probate_docket,phl.carto.com opa_properties_public,works,,,2026-11-19,seeded from sources-log: worked
 pa-philadelphia,legal_notices,"publicnoticepa.com (PA NewsMedia Assn) ""estate Philadelphia letters"" / ""deceased Philadelphia""",untested,,,2026-11-19,seeded from sources-log: partial
-pa-philadelphia,parcel_owner,property.phila.gov / api.phila.gov,untested,,,2026-11-19,seeded from sources-log: reachable (200)
+pa-philadelphia,parcel_owner,phl.carto.com SQL API table opa_properties_public (owner_1 LIKE; fields parcel_number owner_1 location market_value),works,,,2026-11-27,fast desk H-0008: tested 2026-11-27 returns rows (open data; use sparingly)
 pa-philadelphia,deed_index,,untested,,,,
 pa-philadelphia,civil_docket,,untested,,,,
 pa-philadelphia,tax_status,,untested,,,,
