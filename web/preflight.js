@@ -72,7 +72,7 @@ const check = async (user) => {
   }
   if (rd.length && !approvedMarkets.length) {
     blocking.push({ area: 'Attorneys', item: 'At least one market with attorney-approved letters and contracts',
-      fix: 'Runs on its own: the Legal Advisor sends each market\'s packet to the attorney service and records the approval. Nothing goes to a seller anywhere until one market is approved.' });
+      fix: 'Runs on its own: the Professional Network finds and emails local real-estate attorneys for a quote, puts the best one\'s engagement letter in your Sign queue (within the $1,500 template-review limit), and the Legal Advisor sends that market\'s packet and records the approval. Nothing goes to a seller anywhere until one market is approved.' });
   }
 
   if (st && !st.renderReady) blocking.push({ area: 'Render', item: 'Render API key on the dashboard', fix: 'Render → Account settings → API Keys → create one; add it as RENDER_API_KEY in the probate-dashboard service\'s Environment.' });
