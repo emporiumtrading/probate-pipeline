@@ -16,7 +16,7 @@ Re: Estate of John Paul Webb, Franklin County Probate Case No. 648255 - 1441 Che
 
 Dear Mr. King,
 
-I'm a local real-estate investor, and I'm sorry for the Webb family's loss. I'm writing about the house at 1441 Chelmsford Ct (case 648255). I buy houses as-is for cash and may assign my purchase contract to another buyer. I understand the court has not yet appointed an executor, so there is no rush - I'd simply like the family to know this option exists when they're ready.
+I'm a real-estate investor, and I'm sorry for the Webb family's loss. I'm writing about the house at 1441 Chelmsford Ct (case 648255). I buy houses as-is for cash and may assign my purchase contract to another buyer. I understand the court has not yet appointed an executor, so there is no rush - I'd simply like the family to know this option exists when they're ready.
 
 If the family is considering a sale, I can offer:
 - a sale on the family's schedule - we are happy to wait until the court appoints the executor;
@@ -31,10 +31,10 @@ To be upfront: I'm an investor, not an agent, and may assign my contract to anot
 If the estate plans to keep or list the house, that's completely fine. If you'd rather I not follow up, just let me know and I won't contact you again.
 
 Sincerely,
-[Name]
+Iyoobsa Ero
 
 ## Call script - counsel's office (only after approval and a DNC scrub, day 7-10)
-"Hi, this is [name], a local real-estate investor. I wrote to Mr. King about the John Paul Webb estate, case 648255, the house on Chelmsford Ct. Is there a good time for a short question?"
+"Hi, this is Iyoobsa Ero, a real-estate investor. I wrote to Mr. King about the John Paul Webb estate, case 648255, the house on Chelmsford Ct. Is there a good time for a short question?"
 - "If the estate wants to sell, I'd like to make an as-is cash offer. I'm an investor and may assign the contract; I'll give the Ohio wholesaler disclosure first."
 - Questions: Does the estate plan to sell, keep, or list? When do you expect letters? Does the will include a power of sale, or will consents/court approval be needed? Is anyone living there? Any repairs or timing needs? Has a value been set for the inventory?
 - If not interested / asked to stop: thank them, log the stop, no further contact.

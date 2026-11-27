@@ -16,7 +16,7 @@ Re: Estate of Cora I. Denomme, Hillsborough County Case No. 26-CP-003731 — 612
 
 Dear Counsel,
 
-I'm a local real-estate investor. I saw the estate filing for Cora I. Denomme and am sorry for the family's loss.
+I'm a real-estate investor. I saw the estate filing for Cora I. Denomme and am sorry for the family's loss.
 
 If your client and the family decide to sell the house on Valley Hill Dr, I'd be glad to make an as-is cash offer. I can:
 - handle the house locally for a family that lives out of state - cleanout, utilities, lawn and access;
@@ -29,10 +29,10 @@ To be upfront: I am an investor buying for my own account, not a licensed real e
 If the family plans to keep or list the house, that's completely fine. You can reach me at +1-773-236-7749 · iero@emporium-investments.com; if you'd prefer I not follow up, just let me know and I won't.
 
 Sincerely,
-[Name]
+Iyoobsa Ero
 
 ## Call script — counsel's office (only after approval and DNC check, day 7–10)
-"Hi, this is [name], a local real-estate investor. I wrote to Ivan Thaddeus Lenoir about the Cora I. Denomme estate, case 26-CP-003731, the house on Valley Hill Dr. Is there a good time for a short question?"
+"Hi, this is Iyoobsa Ero, a real-estate investor. I wrote to Ivan Thaddeus Lenoir about the Cora I. Denomme estate, case 26-CP-003731, the house on Valley Hill Dr. Is there a good time for a short question?"
 - "If the family decides to sell, I'd like to make an as-is cash offer. I'm an investor and may assign the contract; I'll put that in writing."
 - Questions: Sell, keep or list? Who will be able to sign — PR with letters, or the heirs after a homestead order? Is anyone living there? Any timing needs or known repairs? Any number in mind?
 - If not interested / asked to stop: thank them, log the stop, no further contact.

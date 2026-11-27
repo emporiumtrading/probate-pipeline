@@ -27,4 +27,4 @@ Sincerely,
 Iyoobsa Ero
 
 ## Call script (manual, attorney's office only, after DNC/Texas no-call scrub and attorney OK on SB 140)
-"Hi, this is [name]. I wrote to Mr. Wilson about the Barrilleaux estate house on Nell Street. I'm an investor who buys as-is and may assign the contract. Once the executor is appointed, would the family like a written offer?"
+"Hi, this is Iyoobsa Ero. I wrote to Mr. Wilson about the Barrilleaux estate house on Nell Street. I'm an investor who buys as-is and may assign the contract. Once the executor is appointed, would the family like a written offer?"

@@ -17,7 +17,7 @@ Re: Estate of John H. Young Sr., Franklin County Probate Case No. 648122 — 134
 
 Dear Mr. Splain,
 
-I'm a local real-estate investor, and I'm sorry for the Young family's loss. I saw that the will was admitted and a certificate of transfer was issued for the house on East Whittier Street.
+I'm a real-estate investor, and I'm sorry for the Young family's loss. I saw that the will was admitted and a certificate of transfer was issued for the house on East Whittier Street.
 
 If the family is considering selling, I'd be glad to make an as-is cash offer. I can:
 - buy the house as-is — no repairs, and we take care of any cleanout;
@@ -30,10 +30,10 @@ To be upfront: I'm an investor and may assign my purchase contract to another bu
 If the family plans to keep or list the house, that's completely fine. You can reach me at +1-773-236-7749 · iero@emporium-investments.com; if you'd prefer I not follow up, just let me know and I won't.
 
 Sincerely,
-[Name]
+Iyoobsa Ero
 
 ## Call script — counsel's office (after approval, day 7–10)
-"Hi, this is [name], a local real-estate investor. I wrote to Mr. Splain about the John H. Young Sr. estate, case 648122, the house on East Whittier. Is he available for a quick question, or is there a better time?"
+"Hi, this is Iyoobsa Ero, a real-estate investor. I wrote to Mr. Splain about the John H. Young Sr. estate, case 648122, the house on East Whittier. Is he available for a quick question, or is there a better time?"
 - "If the family wants to sell, I'd like to make an as-is cash offer. I'm an investor and may assign the contract; I'll give the Ohio wholesaler disclosure first."
 - Questions: Is the family planning to sell, keep, or list? Who will be on title once the certificate is recorded? Is anyone living there? Any repairs or timing needs? Have they thought about a number?
 - If not interested / asked to stop: thank them, log stop, no further contact.

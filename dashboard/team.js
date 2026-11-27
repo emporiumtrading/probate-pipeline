@@ -57,5 +57,15 @@
     { f: 'kind', chip: (v) => v === 'blocker' ? 'pp-bad' : '' }, { f: 'priority', chip: (v) => v === 'urgent' ? 'pp-warn' : '' }, { f: 'ask', cls: 'pp-w' }, { f: 'needed_by' },
     { f: 'status', fmt: (v, r) => stLabel(r), chip: (v, r) => ST_CLS(r) }, { f: 'answer', cls: 'pp-w pp-muted' }];
   dash.draw('hoRows', (tb) => PP.rows(tb, 'handoffsF', cols, 'Nothing here for these filters.', (r) => r.lead_id && r.lead_id !== 'general' && PP.openDeal(r)));
+  // Buyers paired with this deal before it's signed (scripts/match_buyers.py), best fit first.
+  dash.calc('dealBuyers', { title: 'Buyers lined up for this deal', description: 'The market buyers whose purchases best fit this house, ranked.', inputs: ['lead_buyer_matches', 'deal'],
+    fn: (m, deal) => { const id = deal[0] && deal[0].lead_id; return id ? m.filter((r) => r.lead_id === id).sort((a, b) => a.rank - b.rank) : []; } });
+  const bcols = [{ f: 'rank' }, { f: 'buyer' }, { f: 'fit' }, { f: 'why', cls: 'pp-w' },
+    { f: 'status', chip: (v) => v === 'standby' || v === 'vetted' ? 'pp-good' : '' }, { f: 'warmth', fmt: (v) => v || 'cold', chip: (v) => v === 'hot' || v === 'warm' ? 'pp-good' : '' },
+    { f: 'standby', fmt: (v) => v === 'yes' ? 'Yes' : '—' }, { f: 'ready_to_buy', fmt: (v) => v === 'yes' ? 'Yes' : 'not yet' }];
+  dash.draw('dealBuyerRows', (tb) => PP.rows(tb, 'dealBuyers', bcols, 'No buyers paired yet: the market has no buyers whose purchases fit this house.'));
+  dash.draw('dealBuyerSum', (el) => { const d = dash.data('dealBuyers'); const r = d.status === 'ok' ? d.data : [];
+    const ready = r.filter((x) => x.ready_to_buy === 'yes' || x.standby === 'yes').length, vet = r.filter((x) => x.status === 'vetted' || x.status === 'standby').length;
+    el.textContent = r.length ? `${r.length} buyers paired · ${vet} vetted · ${ready} ready or on standby. Goal before signing: at least 3 vetted and 1 ready.` : ''; });
   dash.draw('hoDealRows', (tb) => PP.rows(tb, 'handoffsDeal', cols.filter((c) => c.f !== 'address'), 'No questions between workers on this deal.'));
 })();

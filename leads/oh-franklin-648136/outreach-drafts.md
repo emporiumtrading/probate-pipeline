@@ -8,7 +8,7 @@ Dear Mr. Rathburn,
 
 I understand you represent the Estate of John F. Brandt (Franklin County Probate Case No. 648136). Please pass along my condolences to the family.
 
-My name is Iyoobsa Ero. I'm a local real-estate investor, and I'd like to make an as-is cash offer on 1272 Moler Road if the executor decides that selling it would help settle the estate. To be upfront:
+My name is Iyoobsa Ero. I'm a real-estate investor, and I'd like to make an as-is cash offer on 1272 Moler Road if the executor decides that selling it would help settle the estate. To be upfront:
 - I am a real-estate wholesaler. I may assign my purchase contract to another buyer before closing and may earn a fee from that buyer.
 - Before any contract is signed, I will provide the written wholesaler disclosure required by Ohio Revised Code 5301.95, and the executor is welcome to have you review everything.
 
@@ -17,10 +17,10 @@ I can buy the house as-is with no repairs or cleanout, cover normal closing cost
 If the executor isn't interested, or would prefer I not follow up, just let me know and I won't contact the estate again.
 
 Sincerely,
-[Name] | [Company] | [Phone] | [Email] | [License # if any]
+Iyoobsa Ero | Emporium Investments | +1-773-236-7749 | iero@emporium-investments.com
 
 ## Call script (Day 7–10, attorney's office only)
-"Hi, this is [Name], a local real-estate investor. I wrote to Mr. Rathburn about the Estate of John Brandt, 1272 Moler Road. Is he available? … I wanted to ask whether the executor is open to an as-is offer, and whether the sale would be under the will or need court approval. Full disclosure: I'm a wholesaler and may assign the contract; I'd give the Ohio 5301.95 disclosure before anything is signed. Would a short written summary of my numbers help?"
+"Hi, this is Iyoobsa Ero, a real-estate investor. I wrote to Mr. Rathburn about the Estate of John Brandt, 1272 Moler Road. Is he available? … I wanted to ask whether the executor is open to an as-is offer, and whether the sale would be under the will or need court approval. Full disclosure: I'm a wholesaler and may assign the contract; I'd give the Ohio 5301.95 disclosure before anything is signed. Would a short written summary of my numbers help?"
 If not interested: thank them; log stop if asked.
 
 ## Cadence

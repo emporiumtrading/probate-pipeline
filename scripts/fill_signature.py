@@ -46,6 +46,18 @@ def fill(text, b):
         return block(b, lic.group(0) if lic else "")
     out = SENDER.sub(sender, text)
     person = person_name(b)
+    # One-line sender: "[Name] | [Company] | [Phone] | [Email] | [License # if any]" (no licence: the part is dropped).
+    def oneline(m):
+        parts = [person or "[Name]", b.get("legal_name") or "[Company]", b.get("phone") or "[Phone]", b.get("email") or "[Email]"]
+        return " | ".join(parts)
+    out = re.sub(r"\[Name\] \| \[Company\] \| \[Phone\] \| \[Email\](?: \| \[License # if any\])?", oneline, out)
+    if person:
+        out = re.sub(rf"(?m)^({CLOSINGS}[ \t]*\n)\[Name\][ \t]*$", lambda m: m.group(1) + person, out)
+    # Honesty (owner decision 2026-11-27): the company is in Chicago, so a letter never calls us "local".
+    out = re.sub(r"\b(I'm|I am|is|as) a local real[- ]estate investor", r"\1 a real-estate investor", out)
+    out = re.sub(r"\b(?:a )?local (real[- ]estate )?investor\b", lambda m: ("a " if m.group(0).startswith("a ") else "") + (m.group(1) or "real-estate ") + "investor", out)
+    if person:
+        out = re.sub(r"this is \[name\]([.,])", lambda m: f"this is {person}{m.group(1)}", out, flags=re.I)
     if person:
         out = out.replace("[Your name]", person).replace("[Owner name]", person)   # the person, without a title
     if person or b.get("legal_name"):
@@ -85,7 +97,7 @@ def main():
     b = business()
     files = sorted(glob.glob(os.path.join(ROOT, "leads", "*", "outreach-drafts.md")))
     if "--check" in sys.argv:
-        waiting = [f for f in files if SENDER.search(open(f).read()) or "[Your name]" in open(f).read()]
+        waiting = [f for f in files if SENDER.search(open(f).read()) or re.search(r"\[(Your name|Name|Company|Phone|Email)\]", open(f).read())]
         print(f"fill_signature: {len(waiting)} of {len(files)} drafts still have sender placeholders")
         return
     if not (b.get("legal_name") or b.get("signer")):

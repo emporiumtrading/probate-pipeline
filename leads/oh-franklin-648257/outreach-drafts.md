@@ -18,7 +18,7 @@ Re: Estate of Thomas E. Savage, Franklin County Probate Case No. 648257 - 37 N B
 
 Dear Ms. Waugh,
 
-I'm a local real-estate investor writing about the house at 37 N Burgess Ave, which appears to be an asset of the estate you administer (case 648257). I buy houses as-is for cash and may assign my purchase contract to another buyer.
+I'm a real-estate investor writing about the house at 37 N Burgess Ave, which appears to be an asset of the estate you administer (case 648257). I buy houses as-is for cash and may assign my purchase contract to another buyer.
 
 What I can offer the estate:
 - a documented as-is cash offer, with comps and a line-item repair estimate for the estate file;
@@ -33,10 +33,10 @@ To be upfront: I'm an investor, not an agent, and may assign my contract to anot
 If the estate plans to keep or list the house, that's completely fine. If you'd rather I not follow up, just let me know and I won't contact you again.
 
 Sincerely,
-[Name]
+Iyoobsa Ero
 
 ## Call script - administrator/counsel (only after approval and a DNC scrub, day 7-10)
-"Hi, this is [name], a local real-estate investor. I wrote to Ms. Waugh about the Thomas E. Savage estate, case 648257, the house on N Burgess Ave. Is there a good time for a short question?"
+"Hi, this is Iyoobsa Ero, a real-estate investor. I wrote to Ms. Waugh about the Thomas E. Savage estate, case 648257, the house on N Burgess Ave. Is there a good time for a short question?"
 - "If the estate wants to sell, I'd like to make an as-is cash offer. I'm an investor and may assign the contract; I'll give the Ohio wholesaler disclosure first."
 - Questions: Does the estate plan to sell, keep, or list? Does the will include a power of sale, or will consents/court approval be needed? Is anyone living there? Any repairs or timing needs? Has a value been set for the inventory?
 - If not interested / asked to stop: thank them, log the stop, no further contact.

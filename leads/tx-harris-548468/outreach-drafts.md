@@ -30,4 +30,4 @@ Sincerely,
 Iyoobsa Ero
 
 ## Call script (manual, only after DNC/Texas no-call scrub and attorney OK on SB 140; to the attorney's office only)
-"Hi, this is [name]. I sent Ms. Master a letter about the Baggett estates' house on Cayton Street. I'm an investor who buys as-is and may assign the contract. Is the representative planning to sell once letters issue, and would she like a written offer? … Thank you — I'll follow up by mail."
+"Hi, this is Iyoobsa Ero. I sent Ms. Master a letter about the Baggett estates' house on Cayton Street. I'm an investor who buys as-is and may assign the contract. Is the representative planning to sell once letters issue, and would she like a written offer? … Thank you — I'll follow up by mail."

@@ -1,0 +1,727 @@
+lead_id,rank,buyer_id,buyer,fit,why,status,warmth,standby,ready_to_buy,lead_stage
+oh-franklin-619059,1,oh-fr-018,Ohio Salcedo Holdings Llc,71,"buys in ZIP 43205; ~$98,500 is inside their $60,000-$157,500 range; 8 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-619059,2,oh-fr-001,Imk Properties Llc,61,"buys elsewhere in the county; ~$98,500 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-619059,3,oh-fr-003,Alcauters Investment Group Llc,51,"buys elsewhere in the county; ~$98,500 is inside their $95,000-$180,000 range; 16 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-619059,4,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$98,500 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-619059,5,oh-fr-005,Kp Homes Llc,49,"buys elsewhere in the county; ~$98,500 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-619059,6,oh-fr-006,Hhbc Investments Llc,48,"buys elsewhere in the county; ~$98,500 is inside their $40,000-$150,000 range; 12 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-619059,7,oh-fr-009,Everlasting Realty Llc,47,"buys elsewhere in the county; ~$98,500 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-619059,8,oh-fr-011,C&M Investments Ohio Llc,46,"buys elsewhere in the county; ~$98,500 is inside their $95,000-$200,000 range; 9 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-619059,9,oh-fr-013,Tgd Property Group Llc,46,"buys elsewhere in the county; ~$98,500 is inside their $60,000-$175,000 range; 9 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-619059,10,oh-fr-015,B A Rhoads Investments Llc,46,"buys elsewhere in the county; ~$98,500 is inside their $100,000-$160,000 range; 9 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648122,1,oh-fr-024,Fisk Properties Llc,69,"buys in ZIP 43206; ~$128,500 is inside their $83,500-$167,000 range; 6 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648122,2,oh-fr-016,Sriram Llc,67,"buys in ZIP 43206; ~$128,500 is inside their $112,500-$265,650 range; 8 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648122,3,oh-fr-020,Elg Property Llc,67,"buys in ZIP 43206; ~$128,500 is inside their $122,000-$224,000 range; 8 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648122,4,oh-fr-001,Imk Properties Llc,61,"buys elsewhere in the county; ~$128,500 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648122,5,oh-fr-003,Alcauters Investment Group Llc,51,"buys elsewhere in the county; ~$128,500 is inside their $95,000-$180,000 range; 16 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648122,6,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$128,500 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648122,7,oh-fr-002,Dtrt Properties Llc,49,"buys elsewhere in the county; ~$128,500 is inside their $128,000-$278,000 range; 19 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648122,8,oh-fr-005,Kp Homes Llc,49,"buys elsewhere in the county; ~$128,500 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648122,9,oh-fr-006,Hhbc Investments Llc,48,"buys elsewhere in the county; ~$128,500 is inside their $40,000-$150,000 range; 12 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648122,10,oh-fr-009,Everlasting Realty Llc,47,"buys elsewhere in the county; ~$128,500 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648136,1,oh-fr-004,Cogs Ultd Llc,75,"buys in ZIP 43207; ~$115,000 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648136,2,oh-fr-005,Kp Homes Llc,74,"buys in ZIP 43207; ~$115,000 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648136,3,oh-fr-009,Everlasting Realty Llc,72,"buys in ZIP 43207; ~$115,000 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648136,4,oh-fr-013,Tgd Property Group Llc,71,"buys in ZIP 43207; ~$115,000 is inside their $60,000-$175,000 range; 9 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648136,5,oh-fr-017,Fortune Future Llc,71,"buys in ZIP 43207; ~$115,000 is inside their $60,000-$104,100 range; 8 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648136,6,oh-fr-007,Ack Equity Llc,69,"buys in ZIP 43207; ~$115,000 is inside their $73,500-$195,000 range; 12 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648136,7,oh-fr-010,Ready Set Close Llc,67,"buys in ZIP 43207; ~$115,000 is inside their $60,000-$147,000 range; 9 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648136,8,oh-fr-014,Mih Properties Llc,67,"buys in ZIP 43207; ~$115,000 is inside their $72,000-$162,500 range; 9 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648136,9,oh-fr-012,Acq Equity Llc,63,"buys in ZIP 43207; ~$115,000 is inside their $90,000-$160,000 range; 9 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648136,10,oh-fr-019,R&R Grandeur Properties Llc,63,"buys in ZIP 43207; ~$115,000 is inside their $65,000-$205,000 range; 8 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648151,1,oh-fr-004,Cogs Ultd Llc,75,"buys in ZIP 43207; ~$224,000 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648151,2,oh-fr-005,Kp Homes Llc,74,"buys in ZIP 43207; ~$224,000 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648151,3,oh-fr-007,Ack Equity Llc,69,"buys in ZIP 43207; ~$224,000 is inside their $73,500-$195,000 range; 12 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648151,4,oh-fr-019,R&R Grandeur Properties Llc,63,"buys in ZIP 43207; ~$224,000 is inside their $65,000-$205,000 range; 8 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648151,5,oh-fr-001,Imk Properties Llc,61,"buys elsewhere in the county; ~$224,000 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648151,6,oh-fr-023,616 N Elisabeth Street Llc,59,"buys in ZIP 43207; ~$224,000 is inside their $135,000-$200,000 range; 6 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648151,7,oh-fr-002,Dtrt Properties Llc,49,"buys elsewhere in the county; ~$224,000 is inside their $128,000-$278,000 range; 19 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648151,8,oh-fr-011,C&M Investments Ohio Llc,46,"buys elsewhere in the county; ~$224,000 is inside their $95,000-$200,000 range; 9 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648151,9,oh-fr-025,Top Gun Investments Llc,44,"buys elsewhere in the county; ~$224,000 is inside their $154,000-$200,000 range; 6 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648151,10,oh-fr-008,Prime Luxury Llc,44,"buys elsewhere in the county; ~$224,000 is inside their $108,000-$295,000 range; 11 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648172,1,oh-fr-005,Kp Homes Llc,74,"buys in ZIP 43228; ~$98,500 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Researched
+oh-franklin-648172,2,oh-fr-008,Prime Luxury Llc,69,"buys in ZIP 43228; ~$98,500 is inside their $108,000-$295,000 range; 11 cash buys in 12 months",found,,,,Researched
+oh-franklin-648172,3,oh-fr-001,Imk Properties Llc,61,"buys elsewhere in the county; ~$98,500 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Researched
+oh-franklin-648172,4,oh-fr-003,Alcauters Investment Group Llc,51,"buys elsewhere in the county; ~$98,500 is inside their $95,000-$180,000 range; 16 cash buys in 12 months",found,,,,Researched
+oh-franklin-648172,5,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$98,500 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Researched
+oh-franklin-648172,6,oh-fr-006,Hhbc Investments Llc,48,"buys elsewhere in the county; ~$98,500 is inside their $40,000-$150,000 range; 12 cash buys in 12 months",found,,,,Researched
+oh-franklin-648172,7,oh-fr-009,Everlasting Realty Llc,47,"buys elsewhere in the county; ~$98,500 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Researched
+oh-franklin-648172,8,oh-fr-011,C&M Investments Ohio Llc,46,"buys elsewhere in the county; ~$98,500 is inside their $95,000-$200,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648172,9,oh-fr-013,Tgd Property Group Llc,46,"buys elsewhere in the county; ~$98,500 is inside their $60,000-$175,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648172,10,oh-fr-015,B A Rhoads Investments Llc,46,"buys elsewhere in the county; ~$98,500 is inside their $100,000-$160,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648173,1,oh-fr-016,Sriram Llc,67,"buys in ZIP 43119; ~$168,500 is inside their $112,500-$265,650 range; 8 cash buys in 12 months",found,,,,Researched
+oh-franklin-648173,2,oh-fr-001,Imk Properties Llc,61,"buys elsewhere in the county; ~$168,500 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Researched
+oh-franklin-648173,3,oh-fr-003,Alcauters Investment Group Llc,51,"buys elsewhere in the county; ~$168,500 is inside their $95,000-$180,000 range; 16 cash buys in 12 months",found,,,,Researched
+oh-franklin-648173,4,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$168,500 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Researched
+oh-franklin-648173,5,oh-fr-002,Dtrt Properties Llc,49,"buys elsewhere in the county; ~$168,500 is inside their $128,000-$278,000 range; 19 cash buys in 12 months",found,,,,Researched
+oh-franklin-648173,6,oh-fr-005,Kp Homes Llc,49,"buys elsewhere in the county; ~$168,500 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Researched
+oh-franklin-648173,7,oh-fr-006,Hhbc Investments Llc,48,"buys elsewhere in the county; ~$168,500 is inside their $40,000-$150,000 range; 12 cash buys in 12 months",found,,,,Researched
+oh-franklin-648173,8,oh-fr-009,Everlasting Realty Llc,47,"buys elsewhere in the county; ~$168,500 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Researched
+oh-franklin-648173,9,oh-fr-011,C&M Investments Ohio Llc,46,"buys elsewhere in the county; ~$168,500 is inside their $95,000-$200,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648173,10,oh-fr-013,Tgd Property Group Llc,46,"buys elsewhere in the county; ~$168,500 is inside their $60,000-$175,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648186,1,oh-fr-001,Imk Properties Llc,61,"buys elsewhere in the county; ~$146,500 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Researched
+oh-franklin-648186,2,oh-fr-003,Alcauters Investment Group Llc,51,"buys elsewhere in the county; ~$146,500 is inside their $95,000-$180,000 range; 16 cash buys in 12 months",found,,,,Researched
+oh-franklin-648186,3,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$146,500 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Researched
+oh-franklin-648186,4,oh-fr-002,Dtrt Properties Llc,49,"buys elsewhere in the county; ~$146,500 is inside their $128,000-$278,000 range; 19 cash buys in 12 months",found,,,,Researched
+oh-franklin-648186,5,oh-fr-005,Kp Homes Llc,49,"buys elsewhere in the county; ~$146,500 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Researched
+oh-franklin-648186,6,oh-fr-006,Hhbc Investments Llc,48,"buys elsewhere in the county; ~$146,500 is inside their $40,000-$150,000 range; 12 cash buys in 12 months",found,,,,Researched
+oh-franklin-648186,7,oh-fr-009,Everlasting Realty Llc,47,"buys elsewhere in the county; ~$146,500 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Researched
+oh-franklin-648186,8,oh-fr-011,C&M Investments Ohio Llc,46,"buys elsewhere in the county; ~$146,500 is inside their $95,000-$200,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648186,9,oh-fr-013,Tgd Property Group Llc,46,"buys elsewhere in the county; ~$146,500 is inside their $60,000-$175,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648186,10,oh-fr-015,B A Rhoads Investments Llc,46,"buys elsewhere in the county; ~$146,500 is inside their $100,000-$160,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648195,1,oh-fr-003,Alcauters Investment Group Llc,76,"buys in ZIP 43211; ~$103,000 is inside their $95,000-$180,000 range; 16 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648195,2,oh-fr-009,Everlasting Realty Llc,72,"buys in ZIP 43211; ~$103,000 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648195,3,oh-fr-011,C&M Investments Ohio Llc,71,"buys in ZIP 43211; ~$103,000 is inside their $95,000-$200,000 range; 9 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648195,4,oh-fr-015,B A Rhoads Investments Llc,71,"buys in ZIP 43211; ~$103,000 is inside their $100,000-$160,000 range; 9 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648195,5,oh-fr-007,Ack Equity Llc,69,"buys in ZIP 43211; ~$103,000 is inside their $73,500-$195,000 range; 12 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648195,6,oh-fr-020,Elg Property Llc,67,"buys in ZIP 43211; ~$103,000 is inside their $122,000-$224,000 range; 8 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648195,7,oh-fr-012,Acq Equity Llc,63,"buys in ZIP 43211; ~$103,000 is inside their $90,000-$160,000 range; 9 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648195,8,oh-fr-021,Cucamonga Llc,62,"buys in ZIP 43211; ~$103,000 is inside their $28,000-$135,000 range; 7 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648195,9,oh-fr-001,Imk Properties Llc,61,"buys elsewhere in the county; ~$103,000 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648195,10,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$103,000 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648594,1,oh-fr-005,Kp Homes Llc,74,"buys in ZIP 43228; ~$123,500 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648594,2,oh-fr-008,Prime Luxury Llc,69,"buys in ZIP 43228; ~$123,500 is inside their $108,000-$295,000 range; 11 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648594,3,oh-fr-001,Imk Properties Llc,61,"buys elsewhere in the county; ~$123,500 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648594,4,oh-fr-023,616 N Elisabeth Street Llc,59,"buys in ZIP 43228; ~$123,500 is inside their $135,000-$200,000 range; 6 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648594,5,oh-fr-003,Alcauters Investment Group Llc,51,"buys elsewhere in the county; ~$123,500 is inside their $95,000-$180,000 range; 16 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648594,6,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$123,500 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648594,7,oh-fr-002,Dtrt Properties Llc,49,"buys elsewhere in the county; ~$123,500 is inside their $128,000-$278,000 range; 19 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648594,8,oh-fr-006,Hhbc Investments Llc,48,"buys elsewhere in the county; ~$123,500 is inside their $40,000-$150,000 range; 12 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648594,9,oh-fr-009,Everlasting Realty Llc,47,"buys elsewhere in the county; ~$123,500 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648594,10,oh-fr-011,C&M Investments Ohio Llc,46,"buys elsewhere in the county; ~$123,500 is inside their $95,000-$200,000 range; 9 cash buys in 12 months",found,,,,Outreach drafted
+tx-harris-548398,1,tx-hr-001,Amplified Properties Llc,32,buys elsewhere in the county; 31 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548398,2,tx-hr-003,Reiari Llc,28,buys elsewhere in the county; 25 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548398,3,tx-hr-004,Two Days Homes Llc,28,buys elsewhere in the county; 24 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548398,4,tx-hr-002,Properties H Llc,26,buys elsewhere in the county; 30 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548398,5,tx-hr-007,Growth 2026 Llc,23,buys elsewhere in the county; 17 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548398,6,tx-hr-008,King Dk Equity Llc,22,buys elsewhere in the county; 15 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548398,7,tx-hr-009,Tride Global Partners Llc,22,buys elsewhere in the county; 15 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548398,8,tx-hr-005,Scir Homes Llc,21,buys elsewhere in the county; 20 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548398,9,tx-hr-010,American Pointe Realty Ltd,21,buys elsewhere in the county; 14 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548398,10,tx-hr-011,Aa Golden Investment Llc,21,buys elsewhere in the county; 14 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548399,1,tx-hr-001,Amplified Properties Llc,32,buys elsewhere in the county; 31 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548399,2,tx-hr-003,Reiari Llc,28,buys elsewhere in the county; 25 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548399,3,tx-hr-004,Two Days Homes Llc,28,buys elsewhere in the county; 24 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548399,4,tx-hr-002,Properties H Llc,26,buys elsewhere in the county; 30 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548399,5,tx-hr-007,Growth 2026 Llc,23,buys elsewhere in the county; 17 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548399,6,tx-hr-008,King Dk Equity Llc,22,buys elsewhere in the county; 15 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548399,7,tx-hr-009,Tride Global Partners Llc,22,buys elsewhere in the county; 15 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548399,8,tx-hr-005,Scir Homes Llc,21,buys elsewhere in the county; 20 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548399,9,tx-hr-010,American Pointe Realty Ltd,21,buys elsewhere in the county; 14 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548399,10,tx-hr-011,Aa Golden Investment Llc,21,buys elsewhere in the county; 14 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548409,1,tx-hr-010,American Pointe Realty Ltd,46,buys in ZIP 77015; 14 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548409,2,tx-hr-025,Sbas Investments 5 Llc,38,buys in ZIP 77015; 9 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548409,3,tx-hr-001,Amplified Properties Llc,32,buys elsewhere in the county; 31 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548409,4,tx-hr-003,Reiari Llc,28,buys elsewhere in the county; 25 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548409,5,tx-hr-004,Two Days Homes Llc,28,buys elsewhere in the county; 24 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548409,6,tx-hr-002,Properties H Llc,26,buys elsewhere in the county; 30 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548409,7,tx-hr-007,Growth 2026 Llc,23,buys elsewhere in the county; 17 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548409,8,tx-hr-008,King Dk Equity Llc,22,buys elsewhere in the county; 15 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548409,9,tx-hr-009,Tride Global Partners Llc,22,buys elsewhere in the county; 15 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548409,10,tx-hr-005,Scir Homes Llc,21,buys elsewhere in the county; 20 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-549060,1,tx-hr-007,Growth 2026 Llc,48,buys in ZIP 77506; 17 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-549060,2,tx-hr-001,Amplified Properties Llc,32,buys elsewhere in the county; 31 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-549060,3,tx-hr-003,Reiari Llc,28,buys elsewhere in the county; 25 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-549060,4,tx-hr-004,Two Days Homes Llc,28,buys elsewhere in the county; 24 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-549060,5,tx-hr-002,Properties H Llc,26,buys elsewhere in the county; 30 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-549060,6,tx-hr-008,King Dk Equity Llc,22,buys elsewhere in the county; 15 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-549060,7,tx-hr-009,Tride Global Partners Llc,22,buys elsewhere in the county; 15 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-549060,8,tx-hr-005,Scir Homes Llc,21,buys elsewhere in the county; 20 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-549060,9,tx-hr-010,American Pointe Realty Ltd,21,buys elsewhere in the county; 14 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-549060,10,tx-hr-011,Aa Golden Investment Llc,21,buys elsewhere in the county; 14 cash buys in 12 months,found,,,,Outreach drafted
+fl-hillsborough-26-CP-003697,1,fl-hb-028,Crosswynde Owner Fl Llc,71,"buys in Tampa; ~$131,500 is inside their $81,300-$1,115,000 range; 20 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003697,2,fl-hb-001,First Call Home Buyers Llc,65,"buys in Tampa; ~$131,500 is inside their $117,500-$300,000 range; 17 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003697,3,fl-hb-009,Hillsborough Heights Llc,63,"buys in Tampa; ~$131,500 is inside their $115,000-$210,000 range; 8 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003697,4,fl-hb-068,Robert Michael Fausette Pa,59,"buys in Tampa; ~$131,500 is inside their $120,000-$282,000 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003697,5,fl-hb-069,North Tampa Equity Llc,59,"buys in Tampa; ~$131,500 is inside their $130,000-$282,000 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003697,6,fl-hb-073,Taveras Services Llc,59,"buys in Tampa; ~$131,500 is inside their $120,000-$140,000 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003697,7,fl-hb-098,Malka Portfolio Llc,59,"buys in Tampa; ~$131,500 is inside their $160,700-$172,600 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003697,8,fl-hb-010,Domain Homes Inc,59,"buys in Tampa; ~$131,500 is inside their $127,500-$425,000 range; 8 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003697,9,fl-hb-226,Tomaino Properties Llc,58,"buys in Tampa; ~$131,500 is inside their $150,000-$185,000 range; 2 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003697,10,fl-hb-268,Daniel Porter,58,"buys in Tampa; ~$131,500 is inside their $128,000-$172,000 range; 2 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003866,1,fl-hb-028,Crosswynde Owner Fl Llc,71,"buys in Tampa; ~$191,500 is inside their $81,300-$1,115,000 range; 20 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003866,2,fl-hb-001,First Call Home Buyers Llc,65,"buys in Tampa; ~$191,500 is inside their $117,500-$300,000 range; 17 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003866,3,fl-hb-009,Hillsborough Heights Llc,63,"buys in Tampa; ~$191,500 is inside their $115,000-$210,000 range; 8 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003866,4,fl-hb-037,Keyvera Properties Llc,61,"buys in Tampa; ~$191,500 is inside their $235,000-$595,000 range; 6 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003866,5,fl-hb-017,Los Duenos Del Party Promotions Inc,60,"buys in Tampa; ~$191,500 is inside their $215,000-$285,000 range; 5 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003866,6,fl-hb-041,Ta Ehrlich Acquisitions Llc,60,"buys in Tampa; ~$191,500 is inside their $178,000-$209,600 range; 5 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003866,7,fl-hb-051,Bbs Fl 1 Llc,60,"buys in Tampa; ~$191,500 is inside their $225,000-$410,000 range; 4 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003866,8,fl-hb-068,Robert Michael Fausette Pa,59,"buys in Tampa; ~$191,500 is inside their $120,000-$282,000 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003866,9,fl-hb-069,North Tampa Equity Llc,59,"buys in Tampa; ~$191,500 is inside their $130,000-$282,000 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003866,10,fl-hb-072,Myrick And Associates Llc,59,"buys in Tampa; ~$191,500 is inside their $195,000-$285,000 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003890,1,fl-hb-028,Crosswynde Owner Fl Llc,71,"buys in Tampa; ~$140,500 is inside their $81,300-$1,115,000 range; 20 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003890,2,fl-hb-001,First Call Home Buyers Llc,65,"buys in Tampa; ~$140,500 is inside their $117,500-$300,000 range; 17 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003890,3,fl-hb-009,Hillsborough Heights Llc,63,"buys in Tampa; ~$140,500 is inside their $115,000-$210,000 range; 8 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003890,4,fl-hb-068,Robert Michael Fausette Pa,59,"buys in Tampa; ~$140,500 is inside their $120,000-$282,000 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003890,5,fl-hb-069,North Tampa Equity Llc,59,"buys in Tampa; ~$140,500 is inside their $130,000-$282,000 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003890,6,fl-hb-073,Taveras Services Llc,59,"buys in Tampa; ~$140,500 is inside their $120,000-$140,000 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003890,7,fl-hb-079,Greener Ventures Llc,59,"buys in Tampa; ~$140,500 is inside their $169,000-$510,000 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003890,8,fl-hb-098,Malka Portfolio Llc,59,"buys in Tampa; ~$140,500 is inside their $160,700-$172,600 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003890,9,fl-hb-010,Domain Homes Inc,59,"buys in Tampa; ~$140,500 is inside their $127,500-$425,000 range; 8 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003890,10,fl-hb-226,Tomaino Properties Llc,58,"buys in Tampa; ~$140,500 is inside their $150,000-$185,000 range; 2 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003940,1,fl-hb-028,Crosswynde Owner Fl Llc,71,"buys in Tampa; ~$168,500 is inside their $81,300-$1,115,000 range; 20 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003940,2,fl-hb-001,First Call Home Buyers Llc,65,"buys in Tampa; ~$168,500 is inside their $117,500-$300,000 range; 17 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003940,3,fl-hb-009,Hillsborough Heights Llc,63,"buys in Tampa; ~$168,500 is inside their $115,000-$210,000 range; 8 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003940,4,fl-hb-041,Ta Ehrlich Acquisitions Llc,60,"buys in Tampa; ~$168,500 is inside their $178,000-$209,600 range; 5 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003940,5,fl-hb-068,Robert Michael Fausette Pa,59,"buys in Tampa; ~$168,500 is inside their $120,000-$282,000 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003940,6,fl-hb-069,North Tampa Equity Llc,59,"buys in Tampa; ~$168,500 is inside their $130,000-$282,000 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003940,7,fl-hb-072,Myrick And Associates Llc,59,"buys in Tampa; ~$168,500 is inside their $195,000-$285,000 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003940,8,fl-hb-079,Greener Ventures Llc,59,"buys in Tampa; ~$168,500 is inside their $169,000-$510,000 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003940,9,fl-hb-098,Malka Portfolio Llc,59,"buys in Tampa; ~$168,500 is inside their $160,700-$172,600 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003940,10,fl-hb-010,Domain Homes Inc,59,"buys in Tampa; ~$168,500 is inside their $127,500-$425,000 range; 8 cash buys in 12 months",found,,,,Outreach drafted
+tx-harris-548468,1,tx-hr-001,Amplified Properties Llc,32,buys elsewhere in the county; 31 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548468,2,tx-hr-003,Reiari Llc,28,buys elsewhere in the county; 25 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548468,3,tx-hr-004,Two Days Homes Llc,28,buys elsewhere in the county; 24 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548468,4,tx-hr-002,Properties H Llc,26,buys elsewhere in the county; 30 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548468,5,tx-hr-007,Growth 2026 Llc,23,buys elsewhere in the county; 17 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548468,6,tx-hr-008,King Dk Equity Llc,22,buys elsewhere in the county; 15 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548468,7,tx-hr-009,Tride Global Partners Llc,22,buys elsewhere in the county; 15 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548468,8,tx-hr-005,Scir Homes Llc,21,buys elsewhere in the county; 20 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548468,9,tx-hr-010,American Pointe Realty Ltd,21,buys elsewhere in the county; 14 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548468,10,tx-hr-011,Aa Golden Investment Llc,21,buys elsewhere in the county; 14 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548573,1,tx-hr-004,Two Days Homes Llc,53,buys in ZIP 77026; 24 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548573,2,tx-hr-007,Growth 2026 Llc,48,buys in ZIP 77026; 17 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548573,3,tx-hr-006,Ccts4 Llc,45,buys in ZIP 77026; 19 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548573,4,tx-hr-017,Fixer Flipper Tx Llc,44,buys in ZIP 77026; 12 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548573,5,tx-hr-023,Aedia Llc,43,buys in ZIP 77026; 10 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548573,6,tx-hr-015,Vistamont Holdings Lp,38,buys in ZIP 77026; 12 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548573,7,tx-hr-020,Facg Investment Inc,38,buys in ZIP 77026; 11 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548573,8,tx-hr-001,Amplified Properties Llc,32,buys elsewhere in the county; 31 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548573,9,tx-hr-003,Reiari Llc,28,buys elsewhere in the county; 25 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548573,10,tx-hr-002,Properties H Llc,26,buys elsewhere in the county; 30 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548579,1,tx-hr-001,Amplified Properties Llc,32,buys elsewhere in the county; 31 cash buys in 12 months,found,,,,Researched
+tx-harris-548579,2,tx-hr-003,Reiari Llc,28,buys elsewhere in the county; 25 cash buys in 12 months,found,,,,Researched
+tx-harris-548579,3,tx-hr-004,Two Days Homes Llc,28,buys elsewhere in the county; 24 cash buys in 12 months,found,,,,Researched
+tx-harris-548579,4,tx-hr-002,Properties H Llc,26,buys elsewhere in the county; 30 cash buys in 12 months,found,,,,Researched
+tx-harris-548579,5,tx-hr-007,Growth 2026 Llc,23,buys elsewhere in the county; 17 cash buys in 12 months,found,,,,Researched
+tx-harris-548579,6,tx-hr-008,King Dk Equity Llc,22,buys elsewhere in the county; 15 cash buys in 12 months,found,,,,Researched
+tx-harris-548579,7,tx-hr-009,Tride Global Partners Llc,22,buys elsewhere in the county; 15 cash buys in 12 months,found,,,,Researched
+tx-harris-548579,8,tx-hr-005,Scir Homes Llc,21,buys elsewhere in the county; 20 cash buys in 12 months,found,,,,Researched
+tx-harris-548579,9,tx-hr-010,American Pointe Realty Ltd,21,buys elsewhere in the county; 14 cash buys in 12 months,found,,,,Researched
+tx-harris-548579,10,tx-hr-011,Aa Golden Investment Llc,21,buys elsewhere in the county; 14 cash buys in 12 months,found,,,,Researched
+tx-harris-548604,1,tx-hr-002,Properties H Llc,51,buys in ZIP 77033; 30 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548604,2,tx-hr-017,Fixer Flipper Tx Llc,44,buys in ZIP 77033; 12 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548604,3,tx-hr-001,Amplified Properties Llc,32,buys elsewhere in the county; 31 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548604,4,tx-hr-003,Reiari Llc,28,buys elsewhere in the county; 25 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548604,5,tx-hr-004,Two Days Homes Llc,28,buys elsewhere in the county; 24 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548604,6,tx-hr-007,Growth 2026 Llc,23,buys elsewhere in the county; 17 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548604,7,tx-hr-008,King Dk Equity Llc,22,buys elsewhere in the county; 15 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548604,8,tx-hr-009,Tride Global Partners Llc,22,buys elsewhere in the county; 15 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548604,9,tx-hr-005,Scir Homes Llc,21,buys elsewhere in the county; 20 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548604,10,tx-hr-010,American Pointe Realty Ltd,21,buys elsewhere in the county; 14 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548847,1,tx-hr-008,King Dk Equity Llc,46,buys in ZIP 77062; 15 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548847,2,tx-hr-001,Amplified Properties Llc,32,buys elsewhere in the county; 31 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548847,3,tx-hr-003,Reiari Llc,28,buys elsewhere in the county; 25 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548847,4,tx-hr-004,Two Days Homes Llc,28,buys elsewhere in the county; 24 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548847,5,tx-hr-002,Properties H Llc,26,buys elsewhere in the county; 30 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548847,6,tx-hr-007,Growth 2026 Llc,23,buys elsewhere in the county; 17 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548847,7,tx-hr-009,Tride Global Partners Llc,22,buys elsewhere in the county; 15 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548847,8,tx-hr-005,Scir Homes Llc,21,buys elsewhere in the county; 20 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548847,9,tx-hr-010,American Pointe Realty Ltd,21,buys elsewhere in the county; 14 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548847,10,tx-hr-011,Aa Golden Investment Llc,21,buys elsewhere in the county; 14 cash buys in 12 months,found,,,,Outreach drafted
+tx-harris-548942,1,tx-hr-001,Amplified Properties Llc,32,buys elsewhere in the county; 31 cash buys in 12 months,found,,,,Researched
+tx-harris-548942,2,tx-hr-003,Reiari Llc,28,buys elsewhere in the county; 25 cash buys in 12 months,found,,,,Researched
+tx-harris-548942,3,tx-hr-004,Two Days Homes Llc,28,buys elsewhere in the county; 24 cash buys in 12 months,found,,,,Researched
+tx-harris-548942,4,tx-hr-002,Properties H Llc,26,buys elsewhere in the county; 30 cash buys in 12 months,found,,,,Researched
+tx-harris-548942,5,tx-hr-007,Growth 2026 Llc,23,buys elsewhere in the county; 17 cash buys in 12 months,found,,,,Researched
+tx-harris-548942,6,tx-hr-008,King Dk Equity Llc,22,buys elsewhere in the county; 15 cash buys in 12 months,found,,,,Researched
+tx-harris-548942,7,tx-hr-009,Tride Global Partners Llc,22,buys elsewhere in the county; 15 cash buys in 12 months,found,,,,Researched
+tx-harris-548942,8,tx-hr-005,Scir Homes Llc,21,buys elsewhere in the county; 20 cash buys in 12 months,found,,,,Researched
+tx-harris-548942,9,tx-hr-010,American Pointe Realty Ltd,21,buys elsewhere in the county; 14 cash buys in 12 months,found,,,,Researched
+tx-harris-548942,10,tx-hr-011,Aa Golden Investment Llc,21,buys elsewhere in the county; 14 cash buys in 12 months,found,,,,Researched
+fl-hillsborough-26-CP-003638,1,fl-hb-003,Op Spe Summit Llc,62,"buys in Brandon; ~$225,000 is inside their $279,000-$450,000 range; 13 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003638,2,fl-hb-004,Opendoor Property J Llc,62,"buys in Brandon; ~$225,000 is inside their $208,900-$404,400 range; 13 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003638,3,fl-hb-020,Gonmax Services Inc,60,"buys in Brandon; ~$225,000 is inside their $250,000-$340,000 range; 4 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003638,4,fl-hb-051,Bbs Fl 1 Llc,60,"buys in Brandon; ~$225,000 is inside their $225,000-$410,000 range; 4 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003638,5,fl-hb-103,P And R Quality Investments Llc,59,"buys in Brandon; ~$225,000 is inside their $174,900-$330,000 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003638,6,fl-hb-012,Joseph Real Estate Investments Inc,58,"buys in Brandon; ~$225,000 is inside their $172,500-$295,000 range; 7 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003638,7,fl-hb-018,Mags Services Llc,56,"buys in Brandon; ~$225,000 is inside their $179,500-$330,000 range; 5 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003638,8,fl-hb-056,Rajiv Maini,56,"buys in Brandon; ~$225,000 is inside their $255,300-$288,100 range; 4 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003638,9,fl-hb-087,Redmond Tree Llc,55,"buys in Brandon; ~$225,000 is inside their $84,600-$420,000 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003638,10,fl-hb-101,Icr Investments Llc/Trustee,55,"buys in Brandon; ~$225,000 is inside their $160,000-$220,000 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003696,1,fl-hb-028,Crosswynde Owner Fl Llc,71,"buys in Tampa; ~$198,500 is inside their $81,300-$1,115,000 range; 20 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003696,2,fl-hb-001,First Call Home Buyers Llc,65,"buys in Tampa; ~$198,500 is inside their $117,500-$300,000 range; 17 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003696,3,fl-hb-009,Hillsborough Heights Llc,63,"buys in Tampa; ~$198,500 is inside their $115,000-$210,000 range; 8 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003696,4,fl-hb-037,Keyvera Properties Llc,61,"buys in Tampa; ~$198,500 is inside their $235,000-$595,000 range; 6 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003696,5,fl-hb-017,Los Duenos Del Party Promotions Inc,60,"buys in Tampa; ~$198,500 is inside their $215,000-$285,000 range; 5 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003696,6,fl-hb-041,Ta Ehrlich Acquisitions Llc,60,"buys in Tampa; ~$198,500 is inside their $178,000-$209,600 range; 5 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003696,7,fl-hb-051,Bbs Fl 1 Llc,60,"buys in Tampa; ~$198,500 is inside their $225,000-$410,000 range; 4 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003696,8,fl-hb-068,Robert Michael Fausette Pa,59,"buys in Tampa; ~$198,500 is inside their $120,000-$282,000 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003696,9,fl-hb-069,North Tampa Equity Llc,59,"buys in Tampa; ~$198,500 is inside their $130,000-$282,000 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003696,10,fl-hb-072,Myrick And Associates Llc,59,"buys in Tampa; ~$198,500 is inside their $195,000-$285,000 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003714,1,fl-hb-011,Skyway Home Buyers Llc,58,"buys in Temple Terrace; ~$226,500 is inside their $225,000-$390,000 range; 7 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003714,2,fl-hb-212,Mohammad Hamdan,54,"buys in Temple Terrace; ~$226,500 is inside their $95,000-$214,500 range; 2 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003714,3,fl-hb-428,Deeb Alabd And Mamoun Alabed,54,"buys in Temple Terrace; ~$226,500 is inside their $225,000-$425,000 range; 2 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003714,4,fl-hb-028,Crosswynde Owner Fl Llc,54,"buys elsewhere in the county; ~$226,500 is inside their $81,300-$1,115,000 range; 20 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003714,5,fl-hb-229,Icr Investments Llc Trustee,50,"buys in Temple Terrace; ~$226,500 is inside their $68,000-$237,000 range; 2 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003714,6,fl-hb-429,Bashar Alela,48,"buys in Temple Terrace; ~$226,500 is inside their $200,000-$200,000 range; 2 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003714,7,fl-hb-001,First Call Home Buyers Llc,48,"buys elsewhere in the county; ~$226,500 is inside their $117,500-$300,000 range; 17 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003714,8,fl-hb-030,Ortiz Ochoa Investment Llc,48,"buys elsewhere in the county; ~$226,500 is inside their $25,000-$1,321,000 range; 17 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003714,9,fl-hb-005,Tampa Standard Llc,48,"buys elsewhere in the county; ~$226,500 is inside their $104,600-$376,600 range; 11 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003714,10,fl-hb-002,Ltd Family Trust Llc,46,"buys elsewhere in the county; ~$226,500 is inside their $152,800-$440,000 range; 15 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003731,1,fl-hb-003,Op Spe Summit Llc,62,"buys in Brandon; ~$255,000 is inside their $279,000-$450,000 range; 13 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003731,2,fl-hb-004,Opendoor Property J Llc,62,"buys in Brandon; ~$255,000 is inside their $208,900-$404,400 range; 13 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003731,3,fl-hb-020,Gonmax Services Inc,60,"buys in Brandon; ~$255,000 is inside their $250,000-$340,000 range; 4 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003731,4,fl-hb-051,Bbs Fl 1 Llc,60,"buys in Brandon; ~$255,000 is inside their $225,000-$410,000 range; 4 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003731,5,fl-hb-103,P And R Quality Investments Llc,59,"buys in Brandon; ~$255,000 is inside their $174,900-$330,000 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003731,6,fl-hb-300,Mse Management Llc,58,"buys in Brandon; ~$255,000 is inside their $295,000-$419,000 range; 2 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003731,7,fl-hb-012,Joseph Real Estate Investments Inc,58,"buys in Brandon; ~$255,000 is inside their $172,500-$295,000 range; 7 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003731,8,fl-hb-018,Mags Services Llc,56,"buys in Brandon; ~$255,000 is inside their $179,500-$330,000 range; 5 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003731,9,fl-hb-006,Asl Property Holdings Ii Llc,56,"buys in Brandon; ~$255,000 is inside their $282,600-$352,200 range; 10 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003731,10,fl-hb-056,Rajiv Maini,56,"buys in Brandon; ~$255,000 is inside their $255,300-$288,100 range; 4 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003800,1,fl-hb-001,First Call Home Buyers Llc,65,"buys in Seffner; ~$152,500 is inside their $117,500-$300,000 range; 17 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003800,2,fl-hb-005,Tampa Standard Llc,65,"buys in Seffner; ~$152,500 is inside their $104,600-$376,600 range; 11 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003800,3,fl-hb-028,Crosswynde Owner Fl Llc,54,"buys elsewhere in the county; ~$152,500 is inside their $81,300-$1,115,000 range; 20 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003800,4,fl-hb-060,Gdf 16 Iii Llc,52,"buys in Seffner; ~$152,500 is inside their $97,000-$300,000 range; 4 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003800,5,fl-hb-030,Ortiz Ochoa Investment Llc,48,"buys elsewhere in the county; ~$152,500 is inside their $25,000-$1,321,000 range; 17 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003800,6,fl-hb-002,Ltd Family Trust Llc,46,"buys elsewhere in the county; ~$152,500 is inside their $152,800-$440,000 range; 15 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003800,7,fl-hb-009,Hillsborough Heights Llc,46,"buys elsewhere in the county; ~$152,500 is inside their $115,000-$210,000 range; 8 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003800,8,fl-hb-041,Ta Ehrlich Acquisitions Llc,44,"buys elsewhere in the county; ~$152,500 is inside their $178,000-$209,600 range; 5 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003800,9,fl-hb-068,Robert Michael Fausette Pa,42,"buys elsewhere in the county; ~$152,500 is inside their $120,000-$282,000 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003800,10,fl-hb-069,North Tampa Equity Llc,42,"buys elsewhere in the county; ~$152,500 is inside their $130,000-$282,000 range; 3 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648208,1,oh-fr-005,Kp Homes Llc,74,"buys in ZIP 43228; ~$133,000 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648208,2,oh-fr-008,Prime Luxury Llc,69,"buys in ZIP 43228; ~$133,000 is inside their $108,000-$295,000 range; 11 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648208,3,oh-fr-001,Imk Properties Llc,61,"buys elsewhere in the county; ~$133,000 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648208,4,oh-fr-023,616 N Elisabeth Street Llc,59,"buys in ZIP 43228; ~$133,000 is inside their $135,000-$200,000 range; 6 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648208,5,oh-fr-003,Alcauters Investment Group Llc,51,"buys elsewhere in the county; ~$133,000 is inside their $95,000-$180,000 range; 16 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648208,6,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$133,000 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648208,7,oh-fr-002,Dtrt Properties Llc,49,"buys elsewhere in the county; ~$133,000 is inside their $128,000-$278,000 range; 19 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648208,8,oh-fr-006,Hhbc Investments Llc,48,"buys elsewhere in the county; ~$133,000 is inside their $40,000-$150,000 range; 12 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648208,9,oh-fr-009,Everlasting Realty Llc,47,"buys elsewhere in the county; ~$133,000 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648208,10,oh-fr-011,C&M Investments Ohio Llc,46,"buys elsewhere in the county; ~$133,000 is inside their $95,000-$200,000 range; 9 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648219,1,oh-fr-004,Cogs Ultd Llc,75,"buys in ZIP 43207; ~$112,500 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648219,2,oh-fr-005,Kp Homes Llc,74,"buys in ZIP 43207; ~$112,500 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648219,3,oh-fr-009,Everlasting Realty Llc,72,"buys in ZIP 43207; ~$112,500 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648219,4,oh-fr-013,Tgd Property Group Llc,71,"buys in ZIP 43207; ~$112,500 is inside their $60,000-$175,000 range; 9 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648219,5,oh-fr-017,Fortune Future Llc,71,"buys in ZIP 43207; ~$112,500 is inside their $60,000-$104,100 range; 8 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648219,6,oh-fr-007,Ack Equity Llc,69,"buys in ZIP 43207; ~$112,500 is inside their $73,500-$195,000 range; 12 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648219,7,oh-fr-010,Ready Set Close Llc,67,"buys in ZIP 43207; ~$112,500 is inside their $60,000-$147,000 range; 9 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648219,8,oh-fr-014,Mih Properties Llc,67,"buys in ZIP 43207; ~$112,500 is inside their $72,000-$162,500 range; 9 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648219,9,oh-fr-012,Acq Equity Llc,63,"buys in ZIP 43207; ~$112,500 is inside their $90,000-$160,000 range; 9 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648219,10,oh-fr-019,R&R Grandeur Properties Llc,63,"buys in ZIP 43207; ~$112,500 is inside their $65,000-$205,000 range; 8 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648255,1,oh-fr-001,Imk Properties Llc,86,"buys in ZIP 43229; ~$150,500 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648255,2,oh-fr-002,Dtrt Properties Llc,74,"buys in ZIP 43229; ~$150,500 is inside their $128,000-$278,000 range; 19 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648255,3,oh-fr-003,Alcauters Investment Group Llc,51,"buys elsewhere in the county; ~$150,500 is inside their $95,000-$180,000 range; 16 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648255,4,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$150,500 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648255,5,oh-fr-005,Kp Homes Llc,49,"buys elsewhere in the county; ~$150,500 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648255,6,oh-fr-006,Hhbc Investments Llc,48,"buys elsewhere in the county; ~$150,500 is inside their $40,000-$150,000 range; 12 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648255,7,oh-fr-009,Everlasting Realty Llc,47,"buys elsewhere in the county; ~$150,500 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648255,8,oh-fr-011,C&M Investments Ohio Llc,46,"buys elsewhere in the county; ~$150,500 is inside their $95,000-$200,000 range; 9 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648255,9,oh-fr-013,Tgd Property Group Llc,46,"buys elsewhere in the county; ~$150,500 is inside their $60,000-$175,000 range; 9 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648255,10,oh-fr-015,B A Rhoads Investments Llc,46,"buys elsewhere in the county; ~$150,500 is inside their $100,000-$160,000 range; 9 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648257,1,oh-fr-004,Cogs Ultd Llc,75,"buys in ZIP 43204; ~$101,000 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648257,2,oh-fr-009,Everlasting Realty Llc,72,"buys in ZIP 43204; ~$101,000 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648257,3,oh-fr-011,C&M Investments Ohio Llc,71,"buys in ZIP 43204; ~$101,000 is inside their $95,000-$200,000 range; 9 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648257,4,oh-fr-013,Tgd Property Group Llc,71,"buys in ZIP 43204; ~$101,000 is inside their $60,000-$175,000 range; 9 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648257,5,oh-fr-017,Fortune Future Llc,71,"buys in ZIP 43204; ~$101,000 is inside their $60,000-$104,100 range; 8 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648257,6,oh-fr-018,Ohio Salcedo Holdings Llc,71,"buys in ZIP 43204; ~$101,000 is inside their $60,000-$157,500 range; 8 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648257,7,oh-fr-024,Fisk Properties Llc,69,"buys in ZIP 43204; ~$101,000 is inside their $83,500-$167,000 range; 6 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648257,8,oh-fr-008,Prime Luxury Llc,69,"buys in ZIP 43204; ~$101,000 is inside their $108,000-$295,000 range; 11 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648257,9,oh-fr-014,Mih Properties Llc,67,"buys in ZIP 43204; ~$101,000 is inside their $72,000-$162,500 range; 9 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648257,10,oh-fr-020,Elg Property Llc,67,"buys in ZIP 43204; ~$101,000 is inside their $122,000-$224,000 range; 8 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648265,1,oh-fr-002,Dtrt Properties Llc,74,"buys in ZIP 43223; ~$151,000 is inside their $128,000-$278,000 range; 19 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648265,2,oh-fr-009,Everlasting Realty Llc,72,"buys in ZIP 43223; ~$151,000 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648265,3,oh-fr-011,C&M Investments Ohio Llc,71,"buys in ZIP 43223; ~$151,000 is inside their $95,000-$200,000 range; 9 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648265,4,oh-fr-013,Tgd Property Group Llc,71,"buys in ZIP 43223; ~$151,000 is inside their $60,000-$175,000 range; 9 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648265,5,oh-fr-007,Ack Equity Llc,69,"buys in ZIP 43223; ~$151,000 is inside their $73,500-$195,000 range; 12 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648265,6,oh-fr-024,Fisk Properties Llc,69,"buys in ZIP 43223; ~$151,000 is inside their $83,500-$167,000 range; 6 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648265,7,oh-fr-025,Top Gun Investments Llc,69,"buys in ZIP 43223; ~$151,000 is inside their $154,000-$200,000 range; 6 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648265,8,oh-fr-020,Elg Property Llc,67,"buys in ZIP 43223; ~$151,000 is inside their $122,000-$224,000 range; 8 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648265,9,oh-fr-019,R&R Grandeur Properties Llc,63,"buys in ZIP 43223; ~$151,000 is inside their $65,000-$205,000 range; 8 cash buys in 12 months",found,,,,Outreach drafted
+oh-franklin-648265,10,oh-fr-001,Imk Properties Llc,61,"buys elsewhere in the county; ~$151,000 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Outreach drafted
+fl-hillsborough-26-CP-003950,1,fl-hb-030,Ortiz Ochoa Investment Llc,65,"buys in Ruskin; ~$184,500 is inside their $25,000-$1,321,000 range; 17 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003950,2,fl-hb-002,Ltd Family Trust Llc,64,"buys in Ruskin; ~$184,500 is inside their $152,800-$440,000 range; 15 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003950,3,fl-hb-251,Arches Horizon Llc,58,"buys in Ruskin; ~$184,500 is inside their $200,000-$200,000 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003950,4,fl-hb-025,2715 West Sligh Llc,56,"buys in Ruskin; ~$184,500 is inside their $202,400-$428,700 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003950,5,fl-hb-080,Eto Property Group Llc,55,"buys in Ruskin; ~$184,500 is inside their $230,000-$300,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003950,6,fl-hb-085,Bay To Gulf Holdings Llc,55,"buys in Ruskin; ~$184,500 is inside their $205,400-$275,600 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003950,7,fl-hb-190,William Brown Consulting Llc /Trustee,54,"buys in Ruskin; ~$184,500 is inside their $95,000-$270,000 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003950,8,fl-hb-249,Wbw Properties Llc,54,"buys in Ruskin; ~$184,500 is inside their $116,000-$285,000 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003950,9,fl-hb-253,Grandville Investments Llc,54,"buys in Ruskin; ~$184,500 is inside their $210,000-$300,000 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003950,10,fl-hb-264,Newrez Llc,54,"buys in Ruskin; ~$184,500 is inside their $100,100-$300,300 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003951,1,fl-hb-048,National Assets And Company Llc,56,"buys in Odessa; ~$381,000 is inside their $150,000-$800,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003951,2,fl-hb-066,Jaz Investment Group Llc,55,"buys in Odessa; ~$381,000 is inside their $155,100-$545,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003951,3,fl-hb-028,Crosswynde Owner Fl Llc,54,"buys elsewhere in the county; ~$381,000 is inside their $81,300-$1,115,000 range; 20 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003951,4,fl-hb-131,Callco Services Llc,50,"buys in Odessa; ~$381,000 is inside their $300,000-$626,000 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003951,5,fl-hb-130,Daniel G Beltram,48,"buys in Odessa; ~$381,000 is inside their $250,000-$750,000 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003951,6,fl-hb-133,Magnify Investments Inc,48,"buys in Odessa; ~$381,000 is inside their $187,500-$350,000 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003951,7,fl-hb-030,Ortiz Ochoa Investment Llc,48,"buys elsewhere in the county; ~$381,000 is inside their $25,000-$1,321,000 range; 17 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003951,8,fl-hb-005,Tampa Standard Llc,48,"buys elsewhere in the county; ~$381,000 is inside their $104,600-$376,600 range; 11 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003951,9,fl-hb-002,Ltd Family Trust Llc,46,"buys elsewhere in the county; ~$381,000 is inside their $152,800-$440,000 range; 15 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003951,10,fl-hb-029,Cardel Waterset Th Llc,45,"buys elsewhere in the county; ~$381,000 is inside their $356,500-$702,400 range; 19 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003959,1,fl-hb-028,Crosswynde Owner Fl Llc,71,"buys in Tampa; ~$577,100 is inside their $81,300-$1,115,000 range; 20 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003959,2,fl-hb-037,Keyvera Properties Llc,61,"buys in Tampa; ~$577,100 is inside their $235,000-$595,000 range; 6 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003959,3,fl-hb-079,Greener Ventures Llc,59,"buys in Tampa; ~$577,100 is inside their $169,000-$510,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003959,4,fl-hb-148,Martin Oliva Investment Llc,58,"buys in Tampa; ~$577,100 is inside their $455,000-$535,000 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003959,5,fl-hb-178,Jose Manuel Batista Hernandez,58,"buys in Tampa; ~$577,100 is inside their $460,000-$619,900 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003959,6,fl-hb-411,L And M Investment Group Llc,58,"buys in Tampa; ~$577,100 is inside their $512,500-$512,500 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003959,7,fl-hb-048,National Assets And Company Llc,56,"buys in Tampa; ~$577,100 is inside their $150,000-$800,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003959,8,fl-hb-050,Sergio Hernandez,56,"buys in Tampa; ~$577,100 is inside their $125,000-$620,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003959,9,fl-hb-084,Tkvg Odton Llc,55,"buys in Tampa; ~$577,100 is inside their $553,400-$553,400 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003959,10,fl-hb-113,Crossover Street Llc,55,"buys in Tampa; ~$577,100 is inside their $440,000-$725,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003958,1,fl-hb-028,Crosswynde Owner Fl Llc,71,"buys in Tampa; ~$278,100 is inside their $81,300-$1,115,000 range; 20 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003958,2,fl-hb-001,First Call Home Buyers Llc,65,"buys in Tampa; ~$278,100 is inside their $117,500-$300,000 range; 17 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003958,3,fl-hb-037,Keyvera Properties Llc,61,"buys in Tampa; ~$278,100 is inside their $235,000-$595,000 range; 6 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003958,4,fl-hb-031,Tule River Homebuyer Earned Equity Agency,61,"buys in Tampa; ~$278,100 is inside their $310,900-$410,000 range; 11 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003958,5,fl-hb-017,Los Duenos Del Party Promotions Inc,60,"buys in Tampa; ~$278,100 is inside their $215,000-$285,000 range; 5 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003958,6,fl-hb-020,Gonmax Services Inc,60,"buys in Tampa; ~$278,100 is inside their $250,000-$340,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003958,7,fl-hb-051,Bbs Fl 1 Llc,60,"buys in Tampa; ~$278,100 is inside their $225,000-$410,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003958,8,fl-hb-007,Dmf Homes Llc,59,"buys in Tampa; ~$278,100 is inside their $331,000-$425,000 range; 9 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003958,9,fl-hb-068,Robert Michael Fausette Pa,59,"buys in Tampa; ~$278,100 is inside their $120,000-$282,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003958,10,fl-hb-069,North Tampa Equity Llc,59,"buys in Tampa; ~$278,100 is inside their $130,000-$282,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003961,1,fl-hb-002,Ltd Family Trust Llc,64,"buys in Plant City; ~$167,399 is inside their $152,800-$440,000 range; 15 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003961,2,fl-hb-004,Opendoor Property J Llc,62,"buys in Plant City; ~$167,399 is inside their $208,900-$404,400 range; 13 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003961,3,fl-hb-036,Wilmington Savings Fund Society /Trustee,57,"buys in Plant City; ~$167,399 is inside their $37,800-$378,300 range; 6 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003961,4,fl-hb-025,2715 West Sligh Llc,56,"buys in Plant City; ~$167,399 is inside their $202,400-$428,700 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003961,5,fl-hb-050,Sergio Hernandez,56,"buys in Plant City; ~$167,399 is inside their $125,000-$620,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003961,6,fl-hb-066,Jaz Investment Group Llc,55,"buys in Plant City; ~$167,399 is inside their $155,100-$545,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003961,7,fl-hb-105,Nava Fl Properties Llc,55,"buys in Plant City; ~$167,399 is inside their $135,000-$350,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003961,8,fl-hb-203,Cedar Brook Properties Funding 3 Llc,54,"buys in Plant City; ~$167,399 is inside their $190,000-$218,200 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003961,9,fl-hb-432,Usmi Properties Six Llc,54,"buys in Plant City; ~$167,399 is inside their $90,000-$150,000 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003961,10,fl-hb-433,Tnjv Holdings Llc,54,"buys in Plant City; ~$167,399 is inside their $75,000-$162,000 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003969,1,fl-hb-028,Crosswynde Owner Fl Llc,71,"buys in Tampa; ~$408,300 is inside their $81,300-$1,115,000 range; 20 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003969,2,fl-hb-037,Keyvera Properties Llc,61,"buys in Tampa; ~$408,300 is inside their $235,000-$595,000 range; 6 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003969,3,fl-hb-031,Tule River Homebuyer Earned Equity Agency,61,"buys in Tampa; ~$408,300 is inside their $310,900-$410,000 range; 11 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003969,4,fl-hb-051,Bbs Fl 1 Llc,60,"buys in Tampa; ~$408,300 is inside their $225,000-$410,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003969,5,fl-hb-007,Dmf Homes Llc,59,"buys in Tampa; ~$408,300 is inside their $331,000-$425,000 range; 9 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003969,6,fl-hb-079,Greener Ventures Llc,59,"buys in Tampa; ~$408,300 is inside their $169,000-$510,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003969,7,fl-hb-114,Devitos Contracting Llc,59,"buys in Tampa; ~$408,300 is inside their $250,000-$489,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003969,8,fl-hb-010,Domain Homes Inc,59,"buys in Tampa; ~$408,300 is inside their $127,500-$425,000 range; 8 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003969,9,fl-hb-148,Martin Oliva Investment Llc,58,"buys in Tampa; ~$408,300 is inside their $455,000-$535,000 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003969,10,fl-hb-178,Jose Manuel Batista Hernandez,58,"buys in Tampa; ~$408,300 is inside their $460,000-$619,900 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003970,1,fl-hb-028,Crosswynde Owner Fl Llc,71,"buys in Tampa; ~$203,599 is inside their $81,300-$1,115,000 range; 20 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003970,2,fl-hb-001,First Call Home Buyers Llc,65,"buys in Tampa; ~$203,599 is inside their $117,500-$300,000 range; 17 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003970,3,fl-hb-009,Hillsborough Heights Llc,63,"buys in Tampa; ~$203,599 is inside their $115,000-$210,000 range; 8 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003970,4,fl-hb-037,Keyvera Properties Llc,61,"buys in Tampa; ~$203,599 is inside their $235,000-$595,000 range; 6 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003970,5,fl-hb-017,Los Duenos Del Party Promotions Inc,60,"buys in Tampa; ~$203,599 is inside their $215,000-$285,000 range; 5 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003970,6,fl-hb-041,Ta Ehrlich Acquisitions Llc,60,"buys in Tampa; ~$203,599 is inside their $178,000-$209,600 range; 5 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003970,7,fl-hb-020,Gonmax Services Inc,60,"buys in Tampa; ~$203,599 is inside their $250,000-$340,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003970,8,fl-hb-051,Bbs Fl 1 Llc,60,"buys in Tampa; ~$203,599 is inside their $225,000-$410,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003970,9,fl-hb-068,Robert Michael Fausette Pa,59,"buys in Tampa; ~$203,599 is inside their $120,000-$282,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003970,10,fl-hb-069,North Tampa Equity Llc,59,"buys in Tampa; ~$203,599 is inside their $130,000-$282,000 range; 3 cash buys in 12 months",found,,,,Researched
+oh-franklin-648619,1,oh-fr-002,Dtrt Properties Llc,74,"buys in ZIP 43081; ~$161,000 is inside their $128,000-$278,000 range; 19 cash buys in 12 months",found,,,,Researched
+oh-franklin-648619,2,oh-fr-001,Imk Properties Llc,61,"buys elsewhere in the county; ~$161,000 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Researched
+oh-franklin-648619,3,oh-fr-003,Alcauters Investment Group Llc,51,"buys elsewhere in the county; ~$161,000 is inside their $95,000-$180,000 range; 16 cash buys in 12 months",found,,,,Researched
+oh-franklin-648619,4,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$161,000 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Researched
+oh-franklin-648619,5,oh-fr-005,Kp Homes Llc,49,"buys elsewhere in the county; ~$161,000 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Researched
+oh-franklin-648619,6,oh-fr-006,Hhbc Investments Llc,48,"buys elsewhere in the county; ~$161,000 is inside their $40,000-$150,000 range; 12 cash buys in 12 months",found,,,,Researched
+oh-franklin-648619,7,oh-fr-009,Everlasting Realty Llc,47,"buys elsewhere in the county; ~$161,000 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Researched
+oh-franklin-648619,8,oh-fr-011,C&M Investments Ohio Llc,46,"buys elsewhere in the county; ~$161,000 is inside their $95,000-$200,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648619,9,oh-fr-013,Tgd Property Group Llc,46,"buys elsewhere in the county; ~$161,000 is inside their $60,000-$175,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648619,10,oh-fr-015,B A Rhoads Investments Llc,46,"buys elsewhere in the county; ~$161,000 is inside their $100,000-$160,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648621,1,oh-fr-004,Cogs Ultd Llc,75,"buys in ZIP 43207; ~$198,800 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Researched
+oh-franklin-648621,2,oh-fr-005,Kp Homes Llc,74,"buys in ZIP 43207; ~$198,800 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Researched
+oh-franklin-648621,3,oh-fr-009,Everlasting Realty Llc,72,"buys in ZIP 43207; ~$198,800 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Researched
+oh-franklin-648621,4,oh-fr-013,Tgd Property Group Llc,71,"buys in ZIP 43207; ~$198,800 is inside their $60,000-$175,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648621,5,oh-fr-007,Ack Equity Llc,69,"buys in ZIP 43207; ~$198,800 is inside their $73,500-$195,000 range; 12 cash buys in 12 months",found,,,,Researched
+oh-franklin-648621,6,oh-fr-019,R&R Grandeur Properties Llc,63,"buys in ZIP 43207; ~$198,800 is inside their $65,000-$205,000 range; 8 cash buys in 12 months",found,,,,Researched
+oh-franklin-648621,7,oh-fr-001,Imk Properties Llc,61,"buys elsewhere in the county; ~$198,800 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Researched
+oh-franklin-648621,8,oh-fr-023,616 N Elisabeth Street Llc,59,"buys in ZIP 43207; ~$198,800 is inside their $135,000-$200,000 range; 6 cash buys in 12 months",found,,,,Researched
+oh-franklin-648621,9,oh-fr-003,Alcauters Investment Group Llc,51,"buys elsewhere in the county; ~$198,800 is inside their $95,000-$180,000 range; 16 cash buys in 12 months",found,,,,Researched
+oh-franklin-648621,10,oh-fr-002,Dtrt Properties Llc,49,"buys elsewhere in the county; ~$198,800 is inside their $128,000-$278,000 range; 19 cash buys in 12 months",found,,,,Researched
+oh-franklin-648623,1,oh-fr-002,Dtrt Properties Llc,74,"buys in ZIP 43081; ~$178,100 is inside their $128,000-$278,000 range; 19 cash buys in 12 months",found,,,,Researched
+oh-franklin-648623,2,oh-fr-001,Imk Properties Llc,61,"buys elsewhere in the county; ~$178,100 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Researched
+oh-franklin-648623,3,oh-fr-003,Alcauters Investment Group Llc,51,"buys elsewhere in the county; ~$178,100 is inside their $95,000-$180,000 range; 16 cash buys in 12 months",found,,,,Researched
+oh-franklin-648623,4,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$178,100 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Researched
+oh-franklin-648623,5,oh-fr-005,Kp Homes Llc,49,"buys elsewhere in the county; ~$178,100 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Researched
+oh-franklin-648623,6,oh-fr-009,Everlasting Realty Llc,47,"buys elsewhere in the county; ~$178,100 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Researched
+oh-franklin-648623,7,oh-fr-011,C&M Investments Ohio Llc,46,"buys elsewhere in the county; ~$178,100 is inside their $95,000-$200,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648623,8,oh-fr-013,Tgd Property Group Llc,46,"buys elsewhere in the county; ~$178,100 is inside their $60,000-$175,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648623,9,oh-fr-015,B A Rhoads Investments Llc,46,"buys elsewhere in the county; ~$178,100 is inside their $100,000-$160,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648623,10,oh-fr-018,Ohio Salcedo Holdings Llc,46,"buys elsewhere in the county; ~$178,100 is inside their $60,000-$157,500 range; 8 cash buys in 12 months",found,,,,Researched
+oh-franklin-648630,1,oh-fr-024,Fisk Properties Llc,69,"buys in ZIP 43206; ~$118,100 is inside their $83,500-$167,000 range; 6 cash buys in 12 months",found,,,,Researched
+oh-franklin-648630,2,oh-fr-016,Sriram Llc,67,"buys in ZIP 43206; ~$118,100 is inside their $112,500-$265,650 range; 8 cash buys in 12 months",found,,,,Researched
+oh-franklin-648630,3,oh-fr-020,Elg Property Llc,67,"buys in ZIP 43206; ~$118,100 is inside their $122,000-$224,000 range; 8 cash buys in 12 months",found,,,,Researched
+oh-franklin-648630,4,oh-fr-001,Imk Properties Llc,61,"buys elsewhere in the county; ~$118,100 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Researched
+oh-franklin-648630,5,oh-fr-003,Alcauters Investment Group Llc,51,"buys elsewhere in the county; ~$118,100 is inside their $95,000-$180,000 range; 16 cash buys in 12 months",found,,,,Researched
+oh-franklin-648630,6,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$118,100 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Researched
+oh-franklin-648630,7,oh-fr-002,Dtrt Properties Llc,49,"buys elsewhere in the county; ~$118,100 is inside their $128,000-$278,000 range; 19 cash buys in 12 months",found,,,,Researched
+oh-franklin-648630,8,oh-fr-005,Kp Homes Llc,49,"buys elsewhere in the county; ~$118,100 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Researched
+oh-franklin-648630,9,oh-fr-006,Hhbc Investments Llc,48,"buys elsewhere in the county; ~$118,100 is inside their $40,000-$150,000 range; 12 cash buys in 12 months",found,,,,Researched
+oh-franklin-648630,10,oh-fr-009,Everlasting Realty Llc,47,"buys elsewhere in the county; ~$118,100 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Researched
+oh-franklin-648639,1,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$312,200 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Researched
+oh-franklin-648639,2,oh-fr-002,Dtrt Properties Llc,49,"buys elsewhere in the county; ~$312,200 is inside their $128,000-$278,000 range; 19 cash buys in 12 months",found,,,,Researched
+oh-franklin-648639,3,oh-fr-008,Prime Luxury Llc,44,"buys elsewhere in the county; ~$312,200 is inside their $108,000-$295,000 range; 11 cash buys in 12 months",found,,,,Researched
+oh-franklin-648643,1,oh-fr-001,Imk Properties Llc,86,"buys in ZIP 43229; ~$88,200 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Researched
+oh-franklin-648643,2,oh-fr-002,Dtrt Properties Llc,54,buys in ZIP 43229; below their usual price; 19 cash buys in 12 months,found,,,,Researched
+oh-franklin-648643,3,oh-fr-003,Alcauters Investment Group Llc,51,"buys elsewhere in the county; ~$88,200 is inside their $95,000-$180,000 range; 16 cash buys in 12 months",found,,,,Researched
+oh-franklin-648643,4,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$88,200 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Researched
+oh-franklin-648643,5,oh-fr-005,Kp Homes Llc,49,"buys elsewhere in the county; ~$88,200 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Researched
+oh-franklin-648643,6,oh-fr-006,Hhbc Investments Llc,48,"buys elsewhere in the county; ~$88,200 is inside their $40,000-$150,000 range; 12 cash buys in 12 months",found,,,,Researched
+oh-franklin-648643,7,oh-fr-009,Everlasting Realty Llc,47,"buys elsewhere in the county; ~$88,200 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Researched
+oh-franklin-648643,8,oh-fr-011,C&M Investments Ohio Llc,46,"buys elsewhere in the county; ~$88,200 is inside their $95,000-$200,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648643,9,oh-fr-013,Tgd Property Group Llc,46,"buys elsewhere in the county; ~$88,200 is inside their $60,000-$175,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648643,10,oh-fr-015,B A Rhoads Investments Llc,46,"buys elsewhere in the county; ~$88,200 is inside their $100,000-$160,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648661,1,oh-fr-004,Cogs Ultd Llc,75,"buys in ZIP 43204; ~$136,300 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Researched
+oh-franklin-648661,2,oh-fr-009,Everlasting Realty Llc,72,"buys in ZIP 43204; ~$136,300 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Researched
+oh-franklin-648661,3,oh-fr-011,C&M Investments Ohio Llc,71,"buys in ZIP 43204; ~$136,300 is inside their $95,000-$200,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648661,4,oh-fr-013,Tgd Property Group Llc,71,"buys in ZIP 43204; ~$136,300 is inside their $60,000-$175,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648661,5,oh-fr-018,Ohio Salcedo Holdings Llc,71,"buys in ZIP 43204; ~$136,300 is inside their $60,000-$157,500 range; 8 cash buys in 12 months",found,,,,Researched
+oh-franklin-648661,6,oh-fr-024,Fisk Properties Llc,69,"buys in ZIP 43204; ~$136,300 is inside their $83,500-$167,000 range; 6 cash buys in 12 months",found,,,,Researched
+oh-franklin-648661,7,oh-fr-008,Prime Luxury Llc,69,"buys in ZIP 43204; ~$136,300 is inside their $108,000-$295,000 range; 11 cash buys in 12 months",found,,,,Researched
+oh-franklin-648661,8,oh-fr-014,Mih Properties Llc,67,"buys in ZIP 43204; ~$136,300 is inside their $72,000-$162,500 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648661,9,oh-fr-020,Elg Property Llc,67,"buys in ZIP 43204; ~$136,300 is inside their $122,000-$224,000 range; 8 cash buys in 12 months",found,,,,Researched
+oh-franklin-648661,10,oh-fr-012,Acq Equity Llc,63,"buys in ZIP 43204; ~$136,300 is inside their $90,000-$160,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648662,1,oh-fr-005,Kp Homes Llc,74,"buys in ZIP 43228; ~$107,400 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Researched
+oh-franklin-648662,2,oh-fr-008,Prime Luxury Llc,69,"buys in ZIP 43228; ~$107,400 is inside their $108,000-$295,000 range; 11 cash buys in 12 months",found,,,,Researched
+oh-franklin-648662,3,oh-fr-001,Imk Properties Llc,61,"buys elsewhere in the county; ~$107,400 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Researched
+oh-franklin-648662,4,oh-fr-003,Alcauters Investment Group Llc,51,"buys elsewhere in the county; ~$107,400 is inside their $95,000-$180,000 range; 16 cash buys in 12 months",found,,,,Researched
+oh-franklin-648662,5,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$107,400 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Researched
+oh-franklin-648662,6,oh-fr-002,Dtrt Properties Llc,49,"buys elsewhere in the county; ~$107,400 is inside their $128,000-$278,000 range; 19 cash buys in 12 months",found,,,,Researched
+oh-franklin-648662,7,oh-fr-006,Hhbc Investments Llc,48,"buys elsewhere in the county; ~$107,400 is inside their $40,000-$150,000 range; 12 cash buys in 12 months",found,,,,Researched
+oh-franklin-648662,8,oh-fr-009,Everlasting Realty Llc,47,"buys elsewhere in the county; ~$107,400 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Researched
+oh-franklin-648662,9,oh-fr-011,C&M Investments Ohio Llc,46,"buys elsewhere in the county; ~$107,400 is inside their $95,000-$200,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648662,10,oh-fr-013,Tgd Property Group Llc,46,"buys elsewhere in the county; ~$107,400 is inside their $60,000-$175,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648667,1,oh-fr-004,Cogs Ultd Llc,75,"buys in ZIP 43204; ~$117,400 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Researched
+oh-franklin-648667,2,oh-fr-009,Everlasting Realty Llc,72,"buys in ZIP 43204; ~$117,400 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Researched
+oh-franklin-648667,3,oh-fr-011,C&M Investments Ohio Llc,71,"buys in ZIP 43204; ~$117,400 is inside their $95,000-$200,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648667,4,oh-fr-013,Tgd Property Group Llc,71,"buys in ZIP 43204; ~$117,400 is inside their $60,000-$175,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648667,5,oh-fr-017,Fortune Future Llc,71,"buys in ZIP 43204; ~$117,400 is inside their $60,000-$104,100 range; 8 cash buys in 12 months",found,,,,Researched
+oh-franklin-648667,6,oh-fr-018,Ohio Salcedo Holdings Llc,71,"buys in ZIP 43204; ~$117,400 is inside their $60,000-$157,500 range; 8 cash buys in 12 months",found,,,,Researched
+oh-franklin-648667,7,oh-fr-024,Fisk Properties Llc,69,"buys in ZIP 43204; ~$117,400 is inside their $83,500-$167,000 range; 6 cash buys in 12 months",found,,,,Researched
+oh-franklin-648667,8,oh-fr-008,Prime Luxury Llc,69,"buys in ZIP 43204; ~$117,400 is inside their $108,000-$295,000 range; 11 cash buys in 12 months",found,,,,Researched
+oh-franklin-648667,9,oh-fr-014,Mih Properties Llc,67,"buys in ZIP 43204; ~$117,400 is inside their $72,000-$162,500 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648667,10,oh-fr-020,Elg Property Llc,67,"buys in ZIP 43204; ~$117,400 is inside their $122,000-$224,000 range; 8 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003986,1,fl-hb-003,Op Spe Summit Llc,62,"buys in Lithia; ~$319,000 is inside their $279,000-$450,000 range; 13 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003986,2,fl-hb-300,Mse Management Llc,58,"buys in Lithia; ~$319,000 is inside their $295,000-$419,000 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003986,3,fl-hb-100,Tule River Homebuyer Earned Equity Agency Inc,55,"buys in Lithia; ~$319,000 is inside their $323,000-$480,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003986,4,fl-hb-028,Crosswynde Owner Fl Llc,54,"buys elsewhere in the county; ~$319,000 is inside their $81,300-$1,115,000 range; 20 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003986,5,fl-hb-307,James C Ii And Lauren M Hypes,50,"buys in Lithia; ~$319,000 is inside their $325,000-$530,000 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003986,6,fl-hb-001,First Call Home Buyers Llc,48,"buys elsewhere in the county; ~$319,000 is inside their $117,500-$300,000 range; 17 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003986,7,fl-hb-030,Ortiz Ochoa Investment Llc,48,"buys elsewhere in the county; ~$319,000 is inside their $25,000-$1,321,000 range; 17 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003986,8,fl-hb-005,Tampa Standard Llc,48,"buys elsewhere in the county; ~$319,000 is inside their $104,600-$376,600 range; 11 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003986,9,fl-hb-002,Ltd Family Trust Llc,46,"buys elsewhere in the county; ~$319,000 is inside their $152,800-$440,000 range; 15 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003986,10,fl-hb-029,Cardel Waterset Th Llc,45,"buys elsewhere in the county; ~$319,000 is inside their $356,500-$702,400 range; 19 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003988,1,fl-hb-028,Crosswynde Owner Fl Llc,71,"buys in Tampa; ~$274,400 is inside their $81,300-$1,115,000 range; 20 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003988,2,fl-hb-001,First Call Home Buyers Llc,65,"buys in Tampa; ~$274,400 is inside their $117,500-$300,000 range; 17 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003988,3,fl-hb-037,Keyvera Properties Llc,61,"buys in Tampa; ~$274,400 is inside their $235,000-$595,000 range; 6 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003988,4,fl-hb-031,Tule River Homebuyer Earned Equity Agency,61,"buys in Tampa; ~$274,400 is inside their $310,900-$410,000 range; 11 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003988,5,fl-hb-017,Los Duenos Del Party Promotions Inc,60,"buys in Tampa; ~$274,400 is inside their $215,000-$285,000 range; 5 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003988,6,fl-hb-020,Gonmax Services Inc,60,"buys in Tampa; ~$274,400 is inside their $250,000-$340,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003988,7,fl-hb-051,Bbs Fl 1 Llc,60,"buys in Tampa; ~$274,400 is inside their $225,000-$410,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003988,8,fl-hb-007,Dmf Homes Llc,59,"buys in Tampa; ~$274,400 is inside their $331,000-$425,000 range; 9 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003988,9,fl-hb-068,Robert Michael Fausette Pa,59,"buys in Tampa; ~$274,400 is inside their $120,000-$282,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003988,10,fl-hb-069,North Tampa Equity Llc,59,"buys in Tampa; ~$274,400 is inside their $130,000-$282,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003994,1,fl-hb-002,Ltd Family Trust Llc,64,"buys in Plant City; ~$156,300 is inside their $152,800-$440,000 range; 15 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003994,2,fl-hb-036,Wilmington Savings Fund Society /Trustee,57,"buys in Plant City; ~$156,300 is inside their $37,800-$378,300 range; 6 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003994,3,fl-hb-050,Sergio Hernandez,56,"buys in Plant City; ~$156,300 is inside their $125,000-$620,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003994,4,fl-hb-066,Jaz Investment Group Llc,55,"buys in Plant City; ~$156,300 is inside their $155,100-$545,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003994,5,fl-hb-105,Nava Fl Properties Llc,55,"buys in Plant City; ~$156,300 is inside their $135,000-$350,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003994,6,fl-hb-203,Cedar Brook Properties Funding 3 Llc,54,"buys in Plant City; ~$156,300 is inside their $190,000-$218,200 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003994,7,fl-hb-432,Usmi Properties Six Llc,54,"buys in Plant City; ~$156,300 is inside their $90,000-$150,000 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003994,8,fl-hb-433,Tnjv Holdings Llc,54,"buys in Plant City; ~$156,300 is inside their $75,000-$162,000 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003994,9,fl-hb-028,Crosswynde Owner Fl Llc,54,"buys elsewhere in the county; ~$156,300 is inside their $81,300-$1,115,000 range; 20 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003994,10,fl-hb-134,Beige N Stan Llc,50,"buys in Plant City; ~$156,300 is inside their $190,000-$245,000 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003997,1,fl-hb-028,Crosswynde Owner Fl Llc,71,"buys in Tampa; ~$343,400 is inside their $81,300-$1,115,000 range; 20 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003997,2,fl-hb-001,First Call Home Buyers Llc,65,"buys in Tampa; ~$343,400 is inside their $117,500-$300,000 range; 17 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003997,3,fl-hb-037,Keyvera Properties Llc,61,"buys in Tampa; ~$343,400 is inside their $235,000-$595,000 range; 6 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003997,4,fl-hb-031,Tule River Homebuyer Earned Equity Agency,61,"buys in Tampa; ~$343,400 is inside their $310,900-$410,000 range; 11 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003997,5,fl-hb-020,Gonmax Services Inc,60,"buys in Tampa; ~$343,400 is inside their $250,000-$340,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003997,6,fl-hb-051,Bbs Fl 1 Llc,60,"buys in Tampa; ~$343,400 is inside their $225,000-$410,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003997,7,fl-hb-007,Dmf Homes Llc,59,"buys in Tampa; ~$343,400 is inside their $331,000-$425,000 range; 9 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003997,8,fl-hb-079,Greener Ventures Llc,59,"buys in Tampa; ~$343,400 is inside their $169,000-$510,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003997,9,fl-hb-114,Devitos Contracting Llc,59,"buys in Tampa; ~$343,400 is inside their $250,000-$489,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003997,10,fl-hb-010,Domain Homes Inc,59,"buys in Tampa; ~$343,400 is inside their $127,500-$425,000 range; 8 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003999,1,fl-hb-036,Wilmington Savings Fund Society /Trustee,57,"buys in Sun City Center; ~$258,400 is inside their $37,800-$378,300 range; 6 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003999,2,fl-hb-022,H2 Property Holdings Llc,56,"buys in Sun City Center; ~$258,400 is inside their $172,600-$331,100 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003999,3,fl-hb-066,Jaz Investment Group Llc,55,"buys in Sun City Center; ~$258,400 is inside their $155,100-$545,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003999,4,fl-hb-249,Wbw Properties Llc,54,"buys in Sun City Center; ~$258,400 is inside their $116,000-$285,000 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003999,5,fl-hb-260,Diana M Sigler,54,"buys in Sun City Center; ~$258,400 is inside their $130,000-$275,000 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003999,6,fl-hb-028,Crosswynde Owner Fl Llc,54,"buys elsewhere in the county; ~$258,400 is inside their $81,300-$1,115,000 range; 20 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003999,7,fl-hb-015,Purchasing Fund 2025 1 Llc,53,"buys in Sun City Center; ~$258,400 is inside their $225,000-$360,000 range; 6 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003999,8,fl-hb-258,Michael E And Marcia J Grelles,50,"buys in Sun City Center; ~$258,400 is inside their $70,000-$250,000 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003999,9,fl-hb-001,First Call Home Buyers Llc,48,"buys elsewhere in the county; ~$258,400 is inside their $117,500-$300,000 range; 17 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-003999,10,fl-hb-030,Ortiz Ochoa Investment Llc,48,"buys elsewhere in the county; ~$258,400 is inside their $25,000-$1,321,000 range; 17 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004002,1,fl-hb-005,Tampa Standard Llc,65,"buys in Riverview; ~$378,700 is inside their $104,600-$376,600 range; 11 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004002,2,fl-hb-002,Ltd Family Trust Llc,64,"buys in Riverview; ~$378,700 is inside their $152,800-$440,000 range; 15 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004002,3,fl-hb-003,Op Spe Summit Llc,62,"buys in Riverview; ~$378,700 is inside their $279,000-$450,000 range; 13 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004002,4,fl-hb-037,Keyvera Properties Llc,61,"buys in Riverview; ~$378,700 is inside their $235,000-$595,000 range; 6 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004002,5,fl-hb-031,Tule River Homebuyer Earned Equity Agency,61,"buys in Riverview; ~$378,700 is inside their $310,900-$410,000 range; 11 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004002,6,fl-hb-006,Asl Property Holdings Ii Llc,56,"buys in Riverview; ~$378,700 is inside their $282,600-$352,200 range; 10 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004002,7,fl-hb-099,Lujo Investment Properties Llc,55,"buys in Riverview; ~$378,700 is inside their $210,000-$367,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004002,8,fl-hb-248,Purchasing Fund 2025 5 Llc,54,"buys in Riverview; ~$378,700 is inside their $390,000-$521,000 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004002,9,fl-hb-299,Insona Llc,54,"buys in Riverview; ~$378,700 is inside their $235,000-$332,900 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004002,10,fl-hb-309,Thopon Properties Llc,54,"buys in Riverview; ~$378,700 is inside their $290,000-$365,000 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004007,1,fl-hb-004,Opendoor Property J Llc,62,"buys in Brandon; ~$210,700 is inside their $208,900-$404,400 range; 13 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004007,2,fl-hb-020,Gonmax Services Inc,60,"buys in Brandon; ~$210,700 is inside their $250,000-$340,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004007,3,fl-hb-051,Bbs Fl 1 Llc,60,"buys in Brandon; ~$210,700 is inside their $225,000-$410,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004007,4,fl-hb-103,P And R Quality Investments Llc,59,"buys in Brandon; ~$210,700 is inside their $174,900-$330,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004007,5,fl-hb-012,Joseph Real Estate Investments Inc,58,"buys in Brandon; ~$210,700 is inside their $172,500-$295,000 range; 7 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004007,6,fl-hb-018,Mags Services Llc,56,"buys in Brandon; ~$210,700 is inside their $179,500-$330,000 range; 5 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004007,7,fl-hb-056,Rajiv Maini,56,"buys in Brandon; ~$210,700 is inside their $255,300-$288,100 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004007,8,fl-hb-087,Redmond Tree Llc,55,"buys in Brandon; ~$210,700 is inside their $84,600-$420,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004007,9,fl-hb-101,Icr Investments Llc/Trustee,55,"buys in Brandon; ~$210,700 is inside their $160,000-$220,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004007,10,fl-hb-253,Grandville Investments Llc,54,"buys in Brandon; ~$210,700 is inside their $210,000-$300,000 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004012,1,fl-hb-004,Opendoor Property J Llc,62,"buys in Brandon; ~$220,800 is inside their $208,900-$404,400 range; 13 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004012,2,fl-hb-020,Gonmax Services Inc,60,"buys in Brandon; ~$220,800 is inside their $250,000-$340,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004012,3,fl-hb-051,Bbs Fl 1 Llc,60,"buys in Brandon; ~$220,800 is inside their $225,000-$410,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004012,4,fl-hb-103,P And R Quality Investments Llc,59,"buys in Brandon; ~$220,800 is inside their $174,900-$330,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004012,5,fl-hb-012,Joseph Real Estate Investments Inc,58,"buys in Brandon; ~$220,800 is inside their $172,500-$295,000 range; 7 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004012,6,fl-hb-018,Mags Services Llc,56,"buys in Brandon; ~$220,800 is inside their $179,500-$330,000 range; 5 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004012,7,fl-hb-056,Rajiv Maini,56,"buys in Brandon; ~$220,800 is inside their $255,300-$288,100 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004012,8,fl-hb-087,Redmond Tree Llc,55,"buys in Brandon; ~$220,800 is inside their $84,600-$420,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004012,9,fl-hb-101,Icr Investments Llc/Trustee,55,"buys in Brandon; ~$220,800 is inside their $160,000-$220,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004012,10,fl-hb-253,Grandville Investments Llc,54,"buys in Brandon; ~$220,800 is inside their $210,000-$300,000 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004014,1,fl-hb-028,Crosswynde Owner Fl Llc,71,"buys in Tampa; ~$213,900 is inside their $81,300-$1,115,000 range; 20 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004014,2,fl-hb-001,First Call Home Buyers Llc,65,"buys in Tampa; ~$213,900 is inside their $117,500-$300,000 range; 17 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004014,3,fl-hb-009,Hillsborough Heights Llc,63,"buys in Tampa; ~$213,900 is inside their $115,000-$210,000 range; 8 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004014,4,fl-hb-037,Keyvera Properties Llc,61,"buys in Tampa; ~$213,900 is inside their $235,000-$595,000 range; 6 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004014,5,fl-hb-017,Los Duenos Del Party Promotions Inc,60,"buys in Tampa; ~$213,900 is inside their $215,000-$285,000 range; 5 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004014,6,fl-hb-041,Ta Ehrlich Acquisitions Llc,60,"buys in Tampa; ~$213,900 is inside their $178,000-$209,600 range; 5 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004014,7,fl-hb-020,Gonmax Services Inc,60,"buys in Tampa; ~$213,900 is inside their $250,000-$340,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004014,8,fl-hb-051,Bbs Fl 1 Llc,60,"buys in Tampa; ~$213,900 is inside their $225,000-$410,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004014,9,fl-hb-068,Robert Michael Fausette Pa,59,"buys in Tampa; ~$213,900 is inside their $120,000-$282,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004014,10,fl-hb-069,North Tampa Equity Llc,59,"buys in Tampa; ~$213,900 is inside their $130,000-$282,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004017,1,fl-hb-002,Ltd Family Trust Llc,64,"buys in Plant City; ~$242,800 is inside their $152,800-$440,000 range; 15 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004017,2,fl-hb-003,Op Spe Summit Llc,62,"buys in Plant City; ~$242,800 is inside their $279,000-$450,000 range; 13 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004017,3,fl-hb-004,Opendoor Property J Llc,62,"buys in Plant City; ~$242,800 is inside their $208,900-$404,400 range; 13 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004017,4,fl-hb-036,Wilmington Savings Fund Society /Trustee,57,"buys in Plant City; ~$242,800 is inside their $37,800-$378,300 range; 6 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004017,5,fl-hb-025,2715 West Sligh Llc,56,"buys in Plant City; ~$242,800 is inside their $202,400-$428,700 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004017,6,fl-hb-050,Sergio Hernandez,56,"buys in Plant City; ~$242,800 is inside their $125,000-$620,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004017,7,fl-hb-056,Rajiv Maini,56,"buys in Plant City; ~$242,800 is inside their $255,300-$288,100 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004017,8,fl-hb-066,Jaz Investment Group Llc,55,"buys in Plant City; ~$242,800 is inside their $155,100-$545,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004017,9,fl-hb-105,Nava Fl Properties Llc,55,"buys in Plant City; ~$242,800 is inside their $135,000-$350,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004017,10,fl-hb-203,Cedar Brook Properties Funding 3 Llc,54,"buys in Plant City; ~$242,800 is inside their $190,000-$218,200 range; 2 cash buys in 12 months",found,,,,Researched
+oh-franklin-648688,1,oh-fr-004,Cogs Ultd Llc,75,"buys in ZIP 43123; ~$195,100 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Researched
+oh-franklin-648688,2,oh-fr-008,Prime Luxury Llc,69,"buys in ZIP 43123; ~$195,100 is inside their $108,000-$295,000 range; 11 cash buys in 12 months",found,,,,Researched
+oh-franklin-648688,3,oh-fr-016,Sriram Llc,67,"buys in ZIP 43123; ~$195,100 is inside their $112,500-$265,650 range; 8 cash buys in 12 months",found,,,,Researched
+oh-franklin-648688,4,oh-fr-001,Imk Properties Llc,61,"buys elsewhere in the county; ~$195,100 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Researched
+oh-franklin-648688,5,oh-fr-023,616 N Elisabeth Street Llc,59,"buys in ZIP 43123; ~$195,100 is inside their $135,000-$200,000 range; 6 cash buys in 12 months",found,,,,Researched
+oh-franklin-648688,6,oh-fr-003,Alcauters Investment Group Llc,51,"buys elsewhere in the county; ~$195,100 is inside their $95,000-$180,000 range; 16 cash buys in 12 months",found,,,,Researched
+oh-franklin-648688,7,oh-fr-002,Dtrt Properties Llc,49,"buys elsewhere in the county; ~$195,100 is inside their $128,000-$278,000 range; 19 cash buys in 12 months",found,,,,Researched
+oh-franklin-648688,8,oh-fr-005,Kp Homes Llc,49,"buys elsewhere in the county; ~$195,100 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Researched
+oh-franklin-648688,9,oh-fr-009,Everlasting Realty Llc,47,"buys elsewhere in the county; ~$195,100 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Researched
+oh-franklin-648688,10,oh-fr-011,C&M Investments Ohio Llc,46,"buys elsewhere in the county; ~$195,100 is inside their $95,000-$200,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648691,1,oh-fr-008,Prime Luxury Llc,69,"buys in ZIP 43026; ~$231,300 is inside their $108,000-$295,000 range; 11 cash buys in 12 months",found,,,,Researched
+oh-franklin-648691,2,oh-fr-001,Imk Properties Llc,61,"buys elsewhere in the county; ~$231,300 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Researched
+oh-franklin-648691,3,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$231,300 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Researched
+oh-franklin-648691,4,oh-fr-002,Dtrt Properties Llc,49,"buys elsewhere in the county; ~$231,300 is inside their $128,000-$278,000 range; 19 cash buys in 12 months",found,,,,Researched
+oh-franklin-648691,5,oh-fr-005,Kp Homes Llc,49,"buys elsewhere in the county; ~$231,300 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Researched
+oh-franklin-648691,6,oh-fr-016,Sriram Llc,42,"buys elsewhere in the county; ~$231,300 is inside their $112,500-$265,650 range; 8 cash buys in 12 months",found,,,,Researched
+oh-franklin-648691,7,oh-fr-020,Elg Property Llc,42,"buys elsewhere in the county; ~$231,300 is inside their $122,000-$224,000 range; 8 cash buys in 12 months",found,,,,Researched
+oh-franklin-648691,8,oh-fr-019,R&R Grandeur Properties Llc,38,"buys elsewhere in the county; ~$231,300 is inside their $65,000-$205,000 range; 8 cash buys in 12 months",found,,,,Researched
+oh-franklin-648694,1,oh-fr-001,Imk Properties Llc,61,"buys elsewhere in the county; ~$229,200 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Researched
+oh-franklin-648694,2,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$229,200 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Researched
+oh-franklin-648694,3,oh-fr-002,Dtrt Properties Llc,49,"buys elsewhere in the county; ~$229,200 is inside their $128,000-$278,000 range; 19 cash buys in 12 months",found,,,,Researched
+oh-franklin-648694,4,oh-fr-005,Kp Homes Llc,49,"buys elsewhere in the county; ~$229,200 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Researched
+oh-franklin-648694,5,oh-fr-011,C&M Investments Ohio Llc,46,"buys elsewhere in the county; ~$229,200 is inside their $95,000-$200,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648694,6,oh-fr-025,Top Gun Investments Llc,44,"buys elsewhere in the county; ~$229,200 is inside their $154,000-$200,000 range; 6 cash buys in 12 months",found,,,,Researched
+oh-franklin-648694,7,oh-fr-008,Prime Luxury Llc,44,"buys elsewhere in the county; ~$229,200 is inside their $108,000-$295,000 range; 11 cash buys in 12 months",found,,,,Researched
+oh-franklin-648694,8,oh-fr-016,Sriram Llc,42,"buys elsewhere in the county; ~$229,200 is inside their $112,500-$265,650 range; 8 cash buys in 12 months",found,,,,Researched
+oh-franklin-648694,9,oh-fr-020,Elg Property Llc,42,"buys elsewhere in the county; ~$229,200 is inside their $122,000-$224,000 range; 8 cash buys in 12 months",found,,,,Researched
+oh-franklin-648694,10,oh-fr-019,R&R Grandeur Properties Llc,38,"buys elsewhere in the county; ~$229,200 is inside their $65,000-$205,000 range; 8 cash buys in 12 months",found,,,,Researched
+oh-franklin-648696,1,oh-fr-001,Imk Properties Llc,61,"buys elsewhere in the county; ~$57,200 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Researched
+oh-franklin-648696,2,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$57,200 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Researched
+oh-franklin-648696,3,oh-fr-024,Fisk Properties Llc,49,buys in ZIP 43206; below their usual price; 6 cash buys in 12 months,found,,,,Researched
+oh-franklin-648696,4,oh-fr-006,Hhbc Investments Llc,48,"buys elsewhere in the county; ~$57,200 is inside their $40,000-$150,000 range; 12 cash buys in 12 months",found,,,,Researched
+oh-franklin-648696,5,oh-fr-009,Everlasting Realty Llc,47,"buys elsewhere in the county; ~$57,200 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Researched
+oh-franklin-648696,6,oh-fr-016,Sriram Llc,47,buys in ZIP 43206; below their usual price; 8 cash buys in 12 months,found,,,,Researched
+oh-franklin-648696,7,oh-fr-020,Elg Property Llc,47,buys in ZIP 43206; below their usual price; 8 cash buys in 12 months,found,,,,Researched
+oh-franklin-648696,8,oh-fr-013,Tgd Property Group Llc,46,"buys elsewhere in the county; ~$57,200 is inside their $60,000-$175,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648696,9,oh-fr-017,Fortune Future Llc,46,"buys elsewhere in the county; ~$57,200 is inside their $60,000-$104,100 range; 8 cash buys in 12 months",found,,,,Researched
+oh-franklin-648696,10,oh-fr-018,Ohio Salcedo Holdings Llc,46,"buys elsewhere in the county; ~$57,200 is inside their $60,000-$157,500 range; 8 cash buys in 12 months",found,,,,Researched
+oh-franklin-648702,1,oh-fr-001,Imk Properties Llc,61,"buys elsewhere in the county; ~$149,400 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Researched
+oh-franklin-648702,2,oh-fr-003,Alcauters Investment Group Llc,51,"buys elsewhere in the county; ~$149,400 is inside their $95,000-$180,000 range; 16 cash buys in 12 months",found,,,,Researched
+oh-franklin-648702,3,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$149,400 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Researched
+oh-franklin-648702,4,oh-fr-002,Dtrt Properties Llc,49,"buys elsewhere in the county; ~$149,400 is inside their $128,000-$278,000 range; 19 cash buys in 12 months",found,,,,Researched
+oh-franklin-648702,5,oh-fr-005,Kp Homes Llc,49,"buys elsewhere in the county; ~$149,400 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Researched
+oh-franklin-648702,6,oh-fr-006,Hhbc Investments Llc,48,"buys elsewhere in the county; ~$149,400 is inside their $40,000-$150,000 range; 12 cash buys in 12 months",found,,,,Researched
+oh-franklin-648702,7,oh-fr-009,Everlasting Realty Llc,47,"buys elsewhere in the county; ~$149,400 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Researched
+oh-franklin-648702,8,oh-fr-011,C&M Investments Ohio Llc,46,"buys elsewhere in the county; ~$149,400 is inside their $95,000-$200,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648702,9,oh-fr-013,Tgd Property Group Llc,46,"buys elsewhere in the county; ~$149,400 is inside their $60,000-$175,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648702,10,oh-fr-015,B A Rhoads Investments Llc,46,"buys elsewhere in the county; ~$149,400 is inside their $100,000-$160,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648708,1,oh-fr-001,Imk Properties Llc,61,"buys elsewhere in the county; ~$274,000 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Researched
+oh-franklin-648708,2,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$274,000 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Researched
+oh-franklin-648708,3,oh-fr-002,Dtrt Properties Llc,49,"buys elsewhere in the county; ~$274,000 is inside their $128,000-$278,000 range; 19 cash buys in 12 months",found,,,,Researched
+oh-franklin-648708,4,oh-fr-008,Prime Luxury Llc,44,"buys elsewhere in the county; ~$274,000 is inside their $108,000-$295,000 range; 11 cash buys in 12 months",found,,,,Researched
+oh-franklin-648708,5,oh-fr-016,Sriram Llc,42,"buys elsewhere in the county; ~$274,000 is inside their $112,500-$265,650 range; 8 cash buys in 12 months",found,,,,Researched
+oh-franklin-648710,1,oh-fr-001,Imk Properties Llc,86,"buys in ZIP 43232; ~$105,000 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Researched
+oh-franklin-648710,2,oh-fr-005,Kp Homes Llc,74,"buys in ZIP 43232; ~$105,000 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Researched
+oh-franklin-648710,3,oh-fr-006,Hhbc Investments Llc,73,"buys in ZIP 43232; ~$105,000 is inside their $40,000-$150,000 range; 12 cash buys in 12 months",found,,,,Researched
+oh-franklin-648710,4,oh-fr-022,G & Sg Investment Llc,70,"buys in ZIP 43232; ~$105,000 is inside their $83,000-$185,000 range; 7 cash buys in 12 months",found,,,,Researched
+oh-franklin-648710,5,oh-fr-014,Mih Properties Llc,67,"buys in ZIP 43232; ~$105,000 is inside their $72,000-$162,500 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648710,6,oh-fr-021,Cucamonga Llc,62,"buys in ZIP 43232; ~$105,000 is inside their $28,000-$135,000 range; 7 cash buys in 12 months",found,,,,Researched
+oh-franklin-648710,7,oh-fr-003,Alcauters Investment Group Llc,51,"buys elsewhere in the county; ~$105,000 is inside their $95,000-$180,000 range; 16 cash buys in 12 months",found,,,,Researched
+oh-franklin-648710,8,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$105,000 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Researched
+oh-franklin-648710,9,oh-fr-002,Dtrt Properties Llc,49,"buys elsewhere in the county; ~$105,000 is inside their $128,000-$278,000 range; 19 cash buys in 12 months",found,,,,Researched
+oh-franklin-648710,10,oh-fr-009,Everlasting Realty Llc,47,"buys elsewhere in the county; ~$105,000 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Researched
+oh-franklin-648715,1,oh-fr-001,Imk Properties Llc,86,"buys in ZIP 43219; ~$75,600 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Researched
+oh-franklin-648715,2,oh-fr-007,Ack Equity Llc,69,"buys in ZIP 43219; ~$75,600 is inside their $73,500-$195,000 range; 12 cash buys in 12 months",found,,,,Researched
+oh-franklin-648715,3,oh-fr-012,Acq Equity Llc,63,"buys in ZIP 43219; ~$75,600 is inside their $90,000-$160,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648715,4,oh-fr-015,B A Rhoads Investments Llc,51,buys in ZIP 43219; below their usual price; 9 cash buys in 12 months,found,,,,Researched
+oh-franklin-648715,5,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$75,600 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Researched
+oh-franklin-648715,6,oh-fr-025,Top Gun Investments Llc,49,buys in ZIP 43219; below their usual price; 6 cash buys in 12 months,found,,,,Researched
+oh-franklin-648715,7,oh-fr-005,Kp Homes Llc,49,"buys elsewhere in the county; ~$75,600 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Researched
+oh-franklin-648715,8,oh-fr-006,Hhbc Investments Llc,48,"buys elsewhere in the county; ~$75,600 is inside their $40,000-$150,000 range; 12 cash buys in 12 months",found,,,,Researched
+oh-franklin-648715,9,oh-fr-009,Everlasting Realty Llc,47,"buys elsewhere in the county; ~$75,600 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Researched
+oh-franklin-648715,10,oh-fr-013,Tgd Property Group Llc,46,"buys elsewhere in the county; ~$75,600 is inside their $60,000-$175,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648732,1,oh-fr-001,Imk Properties Llc,86,"buys in ZIP 43229; ~$193,200 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Researched
+oh-franklin-648732,2,oh-fr-002,Dtrt Properties Llc,74,"buys in ZIP 43229; ~$193,200 is inside their $128,000-$278,000 range; 19 cash buys in 12 months",found,,,,Researched
+oh-franklin-648732,3,oh-fr-003,Alcauters Investment Group Llc,51,"buys elsewhere in the county; ~$193,200 is inside their $95,000-$180,000 range; 16 cash buys in 12 months",found,,,,Researched
+oh-franklin-648732,4,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$193,200 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Researched
+oh-franklin-648732,5,oh-fr-005,Kp Homes Llc,49,"buys elsewhere in the county; ~$193,200 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Researched
+oh-franklin-648732,6,oh-fr-009,Everlasting Realty Llc,47,"buys elsewhere in the county; ~$193,200 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Researched
+oh-franklin-648732,7,oh-fr-011,C&M Investments Ohio Llc,46,"buys elsewhere in the county; ~$193,200 is inside their $95,000-$200,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648732,8,oh-fr-013,Tgd Property Group Llc,46,"buys elsewhere in the county; ~$193,200 is inside their $60,000-$175,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648732,9,oh-fr-022,G & Sg Investment Llc,45,"buys elsewhere in the county; ~$193,200 is inside their $83,000-$185,000 range; 7 cash buys in 12 months",found,,,,Researched
+oh-franklin-648732,10,oh-fr-007,Ack Equity Llc,44,"buys elsewhere in the county; ~$193,200 is inside their $73,500-$195,000 range; 12 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004021,1,fl-hb-028,Crosswynde Owner Fl Llc,71,"buys in Tampa; ~$271,500 is inside their $81,300-$1,115,000 range; 20 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004021,2,fl-hb-001,First Call Home Buyers Llc,65,"buys in Tampa; ~$271,500 is inside their $117,500-$300,000 range; 17 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004021,3,fl-hb-037,Keyvera Properties Llc,61,"buys in Tampa; ~$271,500 is inside their $235,000-$595,000 range; 6 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004021,4,fl-hb-031,Tule River Homebuyer Earned Equity Agency,61,"buys in Tampa; ~$271,500 is inside their $310,900-$410,000 range; 11 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004021,5,fl-hb-017,Los Duenos Del Party Promotions Inc,60,"buys in Tampa; ~$271,500 is inside their $215,000-$285,000 range; 5 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004021,6,fl-hb-020,Gonmax Services Inc,60,"buys in Tampa; ~$271,500 is inside their $250,000-$340,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004021,7,fl-hb-051,Bbs Fl 1 Llc,60,"buys in Tampa; ~$271,500 is inside their $225,000-$410,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004021,8,fl-hb-007,Dmf Homes Llc,59,"buys in Tampa; ~$271,500 is inside their $331,000-$425,000 range; 9 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004021,9,fl-hb-068,Robert Michael Fausette Pa,59,"buys in Tampa; ~$271,500 is inside their $120,000-$282,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004021,10,fl-hb-069,North Tampa Equity Llc,59,"buys in Tampa; ~$271,500 is inside their $130,000-$282,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004023,1,fl-hb-028,Crosswynde Owner Fl Llc,71,"buys in Tampa; ~$320,400 is inside their $81,300-$1,115,000 range; 20 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004023,2,fl-hb-001,First Call Home Buyers Llc,65,"buys in Tampa; ~$320,400 is inside their $117,500-$300,000 range; 17 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004023,3,fl-hb-037,Keyvera Properties Llc,61,"buys in Tampa; ~$320,400 is inside their $235,000-$595,000 range; 6 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004023,4,fl-hb-031,Tule River Homebuyer Earned Equity Agency,61,"buys in Tampa; ~$320,400 is inside their $310,900-$410,000 range; 11 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004023,5,fl-hb-017,Los Duenos Del Party Promotions Inc,60,"buys in Tampa; ~$320,400 is inside their $215,000-$285,000 range; 5 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004023,6,fl-hb-020,Gonmax Services Inc,60,"buys in Tampa; ~$320,400 is inside their $250,000-$340,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004023,7,fl-hb-051,Bbs Fl 1 Llc,60,"buys in Tampa; ~$320,400 is inside their $225,000-$410,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004023,8,fl-hb-007,Dmf Homes Llc,59,"buys in Tampa; ~$320,400 is inside their $331,000-$425,000 range; 9 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004023,9,fl-hb-068,Robert Michael Fausette Pa,59,"buys in Tampa; ~$320,400 is inside their $120,000-$282,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004023,10,fl-hb-069,North Tampa Equity Llc,59,"buys in Tampa; ~$320,400 is inside their $130,000-$282,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004026,1,fl-hb-003,Op Spe Summit Llc,62,"buys in Brandon; ~$284,800 is inside their $279,000-$450,000 range; 13 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004026,2,fl-hb-004,Opendoor Property J Llc,62,"buys in Brandon; ~$284,800 is inside their $208,900-$404,400 range; 13 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004026,3,fl-hb-020,Gonmax Services Inc,60,"buys in Brandon; ~$284,800 is inside their $250,000-$340,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004026,4,fl-hb-051,Bbs Fl 1 Llc,60,"buys in Brandon; ~$284,800 is inside their $225,000-$410,000 range; 4 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004026,5,fl-hb-103,P And R Quality Investments Llc,59,"buys in Brandon; ~$284,800 is inside their $174,900-$330,000 range; 3 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004026,6,fl-hb-300,Mse Management Llc,58,"buys in Brandon; ~$284,800 is inside their $295,000-$419,000 range; 2 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004026,7,fl-hb-012,Joseph Real Estate Investments Inc,58,"buys in Brandon; ~$284,800 is inside their $172,500-$295,000 range; 7 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004026,8,fl-hb-018,Mags Services Llc,56,"buys in Brandon; ~$284,800 is inside their $179,500-$330,000 range; 5 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004026,9,fl-hb-006,Asl Property Holdings Ii Llc,56,"buys in Brandon; ~$284,800 is inside their $282,600-$352,200 range; 10 cash buys in 12 months",found,,,,Researched
+fl-hillsborough-26-CP-004026,10,fl-hb-056,Rajiv Maini,56,"buys in Brandon; ~$284,800 is inside their $255,300-$288,100 range; 4 cash buys in 12 months",found,,,,Researched
+oh-franklin-648739,1,oh-fr-009,Everlasting Realty Llc,72,"buys in ZIP 43223; ~$62,800 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Researched
+oh-franklin-648739,2,oh-fr-013,Tgd Property Group Llc,71,"buys in ZIP 43223; ~$62,800 is inside their $60,000-$175,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648739,3,oh-fr-017,Fortune Future Llc,71,"buys in ZIP 43223; ~$62,800 is inside their $60,000-$104,100 range; 8 cash buys in 12 months",found,,,,Researched
+oh-franklin-648739,4,oh-fr-007,Ack Equity Llc,69,"buys in ZIP 43223; ~$62,800 is inside their $73,500-$195,000 range; 12 cash buys in 12 months",found,,,,Researched
+oh-franklin-648739,5,oh-fr-019,R&R Grandeur Properties Llc,63,"buys in ZIP 43223; ~$62,800 is inside their $65,000-$205,000 range; 8 cash buys in 12 months",found,,,,Researched
+oh-franklin-648739,6,oh-fr-001,Imk Properties Llc,61,"buys elsewhere in the county; ~$62,800 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Researched
+oh-franklin-648739,7,oh-fr-002,Dtrt Properties Llc,54,buys in ZIP 43223; below their usual price; 19 cash buys in 12 months,found,,,,Researched
+oh-franklin-648739,8,oh-fr-011,C&M Investments Ohio Llc,51,buys in ZIP 43223; below their usual price; 9 cash buys in 12 months,found,,,,Researched
+oh-franklin-648739,9,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$62,800 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Researched
+oh-franklin-648739,10,oh-fr-024,Fisk Properties Llc,49,buys in ZIP 43223; below their usual price; 6 cash buys in 12 months,found,,,,Researched
+oh-franklin-648741,1,oh-fr-003,Alcauters Investment Group Llc,76,"buys in ZIP 43211; ~$87,500 is inside their $95,000-$180,000 range; 16 cash buys in 12 months",found,,,,Researched
+oh-franklin-648741,2,oh-fr-009,Everlasting Realty Llc,72,"buys in ZIP 43211; ~$87,500 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Researched
+oh-franklin-648741,3,oh-fr-011,C&M Investments Ohio Llc,71,"buys in ZIP 43211; ~$87,500 is inside their $95,000-$200,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648741,4,oh-fr-015,B A Rhoads Investments Llc,71,"buys in ZIP 43211; ~$87,500 is inside their $100,000-$160,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648741,5,oh-fr-007,Ack Equity Llc,69,"buys in ZIP 43211; ~$87,500 is inside their $73,500-$195,000 range; 12 cash buys in 12 months",found,,,,Researched
+oh-franklin-648741,6,oh-fr-012,Acq Equity Llc,63,"buys in ZIP 43211; ~$87,500 is inside their $90,000-$160,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648741,7,oh-fr-021,Cucamonga Llc,62,"buys in ZIP 43211; ~$87,500 is inside their $28,000-$135,000 range; 7 cash buys in 12 months",found,,,,Researched
+oh-franklin-648741,8,oh-fr-001,Imk Properties Llc,61,"buys elsewhere in the county; ~$87,500 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Researched
+oh-franklin-648741,9,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$87,500 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Researched
+oh-franklin-648741,10,oh-fr-005,Kp Homes Llc,49,"buys elsewhere in the county; ~$87,500 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Researched
+oh-franklin-648752,1,oh-fr-019,R&R Grandeur Properties Llc,63,"buys in ZIP 43125; ~$79,800 is inside their $65,000-$205,000 range; 8 cash buys in 12 months",found,,,,Researched
+oh-franklin-648752,2,oh-fr-001,Imk Properties Llc,61,"buys elsewhere in the county; ~$79,800 is inside their $58,905-$270,100 range; 36 cash buys in 12 months",found,,,,Researched
+oh-franklin-648752,3,oh-fr-003,Alcauters Investment Group Llc,51,"buys elsewhere in the county; ~$79,800 is inside their $95,000-$180,000 range; 16 cash buys in 12 months",found,,,,Researched
+oh-franklin-648752,4,oh-fr-004,Cogs Ultd Llc,50,"buys elsewhere in the county; ~$79,800 is inside their $42,000-$286,100 range; 14 cash buys in 12 months",found,,,,Researched
+oh-franklin-648752,5,oh-fr-005,Kp Homes Llc,49,"buys elsewhere in the county; ~$79,800 is inside their $80,000-$225,000 range; 13 cash buys in 12 months",found,,,,Researched
+oh-franklin-648752,6,oh-fr-006,Hhbc Investments Llc,48,"buys elsewhere in the county; ~$79,800 is inside their $40,000-$150,000 range; 12 cash buys in 12 months",found,,,,Researched
+oh-franklin-648752,7,oh-fr-009,Everlasting Realty Llc,47,"buys elsewhere in the county; ~$79,800 is inside their $55,000-$190,000 range; 10 cash buys in 12 months",found,,,,Researched
+oh-franklin-648752,8,oh-fr-011,C&M Investments Ohio Llc,46,"buys elsewhere in the county; ~$79,800 is inside their $95,000-$200,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648752,9,oh-fr-013,Tgd Property Group Llc,46,"buys elsewhere in the county; ~$79,800 is inside their $60,000-$175,000 range; 9 cash buys in 12 months",found,,,,Researched
+oh-franklin-648752,10,oh-fr-017,Fortune Future Llc,46,"buys elsewhere in the county; ~$79,800 is inside their $60,000-$104,100 range; 8 cash buys in 12 months",found,,,,Researched

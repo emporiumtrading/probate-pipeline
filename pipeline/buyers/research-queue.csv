@@ -1,0 +1,485 @@
+order,buyer_id,buyer,market_id,paired_leads,best_rank,lead_ids,next_step
+1,oh-fr-004,Cogs Ultd Llc,oh-franklin,34,1,oh-franklin-619059 oh-franklin-648122 oh-franklin-648136 oh-franklin-648151 oh-franklin-648172 oh-franklin-648173 oh-franklin-648186 oh-franklin-648195,entity check
+2,oh-fr-009,Everlasting Realty Llc,oh-franklin,30,1,oh-franklin-619059 oh-franklin-648122 oh-franklin-648136 oh-franklin-648172 oh-franklin-648173 oh-franklin-648186 oh-franklin-648195 oh-franklin-648594,entity check
+3,oh-fr-001,Imk Properties Llc,oh-franklin,29,1,oh-franklin-619059 oh-franklin-648122 oh-franklin-648151 oh-franklin-648172 oh-franklin-648173 oh-franklin-648186 oh-franklin-648195 oh-franklin-648594,entity check
+4,oh-fr-005,Kp Homes Llc,oh-franklin,26,1,oh-franklin-619059 oh-franklin-648122 oh-franklin-648136 oh-franklin-648151 oh-franklin-648172 oh-franklin-648173 oh-franklin-648186 oh-franklin-648594,entity check
+5,oh-fr-011,C&M Investments Ohio Llc,oh-franklin,24,3,oh-franklin-619059 oh-franklin-648151 oh-franklin-648172 oh-franklin-648173 oh-franklin-648186 oh-franklin-648195 oh-franklin-648594 oh-franklin-648208,entity check
+6,oh-fr-002,Dtrt Properties Llc,oh-franklin,23,1,oh-franklin-648122 oh-franklin-648151 oh-franklin-648173 oh-franklin-648186 oh-franklin-648594 oh-franklin-648208 oh-franklin-648255 oh-franklin-648265,entity check
+7,oh-fr-013,Tgd Property Group Llc,oh-franklin,22,2,oh-franklin-619059 oh-franklin-648136 oh-franklin-648172 oh-franklin-648173 oh-franklin-648186 oh-franklin-648219 oh-franklin-648255 oh-franklin-648257,entity check
+8,oh-fr-003,Alcauters Investment Group Llc,oh-franklin,21,1,oh-franklin-619059 oh-franklin-648122 oh-franklin-648172 oh-franklin-648173 oh-franklin-648186 oh-franklin-648195 oh-franklin-648594 oh-franklin-648208,entity check
+9,fl-hb-028,Crosswynde Owner Fl Llc,fl-hillsborough,20,1,fl-hillsborough-26-CP-003697 fl-hillsborough-26-CP-003866 fl-hillsborough-26-CP-003890 fl-hillsborough-26-CP-003940 fl-hillsborough-26-CP-003696 fl-hillsborough-26-CP-003714 fl-hillsborough-26-CP-003800 fl-hillsborough-26-CP-003951,entity check
+10,oh-fr-006,Hhbc Investments Llc,oh-franklin,17,3,oh-franklin-619059 oh-franklin-648122 oh-franklin-648172 oh-franklin-648173 oh-franklin-648186 oh-franklin-648594 oh-franklin-648208 oh-franklin-648255,entity check
+11,fl-hb-001,First Call Home Buyers Llc,fl-hillsborough,16,1,fl-hillsborough-26-CP-003697 fl-hillsborough-26-CP-003866 fl-hillsborough-26-CP-003890 fl-hillsborough-26-CP-003940 fl-hillsborough-26-CP-003696 fl-hillsborough-26-CP-003714 fl-hillsborough-26-CP-003800 fl-hillsborough-26-CP-003958,cash check
+12,fl-hb-051,Bbs Fl 1 Llc,fl-hillsborough,15,3,fl-hillsborough-26-CP-003866 fl-hillsborough-26-CP-003638 fl-hillsborough-26-CP-003696 fl-hillsborough-26-CP-003731 fl-hillsborough-26-CP-003958 fl-hillsborough-26-CP-003969 fl-hillsborough-26-CP-003970 fl-hillsborough-26-CP-003988,entity check
+13,oh-fr-008,Prime Luxury Llc,oh-franklin,13,1,oh-franklin-648151 oh-franklin-648172 oh-franklin-648594 oh-franklin-648208 oh-franklin-648257 oh-franklin-648639 oh-franklin-648661 oh-franklin-648662,entity check
+14,fl-hb-020,Gonmax Services Inc,fl-hillsborough,12,2,fl-hillsborough-26-CP-003638 fl-hillsborough-26-CP-003731 fl-hillsborough-26-CP-003958 fl-hillsborough-26-CP-003970 fl-hillsborough-26-CP-003988 fl-hillsborough-26-CP-003997 fl-hillsborough-26-CP-004007 fl-hillsborough-26-CP-004012,cash check
+15,fl-hb-037,Keyvera Properties Llc,fl-hillsborough,12,2,fl-hillsborough-26-CP-003866 fl-hillsborough-26-CP-003696 fl-hillsborough-26-CP-003959 fl-hillsborough-26-CP-003958 fl-hillsborough-26-CP-003969 fl-hillsborough-26-CP-003970 fl-hillsborough-26-CP-003988 fl-hillsborough-26-CP-003997,entity check
+16,fl-hb-068,Robert Michael Fausette Pa,fl-hillsborough,12,4,fl-hillsborough-26-CP-003697 fl-hillsborough-26-CP-003866 fl-hillsborough-26-CP-003890 fl-hillsborough-26-CP-003940 fl-hillsborough-26-CP-003696 fl-hillsborough-26-CP-003800 fl-hillsborough-26-CP-003958 fl-hillsborough-26-CP-003970,entity check
+17,fl-hb-069,North Tampa Equity Llc,fl-hillsborough,12,5,fl-hillsborough-26-CP-003697 fl-hillsborough-26-CP-003866 fl-hillsborough-26-CP-003890 fl-hillsborough-26-CP-003940 fl-hillsborough-26-CP-003696 fl-hillsborough-26-CP-003800 fl-hillsborough-26-CP-003958 fl-hillsborough-26-CP-003970,entity check
+18,oh-fr-015,B A Rhoads Investments Llc,oh-franklin,11,4,oh-franklin-619059 oh-franklin-648172 oh-franklin-648186 oh-franklin-648195 oh-franklin-648255 oh-franklin-648619 oh-franklin-648623 oh-franklin-648643,entity check
+19,tx-hr-001,Amplified Properties Llc,tx-harris,10,1,tx-harris-548398 tx-harris-548399 tx-harris-548409 tx-harris-549060 tx-harris-548468 tx-harris-548573 tx-harris-548579 tx-harris-548604,entity check
+20,tx-hr-002,Properties H Llc,tx-harris,10,1,tx-harris-548398 tx-harris-548399 tx-harris-548409 tx-harris-549060 tx-harris-548468 tx-harris-548573 tx-harris-548579 tx-harris-548604,entity check
+21,tx-hr-004,Two Days Homes Llc,tx-harris,10,1,tx-harris-548398 tx-harris-548399 tx-harris-548409 tx-harris-549060 tx-harris-548468 tx-harris-548573 tx-harris-548579 tx-harris-548604,entity check
+22,tx-hr-007,Growth 2026 Llc,tx-harris,10,1,tx-harris-548398 tx-harris-548399 tx-harris-548409 tx-harris-549060 tx-harris-548468 tx-harris-548573 tx-harris-548579 tx-harris-548604,entity check
+23,oh-fr-007,Ack Equity Llc,oh-franklin,10,2,oh-franklin-648136 oh-franklin-648151 oh-franklin-648195 oh-franklin-648219 oh-franklin-648265 oh-franklin-648621 oh-franklin-648715 oh-franklin-648732,entity check
+24,tx-hr-003,Reiari Llc,tx-harris,10,2,tx-harris-548398 tx-harris-548399 tx-harris-548409 tx-harris-549060 tx-harris-548468 tx-harris-548573 tx-harris-548579 tx-harris-548604,entity check
+25,oh-fr-020,Elg Property Llc,oh-franklin,10,3,oh-franklin-648122 oh-franklin-648195 oh-franklin-648257 oh-franklin-648265 oh-franklin-648630 oh-franklin-648661 oh-franklin-648667 oh-franklin-648691,entity check
+26,fl-hb-002,Ltd Family Trust Llc,fl-hillsborough,9,1,fl-hillsborough-26-CP-003714 fl-hillsborough-26-CP-003800 fl-hillsborough-26-CP-003950 fl-hillsborough-26-CP-003951 fl-hillsborough-26-CP-003961 fl-hillsborough-26-CP-003986 fl-hillsborough-26-CP-003994 fl-hillsborough-26-CP-004002,cash check
+27,oh-fr-019,R&R Grandeur Properties Llc,oh-franklin,9,1,oh-franklin-648136 oh-franklin-648151 oh-franklin-648219 oh-franklin-648265 oh-franklin-648621 oh-franklin-648691 oh-franklin-648694 oh-franklin-648739,entity check
+28,tx-hr-008,King Dk Equity Llc,tx-harris,9,1,tx-harris-548398 tx-harris-548399 tx-harris-548409 tx-harris-549060 tx-harris-548468 tx-harris-548579 tx-harris-548604 tx-harris-548847,entity check
+29,tx-hr-010,American Pointe Realty Ltd,tx-harris,9,1,tx-harris-548398 tx-harris-548399 tx-harris-548409 tx-harris-549060 tx-harris-548468 tx-harris-548579 tx-harris-548604 tx-harris-548847,entity check
+30,tx-hr-009,Tride Global Partners Llc,tx-harris,9,7,tx-harris-548398 tx-harris-548399 tx-harris-548409 tx-harris-549060 tx-harris-548468 tx-harris-548579 tx-harris-548604 tx-harris-548847,entity check
+31,tx-hr-005,Scir Homes Llc,tx-harris,9,8,tx-harris-548398 tx-harris-548399 tx-harris-548409 tx-harris-549060 tx-harris-548468 tx-harris-548579 tx-harris-548604 tx-harris-548847,entity check
+32,oh-fr-016,Sriram Llc,oh-franklin,8,1,oh-franklin-648122 oh-franklin-648173 oh-franklin-648630 oh-franklin-648688 oh-franklin-648691 oh-franklin-648694 oh-franklin-648696 oh-franklin-648708,entity check
+33,oh-fr-024,Fisk Properties Llc,oh-franklin,8,1,oh-franklin-648122 oh-franklin-648257 oh-franklin-648265 oh-franklin-648630 oh-franklin-648661 oh-franklin-648667 oh-franklin-648696 oh-franklin-648739,entity check
+34,fl-hb-009,Hillsborough Heights Llc,fl-hillsborough,8,3,fl-hillsborough-26-CP-003697 fl-hillsborough-26-CP-003866 fl-hillsborough-26-CP-003890 fl-hillsborough-26-CP-003940 fl-hillsborough-26-CP-003696 fl-hillsborough-26-CP-003800 fl-hillsborough-26-CP-003970 fl-hillsborough-26-CP-004014,cash check
+35,fl-hb-017,Los Duenos Del Party Promotions Inc,fl-hillsborough,8,5,fl-hillsborough-26-CP-003866 fl-hillsborough-26-CP-003696 fl-hillsborough-26-CP-003958 fl-hillsborough-26-CP-003970 fl-hillsborough-26-CP-003988 fl-hillsborough-26-CP-004014 fl-hillsborough-26-CP-004021 fl-hillsborough-26-CP-004023,cash check
+36,fl-hb-004,Opendoor Property J Llc,fl-hillsborough,7,1,fl-hillsborough-26-CP-003638 fl-hillsborough-26-CP-003731 fl-hillsborough-26-CP-003961 fl-hillsborough-26-CP-004007 fl-hillsborough-26-CP-004012 fl-hillsborough-26-CP-004017 fl-hillsborough-26-CP-004026,cash check
+37,oh-fr-017,Fortune Future Llc,oh-franklin,7,3,oh-franklin-648136 oh-franklin-648219 oh-franklin-648257 oh-franklin-648667 oh-franklin-648696 oh-franklin-648739 oh-franklin-648752,entity check
+38,fl-hb-031,Tule River Homebuyer Earned Equity Agency,fl-hillsborough,7,3,fl-hillsborough-26-CP-003958 fl-hillsborough-26-CP-003969 fl-hillsborough-26-CP-003988 fl-hillsborough-26-CP-003997 fl-hillsborough-26-CP-004002 fl-hillsborough-26-CP-004021 fl-hillsborough-26-CP-004023,entity check
+39,tx-hr-011,Aa Golden Investment Llc,tx-harris,7,10,tx-harris-548398 tx-harris-548399 tx-harris-549060 tx-harris-548468 tx-harris-548579 tx-harris-548847 tx-harris-548942,entity check
+40,fl-hb-003,Op Spe Summit Llc,fl-hillsborough,6,1,fl-hillsborough-26-CP-003638 fl-hillsborough-26-CP-003731 fl-hillsborough-26-CP-003986 fl-hillsborough-26-CP-004002 fl-hillsborough-26-CP-004017 fl-hillsborough-26-CP-004026,entity check
+41,oh-fr-018,Ohio Salcedo Holdings Llc,oh-franklin,6,1,oh-franklin-619059 oh-franklin-648257 oh-franklin-648623 oh-franklin-648661 oh-franklin-648667 oh-franklin-648696,entity check
+42,fl-hb-030,Ortiz Ochoa Investment Llc,fl-hillsborough,6,1,fl-hillsborough-26-CP-003714 fl-hillsborough-26-CP-003800 fl-hillsborough-26-CP-003950 fl-hillsborough-26-CP-003951 fl-hillsborough-26-CP-003986 fl-hillsborough-26-CP-003999,entity check
+43,oh-fr-012,Acq Equity Llc,oh-franklin,6,3,oh-franklin-648136 oh-franklin-648195 oh-franklin-648219 oh-franklin-648661 oh-franklin-648715 oh-franklin-648741,entity check
+44,fl-hb-041,Ta Ehrlich Acquisitions Llc,fl-hillsborough,6,4,fl-hillsborough-26-CP-003866 fl-hillsborough-26-CP-003940 fl-hillsborough-26-CP-003696 fl-hillsborough-26-CP-003800 fl-hillsborough-26-CP-003970 fl-hillsborough-26-CP-004014,entity check
+45,fl-hb-007,Dmf Homes Llc,fl-hillsborough,6,5,fl-hillsborough-26-CP-003958 fl-hillsborough-26-CP-003969 fl-hillsborough-26-CP-003988 fl-hillsborough-26-CP-003997 fl-hillsborough-26-CP-004021 fl-hillsborough-26-CP-004023,cash check
+46,oh-fr-014,Mih Properties Llc,oh-franklin,6,5,oh-franklin-648136 oh-franklin-648219 oh-franklin-648257 oh-franklin-648661 oh-franklin-648667 oh-franklin-648710,entity check
+47,fl-hb-056,Rajiv Maini,fl-hillsborough,6,7,fl-hillsborough-26-CP-003638 fl-hillsborough-26-CP-003731 fl-hillsborough-26-CP-004007 fl-hillsborough-26-CP-004012 fl-hillsborough-26-CP-004017 fl-hillsborough-26-CP-004026,entity check
+48,fl-hb-005,Tampa Standard Llc,fl-hillsborough,5,1,fl-hillsborough-26-CP-003714 fl-hillsborough-26-CP-003800 fl-hillsborough-26-CP-003951 fl-hillsborough-26-CP-003986 fl-hillsborough-26-CP-004002,cash check
+49,fl-hb-066,Jaz Investment Group Llc,fl-hillsborough,5,2,fl-hillsborough-26-CP-003951 fl-hillsborough-26-CP-003961 fl-hillsborough-26-CP-003994 fl-hillsborough-26-CP-003999 fl-hillsborough-26-CP-004017,entity check
+50,fl-hb-079,Greener Ventures Llc,fl-hillsborough,5,3,fl-hillsborough-26-CP-003890 fl-hillsborough-26-CP-003940 fl-hillsborough-26-CP-003959 fl-hillsborough-26-CP-003969 fl-hillsborough-26-CP-003997,entity check
+51,oh-fr-023,616 N Elisabeth Street Llc,oh-franklin,5,4,oh-franklin-648151 oh-franklin-648594 oh-franklin-648208 oh-franklin-648621 oh-franklin-648688,entity check
+52,fl-hb-103,P And R Quality Investments Llc,fl-hillsborough,5,4,fl-hillsborough-26-CP-003638 fl-hillsborough-26-CP-003731 fl-hillsborough-26-CP-004007 fl-hillsborough-26-CP-004012 fl-hillsborough-26-CP-004026,entity check
+53,fl-hb-012,Joseph Real Estate Investments Inc,fl-hillsborough,5,5,fl-hillsborough-26-CP-003638 fl-hillsborough-26-CP-003731 fl-hillsborough-26-CP-004007 fl-hillsborough-26-CP-004012 fl-hillsborough-26-CP-004026,cash check
+54,fl-hb-018,Mags Services Llc,fl-hillsborough,5,6,fl-hillsborough-26-CP-003638 fl-hillsborough-26-CP-003731 fl-hillsborough-26-CP-004007 fl-hillsborough-26-CP-004012 fl-hillsborough-26-CP-004026,cash check
+55,fl-hb-010,Domain Homes Inc,fl-hillsborough,5,8,fl-hillsborough-26-CP-003697 fl-hillsborough-26-CP-003890 fl-hillsborough-26-CP-003940 fl-hillsborough-26-CP-003969 fl-hillsborough-26-CP-003997,cash check
+56,fl-hb-036,Wilmington Savings Fund Society /Trustee,fl-hillsborough,4,1,fl-hillsborough-26-CP-003961 fl-hillsborough-26-CP-003994 fl-hillsborough-26-CP-003999 fl-hillsborough-26-CP-004017,entity check
+57,fl-hb-050,Sergio Hernandez,fl-hillsborough,4,3,fl-hillsborough-26-CP-003959 fl-hillsborough-26-CP-003961 fl-hillsborough-26-CP-003994 fl-hillsborough-26-CP-004017,entity check
+58,oh-fr-025,Top Gun Investments Llc,oh-franklin,4,6,oh-franklin-648151 oh-franklin-648265 oh-franklin-648694 oh-franklin-648715,entity check
+59,fl-hb-300,Mse Management Llc,fl-hillsborough,3,2,fl-hillsborough-26-CP-003731 fl-hillsborough-26-CP-003986 fl-hillsborough-26-CP-004026,entity check
+60,fl-hb-025,2715 West Sligh Llc,fl-hillsborough,3,4,fl-hillsborough-26-CP-003950 fl-hillsborough-26-CP-003961 fl-hillsborough-26-CP-004017,cash check
+61,fl-hb-105,Nava Fl Properties Llc,fl-hillsborough,3,5,fl-hillsborough-26-CP-003961 fl-hillsborough-26-CP-003994 fl-hillsborough-26-CP-004017,entity check
+62,fl-hb-006,Asl Property Holdings Ii Llc,fl-hillsborough,3,6,fl-hillsborough-26-CP-003731 fl-hillsborough-26-CP-004002 fl-hillsborough-26-CP-004026,cash check
+63,oh-fr-021,Cucamonga Llc,oh-franklin,3,6,oh-franklin-648195 oh-franklin-648710 oh-franklin-648741,entity check
+64,fl-hb-203,Cedar Brook Properties Funding 3 Llc,fl-hillsborough,3,6,fl-hillsborough-26-CP-003961 fl-hillsborough-26-CP-003994 fl-hillsborough-26-CP-004017,entity check
+65,fl-hb-072,Myrick And Associates Llc,fl-hillsborough,3,7,fl-hillsborough-26-CP-003866 fl-hillsborough-26-CP-003940 fl-hillsborough-26-CP-003696,entity check
+66,fl-hb-098,Malka Portfolio Llc,fl-hillsborough,3,7,fl-hillsborough-26-CP-003697 fl-hillsborough-26-CP-003890 fl-hillsborough-26-CP-003940,entity check
+67,fl-hb-087,Redmond Tree Llc,fl-hillsborough,3,8,fl-hillsborough-26-CP-003638 fl-hillsborough-26-CP-004007 fl-hillsborough-26-CP-004012,entity check
+68,fl-hb-101,Icr Investments Llc/Trustee,fl-hillsborough,3,9,fl-hillsborough-26-CP-003638 fl-hillsborough-26-CP-004007 fl-hillsborough-26-CP-004012,entity check
+69,fl-hb-253,Grandville Investments Llc,fl-hillsborough,3,9,fl-hillsborough-26-CP-003950 fl-hillsborough-26-CP-004007 fl-hillsborough-26-CP-004012,entity check
+70,fl-hb-048,National Assets And Company Llc,fl-hillsborough,2,1,fl-hillsborough-26-CP-003951 fl-hillsborough-26-CP-003959,entity check
+71,tx-hr-017,Fixer Flipper Tx Llc,tx-harris,2,2,tx-harris-548573 tx-harris-548604,entity check
+72,oh-fr-022,G & Sg Investment Llc,oh-franklin,2,4,oh-franklin-648710 oh-franklin-648732,entity check
+73,fl-hb-148,Martin Oliva Investment Llc,fl-hillsborough,2,4,fl-hillsborough-26-CP-003959 fl-hillsborough-26-CP-003969,entity check
+74,fl-hb-249,Wbw Properties Llc,fl-hillsborough,2,4,fl-hillsborough-26-CP-003950 fl-hillsborough-26-CP-003999,entity check
+75,fl-hb-178,Jose Manuel Batista Hernandez,fl-hillsborough,2,5,fl-hillsborough-26-CP-003959 fl-hillsborough-26-CP-003969,entity check
+76,fl-hb-073,Taveras Services Llc,fl-hillsborough,2,6,fl-hillsborough-26-CP-003697 fl-hillsborough-26-CP-003890,entity check
+77,oh-fr-010,Ready Set Close Llc,oh-franklin,2,7,oh-franklin-648136 oh-franklin-648219,entity check
+78,fl-hb-114,Devitos Contracting Llc,fl-hillsborough,2,7,fl-hillsborough-26-CP-003969 fl-hillsborough-26-CP-003997,entity check
+79,fl-hb-432,Usmi Properties Six Llc,fl-hillsborough,2,7,fl-hillsborough-26-CP-003961 fl-hillsborough-26-CP-003994,entity check
+80,fl-hb-433,Tnjv Holdings Llc,fl-hillsborough,2,8,fl-hillsborough-26-CP-003961 fl-hillsborough-26-CP-003994,entity check
+81,fl-hb-226,Tomaino Properties Llc,fl-hillsborough,2,9,fl-hillsborough-26-CP-003697 fl-hillsborough-26-CP-003890,entity check
+82,fl-hb-029,Cardel Waterset Th Llc,fl-hillsborough,2,10,fl-hillsborough-26-CP-003951 fl-hillsborough-26-CP-003986,entity check
+83,fl-hb-011,Skyway Home Buyers Llc,fl-hillsborough,1,1,fl-hillsborough-26-CP-003714,cash check
+84,fl-hb-022,H2 Property Holdings Llc,fl-hillsborough,1,2,fl-hillsborough-26-CP-003999,cash check
+85,tx-hr-025,Sbas Investments 5 Llc,tx-harris,1,2,tx-harris-548409,entity check
+86,fl-hb-212,Mohammad Hamdan,fl-hillsborough,1,2,fl-hillsborough-26-CP-003714,entity check
+87,tx-hr-006,Ccts4 Llc,tx-harris,1,3,tx-harris-548573,entity check
+88,fl-hb-100,Tule River Homebuyer Earned Equity Agency Inc,fl-hillsborough,1,3,fl-hillsborough-26-CP-003986,entity check
+89,fl-hb-251,Arches Horizon Llc,fl-hillsborough,1,3,fl-hillsborough-26-CP-003950,entity check
+90,fl-hb-428,Deeb Alabd And Mamoun Alabed,fl-hillsborough,1,3,fl-hillsborough-26-CP-003714,entity check
+91,fl-hb-060,Gdf 16 Iii Llc,fl-hillsborough,1,4,fl-hillsborough-26-CP-003800,entity check
+92,fl-hb-131,Callco Services Llc,fl-hillsborough,1,4,fl-hillsborough-26-CP-003951,entity check
+93,tx-hr-023,Aedia Llc,tx-harris,1,5,tx-harris-548573,entity check
+94,fl-hb-080,Eto Property Group Llc,fl-hillsborough,1,5,fl-hillsborough-26-CP-003950,entity check
+95,fl-hb-130,Daniel G Beltram,fl-hillsborough,1,5,fl-hillsborough-26-CP-003951,entity check
+96,fl-hb-229,Icr Investments Llc Trustee,fl-hillsborough,1,5,fl-hillsborough-26-CP-003714,entity check
+97,fl-hb-260,Diana M Sigler,fl-hillsborough,1,5,fl-hillsborough-26-CP-003999,entity check
+98,fl-hb-307,James C Ii And Lauren M Hypes,fl-hillsborough,1,5,fl-hillsborough-26-CP-003986,entity check
+99,tx-hr-015,Vistamont Holdings Lp,tx-harris,1,6,tx-harris-548573,entity check
+100,fl-hb-085,Bay To Gulf Holdings Llc,fl-hillsborough,1,6,fl-hillsborough-26-CP-003950,entity check
+101,fl-hb-133,Magnify Investments Inc,fl-hillsborough,1,6,fl-hillsborough-26-CP-003951,entity check
+102,fl-hb-411,L And M Investment Group Llc,fl-hillsborough,1,6,fl-hillsborough-26-CP-003959,entity check
+103,fl-hb-429,Bashar Alela,fl-hillsborough,1,6,fl-hillsborough-26-CP-003714,entity check
+104,fl-hb-015,Purchasing Fund 2025 1 Llc,fl-hillsborough,1,7,fl-hillsborough-26-CP-003999,entity check
+105,tx-hr-020,Facg Investment Inc,tx-harris,1,7,tx-harris-548573,entity check
+106,fl-hb-099,Lujo Investment Properties Llc,fl-hillsborough,1,7,fl-hillsborough-26-CP-004002,entity check
+107,fl-hb-190,William Brown Consulting Llc /Trustee,fl-hillsborough,1,7,fl-hillsborough-26-CP-003950,entity check
+108,fl-hb-248,Purchasing Fund 2025 5 Llc,fl-hillsborough,1,8,fl-hillsborough-26-CP-004002,entity check
+109,fl-hb-258,Michael E And Marcia J Grelles,fl-hillsborough,1,8,fl-hillsborough-26-CP-003999,entity check
+110,fl-hb-084,Tkvg Odton Llc,fl-hillsborough,1,9,fl-hillsborough-26-CP-003959,entity check
+111,fl-hb-299,Insona Llc,fl-hillsborough,1,9,fl-hillsborough-26-CP-004002,entity check
+112,fl-hb-113,Crossover Street Llc,fl-hillsborough,1,10,fl-hillsborough-26-CP-003959,entity check
+113,fl-hb-134,Beige N Stan Llc,fl-hillsborough,1,10,fl-hillsborough-26-CP-003994,entity check
+114,fl-hb-264,Newrez Llc,fl-hillsborough,1,10,fl-hillsborough-26-CP-003950,entity check
+115,fl-hb-268,Daniel Porter,fl-hillsborough,1,10,fl-hillsborough-26-CP-003697,entity check
+116,fl-hb-309,Thopon Properties Llc,fl-hillsborough,1,10,fl-hillsborough-26-CP-004002,entity check
+117,tx-hr-012,Gulf Star Llc,tx-harris,0,,,entity check
+118,tx-hr-013,Alvin Street Investments Llc,tx-harris,0,,,entity check
+119,tx-hr-014,Katy Realty Partners Llc,tx-harris,0,,,entity check
+120,tx-hr-016,Coronado And Merino Investments Llc,tx-harris,0,,,entity check
+121,tx-hr-018,Dream Investments Llc,tx-harris,0,,,entity check
+122,tx-hr-019,Baqdounes Real Estate Llc,tx-harris,0,,,entity check
+123,tx-hr-021,Akme Holdings Llc,tx-harris,0,,,entity check
+124,tx-hr-022,Rickys Rentals Llc,tx-harris,0,,,entity check
+125,fl-hb-008,Orange County Community Innovators Llc,fl-hillsborough,0,,,cash check
+126,tx-hr-024,Vbbs Holdings Llc,tx-harris,0,,,entity check
+127,fl-hb-033,West Shore Oasis Llc,fl-hillsborough,0,,,entity check
+128,fl-hb-034,Oneil Equities Llc,fl-hillsborough,0,,,entity check
+129,fl-hb-013,75 Hundred Development Llc,fl-hillsborough,0,,,cash check
+130,fl-hb-014,Delgado Property Solutions Llc,fl-hillsborough,0,,,cash check
+131,fl-hb-016,Jml Investments And Management Llc,fl-hillsborough,0,,,entity check
+132,fl-hb-035,920 W Knollwood Avenue Llc,fl-hillsborough,0,,,entity check
+133,fl-hb-038,Mia Md Abdullah Al Farook Et Al,fl-hillsborough,0,,,entity check
+134,fl-hb-039,5320 N Falkenburg Llc,fl-hillsborough,0,,,entity check
+135,fl-hb-040,Tb Land Dev Llc,fl-hillsborough,0,,,entity check
+136,fl-hb-019,Weekley Homes Llc,fl-hillsborough,0,,,cash check
+137,fl-hb-042,Evolve Build Llc,fl-hillsborough,0,,,entity check
+138,fl-hb-043,S And J Estates Llc,fl-hillsborough,0,,,entity check
+139,fl-hb-044,Hancock Family Holdings Llc,fl-hillsborough,0,,,entity check
+140,fl-hb-045,Avalia Llc,fl-hillsborough,0,,,entity check
+141,fl-hb-046,Ploutos Llc,fl-hillsborough,0,,,entity check
+142,fl-hb-047,Chibel Holdings Llc,fl-hillsborough,0,,,entity check
+143,fl-hb-021,Bphb Assetco Llc,fl-hillsborough,0,,,cash check
+144,fl-hb-023,Breezy Holdings Group Llc,fl-hillsborough,0,,,cash check
+145,fl-hb-024,L3J Property Solutions Llc,fl-hillsborough,0,,,cash check
+146,fl-hb-049,Florida Rental Portfolio Llc,fl-hillsborough,0,,,entity check
+147,fl-hb-052,Ronald A Diorio Iii,fl-hillsborough,0,,,entity check
+148,fl-hb-053,Adonys Glass Design And Insulation Services Llc,fl-hillsborough,0,,,entity check
+149,fl-hb-054,Hg Real Estate Llc,fl-hillsborough,0,,,entity check
+150,fl-hb-055,Islamic Community Of Tampa Inc,fl-hillsborough,0,,,entity check
+151,fl-hb-057,Miranda Klenja,fl-hillsborough,0,,,entity check
+152,fl-hb-058,Eric J Easterling Jr,fl-hillsborough,0,,,entity check
+153,fl-hb-059,So Blue Llc,fl-hillsborough,0,,,entity check
+154,fl-hb-061,Pump Up The Volume Llc,fl-hillsborough,0,,,entity check
+155,fl-hb-062,Micliana And Mauro Investment Property Llc,fl-hillsborough,0,,,entity check
+156,fl-hb-063,Lafl Llc,fl-hillsborough,0,,,entity check
+157,fl-hb-064,Calvery Services Corp,fl-hillsborough,0,,,entity check
+158,fl-hb-065,Blue Spero Property Management Llc,fl-hillsborough,0,,,entity check
+159,fl-hb-067,Vfj And Associates Inc,fl-hillsborough,0,,,entity check
+160,fl-hb-070,Luxury Investments Fl Llc,fl-hillsborough,0,,,entity check
+161,fl-hb-071,Sunset Property Buyers Llc,fl-hillsborough,0,,,entity check
+162,fl-hb-074,2812 Miriam St Llc,fl-hillsborough,0,,,entity check
+163,fl-hb-075,Quality Asset Group Inc,fl-hillsborough,0,,,entity check
+164,fl-hb-076,Maria Isabel Jomarron Aguilar Et Al,fl-hillsborough,0,,,entity check
+165,fl-hb-077,Icr Investments Llc /Trustee,fl-hillsborough,0,,,entity check
+166,fl-hb-078,Gulf Atlantic Investments Llc,fl-hillsborough,0,,,entity check
+167,fl-hb-081,B Haven Llc,fl-hillsborough,0,,,entity check
+168,fl-hb-082,All In Remodel Corp Inc,fl-hillsborough,0,,,entity check
+169,fl-hb-083,Lutz Tl Properties Llc,fl-hillsborough,0,,,entity check
+170,fl-hb-086,Marvin Hunt,fl-hillsborough,0,,,entity check
+171,fl-hb-088,A And J Trust Solutions Llc,fl-hillsborough,0,,,entity check
+172,fl-hb-089,Florida Advisory Council Llc /Trustee,fl-hillsborough,0,,,entity check
+173,fl-hb-090,Kevin Stone And Granite Llc,fl-hillsborough,0,,,entity check
+174,fl-hb-091,Hills Invesco Llc,fl-hillsborough,0,,,entity check
+175,fl-hb-092,Rental Properties Unlimited Llc,fl-hillsborough,0,,,entity check
+176,fl-hb-093,Wayne Gonzalez,fl-hillsborough,0,,,entity check
+177,fl-hb-094,Edward V Burns,fl-hillsborough,0,,,entity check
+178,fl-hb-095,M2 Property Solutions Llc,fl-hillsborough,0,,,entity check
+179,fl-hb-096,Testgard Developers Inc,fl-hillsborough,0,,,entity check
+180,fl-hb-097,Vgv General Contractors Llc,fl-hillsborough,0,,,entity check
+181,fl-hb-102,Veronica Matteson/Trustee,fl-hillsborough,0,,,entity check
+182,fl-hb-104,Legacy Crescent Llc,fl-hillsborough,0,,,entity check
+183,fl-hb-106,Carlton Thomas Farms Llc,fl-hillsborough,0,,,entity check
+184,fl-hb-107,Carlimac Investments Llc,fl-hillsborough,0,,,entity check
+185,fl-hb-108,Brenda R Bryan And Charles L Davis Jr,fl-hillsborough,0,,,entity check
+186,fl-hb-109,Francisco Javier Magro And Jose Lorenzo Magro,fl-hillsborough,0,,,entity check
+187,fl-hb-110,Florida First Acquisitions Llc,fl-hillsborough,0,,,entity check
+188,fl-hb-111,Larralde Investments Inc,fl-hillsborough,0,,,entity check
+189,fl-hb-112,Diaz 23 Investments Llc,fl-hillsborough,0,,,entity check
+190,fl-hb-115,Clearwater Capital Partners Usa Llc,fl-hillsborough,0,,,entity check
+191,fl-hb-116,Btt Group Llc,fl-hillsborough,0,,,entity check
+192,fl-hb-117,Msx Investment Llc,fl-hillsborough,0,,,entity check
+193,fl-hb-118,Faul St Townhouses Llc,fl-hillsborough,0,,,entity check
+194,fl-hb-119,Blackfort Llc,fl-hillsborough,0,,,entity check
+195,fl-hb-120,Hm Investing Llc,fl-hillsborough,0,,,entity check
+196,fl-hb-121,Am Legacy Holdings Llc,fl-hillsborough,0,,,entity check
+197,fl-hb-122,East Tampa Phase 1 Llc,fl-hillsborough,0,,,entity check
+198,fl-hb-123,Tampa Reality Investments Llc,fl-hillsborough,0,,,entity check
+199,fl-hb-124,Top Affordable Real Estate Llc,fl-hillsborough,0,,,entity check
+200,fl-hb-125,Housewarm Llc,fl-hillsborough,0,,,entity check
+201,fl-hb-126,Huracan Real Estate Group Llc,fl-hillsborough,0,,,entity check
+202,fl-hb-127,110 S Lockmoor Llc,fl-hillsborough,0,,,entity check
+203,fl-hb-128,Arjay Properties Inc,fl-hillsborough,0,,,entity check
+204,fl-hb-129,Guillermo C And Olga Y Gramatica,fl-hillsborough,0,,,entity check
+205,fl-hb-132,Mary Gena Thomas,fl-hillsborough,0,,,entity check
+206,fl-hb-135,Enest Group Llc,fl-hillsborough,0,,,entity check
+207,fl-hb-136,David R And Leticia Vinas,fl-hillsborough,0,,,entity check
+208,fl-hb-137,Huber Landy Torres Espinosa,fl-hillsborough,0,,,entity check
+209,fl-hb-138,Smpm Llc,fl-hillsborough,0,,,entity check
+210,fl-hb-139,Lin Ou And Kwan Sat Poon,fl-hillsborough,0,,,entity check
+211,fl-hb-140,Skyway Plus Llc,fl-hillsborough,0,,,entity check
+212,fl-hb-141,Fabian Rangel Inc,fl-hillsborough,0,,,entity check
+213,fl-hb-142,La Costa Investment Llc,fl-hillsborough,0,,,entity check
+214,fl-hb-143,Brikhaus Investments Llc,fl-hillsborough,0,,,entity check
+215,fl-hb-144,Sierra Palm Place Llc,fl-hillsborough,0,,,entity check
+216,fl-hb-145,Gln Handyman Corp,fl-hillsborough,0,,,entity check
+217,fl-hb-146,Patrick Antonio Santa Rosa,fl-hillsborough,0,,,entity check
+218,fl-hb-147,Mbs Property Managers Inc,fl-hillsborough,0,,,entity check
+219,fl-hb-149,Ca Elite Holding Llc,fl-hillsborough,0,,,entity check
+220,fl-hb-150,Daniel Reyes,fl-hillsborough,0,,,entity check
+221,fl-hb-151,Paty Johnston,fl-hillsborough,0,,,entity check
+222,fl-hb-152,Preetham Sai Pamulapati,fl-hillsborough,0,,,entity check
+223,fl-hb-153,Tammy Tran,fl-hillsborough,0,,,entity check
+224,fl-hb-154,Nrhq Llc,fl-hillsborough,0,,,entity check
+225,fl-hb-155,Williams Dominguez Chavez,fl-hillsborough,0,,,entity check
+226,fl-hb-156,Eminence Estates And Properties Llc,fl-hillsborough,0,,,entity check
+227,fl-hb-157,Aniva Holdings Llc,fl-hillsborough,0,,,entity check
+228,fl-hb-158,Armando Gutierrez Ii,fl-hillsborough,0,,,entity check
+229,fl-hb-159,Airluxe Llc,fl-hillsborough,0,,,entity check
+230,fl-hb-160,Sean Paul Aaron Adams,fl-hillsborough,0,,,entity check
+231,fl-hb-161,Brittany And Jeremy France,fl-hillsborough,0,,,entity check
+232,fl-hb-162,Universal Investments Of Central Florida Inc,fl-hillsborough,0,,,entity check
+233,fl-hb-163,Ricardo Nunez,fl-hillsborough,0,,,entity check
+234,fl-hb-164,Matthew And Caridad Brown Trustees,fl-hillsborough,0,,,entity check
+235,fl-hb-165,Hairy Assets Llc,fl-hillsborough,0,,,entity check
+236,fl-hb-166,Cbr Investments Llc,fl-hillsborough,0,,,entity check
+237,fl-hb-167,Yusuf Jarrar,fl-hillsborough,0,,,entity check
+238,fl-hb-168,Miralon Capital Llc,fl-hillsborough,0,,,entity check
+239,fl-hb-169,Empower Agency Grp Llc,fl-hillsborough,0,,,entity check
+240,fl-hb-170,Lmbm Services Llc,fl-hillsborough,0,,,entity check
+241,fl-hb-171,Miguelina A Guzman,fl-hillsborough,0,,,entity check
+242,fl-hb-172,Tgfl Enterprises Llc,fl-hillsborough,0,,,entity check
+243,fl-hb-173,Cram Investment Inc,fl-hillsborough,0,,,entity check
+244,fl-hb-174,Exodus Capital Llc,fl-hillsborough,0,,,entity check
+245,fl-hb-175,Baby Boy Properties Llc,fl-hillsborough,0,,,entity check
+246,fl-hb-176,Armando Retureta And Damaris Lopez,fl-hillsborough,0,,,entity check
+247,fl-hb-177,Adl Property Group Llc,fl-hillsborough,0,,,entity check
+248,fl-hb-179,James Wilson,fl-hillsborough,0,,,entity check
+249,fl-hb-180,Ignacio Macedo,fl-hillsborough,0,,,entity check
+250,fl-hb-181,Florida Trustees Llc /Trustee,fl-hillsborough,0,,,entity check
+251,fl-hb-182,Prince 105 Llc,fl-hillsborough,0,,,entity check
+252,fl-hb-183,Best Bay Investment Llc,fl-hillsborough,0,,,entity check
+253,fl-hb-184,Jeff Gano/Trustee,fl-hillsborough,0,,,entity check
+254,fl-hb-185,Fernando And Yamila Curbelo,fl-hillsborough,0,,,entity check
+255,fl-hb-186,Las Tres Torres Inc,fl-hillsborough,0,,,entity check
+256,fl-hb-187,Wrap Wizard Real Estate Llc,fl-hillsborough,0,,,entity check
+257,fl-hb-188,Yosmany Montano,fl-hillsborough,0,,,entity check
+258,fl-hb-189,Marilyn Perez,fl-hillsborough,0,,,entity check
+259,fl-hb-191,Natys Investment Llc,fl-hillsborough,0,,,entity check
+260,fl-hb-192,Counseling The Soul Llc,fl-hillsborough,0,,,entity check
+261,fl-hb-193,Joel Sanchez,fl-hillsborough,0,,,entity check
+262,fl-hb-194,Sunset Rentals Llc,fl-hillsborough,0,,,entity check
+263,fl-hb-195,Misty And Dennis Garren,fl-hillsborough,0,,,entity check
+264,fl-hb-196,Bharat And Latika Patel,fl-hillsborough,0,,,entity check
+265,fl-hb-197,Lori And Douglas Ferguson,fl-hillsborough,0,,,entity check
+266,fl-hb-198,Canaan Land Foundation Inc,fl-hillsborough,0,,,entity check
+267,fl-hb-199,First Class Real Estate Sales Inc,fl-hillsborough,0,,,entity check
+268,fl-hb-200,Purchasing Fund 2024 1 Llc,fl-hillsborough,0,,,entity check
+269,fl-hb-201,Bapaj Llc,fl-hillsborough,0,,,entity check
+270,fl-hb-202,Raw Developments Llc,fl-hillsborough,0,,,entity check
+271,fl-hb-204,Mohammed Property Llc,fl-hillsborough,0,,,entity check
+272,fl-hb-205,Terrains Trust Llc,fl-hillsborough,0,,,entity check
+273,fl-hb-206,Homevision By Mpg Llc,fl-hillsborough,0,,,entity check
+274,fl-hb-207,Tuan Anh Ong,fl-hillsborough,0,,,entity check
+275,fl-hb-208,Kuo Family Practice Pllc,fl-hillsborough,0,,,entity check
+276,fl-hb-209,Serenity Ambrus Investments Llc,fl-hillsborough,0,,,entity check
+277,fl-hb-210,Hasti Investments Llc,fl-hillsborough,0,,,entity check
+278,fl-hb-211,Hugh D And Kwantrice G Hurst,fl-hillsborough,0,,,entity check
+279,fl-hb-213,Bordeaux Usf Llc,fl-hillsborough,0,,,entity check
+280,fl-hb-214,Rabeka Usman Llc,fl-hillsborough,0,,,entity check
+281,fl-hb-215,Arya Real Estate Llc,fl-hillsborough,0,,,entity check
+282,fl-hb-216,Maddah Investments Llc,fl-hillsborough,0,,,entity check
+283,fl-hb-217,Opportunity Global Usa Llc,fl-hillsborough,0,,,entity check
+284,fl-hb-218,Lorayne Rodriguez Vecin,fl-hillsborough,0,,,entity check
+285,fl-hb-219,Habitat For Humanity Of Hillsborough Cty Fl Inc,fl-hillsborough,0,,,entity check
+286,fl-hb-220,Pawan Rattan,fl-hillsborough,0,,,entity check
+287,fl-hb-221,All About Living Inc,fl-hillsborough,0,,,entity check
+288,fl-hb-222,Trw Services Trust Llc/Trustee,fl-hillsborough,0,,,entity check
+289,fl-hb-223,Atlanta Group Trust Llc,fl-hillsborough,0,,,entity check
+290,fl-hb-224,Saron Business Group Llc,fl-hillsborough,0,,,entity check
+291,fl-hb-225,Wsl Iron Bull Owner Llc,fl-hillsborough,0,,,entity check
+292,fl-hb-227,Fy Capital Partners Llc,fl-hillsborough,0,,,entity check
+293,fl-hb-228,Yoani Vega Diaz,fl-hillsborough,0,,,entity check
+294,fl-hb-230,Merysu Alison And Benjamin Angon,fl-hillsborough,0,,,entity check
+295,fl-hb-231,Cielo Of Florida Llc,fl-hillsborough,0,,,entity check
+296,fl-hb-232,Tintco Llc,fl-hillsborough,0,,,entity check
+297,fl-hb-233,Clifton Hall Alexander,fl-hillsborough,0,,,entity check
+298,fl-hb-235,Craig Demask,fl-hillsborough,0,,,entity check
+299,fl-hb-236,Ju And Kk Investments Llc,fl-hillsborough,0,,,entity check
+300,fl-hb-237,Rrm House Buyer Llc,fl-hillsborough,0,,,entity check
+301,fl-hb-238,Arnulfo Martinez Coria,fl-hillsborough,0,,,entity check
+302,fl-hb-239,Jh And Mp Properties Llc,fl-hillsborough,0,,,entity check
+303,fl-hb-240,Op Spe Tpa1 Llc,fl-hillsborough,0,,,entity check
+304,fl-hb-241,Dfk Rentals Llc,fl-hillsborough,0,,,entity check
+305,fl-hb-242,Melinda And William Shumaker,fl-hillsborough,0,,,entity check
+306,fl-hb-243,Southwick Limited Llc,fl-hillsborough,0,,,entity check
+307,fl-hb-244,Imperium Prime Investments Llc,fl-hillsborough,0,,,entity check
+308,fl-hb-245,Kirti Sharma,fl-hillsborough,0,,,entity check
+309,fl-hb-246,Citibank Na/Trustee,fl-hillsborough,0,,,entity check
+310,fl-hb-247,Md Rahman,fl-hillsborough,0,,,entity check
+311,fl-hb-250,Christopher And Michael Griffin,fl-hillsborough,0,,,entity check
+312,fl-hb-252,Dug Out 2 0 Enterprises Llc,fl-hillsborough,0,,,entity check
+313,fl-hb-254,Adrian Dumitru And Alina Georgiana Danet,fl-hillsborough,0,,,entity check
+314,fl-hb-255,Francesco Salvatore And Ray Paula Armetta,fl-hillsborough,0,,,entity check
+315,fl-hb-256,Francisco Davila,fl-hillsborough,0,,,entity check
+316,fl-hb-257,George Rooney,fl-hillsborough,0,,,entity check
+317,fl-hb-259,Robert Radics And Christina Zivkovic,fl-hillsborough,0,,,entity check
+318,fl-hb-261,Gary Pippin,fl-hillsborough,0,,,entity check
+319,fl-hb-262,Rose And Aa Properties Llc,fl-hillsborough,0,,,entity check
+320,fl-hb-263,Related Investments Llc,fl-hillsborough,0,,,entity check
+321,fl-hb-265,Lauren And Christopher Oakes,fl-hillsborough,0,,,entity check
+322,fl-hb-266,Jason Reed,fl-hillsborough,0,,,entity check
+323,fl-hb-267,Sunset Subdivision Llc,fl-hillsborough,0,,,entity check
+324,fl-hb-269,Walid Alnahas And Rima Albizreh,fl-hillsborough,0,,,entity check
+325,fl-hb-270,Sharif Alkalbani,fl-hillsborough,0,,,entity check
+326,fl-hb-271,Nver Hasratyan,fl-hillsborough,0,,,entity check
+327,fl-hb-272,Valerie Ann And Gregory Paul Palmer,fl-hillsborough,0,,,entity check
+328,fl-hb-273,Florida Integrity Inc,fl-hillsborough,0,,,entity check
+329,fl-hb-274,Nadeem And Forzia Bawani,fl-hillsborough,0,,,entity check
+330,fl-hb-275,Marvin R Knight,fl-hillsborough,0,,,entity check
+331,fl-hb-276,J And R Properties Of Brandon Inc,fl-hillsborough,0,,,entity check
+332,fl-hb-277,Dylan Hamilton,fl-hillsborough,0,,,entity check
+333,fl-hb-278,Marco Antonio Rodriguez Uribe,fl-hillsborough,0,,,entity check
+334,fl-hb-279,Roza Property Management Llc,fl-hillsborough,0,,,entity check
+335,fl-hb-280,Michael Di Mola Iii,fl-hillsborough,0,,,entity check
+336,fl-hb-281,Clarence Douglas Turner Et Al,fl-hillsborough,0,,,entity check
+337,fl-hb-282,Yurisai Lopez De Pina,fl-hillsborough,0,,,entity check
+338,fl-hb-283,Fleites And Salgado Llc,fl-hillsborough,0,,,entity check
+339,fl-hb-284,Celina Patricia Flores,fl-hillsborough,0,,,entity check
+340,fl-hb-285,Dalawa Holdings Llc,fl-hillsborough,0,,,entity check
+341,fl-hb-286,Keystone Foundation Llc,fl-hillsborough,0,,,entity check
+342,fl-hb-287,Partpartners4Flip Llc,fl-hillsborough,0,,,entity check
+343,fl-hb-288,Gulf Coast Custom Holdings Llc,fl-hillsborough,0,,,entity check
+344,fl-hb-289,Ffamily Llc,fl-hillsborough,0,,,entity check
+345,fl-hb-290,Arian Mesa Mendez And Eleidy Montesino Perez,fl-hillsborough,0,,,entity check
+346,fl-hb-291,Ali Khalilahmadi And Mahin Baha,fl-hillsborough,0,,,entity check
+347,fl-hb-292,Super Fantastic Llc,fl-hillsborough,0,,,entity check
+348,fl-hb-293,Irving And Noreen Ann Esponda,fl-hillsborough,0,,,entity check
+349,fl-hb-294,Thao Huynh And Nang Tran,fl-hillsborough,0,,,entity check
+350,fl-hb-295,Mcruzholdings Llc,fl-hillsborough,0,,,entity check
+351,fl-hb-296,R3Rosa Management Llc,fl-hillsborough,0,,,entity check
+352,fl-hb-297,Md Ikbal Sk,fl-hillsborough,0,,,entity check
+353,fl-hb-298,Tim And Tina Conley,fl-hillsborough,0,,,entity check
+354,fl-hb-301,Desmond Surujbali /Trustee,fl-hillsborough,0,,,entity check
+355,fl-hb-302,Phu Sy Le And Thuy Tuong Vy Nguyen,fl-hillsborough,0,,,entity check
+356,fl-hb-303,Adam Jordan,fl-hillsborough,0,,,entity check
+357,fl-hb-304,Lee Lydon Perkins Iii And Lindsay Staffieri,fl-hillsborough,0,,,entity check
+358,fl-hb-305,Jainy John,fl-hillsborough,0,,,entity check
+359,fl-hb-306,Patrick And Ronda E Bishop,fl-hillsborough,0,,,entity check
+360,fl-hb-308,Knjn Real Estate Llc,fl-hillsborough,0,,,entity check
+361,fl-hb-310,Justice Rosario,fl-hillsborough,0,,,entity check
+362,fl-hb-311,Harmony Holdings Group Inc,fl-hillsborough,0,,,entity check
+363,fl-hb-312,6500 Motor Enclave 1003 Llc,fl-hillsborough,0,,,entity check
+364,fl-hb-313,Adrien J Joseph,fl-hillsborough,0,,,entity check
+365,fl-hb-314,Sr Realty Properties Llc,fl-hillsborough,0,,,entity check
+366,fl-hb-315,Michael Mian,fl-hillsborough,0,,,entity check
+367,fl-hb-316,Apex Alpha Llc,fl-hillsborough,0,,,entity check
+368,fl-hb-317,Slate Non Nc/Non Wa Property Owner Llc,fl-hillsborough,0,,,entity check
+369,fl-hb-318,Mary Frances Lecroy,fl-hillsborough,0,,,entity check
+370,fl-hb-319,Oliver Dean And Wanda M Broughton,fl-hillsborough,0,,,entity check
+371,fl-hb-320,Yuan Gao And Yanan Wang,fl-hillsborough,0,,,entity check
+372,fl-hb-321,Red Crossbill Llc,fl-hillsborough,0,,,entity check
+373,fl-hb-322,Brian D Baril And Brenda Baril,fl-hillsborough,0,,,entity check
+374,fl-hb-323,Cortes Cortes 1 Inc,fl-hillsborough,0,,,entity check
+375,fl-hb-324,Bryan Justin And Laura Grace Kummer,fl-hillsborough,0,,,entity check
+376,fl-hb-325,Kachi Ranch Llc,fl-hillsborough,0,,,entity check
+377,fl-hb-326,Abdelaziz Elazzaoui And Nancy Alshalabi,fl-hillsborough,0,,,entity check
+378,fl-hb-327,Lvdc Rental Property Llc,fl-hillsborough,0,,,entity check
+379,fl-hb-328,Alexander J Hitz,fl-hillsborough,0,,,entity check
+380,fl-hb-329,Sendenza Llc,fl-hillsborough,0,,,entity check
+381,fl-hb-330,Erwin Alfonso Alarcon,fl-hillsborough,0,,,entity check
+382,fl-hb-331,Union Clearing And Grading Inc,fl-hillsborough,0,,,entity check
+383,fl-hb-332,Robert Farje Perez,fl-hillsborough,0,,,entity check
+384,fl-hb-333,Antonio Arrona Negrete And Yvette Salmeron,fl-hillsborough,0,,,entity check
+385,fl-hb-334,Jerome M Ford Jr,fl-hillsborough,0,,,entity check
+386,fl-hb-335,Jonathan Macias,fl-hillsborough,0,,,entity check
+387,fl-hb-336,Ashford Grey Llc,fl-hillsborough,0,,,entity check
+388,fl-hb-337,Stephen And Daniela Roa Powell,fl-hillsborough,0,,,entity check
+389,fl-hb-338,Investors No 1 Llc,fl-hillsborough,0,,,entity check
+390,fl-hb-339,Uv Group Properties Llc,fl-hillsborough,0,,,entity check
+391,fl-hb-340,Jjs Properties Of Tampa Llc,fl-hillsborough,0,,,entity check
+392,fl-hb-341,Angelica Vazquez,fl-hillsborough,0,,,entity check
+393,fl-hb-342,Eddy And Naomi Rodriguez,fl-hillsborough,0,,,entity check
+394,fl-hb-343,Gano Capital Llc,fl-hillsborough,0,,,entity check
+395,fl-hb-344,Radha Govinda Llc,fl-hillsborough,0,,,entity check
+396,fl-hb-345,Mamzad And Kamini Nazirbage,fl-hillsborough,0,,,entity check
+397,fl-hb-346,Ultra Properties Pc Llc,fl-hillsborough,0,,,entity check
+398,fl-hb-347,Adam Travis And Katherine Stine,fl-hillsborough,0,,,entity check
+399,fl-hb-348,E R Chase Inc,fl-hillsborough,0,,,entity check
+400,fl-hb-349,Frederick J And Alicia Machelle Scarcelli,fl-hillsborough,0,,,entity check
+401,fl-hb-350,Generose L Gutierrez,fl-hillsborough,0,,,entity check
+402,fl-hb-351,All In Remodel Corp,fl-hillsborough,0,,,entity check
+403,fl-hb-352,P And C Dias Property Llc,fl-hillsborough,0,,,entity check
+404,fl-hb-353,House Solutions Multiservices Inc,fl-hillsborough,0,,,entity check
+405,fl-hb-354,Emily Elizabeth Creighton,fl-hillsborough,0,,,entity check
+406,fl-hb-355,Elite Capital Investments Llc,fl-hillsborough,0,,,entity check
+407,fl-hb-356,Domenico And Cindy Santangelo,fl-hillsborough,0,,,entity check
+408,fl-hb-357,Michael Brennan,fl-hillsborough,0,,,entity check
+409,fl-hb-358,Nelly Tellechea Mahan,fl-hillsborough,0,,,entity check
+410,fl-hb-359,Eazdesign Llc,fl-hillsborough,0,,,entity check
+411,fl-hb-360,Td Acosta Constructions Llc,fl-hillsborough,0,,,entity check
+412,fl-hb-361,Lrg Hauling Llc,fl-hillsborough,0,,,entity check
+413,fl-hb-362,Ljae Investments Llc,fl-hillsborough,0,,,entity check
+414,fl-hb-363,Mendez And Gamez Llc,fl-hillsborough,0,,,entity check
+415,fl-hb-364,Trilogy Investments Group Llc,fl-hillsborough,0,,,entity check
+416,fl-hb-365,Antonio Alvaro Fernandez Iii,fl-hillsborough,0,,,entity check
+417,fl-hb-366,Millennial Properties Llc,fl-hillsborough,0,,,entity check
+418,fl-hb-367,Mars Future Properties Llc,fl-hillsborough,0,,,entity check
+419,fl-hb-368,Bp Properties Of Tampa Llc,fl-hillsborough,0,,,entity check
+420,fl-hb-369,Occupy Mars Tampa Llc,fl-hillsborough,0,,,entity check
+421,fl-hb-370,Howard Cicio And Nathanael Cicio,fl-hillsborough,0,,,entity check
+422,fl-hb-371,Gladiator Contracting Services Llc,fl-hillsborough,0,,,entity check
+423,fl-hb-372,Aurea Pro Llc,fl-hillsborough,0,,,entity check
+424,fl-hb-373,Nsp Realty Llc,fl-hillsborough,0,,,entity check
+425,fl-hb-374,Dkv Initiatives Inc,fl-hillsborough,0,,,entity check
+426,fl-hb-375,Habber Investments Llc,fl-hillsborough,0,,,entity check
+427,fl-hb-376,A2 Developments Llc,fl-hillsborough,0,,,entity check
+428,fl-hb-377,David Nguyen,fl-hillsborough,0,,,entity check
+429,fl-hb-378,Angelic Body Llc,fl-hillsborough,0,,,entity check
+430,fl-hb-379,Repowal Institution Llc,fl-hillsborough,0,,,entity check
+431,fl-hb-380,Brandon Pringle,fl-hillsborough,0,,,entity check
+432,fl-hb-381,Porsha Andrews,fl-hillsborough,0,,,entity check
+433,fl-hb-382,1306 E Linebaugh Ave Tampa Llc,fl-hillsborough,0,,,entity check
+434,fl-hb-383,Trw Capital Investments Llc/Trustee,fl-hillsborough,0,,,entity check
+435,fl-hb-384,Anika Shiv Llc,fl-hillsborough,0,,,entity check
+436,fl-hb-385,Tampa Tourist Club Llc,fl-hillsborough,0,,,entity check
+437,fl-hb-386,Joseph Rental Llc,fl-hillsborough,0,,,entity check
+438,fl-hb-387,Mg Contractors Llc,fl-hillsborough,0,,,entity check
+439,fl-hb-388,Rv Real Estate Holdings Llc,fl-hillsborough,0,,,entity check
+440,fl-hb-389,Anvic Llc,fl-hillsborough,0,,,entity check
+441,fl-hb-390,Strand Companies Llc,fl-hillsborough,0,,,entity check
+442,fl-hb-391,Kei Group Llc,fl-hillsborough,0,,,entity check
+443,fl-hb-392,Cdo Properties And Investments Llc,fl-hillsborough,0,,,entity check
+444,fl-hb-393,Donardo Fajardo Perez And Azalia Ramos Exposito,fl-hillsborough,0,,,entity check
+445,fl-hb-394,Nikn Inc And Sky Night Investments Llc,fl-hillsborough,0,,,entity check
+446,fl-hb-395,Raymi Sanchez,fl-hillsborough,0,,,entity check
+447,fl-hb-396,Sandra Kaye Martin,fl-hillsborough,0,,,entity check
+448,fl-hb-397,Tariq A Hammad,fl-hillsborough,0,,,entity check
+449,fl-hb-398,Kapilkumar Patel And Pablo Quintana,fl-hillsborough,0,,,entity check
+450,fl-hb-399,Pegis Holdings Llc,fl-hillsborough,0,,,entity check
+451,fl-hb-400,3611 Realty Llc,fl-hillsborough,0,,,entity check
+452,fl-hb-401,Jam Real Estate Management Llc,fl-hillsborough,0,,,entity check
+453,fl-hb-402,Geraldine Holloway And Rollin Bixler,fl-hillsborough,0,,,entity check
+454,fl-hb-403,5Central Capital Llc,fl-hillsborough,0,,,entity check
+455,fl-hb-404,J Cabrera Holdings Llc,fl-hillsborough,0,,,entity check
+456,fl-hb-405,Riverside Heights Property Holdings Llc,fl-hillsborough,0,,,entity check
+457,fl-hb-406,Mg Building Solutions Llc,fl-hillsborough,0,,,entity check
+458,fl-hb-407,Aszec Holdings Llc,fl-hillsborough,0,,,entity check
+459,fl-hb-408,Diana Carolina Montoya Leon,fl-hillsborough,0,,,entity check
+460,fl-hb-409,Venice Cir Llc,fl-hillsborough,0,,,entity check
+461,fl-hb-410,Weinberg Realty And Investments Llc,fl-hillsborough,0,,,entity check
+462,fl-hb-412,Rc1 Re Fl Llc,fl-hillsborough,0,,,entity check
+463,fl-hb-413,First Florida Acquisitions Llc,fl-hillsborough,0,,,entity check
+464,fl-hb-414,Sensible Property Management Inc Trustee,fl-hillsborough,0,,,entity check
+465,fl-hb-415,Nikn Inc Et Al,fl-hillsborough,0,,,entity check
+466,fl-hb-416,Thomas Mcmillan And Steven Lombardi Ii,fl-hillsborough,0,,,entity check
+467,fl-hb-417,Lorenzo Gorostieta Mondragon,fl-hillsborough,0,,,entity check
+468,fl-hb-418,Thomas Adam Doyle Jr,fl-hillsborough,0,,,entity check
+469,fl-hb-419,Rao B M Nallamothu And Venkata R Karavadi,fl-hillsborough,0,,,entity check
+470,fl-hb-420,P1 Investments Llc,fl-hillsborough,0,,,entity check
+471,fl-hb-421,Acai Roots Inc,fl-hillsborough,0,,,entity check
+472,fl-hb-422,Tundralife Investments Llc,fl-hillsborough,0,,,entity check
+473,fl-hb-423,Hidden Still Farms Llc,fl-hillsborough,0,,,entity check
+474,fl-hb-424,Shyam Latorre Molinari,fl-hillsborough,0,,,entity check
+475,fl-hb-425,Pawan K Rattan,fl-hillsborough,0,,,entity check
+476,fl-hb-426,Jaywen Properties Llc,fl-hillsborough,0,,,entity check
+477,fl-hb-427,Akin Ventures Llc,fl-hillsborough,0,,,entity check
+478,fl-hb-430,Habitat For Humanity Of Hills Cty Fl Inc,fl-hillsborough,0,,,entity check
+479,fl-hb-431,John A Jr And Susan Cordell,fl-hillsborough,0,,,entity check
+480,fl-hb-434,Sandra And Martin Roland,fl-hillsborough,0,,,entity check
+481,fl-hb-435,Gtp Florida Inc,fl-hillsborough,0,,,entity check
+482,fl-hb-436,Marbella Iniciativas Llc,fl-hillsborough,0,,,entity check
+483,fl-hb-437,Plant City Flip Guy Llc,fl-hillsborough,0,,,entity check
+484,fl-hb-438,Jorge Villafuerte,fl-hillsborough,0,,,entity check

@@ -17,7 +17,7 @@ Re: Benny F. Arrowood, Franklin County Probate Case No. 648594 — 464 Old Villa
 
 Dear Mr. Haer,
 
-I'm a local real-estate investor, and I'm sorry for the Arrowood family's loss. I saw that a certificate of transfer was recently issued for the house on Old Village Road.
+I'm a real-estate investor, and I'm sorry for the Arrowood family's loss. I saw that a certificate of transfer was recently issued for the house on Old Village Road.
 
 If the family is thinking about selling, I'd be glad to make an as-is cash offer. I can:
 - buy the house as-is — no repairs, and we handle the cleanout of anything the family doesn't want;
@@ -30,10 +30,10 @@ To be upfront: I'm an investor and I may assign my purchase contract to another 
 If the family plans to keep the house or list it, no problem at all. You can reach me at +1-773-236-7749 · iero@emporium-investments.com; if you'd prefer I not follow up, just say so and I won't.
 
 Sincerely,
-[Name]
+Iyoobsa Ero
 
 ## Call script — counsel's office (after approval, day 7–10)
-"Hi, this is [name], a local real-estate investor. I wrote to Mr. Haer about the Arrowood matter, case 648594, the house on Old Village Road. Is he available for a quick question, or is there a better time?"
+"Hi, this is Iyoobsa Ero, a real-estate investor. I wrote to Mr. Haer about the Arrowood matter, case 648594, the house on Old Village Road. Is he available for a quick question, or is there a better time?"
 - "I'd like to make an as-is cash offer if the family wants to sell. I'm an investor and may assign the contract; I'd give each owner the Ohio wholesaler disclosure first."
 - Questions: Is the family planning to sell, keep, or list? Who will be on title after the certificate is recorded? Is anyone living there? Any timing needs or repairs they know of? Is there a number that makes sense to them?
 - If not interested / asked to stop: thank them, log stop, no further contact.

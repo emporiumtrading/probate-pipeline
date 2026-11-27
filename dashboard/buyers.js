@@ -13,6 +13,8 @@ dash.calc('buyersF', { title: 'Buyers in the filters', description: 'Cash buyers
   const tile = (f) => (el) => { const n = count(f); el.textContent = n === null ? '—' : PP.int(n); };
   dash.draw('byTotal', tile(() => true));
   dash.draw('byVetted', tile((r) => r.status === 'vetted'));
+  dash.draw('byPaired', tile((r) => +r.paired_leads > 0));
+  dash.draw('byChecked', tile((r) => !!(r.entity_status || r.cash_verified)));
   dash.draw('byWarm', tile((r) => r.warmth === 'warm' || r.warmth === 'hot'));
   dash.draw('byLoi', tile((r) => r.loi_status === 'signed'));
   dash.draw('byStandby', tile((r) => r.standby === 'yes'));

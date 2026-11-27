@@ -28,4 +28,4 @@ Sincerely,
 Iyoobsa Ero
 
 ## Call script (manual, only after DNC/Texas no-call scrub and attorney OK on SB 140; to the attorney's office only)
-"Hi, this is [name]. I sent a letter to Ms. Lumpkin about the Knight estate property on Industrial Road. I'm an investor who buys as-is and may assign the contract. Is the executor planning to sell, and would he like a written offer? … Thank you — I'll follow up by mail."
+"Hi, this is Iyoobsa Ero. I sent a letter to Ms. Lumpkin about the Knight estate property on Industrial Road. I'm an investor who buys as-is and may assign the contract. Is the executor planning to sell, and would he like a written offer? … Thank you — I'll follow up by mail."

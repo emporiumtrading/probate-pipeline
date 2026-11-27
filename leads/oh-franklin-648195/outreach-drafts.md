@@ -19,7 +19,7 @@ Re: Estate of Myrtle Pearl Sartin, Franklin County Probate Case No. 648195 — 2
 
 Dear Ms. Obenour,
 
-I'm a local real-estate investor. I understand you represent the applicant in the Sartin estate, and I'm sorry for the family's loss.
+I'm a real-estate investor. I understand you represent the applicant in the Sartin estate, and I'm sorry for the family's loss.
 
 If the estate decides to sell 2353 Dawnlight Ave, I would like to make an as-is cash offer once the administrator is appointed. I can:
 - buy the house as-is, with the current occupant in place if there is one, and no repairs or cleanout asked of the estate;
@@ -31,10 +31,10 @@ I want to be upfront: I am an investor, and I may assign my purchase contract to
 If the family isn't interested or the timing isn't right, that's completely fine. You can reach me at +1-773-236-7749 · iero@emporium-investments.com. If you'd prefer I not follow up, just let me know and I won't.
 
 Sincerely,
-[Name]
+Iyoobsa Ero
 
 ## Call script — attorney's office (only after approval and after letter 1, ~day 7–10)
-"Hi, this is [name], a local real-estate investor. I sent Ms. Obenour a letter about the Sartin estate, case 648195, the house on Dawnlight Avenue. Is she available for a quick question, or is there a better time?"
+"Hi, this is Iyoobsa Ero, a real-estate investor. I sent Ms. Obenour a letter about the Sartin estate, case 648195, the house on Dawnlight Avenue. Is she available for a quick question, or is there a better time?"
 - "I'm interested in buying the house as-is for cash after the administrator is appointed. I'll be upfront: I'm an investor and may assign the contract; I'd give the Ohio wholesaler disclosure before any contract."
 - Questions: Is the family planning to sell, keep, or list? Will the estate use heir consents under 2127.011 or a court sale? Is the house rented — any lease? Any timing needs? Is there a number that would make sense to the family?
 - If no / not now: "Thank you — may I check back after the appointment hearing?" If asked not to contact: thank them, log `dnc_or_stop`, stop.

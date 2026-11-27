@@ -573,7 +573,7 @@ def _bscore(b):
     except ValueError:
         pass
     return str(sc)
-BUYER_COLS = ["buyer_id", "market_id", "county", "state", "city", "name", "entity_type", "status", "warmth", "standby", "loi_status",
+BUYER_COLS = ["buyer_id", "market_id", "county", "state", "city", "name", "entity_type", "status", "warmth", "standby", "loi_status", "paired_leads",
               "purchases_12m", "median_price_12m", "last_purchase_date", "areas", "price_min", "price_max", "rehab_level", "strategy",
               "closes_in_days", "proof_of_funds", "cash_verified", "entity_status", "entity_checked_on", "registered_agent",
               "contact_on_file", "website", "mailing_address", "intro_status", "last_contact",
@@ -596,8 +596,20 @@ for b in brows:
     r.update(county=r["county"] if not m else m.get("county", ""), state=m.get("state", "") or (b.get("market_id") or "")[:2].upper(), status=b.get("status") or "found",
              warmth=b.get("warmth") or "cold", standby=b.get("standby") or "no", loi_status=b.get("loi_status") or "none", score=_bscore(b))
     _blist.append(r)
+# Buyers paired with each live lead before signing (scripts/match_buyers.py; owner decision 2026-11-27).
+_lm_path = os.path.join(ROOT, "pipeline", "buyers", "lead-matches.csv")
+_lm = list(csv.DictReader(open(_lm_path))) if os.path.exists(_lm_path) else []
+_paired = {}
+for m in _lm:
+    _paired[m["buyer_id"]] = _paired.get(m["buyer_id"], 0) + 1
+for r in _blist:
+    r["paired_leads"] = _paired.get(r["buyer_id"], 0)
 _blist.sort(key=lambda r: -float(r["score"] or 0))
 write("buyers_list.csv", BUYER_COLS, _blist)
+_bnow = {r["buyer_id"]: r for r in _blist}   # progress made since the pairing was computed shows at once
+write("lead_buyer_matches.csv", ["lead_id", "rank", "buyer_id", "buyer", "fit", "why", "status", "warmth", "standby", "ready_to_buy"],
+      [{**{k: m.get(k, "") for k in ("lead_id", "rank", "buyer_id", "buyer", "fit", "why")},
+        **{k: (_bnow.get(m["buyer_id"]) or m).get(k, "") for k in ("status", "warmth", "standby", "ready_to_buy")}} for m in _lm])
 
 # ---- replies waiting (no names) ----
 ipath = os.path.join(ROOT, "pipeline", "inbox-log.csv")

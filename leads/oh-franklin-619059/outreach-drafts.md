@@ -17,7 +17,7 @@ Re: Estate of Gloria S. Morris, Franklin County Probate Case No. 619059 — 809 
 
 Dear Mr. Hutchins,
 
-I'm a local real-estate investor, and I'm sorry for the family's loss. I understand you represent Sandra Thompson in the reopened Morris estate.
+I'm a real-estate investor, and I'm sorry for the family's loss. I understand you represent Sandra Thompson in the reopened Morris estate.
 
 If the house at 809 Bulen Ave is going to be sold — whether by the estate or by a trustee — I'd be glad to make an as-is cash offer. I can:
 - buy it as-is, with no repairs and no cleanout needed;
@@ -29,10 +29,10 @@ To be upfront: I'm an investor and may assign my purchase contract to another bu
 If the family has other plans, that's fine. You can reach me at +1-773-236-7749 · iero@emporium-investments.com, and if you'd prefer I not follow up, just let me know.
 
 Sincerely,
-[Name]
+Iyoobsa Ero
 
 ## Call script — counsel's office (after approval, day 7–10)
-"Hi, this is [name], a local real-estate investor. I wrote to Mr. Hutchins about the Gloria Morris estate, case 619059, the house on Bulen Avenue. Is he available for a quick question?"
+"Hi, this is Iyoobsa Ero, a real-estate investor. I wrote to Mr. Hutchins about the Gloria Morris estate, case 619059, the house on Bulen Avenue. Is he available for a quick question?"
 - "If the house will be sold, I'd like to make an as-is cash offer. I'm an investor and may assign the contract; I'd give the Ohio wholesaler disclosure first."
 - Questions: Will the house be sold by the estate or by a trustee? When do you expect someone to have authority? Is it vacant? Any timing pressure (insurance, code)? Has the family considered a number?
 - If not interested / asked to stop: thank them, log stop.

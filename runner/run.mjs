@@ -97,13 +97,13 @@ if (spawnSync('python3', ['-c', 'import yaml'], { cwd: WORK }).status !== 0) {
 // Your Setup saves first (owner decision 2026-11-26): the Business identity is written into config.yaml, every
 // market's attorney packet is rebuilt from it, and held letter drafts get your details as the sender.
 for (const [cmd, label] of [[['scripts/owner_settings.py', 'import', path.join(IMP, 'setup-areas.json')], 'settings'],
-  [['scripts/build_attorney_packet.py'], 'packets'], [['scripts/fill_signature.py'], 'drafts']]) {
+  [['scripts/build_attorney_packet.py'], 'packets'], [['scripts/fill_signature.py'], 'drafts'], [['scripts/match_buyers.py'], 'buyer pairing']]) {
   const r = spawnSync('python3', cmd, { cwd: WORK, encoding: 'utf8' });
   const out = `${r.stdout || ''}${r.stderr || ''}`.trim().split('\n').filter((l) => !/^wrote /.test(l)).join(' | ');
   console.log(`${label}: ${out.slice(0, 400) || 'ok'}`);
 }
 // Save what that changed before any engine starts, so the run's workers see it as done, not as stray edits.
-spawnSync('git', ['add', '-A', 'config.yaml', 'pipeline/owner-settings.json', 'legal/attorney-packets', 'leads'], { cwd: WORK });
+spawnSync('git', ['add', '-A', 'config.yaml', 'pipeline/owner-settings.json', 'legal/attorney-packets', 'leads', 'pipeline/buyers/lead-matches.csv', 'pipeline/buyers/research-queue.csv'], { cwd: WORK });
 if (spawnSync('git', ['diff', '--cached', '--quiet'], { cwd: WORK }).status !== 0) {
   spawnSync('git', ['-c', 'user.name=Pipeline runner', '-c', 'user.email=runner@probate-pipeline.local', 'commit', '-q', '-m', 'Runner: apply your Setup saves (business details, attorney packets, letter signatures)'], { cwd: WORK });
   console.log('setup saves: committed');
@@ -292,6 +292,12 @@ engines: for (const eng of order) {
 }
 console.log(`--- engine used: ${used} | checks: ${verified}${notes.length ? ' | ' + notes.join('; ') : ''} ---`);
 
+// Drafts the workers wrote this run get the sender's details at once, and the buyer pairing reflects today's
+// leads and vetting (owner decision 2026-11-27: placeholders are filled as drafts are made, not a run later).
+for (const [cmd, label] of [[['scripts/fill_signature.py'], 'drafts'], [['scripts/match_buyers.py'], 'buyer pairing']]) {
+  const r = spawnSync('python3', cmd, { cwd: WORK, encoding: 'utf8' });
+  console.log(`${label} (after the run): ${`${r.stdout || ''}${r.stderr || ''}`.trim().slice(0, 300) || 'ok'}`);
+}
 // Record the run so the next one can see failures and repair them.
 try { notes.unshift(`board:${JSON.parse(spawnSync('python3', ['runner/workload.py', SLICE], { cwd: WORK, encoding: 'utf8' }).stdout).board}`); } catch { /* no board */ }
 const hp = path.join(WORK, 'pipeline', 'runner-health.csv');

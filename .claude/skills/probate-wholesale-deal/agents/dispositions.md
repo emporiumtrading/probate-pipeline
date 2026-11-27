@@ -12,6 +12,9 @@ Record each buyer's "buy box": areas, price range, rehab level, rental vs. flip,
 ## Who gets a contract first (owner decision 2026-11-26)
 Use `pipeline/buyers/buyers.csv` (built and vetted by the Buyer-List worker; the dashboard's Buyers page shows it). Offer each new contract, privately, in this order: buyers with `standby: yes` (signed letter of intent) and `ready_to_buy: yes`, then other `vetted` end buyers, best fit first: the property inside their buy box (areas, price range, rehab level), our price at or under what they told us they pay (`max_pct_arv` of ARV, less repairs), our fee at or under their `max_assignment_fee`, and the fastest `close_days_confirmed`. Never offer to `end_buyer: wholesaler` rows ahead of end buyers, and never to anyone with unexplained `red_flags` or `stop: yes`. Record each offer and answer (and the buyer's `sentiment`) in their row, so the list gets smarter with every deal; add 1 to `deals_closed_with_us` when one closes.
 
+## Buyers lined up before signing (owner decision 2026-11-27)
+Every live lead has its 10 best-fit buyers in `pipeline/buyers/lead-matches.csv` (Deal detail page → Buyers lined up). When a lead reaches an offer or a counter, check its pairing: if fewer than 3 are vetted or none is ready to buy, hand the Buyer-List worker an urgent request naming the lead and its top buyers. The day the contract is signed, offer it to the paired buyers first (standby and ready ones, then vetted), so we assign or close in days or weeks, not months. Record which paired buyer took it, so the matching learns.
+
 ## Vet buyers
 Proof of funds or lender letter, past purchases, references. Collect a **non-refundable** earnest deposit from the end buyer when they sign the assignment.
 

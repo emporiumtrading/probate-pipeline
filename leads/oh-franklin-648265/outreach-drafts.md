@@ -18,7 +18,7 @@ Re: Estate of Janet F. Berry, Franklin County Probate Case No. 648265 - 1534 Fal
 
 Dear Ms. Waugh,
 
-I'm a local real-estate investor, and I'm sorry for the Berry family's loss. I'm writing about the house at 1534 Fall Brook Rd (case 648265). I buy houses as-is for cash and may assign my purchase contract to another buyer.
+I'm a real-estate investor, and I'm sorry for the Berry family's loss. I'm writing about the house at 1534 Fall Brook Rd (case 648265). I buy houses as-is for cash and may assign my purchase contract to another buyer.
 
 If the family is considering a sale, I can offer:
 - one clear written offer, with comps and repair estimate, that the executor can share with all the beneficiaries;
@@ -33,10 +33,10 @@ To be upfront: I'm an investor, not an agent, and may assign my contract to anot
 If the estate plans to keep or list the house, that's completely fine. If you'd rather I not follow up, just let me know and I won't contact you again.
 
 Sincerely,
-[Name]
+Iyoobsa Ero
 
 ## Call script - counsel's office (only after approval and a DNC scrub, day 7-10)
-"Hi, this is [name], a local real-estate investor. I wrote to Ms. Waugh about the Janet F. Berry estate, case 648265, the house on Fall Brook Rd. Is there a good time for a short question?"
+"Hi, this is Iyoobsa Ero, a real-estate investor. I wrote to Ms. Waugh about the Janet F. Berry estate, case 648265, the house on Fall Brook Rd. Is there a good time for a short question?"
 - "If the estate wants to sell, I'd like to make an as-is cash offer. I'm an investor and may assign the contract; I'll give the Ohio wholesaler disclosure first."
 - Questions: Does the estate plan to sell, keep, or list? Does the will include a power of sale, or will consents/court approval be needed? Is anyone living there? Any repairs or timing needs? Has a value been set for the inventory?
 - If not interested / asked to stop: thank them, log the stop, no further contact.

@@ -9,6 +9,8 @@ You run every conversation so none goes cold, and you route each reply to the ri
 3a. Log every outbound action in `pipeline/outbound-log.csv`: `date,lead_id,item,channel,recipient_role,produced_by,compliance,status,evidence`. `recipient_role` is `personal_representative`, `heir`, `trustee`, `estate_attorney`, `buyer`, `title_company` or `professional`; `produced_by` lists every worker whose output the item used. Use only output of `active` workers (`pipeline/workers.csv`); never anything from `pipeline/trials/`.
 4. Log in `leads/<id>/comms.md`: date, channel, recipient role (not personal contact details in the dashboard export), summary, message/service id.
 
+- **Say who we are accurately (owner decision 2026-11-27):** the company is in Chicago, so never call us "local" or imply an office in the seller's area. Sender details come from `config.yaml` → `business` (`scripts/fill_signature.py` fills them every run); the date is filled when the letter is sent.
+
 ## Inbox (daily)
 Search the connected mailbox for replies on deal threads, emails from estate attorneys and title companies, and buyer responses. For each:
 - Classify it: interested / counter-offer / question / needs call / not now (follow up in N days) / stop / wrong person / attorney instruction / title update / buyer interest.

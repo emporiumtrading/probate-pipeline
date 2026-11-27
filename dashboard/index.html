@@ -252,6 +252,12 @@
     <div class="pp-card" id="deal-progress"><h2>Progress to closing</h2><div class="pp-chart" data-draw="dealProgress" data-source="deal stages" style="min-height:96px"></div>
       <p class="pp-muted pp-small">Hover over a dot (or a stage below) to see what that step means and who handles it.</p>
       <ol class="pp-stage-legend" data-draw="stageLegend" data-source="deal stages"></ol></div>
+    <div class="pp-card pp-wrap" id="deal-buyers"><h2>Buyers lined up for this deal</h2><p class="pp-sub">Paired before the contract is signed, so the right buyers are vetted and ready and we can close in weeks. Fit: same ZIP or city, our expected price inside what they pay, how often and how recently they buy, and how far along they are with us.</p>
+      <p class="pp-sub" data-draw="dealBuyerSum" data-source="dealBuyers"></p>
+      <table data-source="dealBuyers" data-row-key="buyer_id">
+        <thead><tr><th data-field="rank">#</th><th data-field="buyer">Buyer</th><th data-field="fit">Fit</th><th data-field="why">Why they fit</th><th data-field="status">Status</th><th data-field="warmth">Warmth</th><th data-field="standby">Standby</th><th data-field="ready_to_buy">Ready to buy</th></tr></thead>
+        <tbody data-draw="dealBuyerRows"></tbody></table>
+    </div>
     <div class="pp-card pp-wrap" id="deal-handoffs"><h2>Questions between workers on this deal</h2><p class="pp-sub">Open blockers keep the deal where it is until they're answered.</p>
       <table data-source="handoffsDeal" data-row-key="id">
         <thead><tr><th data-field="id">#</th><th data-field="from_worker">From</th><th data-field="to_worker">To</th><th data-field="kind">Kind</th><th data-field="priority">Priority</th><th data-field="ask">Question or request</th><th data-field="needed_by">Due</th><th data-field="status">Status</th><th data-field="answer">Answer</th></tr></thead>
@@ -292,6 +298,8 @@
     <p class="pp-sub">Cash buyers found in public deed records, vetted and warmed up by the Buyer-List worker so each contract has buyers ready before it's signed. Contact details stay in the private repo; this page shows what we know about each buyer and where they stand.</p>
     <div class="pp-tiles">
       <div class="pp-card pp-tile"><div class="pp-num" data-draw="byTotal" data-source="buyersF">—</div><div class="pp-lbl">Buyers in these filters</div></div>
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="byPaired" data-source="buyersF">—</div><div class="pp-lbl">Paired with a live lead (researched first)</div></div>
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="byChecked" data-source="buyersF">—</div><div class="pp-lbl">Entity or cash checked</div></div>
       <div class="pp-card pp-tile pp-t-ok"><div class="pp-num" data-draw="byVetted" data-source="buyersF">—</div><div class="pp-lbl">Vetted (funds or closings checked)</div></div>
       <div class="pp-card pp-tile pp-t-warn"><div class="pp-num" data-draw="byWarm" data-source="buyersF">—</div><div class="pp-lbl">Warm or hot (in conversation)</div></div>
       <div class="pp-card pp-tile pp-t-ok"><div class="pp-num" data-draw="byLoi" data-source="buyersF">—</div><div class="pp-lbl">Signed a letter of intent</div></div>
