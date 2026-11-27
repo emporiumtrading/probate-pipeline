@@ -158,3 +158,6 @@
 | 2026-11-27 | tx-harris buyers (H-0013) | download.hcad.org/data/CAMA/2026/ | blocked (HTTP 500) | retry next run; nothing bypassed |
 | 2026-11-27 | fl-hillsborough | publicrec.hillsclerk.com/Probate/dailyfilings (2026-11-26..2026-11-26) | worked | 20261126: 0 rows, 0 estates; 0 new leads |
 | 2026-11-27 | oh-franklin | probatesearch PBODateInx.ndm (from 20261125, 25 pages) + Parcel_Features | worked | 22 cases, 5 estates kept, 0 new leads |
+| 2026-11-27 | tx-harris | https://www.cclerk.hctx.net/applications/websearch/CourtSearch.aspx?CaseType=Probate | responds | automated re-test |
+| 2026-11-27 | tn-shelby | https://www.probatecourt.shelbycountytn.gov | no response | automated re-test |
+| 2026-11-27 | pa-philadelphia | https://www.phila.gov/departments/register-of-wills/ | responds | automated re-test |
