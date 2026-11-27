@@ -65,17 +65,19 @@ Every worker checks these before acting. "unknown" means we act as if the strict
 
 | Rule | What we have | Correct? / your correction |
 |---|---|---|
-| Licence to wholesale | unknown | |
+| Licence to wholesale | yes | |
 | Wholesaler disclosure | unknown | |
 | Seller cancellation (days) | unknown | |
-| Fee splits with unlicensed people | unknown | |
-| Court approval of estate sales | unknown | |
+| Fee splits with unlicensed people | no | |
+| Court approval of estate sales | depends | |
 | Estate price floor | unknown | |
 | Small-estate limit ($) | unknown | |
-| Tax sale type | unknown | |
-| Redemption after tax sale | unknown | |
-| Redemption period (months) | unknown | |
-| Extra contact rules | unknown | |
+| Tax sale type | deed | |
+| Redemption after tax sale | no | |
+| Redemption period (months) | 0 | |
+| Extra contact rules | both | |
+
+Notes: Act 52 of 2024: wholesaling needs a PA real estate licence (research only until licensed_or_partnered). 20 Pa.C.S. 3351: PR may sell without court order unless the will denies it. Tax sale: vacant houses can't be redeemed after the sheriff's deed; occupied ones have 9 months.
 
 ## Templates to review
 

@@ -6,6 +6,10 @@ that scripts and QA can read. legal/<STATE>.md stays the full write-up with sour
 The Legal Advisor keeps both in step. A value is only filled in from a source the Legal Advisor read (cited in the
 state's legal file); anything not yet researched stays "unknown", and "unknown" always means "act as if the
 strictest rule applies" (see RULES below).
+A value that makes a rule less strict (no licence, no court approval, fee splits allowed, a longer redemption) needs a
+VERIFIED primary source in the legal file; a stricter value may rest on an unverified note, since "unknown" already
+assumes the strictest case. Where a rule depends on the facts (homestead or not, vacant or occupied), record the
+strictest case that can apply to an inherited house and explain it in `notes`.
 
   python3 scripts/state_rules.py seed            # add missing states (never overwrites a row)
   python3 scripts/state_rules.py show FL         # plain-English rules for one state, for any worker

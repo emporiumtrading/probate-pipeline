@@ -100,3 +100,9 @@ Plus: separate written 3-business-day assignment notice to seller (keep proof of
 2. Memphis/Shelby County business tax and business license requirements.
 3. Federal income/SE tax treatment of fees; S-corp election threshold; quarterly estimates.
 4. TN recordation tax in assignment vs. double close; 1099 reporting by title.
+
+## Tax sales (added 2026-11-27; owner decision 2026-11-27, tax-delinquent leads)
+| # | Rule | Source | Checked | Status |
+|---|---|---|---|---|
+| T.1 | **The parcel is sold** at a court tax sale to a "tax sale purchaser"; on redemption "title to the parcel shall be divested out of the purchaser." | T.C.A. § 67-5-2701(n) | 2026-11-27 | VERIFIED (FindLaw mirror, current as of 2024-01-02) |
+| T.2 | **Redemption runs from the order confirming the sale**, never more than 1 year: 1 year if delinquent 5 years or less; 180 days if more than 5 but less than 8 years; 90 days if 8 years or more; **30 days if the court finds the property vacant and abandoned.** We plan on the shortest period that could apply. | https://codes.findlaw.com/tn/title-67-taxes-and-licenses/tn-code-sect-67-5-2701/ | 2026-11-27 | VERIFIED (mirror; official comptroller PDF returned 403; confirm against current code) |

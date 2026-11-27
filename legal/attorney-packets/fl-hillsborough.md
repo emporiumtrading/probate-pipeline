@@ -68,9 +68,9 @@ Every worker checks these before acting. "unknown" means we act as if the strict
 | Court approval of estate sales | intestate_only | |
 | Estate price floor | none | |
 | Small-estate limit ($) | unknown | |
-| Tax sale type | unknown | |
-| Redemption after tax sale | unknown | |
-| Redemption period (months) | unknown | |
+| Tax sale type | lien | |
+| Redemption after tax sale | yes | |
+| Redemption period (months) | 24 | |
 | Extra contact rules | unknown | |
 
 Notes: Protected homestead passes to heirs outside the PR's power: all heirs sign. Market the contract, never the house (ch. 475).

@@ -10,3 +10,58 @@ date,state,field,old,new,sources
 2026-11-27,OH,seller_cancel_days,unknown,none,"legal/OH.md §1.1-1.6, §2.2"
 2026-11-27,OH,probate_court_approval,unknown,depends,"legal/OH.md §1.1-1.6, §2.2"
 2026-11-27,OH,estate_price_floor,unknown,80% of appraised (consent sale),"legal/OH.md §1.1-1.6, §2.2"
+2026-11-27,AL,wholesale_license,unknown,no,legal/AL.md §1.1-1.4
+2026-11-27,AL,wholesale_disclosure,unknown,yes,legal/AL.md §1.1-1.4
+2026-11-27,AZ,wholesale_disclosure,unknown,yes,"legal/AZ.md §1.3, 1.5-1.7, 2.1-2.2, fee-splitting"
+2026-11-27,AZ,seller_cancel_days,unknown,none,"legal/AZ.md §1.3, 1.5-1.7, 2.1-2.2, fee-splitting"
+2026-11-27,AZ,fee_split_allowed,unknown,no,"legal/AZ.md §1.3, 1.5-1.7, 2.1-2.2, fee-splitting"
+2026-11-27,AZ,probate_court_approval,unknown,depends,"legal/AZ.md §1.3, 1.5-1.7, 2.1-2.2, fee-splitting"
+2026-11-27,IN,wholesale_license,unknown,no,"legal/IN.md §1.1-1.6, 2.1-2.2, 3.2"
+2026-11-27,IN,wholesale_disclosure,unknown,yes,"legal/IN.md §1.1-1.6, 2.1-2.2, 3.2"
+2026-11-27,IN,seller_cancel_days,unknown,2,"legal/IN.md §1.1-1.6, 2.1-2.2, 3.2"
+2026-11-27,IN,fee_split_allowed,unknown,no,"legal/IN.md §1.1-1.6, 2.1-2.2, 3.2"
+2026-11-27,IN,probate_court_approval,unknown,depends,"legal/IN.md §1.1-1.6, 2.1-2.2, 3.2"
+2026-11-27,IN,contact_rules,unknown,state_dnc,"legal/IN.md §1.1-1.6, 2.1-2.2, 3.2"
+2026-11-27,LA,wholesale_license,unknown,no,legal/LA.md §1.2-1.5
+2026-11-27,LA,wholesale_disclosure,unknown,yes,legal/LA.md §1.2-1.5
+2026-11-27,MO,wholesale_disclosure,unknown,yes,"legal/MO.md §1.3, 1.5"
+2026-11-27,MO,seller_cancel_days,unknown,none,"legal/MO.md §1.3, 1.5"
+2026-11-27,MO,fee_split_allowed,unknown,no,"legal/MO.md §1.3, 1.5"
+2026-11-27,OK,wholesale_license,unknown,no,legal/OK.md §1.2-1.4
+2026-11-27,OK,wholesale_disclosure,unknown,yes,legal/OK.md §1.2-1.4
+2026-11-27,OK,seller_cancel_days,unknown,2,legal/OK.md §1.2-1.4
+2026-11-27,TN,wholesale_license,unknown,no,"legal/TN.md §1.5-1.8, 3.1-3.2, fee-splitting"
+2026-11-27,TN,wholesale_disclosure,unknown,yes,"legal/TN.md §1.5-1.8, 3.1-3.2, fee-splitting"
+2026-11-27,TN,seller_cancel_days,unknown,none,"legal/TN.md §1.5-1.8, 3.1-3.2, fee-splitting"
+2026-11-27,TN,fee_split_allowed,unknown,no,"legal/TN.md §1.5-1.8, 3.1-3.2, fee-splitting"
+2026-11-27,TN,contact_rules,unknown,state_dnc,"legal/TN.md §1.5-1.8, 3.1-3.2, fee-splitting"
+2026-11-27,TX,wholesale_license,unknown,no,"legal/TX.md §1.4-1.6, 2.1-2.2, 3.2, fee-splitting"
+2026-11-27,TX,wholesale_disclosure,unknown,yes,"legal/TX.md §1.4-1.6, 2.1-2.2, 3.2, fee-splitting"
+2026-11-27,TX,seller_cancel_days,unknown,none,"legal/TX.md §1.4-1.6, 2.1-2.2, 3.2, fee-splitting"
+2026-11-27,TX,fee_split_allowed,unknown,no,"legal/TX.md §1.4-1.6, 2.1-2.2, 3.2, fee-splitting"
+2026-11-27,TX,probate_court_approval,unknown,depends,"legal/TX.md §1.4-1.6, 2.1-2.2, 3.2, fee-splitting"
+2026-11-27,TX,estate_price_floor,unknown,none,"legal/TX.md §1.4-1.6, 2.1-2.2, 3.2, fee-splitting"
+2026-11-27,TX,contact_rules,unknown,registration,"legal/TX.md §1.4-1.6, 2.1-2.2, 3.2, fee-splitting"
+2026-11-27,PA,wholesale_license,unknown,yes,"legal/PA.md status, §2.1-2.4, 3.1-3.2, fee-splitting"
+2026-11-27,PA,fee_split_allowed,unknown,no,"legal/PA.md status, §2.1-2.4, 3.1-3.2, fee-splitting"
+2026-11-27,PA,probate_court_approval,unknown,depends,"legal/PA.md status, §2.1-2.4, 3.1-3.2, fee-splitting"
+2026-11-27,PA,contact_rules,unknown,both,"legal/PA.md status, §2.1-2.4, 3.1-3.2, fee-splitting"
+2026-11-27,OH,fee_split_allowed,unknown,no,"legal/OH.md §1.1-1.6, §2.2, fee-splitting"
+2026-11-27,IA,wholesale_license,unknown,yes,legal/IA.md bottom line
+2026-11-27,SC,wholesale_license,unknown,yes,legal/SC.md bottom line
+2026-11-27,UT,wholesale_license,unknown,yes,legal/UT.md bottom line
+2026-11-27,FL,tax_sale_type,unknown,lien,"legal/FL.md §1.1-1.6, §2.1-2.3, §T.1-T.3"
+2026-11-27,FL,tax_redemption_after_sale,unknown,yes,"legal/FL.md §1.1-1.6, §2.1-2.3, §T.1-T.3"
+2026-11-27,FL,tax_redemption_months,unknown,24,"legal/FL.md §1.1-1.6, §2.1-2.3, §T.1-T.3"
+2026-11-27,OH,tax_sale_type,unknown,deed,"legal/OH.md §1.1-1.6, §2.2, fee-splitting, §T.1-T.2"
+2026-11-27,OH,tax_redemption_after_sale,unknown,no,"legal/OH.md §1.1-1.6, §2.2, fee-splitting, §T.1-T.2"
+2026-11-27,OH,tax_redemption_months,unknown,0,"legal/OH.md §1.1-1.6, §2.2, fee-splitting, §T.1-T.2"
+2026-11-27,PA,tax_sale_type,unknown,deed,"legal/PA.md status, §2.1-2.4, 3.1-3.2, fee-splitting, §T.1-T.3"
+2026-11-27,PA,tax_redemption_after_sale,unknown,no,"legal/PA.md status, §2.1-2.4, 3.1-3.2, fee-splitting, §T.1-T.3"
+2026-11-27,PA,tax_redemption_months,unknown,0,"legal/PA.md status, §2.1-2.4, 3.1-3.2, fee-splitting, §T.1-T.3"
+2026-11-27,TX,tax_sale_type,unknown,deed,"legal/TX.md §1.4-1.6, 2.1-2.2, 3.2, fee-splitting, §T.1-T.3"
+2026-11-27,TX,tax_redemption_after_sale,unknown,yes,"legal/TX.md §1.4-1.6, 2.1-2.2, 3.2, fee-splitting, §T.1-T.3"
+2026-11-27,TX,tax_redemption_months,unknown,6,"legal/TX.md §1.4-1.6, 2.1-2.2, 3.2, fee-splitting, §T.1-T.3"
+2026-11-27,TN,tax_sale_type,unknown,deed,"legal/TN.md §1.5-1.8, 3.1-3.2, fee-splitting, §T.1-T.2"
+2026-11-27,TN,tax_redemption_after_sale,unknown,yes,"legal/TN.md §1.5-1.8, 3.1-3.2, fee-splitting, §T.1-T.2"
+2026-11-27,TN,tax_redemption_months,unknown,1,"legal/TN.md §1.5-1.8, 3.1-3.2, fee-splitting, §T.1-T.2"

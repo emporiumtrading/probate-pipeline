@@ -75,13 +75,13 @@ Every worker checks these before acting. "unknown" means we act as if the strict
 | Licence to wholesale | no | |
 | Wholesaler disclosure | yes | |
 | Seller cancellation (days) | none | |
-| Fee splits with unlicensed people | unknown | |
+| Fee splits with unlicensed people | no | |
 | Court approval of estate sales | depends | |
 | Estate price floor | 80% of appraised (consent sale) | |
 | Small-estate limit ($) | unknown | |
-| Tax sale type | unknown | |
-| Redemption after tax sale | unknown | |
-| Redemption period (months) | unknown | |
+| Tax sale type | deed | |
+| Redemption after tax sale | no | |
+| Redemption period (months) | 0 | |
 | Extra contact rules | unknown | |
 
 Notes: R.C. 5301.95: without the wholesaler disclosure the owner may cancel any time before closing. Consent sale needs every heir's written consent and no minors.

@@ -94,3 +94,10 @@ Also (Philadelphia, UNVERIFIED): deliver the City's **Homeowner Bill of Rights**
 1. Philadelphia realty transfer tax and state RTT on assignment vs. double close vs. novation — expected cost per deal.
 2. Philadelphia BIRT + Net Profits Tax, PA personal income tax, federal income/SE tax on fees.
 3. Entity choice for a licensee (fees may have to be paid through the broker), E&O and $1M GL insurance costs, quarterly estimates, 1099 reporting.
+
+## Tax sales (added 2026-11-27; owner decision 2026-11-27, tax-delinquent leads)
+| # | Rule | Source | Checked | Status |
+|---|---|---|---|---|
+| T.1 | **The property is sold at sheriff's sale** for tax or municipal claims (Municipal Claims and Tax Liens Act, 53 P.S. § 7101 et seq.; Philadelphia sells this way). | 53 P.S. § 7293 (Act 153 of 1923, § 32) | 2026-11-27 | VERIFIED (§ 32 read) |
+| T.2 | **Redemption:** the owner may redeem "at any time within nine months from the date of the acknowledgment of the sheriff's deed" (three months in second-class cities/counties), paying the amount bid plus costs. | https://www.palegis.us/statutes/unconsolidated/law-information/view-statute?SESSYR=1923&SESSIND=0&ACTNUM=153&SMTHLWIND=&CHPT=&SCTN=32&SUBSCTN= | 2026-11-27 | VERIFIED |
+| T.3 | **No redemption for vacant property:** "there shall be no redemption of vacant property by any person after the date of the acknowledgment of the sheriff's deed." Property is vacant unless the same individual or family lived there as a residence for at least 90 days before the sale and still does at acknowledgment. **Most inherited houses are vacant, so treat the sale as final.** | same, § 32(c) | 2026-11-27 | VERIFIED |

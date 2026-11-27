@@ -63,17 +63,19 @@ Every worker checks these before acting. "unknown" means we act as if the strict
 
 | Rule | What we have | Correct? / your correction |
 |---|---|---|
-| Licence to wholesale | unknown | |
-| Wholesaler disclosure | unknown | |
-| Seller cancellation (days) | unknown | |
-| Fee splits with unlicensed people | unknown | |
-| Court approval of estate sales | unknown | |
-| Estate price floor | unknown | |
+| Licence to wholesale | no | |
+| Wholesaler disclosure | yes | |
+| Seller cancellation (days) | none | |
+| Fee splits with unlicensed people | no | |
+| Court approval of estate sales | depends | |
+| Estate price floor | none | |
 | Small-estate limit ($) | unknown | |
-| Tax sale type | unknown | |
-| Redemption after tax sale | unknown | |
-| Redemption period (months) | unknown | |
-| Extra contact rules | unknown | |
+| Tax sale type | deed | |
+| Redemption after tax sale | yes | |
+| Redemption period (months) | 6 | |
+| Extra contact rules | registration | |
+
+Notes: Occ. Code 1101.0045 / Prop. Code 5.0205: disclose the equitable interest in writing to seller and buyers. Independent administration needs no court order; dependent needs one and a fair price. SB 140: texts are telephone solicitation; SOS registration.
 
 ## Templates to review
 

@@ -94,3 +94,10 @@ Also: s. 689.302 Flood Disclosure form signed by seller at/before contract; "and
 1. Taxation of assignment fees (ordinary income, SE tax); entity choice.
 2. Doc-stamp cost on a double close vs. assignment.
 3. Deductible costs, quarterly estimates, 1099 from title.
+
+## Tax sales (added 2026-11-27; owner decision 2026-11-27, tax-delinquent leads)
+| # | Rule | Source | Checked | Status |
+|---|---|---|---|---|
+| T.1 | **Tax certificate (lien) state.** Unpaid taxes are sold as tax certificates; the house itself is sold only later at a tax-deed sale after the holder applies. | s. 197.472, s. 197.502 | 2026-11-27 | VERIFIED (sections read; auction mechanics in s. 197.432 not read) |
+| T.2 | **Redemption:** "A person may redeem a tax certificate at any time after the certificate is issued and before a tax deed is issued unless full payment for a tax deed is made to the clerk of the court" (face amount plus interest, costs and charges). No homestead or occupancy condition. | http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0100-0199/0197/Sections/0197.472.html | 2026-11-27 | VERIFIED |
+| T.3 | **Earliest tax-deed application:** "at any time after 2 years have elapsed since April 1 of the year of issuance of the tax certificate". So the family has at least about 2 years from the certificate sale; the real deadline is the tax-deed sale date set by the clerk. | http://www.leg.state.fl.us/statutes/index.cfm?App_mode=Display_Statute&URL=0100-0199/0197/Sections/0197.502.html | 2026-11-27 | VERIFIED |

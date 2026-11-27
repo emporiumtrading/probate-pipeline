@@ -1,29 +1,29 @@
 state,legal_file,rules_status,last_verified,wholesale_license,wholesale_disclosure,seller_cancel_days,fee_split_allowed,probate_court_approval,estate_price_floor,small_estate_limit_usd,tax_sale_type,tax_redemption_after_sale,tax_redemption_months,contact_rules,notes,sources
 AK,no,not_started,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,
-AL,yes,partial,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,legal/AL.md
+AL,yes,partial,2026-11-27,no,yes,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,"Act 2023-201 (Ala. Code 8-42): written disclosure to seller before marketing and to assignee; 3x fee civil liability. HB586 (2026, licensing) not enacted - recheck.",legal/AL.md §1.1-1.4
 AR,yes,partial,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,legal/AR.md
-AZ,yes,partial,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,legal/AZ.md
+AZ,yes,partial,2026-11-27,unknown,yes,none,no,depends,unknown,unknown,unknown,unknown,unknown,unknown,A.R.S. 44-5101: without the disclosure the seller may cancel any time before close of escrow and keep earnest money. Court order only for supervised PRs. License guidance page unreadable: licence stays unknown.,"legal/AZ.md §1.3, 1.5-1.7, 2.1-2.2, fee-splitting"
 CA,no,not_started,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,
 CO,yes,partial,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,legal/CO.md
 CT,no,not_started,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,
 DC,no,not_started,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,
 DE,no,not_started,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,
-FL,yes,partial,2026-11-27,no,no,none,no,intestate_only,none,unknown,unknown,unknown,unknown,unknown,"Protected homestead passes to heirs outside the PR's power: all heirs sign. Market the contract, never the house (ch. 475).","legal/FL.md §1.1-1.6, §2.1-2.3"
+FL,yes,partial,2026-11-27,no,no,none,no,intestate_only,none,unknown,lien,yes,24,unknown,"Protected homestead passes to heirs outside the PR's power: all heirs sign. Market the contract, never the house (ch. 475).","legal/FL.md §1.1-1.6, §2.1-2.3, §T.1-T.3"
 GA,yes,partial,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,legal/GA.md
 HI,no,not_started,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,
-IA,yes,partial,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,legal/IA.md
+IA,yes,partial,2026-11-27,yes,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,Licence (or licensed partner) required to wholesale: research only until licensed_or_partnered.,legal/IA.md bottom line
 ID,no,not_started,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,
 IL,no,not_started,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,
-IN,yes,partial,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,legal/IN.md
+IN,yes,partial,2026-11-27,no,yes,2,no,depends,unknown,unknown,unknown,unknown,unknown,state_dnc,IC 32-21-16.5: every solicitation must say 'This solicitation is not from a licensed real estate professional'; 2-day rescission if defective. Supervised (ES) estates need a court order; unsupervised (EU) don't.,"legal/IN.md §1.1-1.6, 2.1-2.2, 3.2"
 KS,no,not_started,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,
 KY,no,not_started,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,
-LA,yes,partial,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,legal/LA.md
+LA,yes,partial,2026-11-27,no,yes,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,"Act 807 (2026, R.S. 37:1448.x): LREC Mandatory Cancellation Notice attached; seller may cancel during a rescission period (length unverified); deposit at least 1% held in escrow; never record a lien or cloud title.",legal/LA.md §1.2-1.5
 MA,no,not_started,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,
 MD,no,not_started,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,
 ME,no,not_started,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,
 MI,no,not_started,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,
 MN,no,not_started,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,
-MO,yes,partial,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,legal/MO.md
+MO,yes,partial,2026-11-27,unknown,yes,none,no,unknown,unknown,unknown,unknown,unknown,unknown,unknown,New disclosure statute (eff. 2026-08-28) with a 14-day advance-disclosure rule; without it the owner may cancel any time before closing.,"legal/MO.md §1.3, 1.5"
 MS,yes,partial,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,legal/MS.md
 MT,yes,partial,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,legal/MT.md
 NC,yes,partial,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,legal/NC.md
@@ -34,16 +34,16 @@ NJ,no,not_started,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unkno
 NM,yes,partial,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,legal/NM.md
 NV,no,not_started,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,
 NY,no,not_started,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,
-OH,yes,partial,2026-11-27,no,yes,none,unknown,depends,80% of appraised (consent sale),unknown,unknown,unknown,unknown,unknown,R.C. 5301.95: without the wholesaler disclosure the owner may cancel any time before closing. Consent sale needs every heir's written consent and no minors.,"legal/OH.md §1.1-1.6, §2.2"
-OK,yes,partial,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,legal/OK.md
+OH,yes,partial,2026-11-27,no,yes,none,no,depends,80% of appraised (consent sale),unknown,deed,no,0,unknown,R.C. 5301.95: without the wholesaler disclosure the owner may cancel any time before closing. Consent sale needs every heir's written consent and no minors.,"legal/OH.md §1.1-1.6, §2.2, fee-splitting, §T.1-T.2"
+OK,yes,partial,2026-11-27,no,yes,2,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,59 O.S. 858-301/314: publicly marketing the equitable interest needs a licence (private buyer list only); 2-BUSINESS-day cancellation; statutory NOTICE box; earnest money in an Oklahoma escrow account; no liens on title.,legal/OK.md §1.2-1.4
 OR,no,not_started,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,
-PA,yes,partial,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,legal/PA.md
+PA,yes,partial,2026-11-27,yes,unknown,unknown,no,depends,unknown,unknown,deed,no,0,both,Act 52 of 2024: wholesaling needs a PA real estate licence (research only until licensed_or_partnered). 20 Pa.C.S. 3351: PR may sell without court order unless the will denies it. Tax sale: vacant houses can't be redeemed after the sheriff's deed; occupied ones have 9 months.,"legal/PA.md status, §2.1-2.4, 3.1-3.2, fee-splitting, §T.1-T.3"
 RI,no,not_started,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,
-SC,yes,partial,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,legal/SC.md
+SC,yes,partial,2026-11-27,yes,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,Licence (or licensed partner) required to wholesale: research only until licensed_or_partnered.,legal/SC.md bottom line
 SD,no,not_started,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,
-TN,yes,partial,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,legal/TN.md
-TX,yes,partial,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,legal/TX.md
-UT,yes,partial,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,legal/UT.md
+TN,yes,partial,2026-11-27,no,yes,none,no,unknown,unknown,unknown,deed,yes,1,state_dnc,2025 wholesaling law (T.C.A. 66-4-4xx): written disclosure; actions within 2 years. TN Do-Not-Call/Text register covers cell phones and texts.,"legal/TN.md §1.5-1.8, 3.1-3.2, fee-splitting, §T.1-T.2"
+TX,yes,partial,2026-11-27,no,yes,none,no,depends,none,unknown,deed,yes,6,registration,Occ. Code 1101.0045 / Prop. Code 5.0205: disclose the equitable interest in writing to seller and buyers. Independent administration needs no court order; dependent needs one and a fair price. SB 140: texts are telephone solicitation; SOS registration.,"legal/TX.md §1.4-1.6, 2.1-2.2, 3.2, fee-splitting, §T.1-T.3"
+UT,yes,partial,2026-11-27,yes,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,Licence (or licensed partner) required to wholesale: research only until licensed_or_partnered.,legal/UT.md bottom line
 VA,no,not_started,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,
 VT,no,not_started,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,
 WA,no,not_started,,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,unknown,,

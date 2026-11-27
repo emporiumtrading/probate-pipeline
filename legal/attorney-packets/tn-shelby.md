@@ -64,17 +64,19 @@ Every worker checks these before acting. "unknown" means we act as if the strict
 
 | Rule | What we have | Correct? / your correction |
 |---|---|---|
-| Licence to wholesale | unknown | |
-| Wholesaler disclosure | unknown | |
-| Seller cancellation (days) | unknown | |
-| Fee splits with unlicensed people | unknown | |
+| Licence to wholesale | no | |
+| Wholesaler disclosure | yes | |
+| Seller cancellation (days) | none | |
+| Fee splits with unlicensed people | no | |
 | Court approval of estate sales | unknown | |
 | Estate price floor | unknown | |
 | Small-estate limit ($) | unknown | |
-| Tax sale type | unknown | |
-| Redemption after tax sale | unknown | |
-| Redemption period (months) | unknown | |
-| Extra contact rules | unknown | |
+| Tax sale type | deed | |
+| Redemption after tax sale | yes | |
+| Redemption period (months) | 1 | |
+| Extra contact rules | state_dnc | |
+
+Notes: 2025 wholesaling law (T.C.A. 66-4-4xx): written disclosure; actions within 2 years. TN Do-Not-Call/Text register covers cell phones and texts.
 
 ## Templates to review
 

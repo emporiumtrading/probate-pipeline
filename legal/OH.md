@@ -109,3 +109,9 @@ Also in the purchase agreement (attorney to draft): "and/or assigns" language; p
 3. Who pays the Ohio conveyance fee in an assignment vs. double close?
 4. Quarterly estimated payments; which costs are deductible (marketing, skip tracing, data tools, mileage, lost earnest money)?
 5. Will the title company issue a 1099-S/1099-MISC for our fee?
+
+## Tax sales (added 2026-11-27; owner decision 2026-11-27, tax-delinquent leads)
+| # | Rule | Source | Checked | Status |
+|---|---|---|---|---|
+| T.1 | **Delinquent land is foreclosed** (R.C. ch. 323 / 5721) and sold; some counties also sell tax certificates (R.C. 5721.30 et seq., not read). We treat it as a sale of the property itself. | https://codes.ohio.gov/ohio-revised-code/section-5721.25 | 2026-11-27 | VERIFIED (foreclosure); certificate sales UNVERIFIED |
+| T.2 | **Redemption only until the sale is confirmed:** after foreclosure is filed, the owner may redeem "before the filing of an entry of confirmation of sale" (or before an alternative redemption period under 323.78, not read), and must show the property complies with zoning and building, health and safety codes. A delinquent-tax contract of up to 5 years is an alternative. **No right to redeem after a confirmed sale.** | same | 2026-11-27 | VERIFIED; 323.78 UNVERIFIED |

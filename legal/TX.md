@@ -99,3 +99,10 @@ Also in the purchase agreement (attorney to draft): "and/or assigns"; signer cap
 **CPA:**
 1. Tax on assignment fees (ordinary income, SE tax); LLC vs. S-corp; Texas franchise tax filing.
 2. Quarterly estimates; deductible costs; 1099s from title.
+
+## Tax sales (added 2026-11-27; owner decision 2026-11-27, tax-delinquent leads)
+| # | Rule | Source | Checked | Status |
+|---|---|---|---|---|
+| T.1 | **The property is sold** at a tax foreclosure sale (sheriff or constable deed); the owner keeps a right of redemption. | Tax Code § 34.21 | 2026-11-27 | VERIFIED (mirror of official text) |
+| T.2 | **Residence homestead or agricultural land:** redeem "on or before the second anniversary of the date on which the purchaser's deed is filed for record", with a 25% premium in year one and 50% in year two. | https://texas.public.law/statutes/tex._tax_code_section_34.21 ; https://codes.findlaw.com/tx/tax-code/tax-sect-34-21/ | 2026-11-27 | VERIFIED (mirror; statutes.capitol.texas.gov returned no text) |
+| T.3 | **All other property:** redemption "not later than the 180th day following the date on which the purchaser's or taxing unit's deed is filed for record" (premium up to 25%). An inherited house is usually not the heirs' homestead, so we plan on **180 days**. | same, § 34.21(e) | 2026-11-27 | VERIFIED (mirror) |
