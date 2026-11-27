@@ -4,7 +4,8 @@
 Runs once when pipeline/live-sim-request.json exists (the runner deletes it afterwards). Nobody real is contacted
 and nothing is paid for:
   - Resend: real sends only to Resend's test inbox (delivered@resend.dev) and to our own replies address.
-  - Lob: a real letter to the business's own address, scheduled 14 days out and cancelled at once (no charge).
+  - Lob: a real letter to the business's own address, cancelled at once inside Lob's cancellation window (no charge;
+    this Lob edition doesn't allow scheduled letters).
   - DocuSeal: a test template and a signing request with send_email false, both deleted afterwards.
   - ProxyPics: read-only (packages, price guard); no order.
   - Website: one SIMULATION contact-form request through the live page.
@@ -41,7 +42,7 @@ def http(method, url, headers=None, body=None, form=None):
             try:
                 return r.status, json.loads(raw or b"null")
             except ValueError:
-                return r.status, raw[:400].decode(errors="replace")
+                return r.status, raw[:200000].decode(errors="replace")
     except urllib.error.HTTPError as e:
         raw = e.read()[:600].decode(errors="replace")
         return e.code, raw
@@ -94,15 +95,14 @@ def lob(b):
     s, r = http("POST", "https://api.lob.com/v1/us_verifications", H, {"primary_line": addr["address_line1"], "secondary_line": addr["address_line2"],
                 "city": addr["address_city"], "state": addr["address_state"], "zip_code": addr["address_zip"]})
     step("Lob", "address verification (business address)", s == 200, f"HTTP {s} deliverability={r.get('deliverability') if isinstance(r, dict) else r}")
-    send_date = (NOW + datetime.timedelta(days=14)).strftime("%Y-%m-%dT%H:%M:%SZ")
     html = ("<html><body style='font-family:Georgia;font-size:12pt;padding:1in'><p><b>SIMULATION TEST LETTER (cancelled before mailing)</b></p>"
             "<p>Dear Counsel,</p><p>I'm a real-estate investor. If the family decides to sell, I'd be glad to make an as-is offer. "
             "I am an investor buying for my own account, not a licensed agent, and may assign my contract to another buyer.</p>"
             f"<p>Sincerely,<br>{b.get('signer', '').split(',')[0]}<br>{b.get('legal_name', '')}<br>{b.get('email', '')}</p></body></html>")
     s, r = http("POST", "https://api.lob.com/v1/letters", H, {"description": "SIMULATION test letter (cancelled at once)", "to": addr, "from": addr,
-                "file": html, "color": False, "send_date": send_date, "use_type": "operational", "mail_type": "usps_first_class"})
+                "file": html, "color": False, "use_type": "operational", "mail_type": "usps_first_class"})
     lid = r.get("id") if isinstance(r, dict) else None
-    step("Lob", "letter created (scheduled 14 days out)", bool(lid), f"HTTP {s} id={lid} price={r.get('price') if isinstance(r, dict) else ''} "
+    step("Lob", "letter created (inside Lob's cancellation window)", bool(lid), f"HTTP {s} id={lid} prints after {r.get('send_date') if isinstance(r, dict) else ''} "
          f"expected_delivery={r.get('expected_delivery_date') if isinstance(r, dict) else ''} {'' if lid else str(r)[:300]}", "out", "Emporium Investments (own address)", html)
     if lid:
         s, r = http("DELETE", f"https://api.lob.com/v1/letters/{lid}", H)
@@ -164,7 +164,7 @@ def main():
     rep = os.path.join(ROOT, "reports", f"live-sim-{DAY}.md")
     with open(rep, "w") as f:
         f.write(f"# Live simulation {NOW.isoformat(timespec='minutes')}Z\n\nNo real seller, attorney or buyer was contacted and nothing was paid for. "
-                "Emails went only to Resend's test inbox and our own replies address; the Lob letter was cancelled before mailing; "
+                "Emails went only to Resend's test inbox and our own replies address; the Lob letter was cancelled inside Lob's cancellation window; "
                 "DocuSeal items were archived; no ProxyPics order.\n\n| Service | Check | Result | Detail |\n|---|---|---|---|\n")
         for svc, what, res, det in LOG:
             f.write(f"| {svc} | {what} | {res} | {det.replace('|', '/')[:300]} |\n")
