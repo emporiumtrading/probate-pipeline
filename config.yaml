@@ -52,7 +52,7 @@ earnest_money:
   # Deals needing more than the reserve has free (e.g. a court-set 10% deposit) are passed on or offered to a buyer directly.
 company_signature:                # owner decision 2026-11-25: the company signs inside fixed limits; off until both dates are set
   enabled: false                  # the Legal Advisor turns this on only when both dates below are recorded
-  resolution_signed_on: ""        # the owner signed the company resolution authorizing its e-signature (one time)
+  resolution_signed_on: 2026-11-27        # the owner signed the company resolution authorizing its e-signature (one time)
   attorney_confirmed_on: ""       # the attorney confirmed the resolution and this use for the states below
   attorney_confirmed_states: ""   # e.g. "FL,TX"; contracts in other states go to the owner's Sign queue
   documents: purchase_agreement,assignment   # only these, only from attorney-approved templates, only if scripts/sign_check.py passes
