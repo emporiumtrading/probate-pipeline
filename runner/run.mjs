@@ -129,6 +129,12 @@ const FULL = AUTO.full === true;
 console.log(`full autonomy: ${FULL ? 'on' : 'off'}`);
 // Test the sending/signing services and switch their channels on or off (runner/channels.py).
 { const c = spawnSync('python3', ['runner/channels.py'], { cwd: WORK, env: agentEnv, encoding: 'utf8' }); process.stdout.write(c.stdout || ''); }
+// A live simulation the owner asked for (scripts/live_sim.py): runs once when pipeline/live-sim-request.json exists.
+if (fs.existsSync(path.join(WORK, 'pipeline', 'live-sim-request.json'))) {
+  const c = spawnSync('python3', ['scripts/live_sim.py'], { cwd: WORK, env: agentEnv, encoding: 'utf8', timeout: 300000 });
+  process.stdout.write((c.stdout || '') + (c.stderr || '').slice(0, 500));
+  fs.rmSync(path.join(WORK, 'pipeline', 'live-sim-request.json'), { force: true });
+}
 // Email replies received on replies.<domain> go into pipeline/inbox/ for the Reply Desk (scripts/fetch_replies.py).
 if (process.env.RESEND_API_KEY) { const c = spawnSync('python3', ['scripts/fetch_replies.py'], { cwd: WORK, env: agentEnv, encoding: 'utf8' }); process.stdout.write((c.stdout || '') + (c.stderr || '').slice(0, 300)); }
 try { console.log(await pullContacts(WORK)); } catch (e) { console.log('contacts: failed', e.message); }
