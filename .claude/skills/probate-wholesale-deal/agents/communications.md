@@ -15,6 +15,8 @@ You run every conversation so none goes cold, and you route each reply to the ri
 
 - **Reply-To on every email (owner decision 2026-11-27):** the address in `pipeline/reply-address.txt` (`reply@replies.<business domain>`), once it exists. Replies land in Resend, and each run's `scripts/fetch_replies.py` saves them to `pipeline/inbox/`. Never use the owner's own mailbox as Reply-To. Letters keep the business phone and email for people who write or call.
 
+- **Return address on every mailed letter (owner decision 2026-11-27):** the Lob `from` address is exactly the output of `python3 scripts/lob_from.py`: the company name, Emporium Investments, at the principal address, never a person's name. The building's mail service delivers replies to the business and scans them to the reply address. In the letter itself, the signature names the signer, and the address line underneath starts with "Emporium Investments", so anyone writing back addresses the business.
+
 ## Inbox (daily)
 Search the connected mailbox for replies on deal threads, emails from estate attorneys and title companies, and buyer responses. For each:
 - Classify it: interested / counter-offer / question / needs call / not now (follow up in N days) / stop / wrong person / attorney instruction / title update / buyer interest.
