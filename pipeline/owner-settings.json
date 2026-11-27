@@ -3,8 +3,8 @@
     "autonomy": {
       "confirm_text": "AUTHORIZE",
       "confirmed": true,
-      "outreach": "drafts_only",
-      "saved_at": "2026-11-27T07:14:23.639Z"
+      "outreach": "autonomous",
+      "saved_at": "2026-11-27T17:36:10.525Z"
     },
     "business": {
       "email": "iero@emporium-investments.com",
@@ -29,13 +29,13 @@
       "inbox_connected_address": "",
       "inbox_connected_provider": "",
       "inbox_connected_ready": false,
-      "mail_scanning_address": "",
-      "mail_scanning_provider": "",
+      "mail_scanning_address": "reply@replies.emporium-investments.com",
+      "mail_scanning_provider": "Resend",
       "mail_scanning_ready": false,
       "mail_sending_address": "",
       "mail_sending_provider": "",
       "mail_sending_ready": true,
-      "saved_at": "2026-11-27T07:15:33.004Z",
+      "saved_at": "2026-11-27T17:37:22.425Z",
       "voicemail_to_email_address": "",
       "voicemail_to_email_provider": "",
       "voicemail_to_email_ready": false
