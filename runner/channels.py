@@ -70,6 +70,21 @@ if k:
                     if d.get("status") != "verified":
                         print(f"channels: resend {nm} needs {r.get('type')} {r.get('name')} = {r.get('value')}"
                               f"{(' priority ' + str(r.get('priority'))) if r.get('priority') is not None else ''} [{r.get('status')}]")
+        # Ask Resend to re-check DNS for any of our domains not verified yet (its "Verify" button).
+        for d in doms:
+            nm = d.get("name", "").lower()
+            if biz_domain and (nm == biz_domain or nm.endswith("." + biz_domain)) and d.get("status") != "verified":
+                try:
+                    _call("POST", f"https://api.resend.com/domains/{d.get('id')}/verify")
+                except Exception:
+                    pass
+        # Replies inbox: on once replies.<domain> is verified with receiving (scripts/fetch_replies.py collects them).
+        rep = next((d for d in doms if d.get("name", "").lower() == f"replies.{biz_domain}"), None) if biz_domain else None
+        rep_ok = bool(rep and rep.get("status") == "verified")
+        set_flag("inbox_connected", rep_ok)
+        if rep_ok:
+            open("pipeline/reply-address.txt", "w").write(f"reply@replies.{biz_domain}\n")
+        print(f"channels: inbox_connected={rep_ok} ({'replies.' + biz_domain + ' ' + (rep.get('status') if rep else 'missing')})")
         if rows:
             import csv as _csv
             with open("pipeline/email-dns-records.csv", "w", newline="") as fh:

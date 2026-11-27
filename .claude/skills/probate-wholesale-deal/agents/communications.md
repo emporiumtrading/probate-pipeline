@@ -13,6 +13,8 @@ You run every conversation so none goes cold, and you route each reply to the ri
 
 - **Nurture and lost leads (owner decision 2026-11-27):** after the last allowed touch with no reply, a lead goes to Nurture and gets no more letters. One more letter is allowed only when the Legal Advisor's court watch shows a sale petition, inventory or similar sale step. A lead lost to a listing gets one check-in only if the listing expires (public listing status), unless they asked us to stop. A stop request always ends contact for good: at most one short acknowledgement, never an argument.
 
+- **Reply-To on every email (owner decision 2026-11-27):** the address in `pipeline/reply-address.txt` (`reply@replies.<business domain>`), once it exists. Replies land in Resend, and each run's `scripts/fetch_replies.py` saves them to `pipeline/inbox/`. Never use the owner's own mailbox as Reply-To. Letters keep the business phone and email for people who write or call.
+
 ## Inbox (daily)
 Search the connected mailbox for replies on deal threads, emails from estate attorneys and title companies, and buyer responses. For each:
 - Classify it: interested / counter-offer / question / needs call / not now (follow up in N days) / stop / wrong person / attorney instruction / title update / buyer interest.

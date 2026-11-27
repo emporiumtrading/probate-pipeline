@@ -128,6 +128,8 @@ const FULL = AUTO.full === true;
 console.log(`full autonomy: ${FULL ? 'on' : 'off'}`);
 // Test the sending/signing services and switch their channels on or off (runner/channels.py).
 { const c = spawnSync('python3', ['runner/channels.py'], { cwd: WORK, env: agentEnv, encoding: 'utf8' }); process.stdout.write(c.stdout || ''); }
+// Email replies received on replies.<domain> go into pipeline/inbox/ for the Reply Desk (scripts/fetch_replies.py).
+if (process.env.RESEND_API_KEY) { const c = spawnSync('python3', ['scripts/fetch_replies.py'], { cwd: WORK, env: agentEnv, encoding: 'utf8' }); process.stdout.write((c.stdout || '') + (c.stderr || '').slice(0, 300)); }
 
 const wl = JSON.parse(spawnSync('python3', ['runner/workload.py', SLICE], { cwd: WORK, encoding: 'utf8' }).stdout || '{"level":"light"}');
 console.log('workload:', JSON.stringify(wl));
