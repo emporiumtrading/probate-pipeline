@@ -37,6 +37,26 @@ if k:
     try:
         doms = get("https://api.resend.com/domains", {"Authorization": f"Bearer {k}"}).get("data", [])
         good = {d.get("name", "").lower() for d in doms if d.get("status") == "verified"}
+        # Owner decision 2026-11-27: replies are received on replies.<domain> only, never on the main domain, whose MX
+        # records carry the owner's own mailbox (hostedemail) and Amazon SES. So: receiving off on the main domain,
+        # and a receiving-only replies.<domain> created once. Both calls are idempotent.
+        def _call(method, url, body=None):
+            rq = urllib.request.Request(url, method=method, data=json.dumps(body).encode() if body is not None else None,
+                 headers={"Authorization": f"Bearer {k}", "Content-Type": "application/json", "User-Agent": "probate-pipeline-runner"})
+            with urllib.request.urlopen(rq, timeout=30) as r_:
+                return json.load(r_)
+        if biz_domain:
+            for d in doms:
+                if d.get("name", "").lower() == biz_domain and (d.get("capabilities") or {}).get("receiving") == "enabled":
+                    _call("PATCH", f"https://api.resend.com/domains/{d.get('id')}", {"capabilities": {"receiving": "disabled"}})
+                    print(f"channels: resend receiving turned off on {biz_domain} (its MX records belong to the business mailbox)")
+            if not any(d.get("name", "").lower() == f"replies.{biz_domain}" for d in doms):
+                try:
+                    _call("POST", "https://api.resend.com/domains", {"name": f"replies.{biz_domain}", "capabilities": {"sending": "disabled", "receiving": "enabled"}})
+                    print(f"channels: resend domain replies.{biz_domain} created for receiving replies")
+                except urllib.error.HTTPError as e_:
+                    print(f"channels: could not create replies.{biz_domain}: {e_.code} {e_.read()[:160].decode(errors='replace')}")
+            doms = get("https://api.resend.com/domains", {"Authorization": f"Bearer {k}"}).get("data", [])
         # For the business domain (and its subdomains) not yet verified: print the exact DNS records Resend wants,
         # and keep them in pipeline/email-dns-records.csv so they can be added at the DNS host (public values only).
         rows = []
