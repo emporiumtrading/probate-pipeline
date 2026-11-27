@@ -50,10 +50,36 @@ export async function syncDeploys(cwd) {
         const diff = at ? spawnSync('git', ['diff', '--name-only', at, head, '--', 'runner/'], { cwd, encoding: 'utf8' }) : { status: 1 };
         need = !at || diff.status !== 0 || !!diff.stdout.trim();
       }
+      if (s.name === DASH) log.push(...await ensureDomains(key, s.id));
       if (!need) { log.push(`${s.name}: up to date`); continue; }
       await call(key, 'POST', `/services/${s.id}/deploys`, { clearCache: 'do_not_clear' });
       log.push(`${s.name}: deploy started (${head.slice(0, 7)})`);
     } catch (e) { log.push(`${s.name}: ${e.message}`); }
   }
   return log;
+}
+
+/* The dashboard's custom domains (owner decision 2026-11-27): www.<domain> and the bare domain serve the public company
+   page, app.<domain> the dashboard (web/server.js decides by host). Added once, then re-checked each run until Render
+   reports them verified (that needs the DNS records at the domain's DNS host; Render issues the certificates). */
+const SITE_DOMAIN = (process.env.SITE_DOMAIN || 'emporium-investments.com').toLowerCase();
+async function ensureDomains(key, id) {
+  const want = [`www.${SITE_DOMAIN}`, SITE_DOMAIN, `app.${SITE_DOMAIN}`];
+  const out = [];
+  try {
+    const have = Object.fromEntries(((await call(key, 'GET', `/services/${id}/custom-domains?limit=50`)) || [])
+      .map((x) => x.customDomain || x).map((d) => [String(d.name).toLowerCase(), d]));
+    for (const name of want) {
+      let d = have[name];
+      if (!d) {
+        try { d = await call(key, 'POST', `/services/${id}/custom-domains`, { name }); d = (Array.isArray(d) ? d[0] : d) || {}; d = d.customDomain || d; out.push(`domain ${name}: added`); }
+        catch (e) { out.push(`domain ${name}: ${e.message}`); continue; }
+      }
+      if (d && d.verificationStatus && d.verificationStatus !== 'verified') {
+        await call(key, 'POST', `/services/${id}/custom-domains/${encodeURIComponent(d.id || name)}/verify`).catch(() => null);
+        out.push(`domain ${name}: ${d.verificationStatus} (waiting for its DNS record)`);
+      }
+    }
+  } catch (e) { out.push(`domains: ${e.message}`); }
+  return out;
 }

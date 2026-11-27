@@ -32,6 +32,9 @@ services:
     startCommand: node web/server.js
     healthCheckPath: /healthz
     autoDeploy: true
+    domains:                    # owner decision 2026-11-27: www (+ bare) = public company page, app. = this dashboard; runner/deploy.mjs adds them
+      - www.emporium-investments.com
+      - app.emporium-investments.com
     envVars:
       - key: DASHBOARD_USER
         value: owner

@@ -105,11 +105,49 @@ const readBody = (req) => new Promise((resolve, reject) => {
   req.on('error', reject);
 });
 
+/* Domains (owner decision 2026-11-27): www.<domain> and the bare domain show the public company page (web/site.html,
+   filled from config.yaml → business); app.<domain> and the onrender.com address serve the dashboard behind its login.
+   SITE_DOMAIN overrides the domain; the bare domain redirects to www. */
+const SITE_DOMAIN = (process.env.SITE_DOMAIN || 'emporium-investments.com').toLowerCase();
+const APP_URL = process.env.APP_URL || `https://app.${SITE_DOMAIN}`;
+const business = () => {
+  const txt = fs.readFileSync(path.join(ROOT, 'config.yaml'), 'utf8');
+  const m = txt.match(/^business:.*\n((?:[ \t]+.*\n|\n)*?)(?=^\S)/m);
+  const out = {};
+  for (const line of (m ? m[1] : '').split('\n')) {
+    const mm = line.match(/^  (\w+):[ \t]*(?:"((?:[^"\\]|\\.)*)"|([^#\n]*?))[ \t]*(?:#.*)?$/);
+    if (mm) out[mm[1]] = (mm[2] !== undefined ? mm[2] : mm[3] || '').replace(/\\"/g, '"').trim();
+  }
+  return out;
+};
+const esc = (v) => String(v || '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const site = () => {
+  const b = business();
+  const v = { legal_name: b.legal_name || 'Emporium Investments', mailing_address: b.mailing_address, phone: b.phone,
+    phone_tel: (b.phone || '').replace(/[^\d+]/g, ''), email: b.email, year: new Date().getUTCFullYear() };
+  return fs.readFileSync(path.join(__dirname, 'site.html'), 'utf8').replace(/\{\{(\w+)\}\}/g, (_, k) => esc(v[k]));
+};
+const SITE_HEADERS = { ...SEC_HEADERS, 'Referrer-Policy': 'strict-origin-when-cross-origin' };
+const publicSite = (req, res, p) => {
+  const host = String(req.headers.host || '').toLowerCase().split(':')[0];
+  if (host !== SITE_DOMAIN && host !== 'www.' + SITE_DOMAIN) return false;
+  if (host === SITE_DOMAIN) { res.writeHead(301, { Location: `https://www.${SITE_DOMAIN}${req.url}`, ...SITE_HEADERS }); res.end(); return true; }
+  if (p === '/' || p === '/index.html') {
+    res.writeHead(200, { 'Content-Type': MIME['.html'], 'Cache-Control': 'public, max-age=300', ...SITE_HEADERS });
+    res.end(site()); return true;
+  }
+  if (p === '/brand.svg') { safe(res, __dirname, 'brand.svg'); return true; }
+  if (p === '/robots.txt') { send(res, 200, 'User-agent: *\nAllow: /\n'); return true; }
+  // Anything else (old dashboard bookmarks, /login, /api/...) belongs to the dashboard's own address.
+  res.writeHead(301, { Location: APP_URL + req.url, ...SITE_HEADERS }); res.end(); return true;
+};
+
 const server = http.createServer(async (req, res) => {
   const u = new URL(req.url, 'http://x');
   const p = decodeURIComponent(u.pathname);
 
   if (p === '/healthz') return send(res, 200, 'ok');
+  if (publicSite(req, res, p)) return;
   if (p === '/brand.svg') return safe(res, __dirname, 'brand.svg');
   if (p === '/login' && req.method === 'POST') {
     const ip = clientIp(req);

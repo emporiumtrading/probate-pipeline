@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Emporium Investments — inherited and estate homes</title>
+<meta name="description" content="Emporium Investments makes offers on inherited and estate homes, as-is, and works alongside the estate's attorney and the probate court.">
+<link rel="icon" href="/brand.svg" type="image/svg+xml">
+<style>
+  :root { --ink:#0e1726; --gold:#c8a45a; --gold-2:#e5cf97; --paper:#f6f1e6; --mute:#9aa6ba; --line:rgba(200,164,90,.28); }
+  * { box-sizing: border-box; }
+  body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; color:var(--paper);
+    background: radial-gradient(1100px 600px at 85% -10%, rgba(200,164,90,.16), transparent 60%), linear-gradient(160deg,#0b1320 0%,#111c2e 55%,#0e1726 100%);
+    min-height:100vh; line-height:1.6; }
+  .wrap { width:min(980px,92vw); margin:0 auto; }
+  header { padding:28px 0; }
+  .brand { display:flex; align-items:center; gap:12px; color:var(--paper); text-decoration:none; }
+  .brand img { width:40px; height:40px; }
+  .brand b { font-family:"Iowan Old Style",Palatino,Georgia,serif; font-size:20px; letter-spacing:.04em; font-weight:600; }
+  .brand span { display:block; font-size:11px; letter-spacing:.28em; text-transform:uppercase; color:var(--gold); }
+  h1 { font-family:"Iowan Old Style",Palatino,Georgia,serif; font-weight:500; font-size:clamp(34px,5vw,56px); line-height:1.08; margin:28px 0 18px; }
+  h1 em { color:var(--gold-2); }
+  h2 { font-family:"Iowan Old Style",Palatino,Georgia,serif; font-weight:500; font-size:24px; margin:0 0 10px; }
+  .lede { font-size:18px; color:#cdd5e2; max-width:40em; }
+  .grid { display:grid; grid-template-columns:repeat(3,1fr); gap:22px; margin:44px 0; }
+  .grid div { border-top:1px solid var(--line); padding-top:14px; }
+  .grid b { display:block; margin-bottom:4px; }
+  .grid span, .small { color:var(--mute); font-size:14px; }
+  section { margin:40px 0; }
+  .card { background:rgba(255,255,255,.045); border:1px solid var(--line); border-radius:16px; padding:26px 28px; }
+  .contact { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  a { color:var(--gold-2); }
+  footer { border-top:1px solid rgba(255,255,255,.06); padding:22px 0 34px; margin-top:50px; }
+  @media (max-width:760px) { .grid, .contact { grid-template-columns:1fr; } }
+</style>
+</head>
+<body>
+<header><div class="wrap"><a class="brand" href="/"><img src="/brand.svg" alt=""><div><b>{{legal_name}}</b><span>Real estate</span></div></a></div></header>
+<main class="wrap">
+  <h1>Inherited a house? <em>We can make it simpler.</em></h1>
+  <p class="lede">We are real-estate investors who make offers on inherited and estate homes, as they are. We work alongside the estate's attorney and the probate court, so the sale follows the court's rules and nobody is rushed.</p>
+  <div class="grid">
+    <div><b>As-is</b><span>No repairs, cleaning or showings. You can leave what you don't want to keep.</span></div>
+    <div><b>On the estate's timeline</b><span>Closings go through a title company or closing attorney, after any court approval the estate needs.</span></div>
+    <div><b>No pressure</b><span>An offer is only an offer. You can say no, or ask us to stop writing, at any time.</span></div>
+  </div>
+  <section class="card">
+    <h2>How we work</h2>
+    <p>We find estates through public probate court records and write to the person the court has appointed, or to their attorney. If you'd like an offer, we look at the home, explain how we arrived at our price in writing, and give you time to talk it over with your attorney and family.</p>
+    <p>We may buy the home ourselves, or we may arrange for another investor to buy it under our contract. We tell you which in writing before you sign anything, along with any disclosures your state requires.</p>
+    <p class="small">We are not real-estate agents or attorneys and we don't give legal or tax advice. Please talk to the estate's attorney before you sign.</p>
+  </section>
+  <section class="card contact" id="contact">
+    <div><h2>Contact us</h2>
+      <p>{{legal_name}}<br>{{mailing_address}}</p>
+      <p>Phone: <a href="tel:{{phone_tel}}">{{phone}}</a><br>Email: <a href="mailto:{{email}}">{{email}}</a></p></div>
+    <div><h2>Stop hearing from us</h2>
+      <p>Email <a href="mailto:{{email}}?subject=Remove">{{email}}</a> with the subject "Remove", or call us, and include the name and address on the letter. We stop all contact about that property right away.</p></div>
+  </section>
+</main>
+<footer><div class="wrap small">© {{year}} {{legal_name}} · {{mailing_address}}</div></footer>
+</body>
+</html>
