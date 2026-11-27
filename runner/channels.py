@@ -37,8 +37,15 @@ if k:
     try:
         doms = get("https://api.resend.com/domains", {"Authorization": f"Bearer {k}"}).get("data", [])
         good = {d.get("name", "").lower() for d in doms if d.get("status") == "verified"}
-        ok = bool(biz_domain) and biz_domain in good
-        why = "ok" if ok else (f"verify {biz_domain} in Resend" if biz_domain else "business email not set")
+        # A verified sending subdomain of the business domain (e.g. mail.<domain>) is preferred for bulk mail
+        # (agents/communications.md → Email deliverability); the main domain itself also counts.
+        subs = sorted(d for d in good if biz_domain and d.endswith("." + biz_domain))
+        ok = bool(biz_domain) and (bool(subs) or biz_domain in good)
+        send_from = subs[0] if subs else (biz_domain if ok else "")
+        why = (f"ok, sending domain {send_from}" + ("" if subs else " (no mail. subdomain yet: bulk mail waits until one is verified)")) if ok \
+            else (f"verify a sending subdomain such as mail.{biz_domain} in Resend" if biz_domain else "business email not set")
+        if send_from:
+            open("pipeline/sending-domain.txt", "w").write(send_from + "\n")   # Communications sends bulk mail from this domain
     except Exception as e:
         why = f"Resend error {str(e)[:80]}"
 set_flag("email_sending", ok)
