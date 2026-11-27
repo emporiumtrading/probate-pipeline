@@ -637,6 +637,40 @@ for r in _blist:
     r["paired_leads"] = _paired.get(r["buyer_id"], 0)
 _blist.sort(key=lambda r: -float(r["score"] or 0))
 write("buyers_list.csv", BUYER_COLS, _blist)
+
+# ---- AI spend and credit (runner/credits.mjs; owner decision 2026-11-27): the AI spend tab ----
+_sp_path = os.path.join(ROOT, "pipeline", "ai-spend.csv")
+_spend = []
+for r in (csv.DictReader(open(_sp_path)) if os.path.exists(_sp_path) else []):
+    try:
+        _spend.append({"day": r["date"][:10], "time": r["date"][11:16], "slice": r.get("slice", ""), "engine": r.get("engine", ""),
+                       "model": r.get("model", ""), "cost_usd": round(float(r.get("cost_usd") or 0), 4)})
+    except ValueError:
+        pass
+write("ai_spend.csv", ["day", "time", "slice", "engine", "model", "cost_usd"], _spend)
+try:
+    _cr = json.load(open(os.path.join(ROOT, "pipeline", "ai-credits.json")))
+except (OSError, ValueError):
+    _cr = {}
+_c, _o = _cr.get("claude") or {}, _cr.get("openrouter") or {}
+_now = datetime.datetime.now(datetime.timezone.utc)
+_month = _now.strftime("%Y-%m")
+_mspend = sum(r["cost_usd"] for r in _spend if r["day"].startswith(_month))
+_tspend = sum(r["cost_usd"] for r in _spend if r["day"] == _now.strftime("%Y-%m-%d"))
+_budget = float(_c.get("budget_usd") or 0)
+_dim = (datetime.date(_now.year + (_now.month == 12), _now.month % 12 + 1, 1) - datetime.timedelta(days=1)).day
+_days_left = _dim - _now.day + 1
+_allow = max(0.0, (_budget - (_mspend - _tspend)) / _days_left) if _budget else ""
+_runs = [r for r in _spend if r["day"].startswith(_month)]
+write("ai_credits.csv", ["claude_ok", "claude_why", "checked", "month", "month_spend", "budget", "budget_left", "today_spend", "today_allowance",
+                         "projected_month", "runs_month", "avg_run_cost", "openrouter_today", "openrouter_cap", "openrouter_free_tier"],
+      [{"claude_ok": "unknown" if not _c else ("yes" if _c.get("ok") else "no"), "claude_why": _c.get("why", "not checked yet"), "checked": (_c.get("checked") or "")[:16].replace("T", " "),
+        "month": _month, "month_spend": round(_mspend, 2), "budget": _budget or "", "budget_left": round(_budget - _mspend, 2) if _budget else "",
+        "today_spend": round(_tspend, 2), "today_allowance": round(_allow, 2) if _allow != "" else "",
+        "projected_month": round(_mspend / max(1, _now.day) * _dim, 2), "runs_month": len(_runs),
+        "avg_run_cost": round(_mspend / len(_runs), 2) if _runs else "",
+        "openrouter_today": _o.get("requests", 0) if _o.get("day") == _now.strftime("%Y-%m-%d") else 0, "openrouter_cap": _o.get("daily_cap", ""),
+        "openrouter_free_tier": "yes" if _o.get("free_tier") else ("no" if _o else "")}])
 _bnow = {r["buyer_id"]: r for r in _blist}   # progress made since the pairing was computed shows at once
 write("lead_buyer_matches.csv", ["lead_id", "rank", "buyer_id", "buyer", "fit", "why", "status", "warmth", "standby", "ready_to_buy"],
       [{**{k: m.get(k, "") for k in ("lead_id", "rank", "buyer_id", "buyer", "fit", "why")},

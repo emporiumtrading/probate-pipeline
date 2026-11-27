@@ -171,6 +171,7 @@ const startAt = (eng) => Math.min(wl.level === 'heavy' ? 1 : 0, LADDERS[eng].len
 // Credit and throttle check before any AI work (runner/credits.mjs): skip an engine that can't pay, hold Claude to
 // its cheapest model near the monthly budget, and give the OpenRouter agent its pacing and daily allowance.
 // The credit files are committed at once, so a failed attempt's clean-up can't erase them.
+if (+AI.claudeMonthlyUsd > 0) process.env.AI_MONTHLY_USD = String(+AI.claudeMonthlyUsd);   // the owner's budget from Setup → AI engines
 const saveCredits = () => {
   spawnSync('git', ['add', 'pipeline/ai-credits.json', 'pipeline/ai-spend.csv'], { cwd: WORK });
   if (spawnSync('git', ['diff', '--cached', '--quiet'], { cwd: WORK }).status !== 0)

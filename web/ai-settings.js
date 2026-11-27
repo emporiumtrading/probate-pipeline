@@ -47,8 +47,14 @@
         .map(([v, l]) => h('option', { value: v, text: l })));
     sel.value = settings.claudeMax || 'claude-sonnet-5-5';
     sel.addEventListener('change', () => { settings.claudeMax = sel.value; saveSettings(msgEl); });
+    // Monthly AI budget (owner decision 2026-11-27): the runs pace Claude to it (runner/credits.mjs) and the AI spend tab shows it.
+    const bud = h('input', { type: 'number', min: '0', step: '5', style: 'width:7rem', 'aria-label': 'Monthly AI budget in US dollars', placeholder: 'no cap' });
+    bud.value = settings.claudeMonthlyUsd ? String(settings.claudeMonthlyUsd) : '';
+    bud.addEventListener('change', () => { const v = Math.max(0, Math.round(+bud.value || 0)); settings.claudeMonthlyUsd = v; bud.value = v ? String(v) : ''; saveSettings(msgEl); });
     return h('div', {}, h('p', { class: 'pp-sub', text: 'Models are picked automatically: each run measures the work waiting and starts with Haiku for routine work or Sonnet for deep-dives, negotiation and repairs, and moves up a model if an attempt fails or its result fails the checks. Nothing waiting: no AI is used at all.' }),
-      h('label', {}, h('span', { text: 'Strongest Claude model allowed: ' }), sel));
+      h('label', {}, h('span', { text: 'Strongest Claude model allowed: ' }), sel),
+      h('p', { class: 'pp-sub', text: 'Monthly budget for Claude in the runs. Each day gets what is left divided by the days left; past that, routine work goes to the free engines and Claude uses its cheapest model. At 80% Claude stays on its cheapest model; at 100% it stops until next month. For a hard ceiling nothing can pass, also set a spend limit at console.anthropic.com → Settings → Limits.' }),
+      h('label', {}, h('span', { text: 'Monthly AI budget ($): ' }), bud));
   };
 
   const keyRow = (eng, st, msgEl, refresh) => {

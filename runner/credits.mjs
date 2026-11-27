@@ -20,7 +20,9 @@ const statePath = (cwd) => path.join(cwd, 'pipeline', 'ai-credits.json');
 export const readState = (cwd) => { try { return JSON.parse(fs.readFileSync(statePath(cwd), 'utf8')); } catch { return {}; } };
 export const writeState = (cwd, s) => fs.writeFileSync(statePath(cwd), JSON.stringify(s, null, 1) + '\n');
 
+// The owner's budget from the dashboard (Setup → AI engines, passed in by run.mjs) wins over config.yaml.
 const budgetUsd = (cwd) => {
+  if (process.env.AI_MONTHLY_USD && +process.env.AI_MONTHLY_USD > 0) return +process.env.AI_MONTHLY_USD;
   const m = fs.readFileSync(path.join(cwd, 'config.yaml'), 'utf8').match(/^\s+claude_monthly_usd:\s*([\d.]+)/m);
   return m ? +m[1] : 0;
 };

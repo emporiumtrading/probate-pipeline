@@ -164,6 +164,7 @@
       <button class="pp-tab" role="tab" data-page="money" aria-selected="false">Sign, wire &amp; money <span class="pp-badge" data-draw="bMoney" data-source="queueCounts" data-field="money" data-row="0"></span></button>
       <button class="pp-tab" role="tab" data-page="markets" aria-selected="false">Markets &amp; legal</button>
       <button class="pp-tab" role="tab" data-page="operations" aria-selected="false">Operations</button>
+      <button class="pp-tab" role="tab" data-page="aispend" aria-selected="false">AI spend</button>
       <button class="pp-tab" role="tab" data-page="setup" aria-selected="false">Setup <span class="pp-badge" data-draw="bSetup" data-source="setupCounts" data-field="missing" data-row="0"></span></button>
     </nav>
     <div class="pp-filters" id="filters">
@@ -507,6 +508,26 @@
     </div>
   </section>
 
+  <section class="pp-page" id="aispend" hidden>
+    <div class="pp-tiles">
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="aiMonth" data-source="ai_credits">—</div><div class="pp-lbl">Claude this month (of the budget)</div></div>
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="aiToday" data-source="ai_credits">—</div><div class="pp-lbl">Today (of today's allowance)</div></div>
+      <div class="pp-card pp-tile pp-t-warn"><div class="pp-num" data-draw="aiProjected" data-source="ai_credits">—</div><div class="pp-lbl">Month total at this pace</div></div>
+      <div class="pp-card pp-tile"><div class="pp-num" data-draw="aiAvgRun" data-source="ai_credits">—</div><div class="pp-lbl">Average cost per Claude attempt × attempts</div></div>
+    </div>
+    <div class="pp-grid">
+      <div class="pp-card"><h2>Can the engines run?</h2>
+        <h3>Claude</h3><div data-draw="aiClaude" data-source="ai_credits"></div>
+        <h3>OpenRouter (free models)</h3><p data-draw="aiOpenrouter" data-source="ai_credits">—</p>
+        <h3>Budget</h3><p class="pp-sub" data-draw="aiBudgetNote" data-source="ai_credits">—</p>
+        <p class="pp-sub">How it saves: each run checks credit first and skips an engine that can't pay; routine work tries the free engines first and reaches Claude only if they fail the checks; past today's share of the budget Claude uses its cheapest model with a short time limit; the assistant runs on Haiku and stops its hourly check when nothing changed. The assistant's own usage isn't in these figures: Anthropic's spend limit (console.anthropic.com → Settings → Limits) covers everything.</p></div>
+      <div class="pp-card"><h2>Spend by run type</h2><div class="pp-chart" data-draw="aiSliceChart" data-source="ai_spend"></div></div>
+    </div>
+    <div class="pp-card"><h2>Claude spend per day</h2><div class="pp-chart" data-draw="aiDayChart" data-source="ai_spend"></div></div>
+    <div class="pp-card pp-wrap"><h2>Every Claude attempt</h2><p class="pp-sub">One row per attempt, with the real cost Claude reported.</p>
+      <table data-source="ai_spend"><thead><tr><th data-field="day">Day</th><th data-field="time">Time (UTC)</th><th data-field="slice">Run</th><th data-field="model">Model</th><th class="pp-n" data-field="cost_usd">Cost</th></tr></thead>
+        <tbody data-draw="aiRows"></tbody></table></div>
+  </section>
   <section class="pp-page" id="operations" hidden>
     <div class="pp-tiles">
       <div class="pp-card pp-tile pp-t-ok"><div class="pp-num" data-draw="hCov" data-source="health" data-field="coverage_works" data-row="0">—</div><div class="pp-lbl">Working sources in live counties, of <span data-draw="hCovT" data-source="health" data-field="coverage_total" data-row="0">—</span></div><div class="pp-meter"><div data-draw="covMeter" data-source="health"></div></div></div>
@@ -679,4 +700,5 @@
 <script src="team.js"></script>
 <script src="buyers.js"></script>
 <script src="threads.js"></script>
+<script src="aispend.js"></script>
 <script src="tables.js"></script>
