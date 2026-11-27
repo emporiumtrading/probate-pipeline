@@ -28,6 +28,7 @@ import { syncDeploys } from './deploy.mjs';
 import { syncDb } from './dbsync.mjs';
 import { restoreWorkcache, saveWorkcache } from './workcache.mjs';
 import { pullContacts } from './contacts.mjs';
+import { checkCredits, recordSpend, noteOpenrouter } from './credits.mjs';
 
 const SLICE = process.argv[2] || 'a';
 const PIPELINE_REPO = process.env.PIPELINE_REPO || 'emporiumtrading/probate-pipeline';
@@ -167,6 +168,19 @@ const pickLadder = (eng) => {
   else console.log(`${eng}: couldn't pick models (${(r.stderr || 'none usable').trim().slice(0, 200)}); using the last-known list`);
 };
 const startAt = (eng) => Math.min(wl.level === 'heavy' ? 1 : 0, LADDERS[eng].length - 1);
+// Credit and throttle check before any AI work (runner/credits.mjs): skip an engine that can't pay, hold Claude to
+// its cheapest model near the monthly budget, and give the OpenRouter agent its pacing and daily allowance.
+// The credit files are committed at once, so a failed attempt's clean-up can't erase them.
+const saveCredits = () => {
+  spawnSync('git', ['add', 'pipeline/ai-credits.json', 'pipeline/ai-spend.csv'], { cwd: WORK });
+  if (spawnSync('git', ['diff', '--cached', '--quiet'], { cwd: WORK }).status !== 0)
+    spawnSync('git', ['-c', 'user.name=Pipeline runner', '-c', 'user.email=runner@probate-pipeline.local', 'commit', '-q', '-m', 'Runner: AI credit and spend record'], { cwd: WORK });
+};
+const credits = wl.level === 'idle' ? { claude: { ok: true, why: 'not checked (idle)' }, openrouter: { ok: true, why: 'not checked (idle)' } }
+  : await checkCredits(WORK, LADDERS.claude).catch((e) => ({ claude: { ok: true, why: `check failed: ${e.message}` }, openrouter: { ok: true, why: 'check failed' } }));
+if (credits.claude.cap) LADDERS.claude = [credits.claude.cap];
+console.log(`credits: claude ${credits.claude.ok ? 'ok' : 'SKIPPED'} (${credits.claude.why}); openrouter ${credits.openrouter.ok ? 'ok' : 'SKIPPED'} (${credits.openrouter.why})`);
+saveCredits();
 const budget = { claude: +(process.env.MAX_MINUTES || (FAST ? 40 : 120)), agent: +(process.env.AGENT_MINUTES || (FAST ? 40 : 100)), scripted: FAST ? 10 : 30 };
 const hasKey = { claude: !!(process.env.ANTHROPIC_API_KEY || process.env.CLAUDE_CODE_OAUTH_TOKEN),
   nvidia: !!process.env.NVIDIA_API_KEY, openrouter: !!process.env.OPENROUTER_API_KEY, scripted: true };
@@ -264,6 +278,7 @@ const notes = [];
 engines: for (const eng of order) {
   if (!hasKey[eng]) { notes.push(`${eng}: no key`); continue; }
   if (eng !== 'scripted' && wl.level === 'idle') { notes.push('nothing waiting: no AI needed'); continue; }
+  if ((eng === 'claude' || eng === 'openrouter') && credits[eng] && !credits[eng].ok) { notes.push(`${eng}: ${credits[eng].why}`); continue; }
   if (eng === 'scripted') {
     console.log(`--- slice ${SLICE} | scripted engine | ${new Date().toISOString()} ---`);
     const r = await runProc('python3', ['scripts/auto_slice.py', SLICE], engineEnv, budget.scripted);
@@ -284,13 +299,24 @@ engines: for (const eng of order) {
     let ok, why, tail = '';
     if (eng === 'claude') {
       // IS_SANDBOX: the job runs in its own throwaway container; newer Claude Code refuses to skip permission prompts as root without it.
-      const r = await runProc(CLAUDE_BIN, ['-p', prompt, '--model', model, '--dangerously-skip-permissions', '--verbose'], { ...engineEnv, IS_SANDBOX: '1' }, minutes);
+      // stream-json: Claude Code reports the attempt's real cost at the end ("total_cost_usd"), recorded below.
+      const r = await runProc(CLAUDE_BIN, ['-p', prompt, '--model', model, '--dangerously-skip-permissions', '--verbose', '--output-format', 'stream-json'], { ...engineEnv, IS_SANDBOX: '1' }, minutes);
       ok = r.code === 0; why = `exit ${r.code}`; tail = r.tail;
     } else {
-      const r = await runAgent({ provider: eng, model, prompt, cwd: WORK, env: shellEnv, minutes });
+      const thr = eng === 'openrouter' ? { minIntervalMs: credits.openrouter.minIntervalMs || 3200, maxRequests: credits.openrouter.maxRequests ?? 45 } : {};
+      const r = await runAgent({ provider: eng, model, prompt, cwd: WORK, env: shellEnv, minutes, ...thr });
       ok = r.ok; why = r.reason; tail = r.reason;
+      if (eng === 'openrouter') {
+        credits.openrouter.maxRequests = Math.max(0, (credits.openrouter.maxRequests ?? 45) - (r.requests || 0));
+        credits.openrouter.used = r.requests || 0; credits.openrouter.exhausted = !!r.exhausted;
+      }
     }
     if (ok) commitAs(`${eng} ${model}`); else tidy();
+    if (eng === 'claude') { const usd = recordSpend(WORK, SLICE, eng, model, tail); if (usd) console.log(`credits: this Claude attempt cost $${usd.toFixed(2)}`); saveCredits(); }
+    if (eng === 'openrouter') {
+      noteOpenrouter(WORK, credits.openrouter.used || 0, credits.openrouter.exhausted); saveCredits();
+      if (credits.openrouter.exhausted) { notes.push('openrouter: daily cap reached, stopped'); break; }
+    }
     const g = guard(); if (g) { notes.push(`${model}: ${g}`); ok = false; why = g; }
     if (ok) {
       const v = verify();

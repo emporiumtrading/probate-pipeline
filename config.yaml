@@ -56,6 +56,8 @@ company_signature:                # owner decision 2026-11-25: the company signs
   attorney_confirmed_on: ""       # the attorney confirmed the resolution and this use for the states below
   attorney_confirmed_states: ""   # e.g. "FL,TX"; contracts in other states go to the owner's Sign queue
   documents: purchase_agreement,assignment   # only these, only from attorney-approved templates, only if scripts/sign_check.py passes
+ai_budget:                        # owner decision 2026-11-27: AI credit management (runner/credits.mjs)
+  claude_monthly_usd: 0           # 0 = no monthly cap (each run still checks the credit balance first). Set e.g. 150: past 80% Claude uses its cheapest model only, at 100% it stops until next month
 bookkeeping:                      # read-only money sources the Bookkeeper imports into pipeline/ledger.csv (agents/bookkeeper.md → Stripe)
   stripe:
     account: acct_1NkV7sAQF4y11zK3   # "Emporium Group", live mode; the whole business, so only tagged transactions are imported

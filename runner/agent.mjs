@@ -98,15 +98,22 @@ const trim = (messages) => {
   }
 };
 
-export async function runAgent({ provider, model, prompt, cwd, env, minutes }) {
+export async function runAgent({ provider, model, prompt, cwd, env, minutes, minIntervalMs = 0, maxRequests = Infinity }) {
   const P = PROVIDERS[provider];
   const key = P && process.env[P.keyEnv];
   if (!key) return { ok: false, reason: `no ${P ? P.keyEnv : provider}`, steps: 0 };
   const deadline = Date.now() + minutes * 60000;
   const messages = [{ role: 'system', content: SYSTEM }, { role: 'user', content: prompt }];
-  let failures = 0;
+  let failures = 0, requests = 0, last = 0;
+  // Throttling (runner/credits.mjs): pace calls under the provider's per-minute cap, never pass the day's allowance,
+  // wait out a per-minute 429 instead of counting it as a failure, and stop at once on a daily cap.
+  const done = (r) => ({ ...r, requests });
   for (let step = 1; step <= MAX_STEPS; step++) {
-    if (Date.now() > deadline) return { ok: false, reason: `time budget of ${minutes}m used`, steps: step };
+    if (Date.now() > deadline) return done({ ok: false, reason: `time budget of ${minutes}m used`, steps: step });
+    if (requests >= maxRequests) return done({ ok: false, reason: `daily request allowance used (${requests})`, steps: step, exhausted: true });
+    const wait = last + minIntervalMs - Date.now();
+    if (wait > 0) await new Promise((r) => setTimeout(r, wait));
+    last = Date.now(); requests++;
     trim(messages);
     let reply;
     try {
@@ -122,18 +129,27 @@ export async function runAgent({ provider, model, prompt, cwd, env, minutes }) {
       if (!reply) throw new Error('empty reply');
       failures = 0;
     } catch (e) {
+      if (/per-day|per day|daily/i.test(e.message) && /429|rate limit/i.test(e.message)) {
+        console.log(`[${provider}] daily cap reached: ${e.message.slice(0, 160)}`);
+        return done({ ok: false, reason: `api errors: ${e.message}`, steps: step, exhausted: true });
+      }
+      if (/^429/.test(e.message) && /per-min|per minute|rate limit/i.test(e.message)) {
+        console.log(`[${provider}] per-minute limit: waiting 60s`);
+        await new Promise((r) => setTimeout(r, 60000));
+        step--; continue;
+      }
       failures++;
       console.log(`[${provider}] api error (${failures}/3): ${e.message}`);
-      if (failures >= 3) return { ok: false, reason: `api errors: ${e.message}`, steps: step };
+      if (failures >= 3) return done({ ok: false, reason: `api errors: ${e.message}`, steps: step });
       await new Promise((r) => setTimeout(r, 5000 * failures));
       step--; continue;
     }
     const calls = reply.tool_calls || [];
     messages.push({ role: 'assistant', content: reply.content || '', ...(calls.length ? { tool_calls: calls } : {}) });
     if (!calls.length) {
-      if (step === 1) return { ok: false, reason: 'model answered without doing any work (no tool use)', steps: step };
+      if (step === 1) return done({ ok: false, reason: 'model answered without doing any work (no tool use)', steps: step });
       console.log(`[${provider}] done after ${step} steps: ${clip(reply.content || '', 1500)}`);
-      return { ok: true, reason: 'completed', steps: step };
+      return done({ ok: true, reason: 'completed', steps: step });
     }
     for (const c of calls) {
       let args = {};
@@ -144,5 +160,5 @@ export async function runAgent({ provider, model, prompt, cwd, env, minutes }) {
       messages.push({ role: 'tool', tool_call_id: c.id, content: clip(out) });
     }
   }
-  return { ok: false, reason: `step limit ${MAX_STEPS} reached`, steps: MAX_STEPS };
+  return done({ ok: false, reason: `step limit ${MAX_STEPS} reached`, steps: MAX_STEPS });
 }

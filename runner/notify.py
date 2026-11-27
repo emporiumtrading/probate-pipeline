@@ -98,6 +98,23 @@ if len(day) >= 3 and any(_age_h(r) >= 20 for r in day):   # a full day's worth o
                        + ("What you can do: " + " ".join(fix) + "\n" if fix else "Open the dashboard → Operations → How each run went, or ask the AI assistant what's wrong.\n")
                        + f"Last run's notes: {last}"))
 
+# AI credit (runner/credits.mjs; owner decision 2026-11-27): told the same day, at most once a day, not after 24 hours.
+try:
+    cr = json.load(open("pipeline/ai-credits.json"))
+except (OSError, ValueError):
+    cr = {}
+c = cr.get("claude") or {}
+if c and c.get("ok") is False:
+    events.append((f"credit:{now.date().isoformat()}", "Claude has stopped: " + c.get("why", "credit problem")[:80],
+                   "The AI engine (Claude) can't run: " + c.get("why", "") + ".\n"
+                   "Runs continue on the backup engines or the scripted backup, which can't read replies, negotiate or write letters.\n"
+                   "Fix: console.anthropic.com → Settings → Billing → add credit (turn on auto-reload so it doesn't stop again). "
+                   "The next run checks again by itself."))
+elif c.get("budget_usd") and c.get("month_spend_usd", 0) >= 0.8 * c["budget_usd"]:
+    events.append((f"budget:{cr.get('claude', {}).get('month', '')}", "Claude has used 80% of this month's AI budget",
+                   f"Claude has spent ${c.get('month_spend_usd')} of the ${c.get('budget_usd')} monthly budget (config.yaml → ai_budget). "
+                   "It now uses its cheapest model only, and stops at 100% until next month. Raise the budget if you want full speed."))
+
 new = [e for e in events if e[0] not in sent]
 if not os.path.exists(LOG):
     open(LOG, "w").write("date,key,subject\n")
