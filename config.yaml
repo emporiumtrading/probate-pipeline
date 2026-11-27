@@ -76,7 +76,7 @@ channels:                         # set each to true only once it is actually wo
   mail_sending: true             # print-and-mail service connected (letters go out without you)
   email_sending: true            # email sending connected (e.g. the Resend connector)
   inbox_connected: true          # the business mailbox is readable by the daily run
-  mail_scanning: false            # a virtual mailbox scans mailed replies and emails them to the business inbox
+  mail_scanning: true             # owner decision 2026-11-27: mailed replies arrive at the principal address (208 South LaSalle Street, Suite 814, Chicago); the owner scans each with a phone and emails the PDF to reply@replies.<domain>. A scanning service (PostScan Mail, In Out Parcel) can replace this later with the same reply address
   voicemail_to_email: false       # the business phone emails voicemail transcripts to the business inbox
   field_inspections: true        # the owner opened a field-inspection service account (card on file there, never here); Field Inspections books visits through it
 lead_types:                       # see .claude/skills/probate-wholesale-deal/references/lead-types.md
