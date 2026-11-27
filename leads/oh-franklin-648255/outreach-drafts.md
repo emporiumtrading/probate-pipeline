@@ -5,7 +5,7 @@
 Iyoobsa Ero, Manager - Emporium Investments
 Emporium Investments
 208 South LaSalle Street, Suite 814 Chicago Illinois 60604
-+1-773-236-7749 · iero@emporium-investments.com
+iero@emporium-investments.com
 
 2026-11-__
 

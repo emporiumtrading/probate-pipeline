@@ -20,7 +20,7 @@ What I can offer the estate:
 I'd be glad to send a one-page summary of how I arrive at my number (recent sales nearby and an estimated repair budget). If the executor isn't interested, or prefers I not follow up, just let me know and I won't contact the estate again.
 
 Sincerely,
-Iyoobsa Ero | Emporium Investments | +1-773-236-7749 | iero@emporium-investments.com
+Iyoobsa Ero | Emporium Investments | iero@emporium-investments.com
 
 ## Call script (Day 7–10, attorney's office only, number DNC-checked)
 "Hi, this is Iyoobsa Ero, a real-estate investor. I sent a letter to Ms. Clous about the Estate of James Meier, 324 Sheldon Avenue. Is she available, or is there a better time? … I'm calling to ask whether the executor is open to offers on the house, and whether the sale would be under the will's power of sale or need court approval. I'll be upfront: I'm a wholesaler and may assign my contract to another buyer; I'd give the Ohio 5301.95 disclosure before anything is signed. Would a short written summary of my numbers be helpful?"

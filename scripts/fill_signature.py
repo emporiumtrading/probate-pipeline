@@ -28,10 +28,18 @@ def business():
     return out
 
 
+# Owner decision 2026-11-27: letters give the business email only, never the owner's phone number.
+SHOW_PHONE = False
+
+
+def contact_line(b):
+    return " · ".join(x for x in ((b.get("phone") if SHOW_PHONE else ""), b.get("email")) if x)
+
+
 def block(b, licence):
     lines = [b.get("signer") or "[Your name]", b.get("legal_name") or "[company]",
              b.get("mailing_address") or "[mailing address]",
-             " · ".join(x for x in (b.get("phone"), b.get("email")) if x) or "[phone / email]"]
+             contact_line(b) or "[email]"]
     if licence:
         lines.append("[" + licence + "]")
     return "\n".join(lines)
@@ -45,10 +53,15 @@ def fill(text, b):
         lic = re.search(r"licen[cs]e #[^/\]]*(?:or licensed partner)?(?:, if any)?", m.group(0))
         return block(b, lic.group(0) if lic else "")
     out = SENDER.sub(sender, text)
+    ph = (b.get("phone") or "").strip()
+    if ph and not SHOW_PHONE:
+        for sep in (" · ", " | ", ", ", " or "):
+            out = out.replace(ph + sep, "").replace(sep + ph, "")
+        out = re.sub(r"(?i)\b(call|text|phone)( me| us)? at " + re.escape(ph) + r"( or)?\s*", "", out)
     person = person_name(b)
     # One-line sender: "[Name] | [Company] | [Phone] | [Email] | [License # if any]" (no licence: the part is dropped).
     def oneline(m):
-        parts = [person or "[Name]", b.get("legal_name") or "[Company]", b.get("phone") or "[Phone]", b.get("email") or "[Email]"]
+        parts = [person or "[Name]", b.get("legal_name") or "[Company]"] + ([b.get("phone") or "[Phone]"] if SHOW_PHONE else []) + [b.get("email") or "[Email]"]
         return " | ".join(parts)
     out = re.sub(r"\[Name\] \| \[Company\] \| \[Phone\] \| \[Email\](?: \| \[License # if any\])?", oneline, out)
     if person:
@@ -64,7 +77,7 @@ def fill(text, b):
         out = out.replace("[Owner name / company]", ", ".join(x for x in (person, b.get("legal_name")) if x))
     if b.get("mailing_address"):
         out = out.replace("[mailing address]", b["mailing_address"])
-    contact = " · ".join(x for x in (b.get("phone"), b.get("email")) if x)
+    contact = contact_line(b)
     if contact:
         out = re.sub(r"\[phone ?/ ?email\]", contact, out)
     return out

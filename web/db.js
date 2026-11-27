@@ -116,4 +116,16 @@ const browse = {
   syncs: async () => ro('select at, slice, git_commit, datasets, rows, rows_changed, files_changed, docs_changed from sync_runs order by id desc limit 50'),
 };
 
-module.exports = { getData, status, browse, enabled: () => !!URL_, lastError: () => lastError };
+// Contact requests from the public page's form (owner decision 2026-11-27). The runner moves new ones into
+// pipeline/inbox/ for the Reply Desk (runner/contacts.mjs) and marks them exported.
+const saveContact = async (c) => {
+  const p = getPool();
+  if (!p) throw new Error('no database');
+  await p.query(`create table if not exists contact_requests (id bigserial primary key, created_at timestamptz not null default now(),
+    topic text not null, name text not null, email text not null, property text, message text not null, ip_hash text, exported_at timestamptz)`);
+  const r = await p.query('insert into contact_requests (topic, name, email, property, message, ip_hash) values ($1,$2,$3,$4,$5,$6) returning id',
+    [c.topic, c.name, c.email, c.property || null, c.message, c.ipHash || null]);
+  return r.rows[0].id;
+};
+
+module.exports = { getData, status, browse, saveContact, enabled: () => !!URL_, lastError: () => lastError };

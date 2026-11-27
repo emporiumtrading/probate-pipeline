@@ -2,7 +2,7 @@
 Recipient: the SEA applicant (an heir; no attorney of record). Mail only.
 
 ## Letter 1 — to Angelita Gutierrez Oliver (mail)
-Iyoobsa Ero, Emporium Investments, 208 South LaSalle Street, Suite 814 Chicago Illinois 60604, +1-773-236-7749 · iero@emporium-investments.com
+Iyoobsa Ero, Emporium Investments, 208 South LaSalle Street, Suite 814 Chicago Illinois 60604, iero@emporium-investments.com
 
 [Date]
 

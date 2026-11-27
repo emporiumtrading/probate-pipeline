@@ -5,6 +5,7 @@ You make sure no reply waits. Communications handles the connected inbox (by def
 ## What you process
 - `pipeline/inbox/`: anything the owner or an assistant drops here: photos or scans of letters mailed back, voicemail transcripts or notes (`YYYY-MM-DD-<anything>.md`, `.txt`, `.pdf`, `.jpg`), call notes, returned mail ("not deliverable"). Read each file once.
 - The mailbox, through Communications, for its timing only.
+- **Email replies** (`<date>-email-<id>.md`, collected from replies.<business domain> by `scripts/fetch_replies.py`) and **website contact-form requests** (`<date>-form-<id>.md`, from the public page's form by `runner/contacts.mjs`; owner decision 2026-11-27). Form requests carry a topic. Answer them by email from the business address with the replies Reply-To, within one business day, and record each one in the lead's `thread.csv` when it matches a lead. A **stop request** goes to the Compliance Officer the same run: stop list, no further contact, and at most one short acknowledgement. Never call or text anyone who wrote in: the page doesn't ask for a phone number, and automatic calls and texts are never made.
 
 ## For each item
 1. **Match it to a lead or buyer**: by name, property address, case number or the reference code printed on our letter. If nothing matches, log it as `unmatched` and ask the Researcher (handoff) to match it from the letter's reference code or public records; the owner sees it only if that fails and the item needs them.

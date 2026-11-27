@@ -6,7 +6,7 @@
 Iyoobsa Ero, Manager - Emporium Investments
 Emporium Investments
 208 South LaSalle Street, Suite 814 Chicago Illinois 60604
-+1-773-236-7749 · iero@emporium-investments.com
+iero@emporium-investments.com
 
 2026-11-__
 
@@ -27,7 +27,7 @@ If your client and the family decide to sell the house on Flounder Dr, I'd be gl
 
 To be upfront: I am an investor buying for my own account, not a licensed real estate agent, and I don't represent the estate or the heirs. I may assign my purchase contract to another buyer before closing and may receive a fee from that buyer. The family is welcome to have you review anything before signing.
 
-If the family plans to keep or list the house, that's completely fine. You can reach me at +1-773-236-7749 · iero@emporium-investments.com; if you'd prefer I not follow up, just let me know and I won't.
+If the family plans to keep or list the house, that's completely fine. You can reach me at iero@emporium-investments.com; if you'd prefer I not follow up, just let me know and I won't.
 
 Sincerely,
 Iyoobsa Ero

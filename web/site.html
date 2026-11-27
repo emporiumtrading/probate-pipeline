@@ -28,10 +28,19 @@
   .grid span, .small { color:var(--mute); font-size:14px; }
   section { margin:40px 0; }
   .card { background:rgba(255,255,255,.045); border:1px solid var(--line); border-radius:16px; padding:26px 28px; }
-  .contact { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  .cform { display:grid; gap:14px; max-width:720px; }
+  .cform label { display:grid; gap:6px; font-size:14px; color:#cdd5e2; }
+  .cform input, .cform select, .cform textarea { font:inherit; font-size:15px; padding:11px 12px; border-radius:10px; border:1px solid rgba(255,255,255,.18); background:rgba(8,14,24,.6); color:var(--paper); }
+  .cform input:focus, .cform select:focus, .cform textarea:focus { outline:none; border-color:var(--gold); box-shadow:0 0 0 3px rgba(200,164,90,.2); }
+  .cform .two { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  .cform button { justify-self:start; padding:12px 26px; border:0; border-radius:10px; font-weight:600; font-size:15px; cursor:pointer; color:#1a1406; background:linear-gradient(180deg,var(--gold-2),var(--gold)); }
+  .cform .hp { position:absolute; left:-9999px; }
+  .ok, .err { padding:10px 14px; border-radius:10px; margin:0 0 14px; }
+  .ok { background:rgba(60,141,90,.15); border:1px solid rgba(60,141,90,.5); }
+  .err { background:rgba(240,163,163,.1); border:1px solid rgba(240,163,163,.4); }
   a { color:var(--gold-2); }
   footer { border-top:1px solid rgba(255,255,255,.06); padding:22px 0 34px; margin-top:50px; }
-  @media (max-width:760px) { .grid, .contact { grid-template-columns:1fr; } }
+  @media (max-width:760px) { .grid, .cform .two { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
@@ -50,12 +59,31 @@
     <p>We may buy the home ourselves, or we may arrange for another investor to buy it under our contract. We tell you which in writing before you sign anything, along with any disclosures your state requires.</p>
     <p class="small">We are not real-estate agents or attorneys and we don't give legal or tax advice. Please talk to the estate's attorney before you sign.</p>
   </section>
-  <section class="card contact" id="contact">
-    <div><h2>Contact us</h2>
-      <p>{{legal_name}}<br>{{mailing_address}}</p>
-      <p>Phone: <a href="tel:{{phone_tel}}">{{phone}}</a><br>Email: <a href="mailto:{{email}}">{{email}}</a></p></div>
-    <div><h2>Stop hearing from us</h2>
-      <p>Email <a href="mailto:{{email}}?subject=Remove">{{email}}</a> with the subject "Remove", or call us, and include the name and address on the letter. We stop all contact about that property right away.</p></div>
+  <section class="card" id="contact">
+    <h2>Contact us</h2>
+    <p class="small">{{legal_name}} · {{mailing_address}}</p>
+    {{form_msg}}
+    <form method="post" action="/contact#contact" class="cform">
+      <label>What is this about?
+        <select name="topic" required>
+          <option value="">Choose one…</option>
+          <option value="selling">I inherited a home and may want to sell</option>
+          <option value="estate">I'm an attorney or personal representative for an estate</option>
+          <option value="letter">I received a letter from you</option>
+          <option value="buyer">I'm a cash buyer or investor</option>
+          <option value="stop">Please stop contacting me</option>
+          <option value="other">Something else</option>
+        </select></label>
+      <div class="two">
+        <label>Your name<input name="name" maxlength="120" required autocomplete="name"></label>
+        <label>Your email<input name="email" type="email" maxlength="160" required autocomplete="email"></label>
+      </div>
+      <label>Property address (if it's about a property)<input name="property" maxlength="200" autocomplete="street-address"></label>
+      <label>Message<textarea name="message" rows="5" maxlength="3000" required placeholder="If you received a letter, please include the name and address on it."></textarea></label>
+      <label class="hp" aria-hidden="true">Leave this empty<input name="website" tabindex="-1" autocomplete="off"></label>
+      <button type="submit">Send</button>
+      <p class="small">Choosing "Please stop contacting me" ends all contact about that property. We use what you send only to answer you.</p>
+    </form>
   </section>
 </main>
 <footer><div class="wrap small">© {{year}} {{legal_name}} · {{mailing_address}}</div></footer>

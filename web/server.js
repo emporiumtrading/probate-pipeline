@@ -121,11 +121,37 @@ const business = () => {
   return out;
 };
 const esc = (v) => String(v || '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const site = () => {
+const site = (msg = '', ok = false) => {
   const b = business();
-  const v = { legal_name: b.legal_name || 'Emporium Investments', mailing_address: b.mailing_address, phone: b.phone,
-    phone_tel: (b.phone || '').replace(/[^\d+]/g, ''), email: b.email, year: new Date().getUTCFullYear() };
-  return fs.readFileSync(path.join(__dirname, 'site.html'), 'utf8').replace(/\{\{(\w+)\}\}/g, (_, k) => esc(v[k]));
+  const v = { legal_name: b.legal_name || 'Emporium Investments', mailing_address: b.mailing_address, year: new Date().getUTCFullYear() };
+  return fs.readFileSync(path.join(__dirname, 'site.html'), 'utf8').replace(/\{\{(\w+)\}\}/g, (_, k) =>
+    k === 'form_msg' ? (msg ? `<p class="${ok ? 'ok' : 'err'}" role="status">${esc(msg)}</p>` : '') : esc(v[k]));
+};
+// The public contact form (owner decision 2026-11-27): no phone or email on the page; requests are saved to the
+// private database and reach the Reply Desk through the next run. Spam guards: a hidden field, 5 per visitor an hour.
+const TOPICS = { selling: 'Inherited a home, may sell', estate: 'Attorney or personal representative', letter: 'Received a letter',
+  buyer: 'Cash buyer or investor', stop: 'Please stop contacting me', other: 'Something else' };
+const sent = new Map();
+const contactPost = async (req, res) => {
+  const page = (code, msg, ok) => { res.writeHead(code, { 'Content-Type': MIME['.html'], 'Cache-Control': 'no-store', ...SITE_HEADERS }); res.end(site(msg, ok)); };
+  const ip = clientIp(req);
+  const recent = (sent.get(ip) || []).filter((t) => t > Date.now() - 3600000);
+  if (recent.length >= 5) return page(429, 'Thanks, we have your messages. Please wait a little before sending another.');
+  const f = await readForm(req);
+  if (f.website) return page(200, 'Thank you. We will get back to you by email.', true);   // bots fill the hidden field
+  const clean = (v, n) => String(v || '').replace(/[\u0000-\u0008\u000b-\u001f]/g, '').trim().slice(0, n);
+  const c = { topic: TOPICS[f.topic] ? f.topic : '', name: clean(f.name, 120), email: clean(f.email, 160), property: clean(f.property, 200), message: clean(f.message, 3000) };
+  if (!c.topic || !c.name || !c.message || !/^[^@\s]+@[^@\s]+\.[A-Za-z]{2,}$/.test(c.email)) return page(400, 'Please choose a topic and fill in your name, a valid email and a message.');
+  try {
+    c.ipHash = crypto.createHash('sha256').update('contact|' + ip).digest('hex').slice(0, 16);
+    const id = await db.saveContact(c);
+    sent.set(ip, [...recent, Date.now()]);
+    console.log(`contact request ${id}: ${c.topic}`);
+    return page(200, c.topic === 'stop' ? 'Understood. We will stop all contact about that property and won\'t write again.' : 'Thank you. We will get back to you by email, usually within one business day.', true);
+  } catch (e) {
+    console.error('contact request failed:', e.message);
+    return page(500, 'Sorry, your message could not be saved just now. Please try again in a few minutes.');
+  }
 };
 const SITE_HEADERS = { ...SEC_HEADERS, 'Referrer-Policy': 'strict-origin-when-cross-origin' };
 const publicSite = (req, res, p) => {
@@ -138,6 +164,7 @@ const publicSite = (req, res, p) => {
   }
   if (p === '/brand.svg') { safe(res, __dirname, 'brand.svg'); return true; }
   if (p === '/robots.txt') { send(res, 200, 'User-agent: *\nAllow: /\n'); return true; }
+  if (p === '/contact' && req.method === 'POST') { contactPost(req, res); return true; }
   // Anything else (old dashboard bookmarks, /login, /api/...) belongs to the dashboard's own address.
   res.writeHead(301, { Location: APP_URL + req.url, ...SITE_HEADERS }); res.end(); return true;
 };

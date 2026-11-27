@@ -27,6 +27,7 @@ import { runAgent } from './agent.mjs';
 import { syncDeploys } from './deploy.mjs';
 import { syncDb } from './dbsync.mjs';
 import { restoreWorkcache, saveWorkcache } from './workcache.mjs';
+import { pullContacts } from './contacts.mjs';
 
 const SLICE = process.argv[2] || 'a';
 const PIPELINE_REPO = process.env.PIPELINE_REPO || 'emporiumtrading/probate-pipeline';
@@ -130,6 +131,7 @@ console.log(`full autonomy: ${FULL ? 'on' : 'off'}`);
 { const c = spawnSync('python3', ['runner/channels.py'], { cwd: WORK, env: agentEnv, encoding: 'utf8' }); process.stdout.write(c.stdout || ''); }
 // Email replies received on replies.<domain> go into pipeline/inbox/ for the Reply Desk (scripts/fetch_replies.py).
 if (process.env.RESEND_API_KEY) { const c = spawnSync('python3', ['scripts/fetch_replies.py'], { cwd: WORK, env: agentEnv, encoding: 'utf8' }); process.stdout.write((c.stdout || '') + (c.stderr || '').slice(0, 300)); }
+try { console.log(await pullContacts(WORK)); } catch (e) { console.log('contacts: failed', e.message); }
 
 const wl = JSON.parse(spawnSync('python3', ['runner/workload.py', SLICE], { cwd: WORK, encoding: 'utf8' }).stdout || '{"level":"light"}');
 console.log('workload:', JSON.stringify(wl));

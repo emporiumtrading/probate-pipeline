@@ -17,7 +17,7 @@ I can buy the house as-is with no repairs or cleanout, cover normal closing cost
 If the executor isn't interested, or would prefer I not follow up, just let me know and I won't contact the estate again.
 
 Sincerely,
-Iyoobsa Ero | Emporium Investments | +1-773-236-7749 | iero@emporium-investments.com
+Iyoobsa Ero | Emporium Investments | iero@emporium-investments.com
 
 ## Call script (Day 7–10, attorney's office only)
 "Hi, this is Iyoobsa Ero, a real-estate investor. I wrote to Mr. Rathburn about the Estate of John Brandt, 1272 Moler Road. Is he available? … I wanted to ask whether the executor is open to an as-is offer, and whether the sale would be under the will or need court approval. Full disclosure: I'm a wholesaler and may assign the contract; I'd give the Ohio 5301.95 disclosure before anything is signed. Would a short written summary of my numbers help?"

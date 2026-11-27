@@ -1,7 +1,7 @@
 # Outreach drafts — tx-harris-549060 (DRAFTS ONLY — nothing sent; hold until letters testamentary issue; owner approval + Compliance check required)
 
 ## Letter 1 — to the estate's attorney (mail)
-Iyoobsa Ero, Emporium Investments, 208 South LaSalle Street, Suite 814 Chicago Illinois 60604, +1-773-236-7749 · iero@emporium-investments.com
+Iyoobsa Ero, Emporium Investments, 208 South LaSalle Street, Suite 814 Chicago Illinois 60604, iero@emporium-investments.com
 
 [Date]
 

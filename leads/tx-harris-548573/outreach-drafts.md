@@ -2,7 +2,7 @@
 Note: the applicant has no attorney of record (pro se), so the first letter goes to her directly by mail. Do not send before the owner and Compliance approve; do not call or text.
 
 ## Letter 1 — to the applicant (mail)
-Iyoobsa Ero, Emporium Investments, 208 South LaSalle Street, Suite 814 Chicago Illinois 60604, +1-773-236-7749 · iero@emporium-investments.com
+Iyoobsa Ero, Emporium Investments, 208 South LaSalle Street, Suite 814 Chicago Illinois 60604, iero@emporium-investments.com
 
 [Date]
 
