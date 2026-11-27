@@ -21,6 +21,8 @@ const NAMES = (process.env.RUNNER_SERVICES || 'probate-slice-a,probate-slice-b,p
 const HERMES = process.env.HERMES_SERVICE || 'probate-hermes';
 const HERMES_FORBIDDEN = ['RENDER_API_KEY', 'DATABASE_URL', 'RESEND_API_KEY', 'LOB_API_KEY', 'DOCUSEAL_API_KEY', 'PROXYPICS_API_KEY'];
 
+// The provider's own reason for refusing a key, shown to the owner on the Setup page (never the key itself).
+const why = async (r) => { try { const j = await r.json(); const m = (j.error && (j.error.message || j.error)) || j.message || j.error_description || ''; return m ? `: ${String(m).replace(/[.\s]+$/, "").slice(0, 160)}` : ''; } catch { return ''; } };
 const KEYS = {
   ANTHROPIC_API_KEY: { label: 'Claude (Anthropic)', check: async (v) => {
     const r = await fetch('https://api.anthropic.com/v1/models?limit=1', { headers: { 'x-api-key': v, 'anthropic-version': '2023-06-01' }, signal: AbortSignal.timeout(20000) });
@@ -38,16 +40,34 @@ const KEYS = {
     const r = await fetch('https://openrouter.ai/api/v1/key', { headers: { Authorization: `Bearer ${v}` }, signal: AbortSignal.timeout(20000) });
     return r.ok ? null : `OpenRouter answered ${r.status}`; } },
   // Services the workers send and sign through (the runner tests them and switches the channel on).
+  // A full-access key is checked against its domains; a sending-only key (Resend's "restricted_api_key") can't list
+  // domains, so it is checked by an empty send, which Resend rejects as invalid (422) without sending anything.
   RESEND_API_KEY: { label: 'Email (Resend)', service: true, check: async (v) => {
-    const r = await fetch('https://api.resend.com/domains', { headers: { Authorization: `Bearer ${v}` }, signal: AbortSignal.timeout(20000) });
-    return r.ok ? null : `Resend answered ${r.status}`; } },
+    const h = { Authorization: `Bearer ${v}`, 'Content-Type': 'application/json' };
+    const r = await fetch('https://api.resend.com/domains', { headers: h, signal: AbortSignal.timeout(20000) });
+    if (r.ok) return null;
+    const j = await r.json().catch(() => ({}));
+    if (/restricted/i.test(`${j.name} ${j.message}`)) {
+      const s = await fetch('https://api.resend.com/emails', { method: 'POST', headers: h, body: '{}', signal: AbortSignal.timeout(20000) });
+      if (s.status === 422 || s.status === 400) return null;   // the key is accepted; the empty email is (rightly) refused
+      return `Resend answered ${s.status} to a sending-only key${await why(s)}`;
+    }
+    return `Resend answered ${r.status}${j.message ? `: ${j.message}` : ''}. Copy the key again from Resend → API Keys (it starts with re_).`; } },
   LOB_API_KEY: { label: 'Letters by mail (Lob)', service: true, check: async (v) => {
-    const r = await fetch('https://api.lob.com/v1/addresses?limit=1', { headers: { Authorization: 'Basic ' + Buffer.from(v + ':').toString('base64') }, signal: AbortSignal.timeout(20000) });
-    if (!r.ok) return `Lob answered ${r.status}`;
-    return v.startsWith('live_') ? null : 'that is a Lob test key; letters only go out with a live_ key'; } },
+    if (/^(live|test)_pub_/.test(v)) return 'that is a Lob publishable key (…_pub_…). Paste the Secret API key from Lob → Settings → API Keys: it starts with live_ (no "pub")';
+    if (!v.startsWith('live_')) return 'that is a Lob test key; letters only go out with the Live Secret key (starts with live_)';
+    const auth = { Authorization: 'Basic ' + Buffer.from(v + ':').toString('base64') };
+    const r = await fetch('https://api.lob.com/v1/addresses?limit=1', { headers: auth, signal: AbortSignal.timeout(20000) });
+    if (r.ok) return null;
+    // Lob: a live key works only for address verification until the account has a payment method on file.
+    const u = await fetch('https://api.lob.com/v1/us_verifications', { method: 'POST', headers: { ...auth, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ primary_line: '208 S LaSalle St', city: 'Chicago', state: 'IL', zip_code: '60604' }), signal: AbortSignal.timeout(20000) });
+    // 403 means Lob knows the key but the account isn't billable yet (no billing address or payment method); 401 means a wrong key.
+    if (u.ok || u.status === 403) return { note: 'Key accepted. Lob mails letters only once your Lob account has a billing address and payment method: add them in Lob → Settings → Account/Billing, and the next run switches letters on.' };
+    return `Lob answered ${u.status}${await why(u)}. In Lob → Settings → API Keys, copy the Live Secret key (starts with live_, not live_pub_) with its Copy button`; } },
   DOCUSEAL_API_KEY: { label: 'E-signature (DocuSeal)', service: true, check: async (v) => {
     const r = await fetch('https://api.docuseal.com/templates?limit=1', { headers: { 'X-Auth-Token': v }, signal: AbortSignal.timeout(20000) });
-    return r.ok ? null : `DocuSeal answered ${r.status}`; } },
+    return r.ok ? null : `DocuSeal answered ${r.status}${await why(r)}. Copy the key from DocuSeal → Settings → API`; } },
   // Field inspections (owner decision 2026-11-27): ProxyPics, nationwide photo and property-data collection. Checked with a
   // read-only call (the account's order templates); orders cost money and are placed only by the Field Inspections worker.
   PROXYPICS_API_KEY: { label: 'Field inspections (ProxyPics)', service: true, check: async (v) => {
@@ -153,18 +173,20 @@ const setKey = async (name, value) => {
   if (!KEYS[name]) return { ok: false, error: 'unknown key' };
   if (!RENDER_KEY) return { ok: false, error: 'RENDER_API_KEY is not set on the dashboard service yet' };
   const svcs = await runnerServices();
+  let note = '';
   if (value) {
     value = String(value).trim();
     if (!/^[\x21-\x7e]{16,400}$/.test(value)) return { ok: false, error: 'that doesn\'t look like an API key' };
     let bad;
     try { bad = await KEYS[name].check(value); } catch (e) { bad = `couldn't reach the provider to check it (${e.name})`; }
+    if (bad && typeof bad === 'object') { note = bad.note || ''; bad = null; }   // accepted, with something the owner should know
     if (bad) return { ok: false, error: bad };
     for (const s of svcs) if (!(s.name === HERMES && HERMES_FORBIDDEN.includes(name))) await render('PUT', `/services/${s.id}/env-vars/${name}`, { value });
   } else {
     for (const s of svcs) await render('DELETE', `/services/${s.id}/env-vars/${name}`);
   }
   await redeploy(svcs);
-  return { ok: true, last4: value ? value.slice(-4) : '' };
+  return { ok: true, last4: value ? value.slice(-4) : '', note: typeof note === 'string' ? note : '' };
 };
 
 // On boot, share the key with the runner jobs without waiting for someone to open the page.

@@ -58,7 +58,7 @@
       save.disabled = true; msgEl.textContent = 'Checking the key with the provider…';
       const r = await api('/api/ai/key', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ name: eng.key, value: inp.value.trim() }) });
       inp.value = ''; save.disabled = false;
-      msgEl.textContent = r.ok ? `Saved on the runners (ending …${r.j.last4}). They redeploy and use it from the next run.` : `Not saved: ${(r.j && r.j.error) || r.status}`;
+      msgEl.textContent = r.ok ? `Saved on the runners (ending …${r.j.last4}). They redeploy and use it from the next run.${r.j.note ? ' ' + r.j.note : ''}` : `Not saved: ${(r.j && r.j.error) || r.status}`;
       if (r.ok) { refresh(); window.dispatchEvent(new Event('pp-setup-saved')); }
     } });
     const del = k.set ? h('button', { type: 'button', class: 'pp-btn', text: 'Remove', onclick: async () => {
