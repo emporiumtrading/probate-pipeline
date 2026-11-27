@@ -45,6 +45,10 @@ try:
 except FileNotFoundError:
     pass
 
+# State rules still unknown (legal/state-rules.csv; owner request 2026-11-27): shown in the run's notes so the
+# report and Hermes can see the Legal Advisor's backlog. It doesn't change the level: slices A and B are already heavy.
+rules_gaps = sum(1 for r in rows("legal/state-rules.csv") if "unknown" in r.values() or r.get("rules_status") == "not_started")
+
 out = {
     "slice": SLICE,
     "handoffs": len(work),
@@ -56,6 +60,7 @@ out = {
     "inbox": len(inbox),
     "failedRecent": len(failed_recent),
     "brokenSources": broken_sources,
+    "stateRulesGaps": rules_gaps,
 }
 # light: routine; heavy: deep-dives, negotiation, repairs, or a big queue.
 heavy = (SLICE in ("a", "b") or out["negotiation"] or out["urgent"] or out["escalated"] or out["inbox"]
