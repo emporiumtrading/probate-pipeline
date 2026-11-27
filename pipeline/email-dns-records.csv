@@ -1,4 +1,6 @@
 domain,domain_status,record,name,type,value,priority,status
+replies.emporium-investments.com,not_started,DKIM,resend._domainkey.replies,TXT,p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDBXNHHZFnxiRdKxwoieBfTiz1/Dkff29fE5K01Do5sjQEy/g6fVhl5ppMM0k6c5rWwwkxrLrzMRboWEejtqd3s65CtyAwU0IFpbuNe4hCE5ACoxeSeHZYmaaELjMwd7hYB3fD1V24JgpcjDLF+F7nC+mIoettJJF1FCLkfHHIF9wIDAQAB,,not_started
+replies.emporium-investments.com,not_started,Receiving,replies,MX,receive.forge.rmta.net,10,pending
 emporium-investments.com,pending,DKIM,resend._domainkey,TXT,p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDdK5u1l6ucV5fkm6wolLQQ4j66WtCpn34BWe9oGP7yf+qw2GQYhA4LtvpKC8KG8txQwppem4LC/u+cJShkMUqpKbuNjnWF4/i49I14rQcA1NhaUQPb8SJy5NhsEVl6f0SdipAKkcqnfbF7HrOE3+/zlvUcRD+P5f7ke+h/NMflhQIDAQAB,,pending
 emporium-investments.com,pending,SPF,rsend,CNAME,rsend.forge.rmta.net,,pending
-emporium-investments.com,pending,SPF,send,CNAME,send.forge.rmta.net,,pending
+emporium-investments.com,pending,SPF,send,CNAME,send.forge.rmta.net,,verified
