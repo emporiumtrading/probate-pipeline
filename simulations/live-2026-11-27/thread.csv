@@ -1,0 +1,19 @@
+at,dir,channel,who,worker,stage,text,note
+2026-11-27,in,Website,SIMULATION Test Visitor (website form),live simulation,SIMULATION,"I inherited a house and may want to sell. (topic: Inherited a home, may sell)",HTTP 200
+2026-11-27,out,Resend,delivered@resend.dev (Resend test inbox),live simulation,SIMULATION,"SIMULATION. This is how an outreach email looks. Dear Counsel, I'm a real-estate investor and saw the estate filing. If the family decides to sell, I'd be glad to make an as-is offer. I am an investor buying for my own account, not a licensed agent, and may assign my contract to another buyer. If you'd prefer I not follow up, just reply 'stop'.",HTTP 200 {'id': '01a21bd8-8111-7d9a-839c-27877db8f29b'}
+2026-11-27,in,Resend,Simulated estate counsel,live simulation,SIMULATION,SIMULATION reply as if from estate counsel: Thank you for your letter. The family is open to selling the house. Letters were issued last week. What would you need from us? Please reply only to this test address.,HTTP 200 {'id': '01a21bd8-81ab-7488-8ccb-112cf0c86293'}. The Reply Desk picks it up from pipeline/inbox/ once replies.emporium-investments.com receiving is verified.
+2026-11-27,internal,Resend,,live simulation,SIMULATION,receiving inbox readable: PASS,HTTP 200; 0 received emails visible so far
+2026-11-27,internal,Lob,,live simulation,SIMULATION,address verification (business address): PASS,HTTP 200 deliverability=deliverable
+2026-11-27,out,Lob,Emporium Investments (own address),live simulation,SIMULATION,"<html><body style='font-family:Georgia;font-size:12pt;padding:1in'><p><b>SIMULATION TEST LETTER (cancelled before mailing)</b></p><p>Dear Counsel,</p><p>I'm a real-estate investor. If the family decides to sell, I'd be glad to make an as-is offer. I am an investor buying for my own account, not a licensed agent, and may assign my contract to another buyer.</p><p>Sincerely,<br>Iyoobsa Ero<br>Emporium Investments<br>iero@emporium-investments.com</p></body></html>","HTTP 403 id=None price= expected_delivery= {
+    ""error"": {
+        ""message"": ""Your account's Print & Mail Edition does not allow you to add more Scheduled Mailings. Upgrade here: https://dashboard.lob.com/#/settings/editions"",
+        ""status_code"": 403,
+        ""code"": ""feature_limit_reached""
+    }
+}"
+2026-11-27,internal,DocuSeal,,live simulation,SIMULATION,test agreement template created: PASS,HTTP 200 id=7170838 
+2026-11-27,out,DocuSeal,SIMULATION Seller (no email sent),live simulation,SIMULATION,Purchase agreement signing request (simulated).,HTTP 200 submission=14137398 signing link issued
+2026-11-27,internal,DocuSeal,,live simulation,SIMULATION,signing request archived: PASS,HTTP 200
+2026-11-27,internal,DocuSeal,,live simulation,SIMULATION,test template archived: PASS,HTTP 200
+2026-11-27,internal,ProxyPics,,live simulation,SIMULATION,packages readable; custom 'Probate condition check' present: PASS,"31215 | Probate condition check | 12 tasks | crowdsource | 45.00 /    360 | Thaddeus - Front, Front Angled, Street + AVM (3 Photos w/ Value/Comps) | 3 tasks | crowdsource | 60.00 /    356 | Front Angled Photo, FHA (1 Photo) | 1 tasks | crowdsource | 15.00 /   1081 | PDR (Question Reduction) | 11 tasks | crowdsource | 150.00 /    355 | Front Photo (1 Photo) | 1 tasks | crowdsource | 15.00 /    357 | Front & Street Photo (2 Photos) | 2 tasks | crowdsource | 15.00 /   1288 | V2 PDR | 11 tasks | crowdsource | 207.00 /   2824 | PDC V6 - Fannie Mae | 15 tasks | crowdsource | 1310.00"
+2026-11-27,internal,ProxyPics,,live simulation,SIMULATION,price guard: PASS,custom package $45.00 orderable; PDC V6 $1310.00 refused. No order placed (no card on file; an order costs money).

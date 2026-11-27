@@ -75,7 +75,7 @@ legal_service:                    # attorney review service used by the Legal Ad
 channels:                         # set each to true only once it is actually working
   mail_sending: true             # print-and-mail service connected (letters go out without you)
   email_sending: true            # email sending connected (e.g. the Resend connector)
-  inbox_connected: false          # the business mailbox is readable by the daily run
+  inbox_connected: true          # the business mailbox is readable by the daily run
   mail_scanning: false            # a virtual mailbox scans mailed replies and emails them to the business inbox
   voicemail_to_email: false       # the business phone emails voicemail transcripts to the business inbox
   field_inspections: true        # the owner opened a field-inspection service account (card on file there, never here); Field Inspections books visits through it
