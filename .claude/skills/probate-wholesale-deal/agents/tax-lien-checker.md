@@ -30,3 +30,6 @@ You are `tax-lien-checker` on the team handoff board (`scripts/handoffs.py`; rul
 Every run, follow `references/self-review.md`: predict your output and yield from your measured rate, compare, find the cause of any gap, change one thing, and log one row in `pipeline/self-review.csv`. Your yield is your row in the dashboard's workers data (results ÷ work done).
 
 ## Learned
+
+## State rules (owner request 2026-11-27)
+Fill `redemption_after_sale` in `pipeline/tax-delinquent.csv` from `python3 scripts/state_rules.py show <STATE>` (`tax_redemption_after_sale`); if it's unknown, ask the Legal Advisor on the handoff board.

@@ -72,3 +72,11 @@ Every run, follow `references/self-review.md`: predict your output and yield fro
 
 ## Tax sales and redemption (owner decision 2026-11-27)
 For each state with a live market, add a **Tax sales** section to `legal/<STATE>.md`: tax lien certificate or tax deed state; when the sale happens; whether and how long the owner or heirs can redeem after a sale; what an heir or estate needs to pay off the taxes (who may pay, payment plans); and whether a sale wipes out the estate's equity. Mark each point verified (with the statute or treasurer page) or unverified, and add a row for it to the attorney packet. The Tax & Lien Checker uses it to fill `redemption_after_sale`.
+
+## State rules table (owner request 2026-11-27)
+You own `legal/state-rules.csv`: one row per state + DC, the summary every worker and script reads (`scripts/state_rules.py show <ST>`). Each run:
+1. `python3 scripts/state_rules.py seed` (adds any state missing; never overwrites).
+2. For every live market's state first, then the expansion queue in order, replace `unknown` values with what the state's legal file shows, using `python3 scripts/state_rules.py set <ST> field=value ... sources="legal/<ST>.md §…"`. Never fill a value from memory or a secondary summary alone; if only a secondary source exists, leave it `unknown` and say so in the legal file.
+3. Set `rules_status`: `partial` while any value is unknown, `verified` once every value is read from a primary source (statute, commission or court page), `attorney_approved` once the engaged attorney confirms that state's packet.
+4. Re-check a state when its `last_verified` is older than `legal_recheck_days` or a new law is reported, and update both the legal file and the row the same day.
+5. Add a row for each state rule a worker asked about on the handoff board, if it isn't covered: put it in `notes` and raise a handoff to the owner of `scripts/state_rules.py` (via `exceptions-desk`) if it needs its own field.

@@ -222,6 +222,26 @@ for r in trk:
     ok_on = _dt.date(d.year + y, mo + 1, min(d.day, 28))
     if today < ok_on:
         fails.append(f"{r['lead_id']}: tax-delinquent lead at '{r['stage']}' before the {td_months}-month wait ends ({ok_on})")
+# ---- state rules (legal/state-rules.csv; owner request 2026-11-27): every worker and script reads the same rules ----
+import importlib.util as _ilu
+_sp = _ilu.spec_from_file_location("state_rules", os.path.join(ROOT, "scripts", "state_rules.py"))
+_sr = _ilu.module_from_spec(_sp); _sp.loader.exec_module(_sr)
+_srows = _sr.load()
+fails.extend(_sr.check(_srows))
+_srule = {x["state"]: x for x in _srows}
+for r in trk:
+    st, stg = (r.get("state") or "").upper(), r.get("stage") or ""
+    rule = _srule.get(st, {})
+    if stg in ("Researched", "Dead", "", "Outreach drafted"):
+        continue
+    if rule.get("rules_status", "not_started") == "not_started":
+        fails.append(f"{r['lead_id']}: at '{stg}' but {st} has no state rules yet (legal/state-rules.csv): research only")
+    if (r.get("lead_type") or "") == "tax_delinquent_inherited" and rule.get("tax_sale_type", "unknown") == "unknown":
+        fails.append(f"{r['lead_id']}: tax-delinquent lead at '{stg}' but {st}'s tax-sale rules are unknown")
+for m in re.findall(r"\n  - id: (\S+)\n(?:    .*\n)*?    state: (\w\w)", cfg):
+    _u = [k for k in _sr.LABEL if _srule.get(m[1], {}).get(k, "unknown") == "unknown"]
+    if _u:
+        warns.append(f"state rules: live market {m[0]} ({m[1]}) still has {len(_u)} unknown rules: {', '.join(_u[:4])}{'…' if len(_u) > 4 else ''}")
 missing_dod = sum(1 for r in trk if r.get("stage") not in ("Researched", "Dead", "") and not (r.get("date_of_death") or "").strip())
 if missing_dod:
     warns.append(f"{missing_dod} active leads have no date_of_death yet (the wait is counted from the filing date until it's found)")

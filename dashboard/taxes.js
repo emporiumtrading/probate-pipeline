@@ -35,4 +35,13 @@
   dash.draw('txCountyRows', (tb) => PP.rows(tb, 'tax_counties', [{ f: 'state' }, { f: 'county' },
     { f: 'list_status', chip: (v) => v === 'Working' ? 'pp-ok' : v === 'Not found yet' ? '' : 'pp-warn' }, { f: 'list_source' },
     { f: 'leads', cls: 'pp-n' }, { f: 'owed', cls: 'pp-n', fmt: (v) => M(+v || 0) }, { f: 'next_sale' }], 'No live counties.'));
+
+  // State rules (Markets & legal page): one row per state + DC from legal/state-rules.csv.
+  dash.draw('srNote', (el) => { const d = dash.data('state_rules'); const rows = d.status === 'ok' ? d.data : [];
+    const done = rows.filter((r) => r.status !== 'Not started').length;
+    txt(el, `${done} of ${rows.length || 51} states have their rules at least partly researched. Every worker checks this table before acting on a lead; "unknown" means the strictest rule is assumed, and a state that isn't started is research only. The Legal Advisor fills it from the sources in each state's legal file, live markets first.`); });
+  const srChip = (v) => v === 'Attorney approved' || v === 'Verified' ? 'pp-ok' : v === 'Partly researched' ? 'pp-warn' : '';
+  dash.draw('srRows', (tb) => PP.rows(tb, 'state_rules', [{ f: 'state' }, { f: 'live' }, { f: 'status', chip: srChip }, { f: 'known' },
+    { f: 'wholesale_license' }, { f: 'wholesale_disclosure' }, { f: 'probate_court_approval' }, { f: 'estate_price_floor' }, { f: 'tax_sale_type' },
+    { f: 'tax_redemption_after_sale' }, { f: 'contact_rules' }, { f: 'last_verified' }], 'No state rules yet.'));
 })();

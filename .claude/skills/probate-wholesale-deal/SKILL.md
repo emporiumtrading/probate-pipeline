@@ -47,6 +47,7 @@ How the teams run together, what workers decide on their own within written limi
 - **Respect the families.** Truthful, low-pressure contact; always disclose that the user is an investor who may assign the contract; no invented urgency; never work heirs against each other.
 - **The owner signs; the system never touches money.** Never ask for, accept, store or use bank account details. Earnest money and payouts go through the title company's escrow; the owner confirms wiring instructions by phone.
 - **Contact compliance.** TCPA consent for texts/auto-dialers, DNC scrubbing, honor stop requests.
+- **Know the state's rules before acting.** Every state has a row in `legal/state-rules.csv` (all 50 + DC): licensing, disclosures, seller cancellation, court approval, price floors, small-estate limits, tax sales and redemption, contact rules. Before any step on a lead, run `python3 scripts/state_rules.py show <STATE>` and follow it; the full write-up with sources is `legal/<STATE>.md`. A rule marked `unknown` means act as the strictest version (the tool prints what to do). A state at `not_started` is research only. Only the Legal Advisor changes the table (`scripts/state_rules.py set`), and only from a source it read; QA checks every value and blocks leads that get ahead of their state's rules.
 - **Separate facts from assumptions.** Label anything not verified from a record or document.
 
 ## Daily scheduled run

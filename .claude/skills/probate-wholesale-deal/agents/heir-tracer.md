@@ -31,3 +31,6 @@ You are `heir-tracer` on the team handoff board (`scripts/handoffs.py`; rules in
 
 ## Self-review
 Every run, follow `references/self-review.md`: predict your output and yield from your measured rate, compare, find the cause of any gap, change one thing, and log one row in `pipeline/self-review.csv`. Your yield is your row in the dashboard's workers data (results ÷ work done).
+
+## State rules (owner request 2026-11-27)
+Run `python3 scripts/state_rules.py show <STATE>` for the small-estate limit and court-approval rule; they decide who can sign.

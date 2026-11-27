@@ -45,3 +45,6 @@ You are `contract-desk` on the team handoff board (`scripts/handoffs.py`; rules 
 Every run, follow `references/self-review.md`: predict your output and yield from your measured rate, compare, find the cause of any gap, change one thing, and log one row in `pipeline/self-review.csv`. Your yield is your row in the dashboard's workers data (results ÷ work done).
 
 ## Learned
+
+## State rules (owner request 2026-11-27)
+Before drafting, run `python3 scripts/state_rules.py show <STATE>`: add the wholesaler disclosure where `wholesale_disclosure` is yes or unknown, honour `seller_cancel_days`, and add a court-approval contingency where `probate_court_approval` isn't `no`.

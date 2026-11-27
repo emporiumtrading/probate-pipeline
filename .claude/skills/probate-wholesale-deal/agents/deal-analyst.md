@@ -39,3 +39,6 @@ Every run, follow `references/self-review.md`: predict your output and yield fro
 
 ## Tax-delinquent leads (owner decision 2026-11-27)
 For any lead with a row in `pipeline/tax-delinquent.csv`, subtract `amount_owed` (plus a month of interest per month until the planned closing) from the price the estate nets, and plan the closing at least 21 days before `tax_sale_date` (or the redemption deadline). If title, probate authority or a buyer can't be in place by then, mark the lead WALK AWAY or nurture, never a rushed offer.
+
+## State rules (owner request 2026-11-27)
+Before numbers on any lead, run `python3 scripts/state_rules.py show <STATE>`. Check the offer against `estate_price_floor`, plan the timeline for `probate_court_approval`, and for tax-delinquent leads use `tax_redemption_after_sale` and `tax_redemption_months` for the deadline. Unknown values: the tool says what to assume.

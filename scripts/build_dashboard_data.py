@@ -746,6 +746,20 @@ write("tax_summary.csv", ["enabled", "wait_months", "leads", "owed", "urgent", "
       [{"enabled": "yes" if _tdon else "no", "wait_months": _tdm, "leads": len(_open), "owed": int(sum(r["amount_owed"] or 0 for r in _open)),
         "urgent": sum(1 for r in _open if r["status"].startswith("Urgent")), "waiting": sum(1 for r in _open if r["status"].startswith(("Waiting", "On hold"))),
         "counties_working": sum(1 for c in _tc if c["list_status"] == "Working"), "counties": len(_tc)}])
+# ---- State rules (legal/state-rules.csv; owner request 2026-11-27): Markets & legal page ----
+import importlib.util as _ilu2
+_sp2 = _ilu2.spec_from_file_location("state_rules", os.path.join(ROOT, "scripts", "state_rules.py"))
+_sr2 = _ilu2.module_from_spec(_sp2); _sp2.loader.exec_module(_sr2)
+_live_states = {m["state"] for m in _live_mk}
+_SRS = {"not_started": "Not started", "partial": "Partly researched", "verified": "Verified", "attorney_approved": "Attorney approved"}
+_srr = []
+for r in _sr2.load():
+    known = sum(1 for k in _sr2.LABEL if r.get(k, "unknown") != "unknown")
+    _srr.append({"state": r["state"], "live": "yes" if r["state"] in _live_states else "", "status": _SRS.get(r["rules_status"], r["rules_status"]),
+                 "known": f"{known} of {len(_sr2.LABEL)}", "known_n": known, "legal_file": r["legal_file"], "last_verified": r["last_verified"],
+                 **{k: r.get(k, "") for k in _sr2.LABEL}})
+_srr.sort(key=lambda r: (r["live"] != "yes", -r["known_n"], r["state"]))
+write("state_rules.csv", ["state", "live", "status", "known", "known_n", "legal_file", "last_verified"] + list(_sr2.LABEL), _srr)
 _bnow = {r["buyer_id"]: r for r in _blist}   # progress made since the pairing was computed shows at once
 write("lead_buyer_matches.csv", ["lead_id", "rank", "buyer_id", "buyer", "fit", "why", "status", "warmth", "standby", "ready_to_buy"],
       [{**{k: m.get(k, "") for k in ("lead_id", "rank", "buyer_id", "buyer", "fit", "why")},
