@@ -1,0 +1,7 @@
+at,dir,channel,who,worker,stage,text,note
+2026-12-02,out,mail,"Joseph Scott Reed, Esq.",Communications,Contacted,"(First letter, as in the main path.)",
+2026-12-16,out,mail,"Joseph Scott Reed, Esq.",Communications,Contacted,"Dear Mr. Reed, a short follow-up to my letter of December 2 about the Simmons estate's house on Ladywood Ct. If the family decides to sell, I'm glad to make an as-is offer timed to the court. If not, no reply is needed.","Day-14 follow-up, touch 2 of 3; Compliance re-checked the stop list first."
+2027-01-13,out,mail,"Joseph Scott Reed, Esq.",Communications,Contacted,"A last note so I don't write more than is welcome: if the family ever wants an as-is offer on the Ladywood Ct house, my details are below. I won't write again unless I hear from you.",Final touch (3 of 3). Contact limit reached.
+2027-01-13,internal,note,,Communications,Nurture,"No reply after 3 letters. Stage → Nurture; no more letters. The Legal Advisor's court watch will flag a sale petition or inventory, the only trigger for one more letter.",
+2027-04-02,internal,note,,Legal Advisor,Nurture,Court watch: PR filed a petition to sell the house. One letter allowed by the nurture rule.,
+2027-04-03,out,mail,"Joseph Scott Reed, Esq.",Communications,Contacted,"I saw the estate may sell the Ladywood Ct house. If an as-is cash offer would help, I'd be glad to make one; otherwise no reply is needed.",Rejoins the main path if counsel replies.

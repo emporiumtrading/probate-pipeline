@@ -4,7 +4,7 @@
   const PP = window.PP;
   const all = () => { const d = dash.data('conversations'); return d.status === 'ok' && Array.isArray(d.data) ? d.data : []; };
   const threads = () => { const m = new Map(); all().forEach((r) => { if (!m.has(r.thread)) m.set(r.thread, r); }); return [...m.values()]; };
-  const label = (r) => `${r.simulation === 'yes' ? 'SIMULATION · ' : ''}${r.address || r.lead_id}${r.city ? ', ' + r.city : ''} ${r.state || ''}`.trim();
+  const label = (r) => `${r.simulation === 'yes' ? 'SIMULATION · ' : ''}${r.address || r.lead_id}${r.scenario ? ' · ' + r.scenario : ''}`.trim();
   const SIDE = { out: 'We sent', in: 'Received', internal: 'Worker step', owner: 'You' };
 
   dash.draw('convSel', (sel) => {
@@ -18,7 +18,7 @@
     if (!rows.length) { el.textContent = 'No conversations yet. Each letter, email, reply and worker step on a lead appears here as it happens.'; return; }
     const c = (d) => rows.filter((r) => r.dir === d).length;
     el.textContent = `${rows.length} steps: ${c('out')} sent, ${c('in')} received, ${c('internal')} worker steps, ${c('owner')} for you` +
-      (rows[0].simulation === 'yes' ? '. This is a simulation: the replies are made up to show how the workers handle a deal from first letter to closing.' : '.');
+      (rows[0].simulation === 'yes' ? '. This is a simulation: the replies are made up to show how the workers handle this path. Pick another scenario above to see the other branches.' : '.');
   });
   dash.draw('convThread', (box) => {
     const t = threads(); const cur = dash.params().conv || (t[0] && t[0].thread);

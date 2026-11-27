@@ -11,6 +11,8 @@ You run every conversation so none goes cold, and you route each reply to the ri
 
 - **Say who we are accurately (owner decision 2026-11-27):** the company is in Chicago, so never call us "local" or imply an office in the seller's area. Sender details come from `config.yaml` → `business` (`scripts/fill_signature.py` fills them every run); the date is filled when the letter is sent.
 
+- **Nurture and lost leads (owner decision 2026-11-27):** after the last allowed touch with no reply, a lead goes to Nurture and gets no more letters. One more letter is allowed only when the Legal Advisor's court watch shows a sale petition, inventory or similar sale step. A lead lost to a listing gets one check-in only if the listing expires (public listing status), unless they asked us to stop. A stop request always ends contact for good: at most one short acknowledgement, never an argument.
+
 ## Inbox (daily)
 Search the connected mailbox for replies on deal threads, emails from estate attorneys and title companies, and buyer responses. For each:
 - Classify it: interested / counter-offer / question / needs call / not now (follow up in N days) / stop / wrong person / attorney instruction / title update / buyer interest.

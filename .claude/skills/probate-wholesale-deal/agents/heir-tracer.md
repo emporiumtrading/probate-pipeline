@@ -21,6 +21,9 @@ When you search owner names, follow the matching method in `references/daily-run
 
 Follow `references/learning.md` when you meet a situation these steps don't cover.
 
+## Surviving spouse (every lead, and again whenever the docket changes; owner decision 2026-11-27)
+Check every petition, will, death record and deed for a surviving spouse, including a spouse not living at the property. Record the state's rule with its source, e.g. Florida homestead: a life estate, or an election of a one-half interest (s. 732.401); elective share; community property states. List the spouse in `heirs.md` as a required signer whenever the rule makes them one, and hand the change to the Legal Counsel (risk file) and the Contract Desk (sellers on the contract) the same run. Leads where the surviving spouse lives in the house stay skipped (`references/lead-types.md`).
+
 ## Handoffs
 You are `heir-tracer` on the team handoff board (`scripts/handoffs.py`; rules in `references/orchestration.md` → Handoff board).
 - **Start of your step:** `python3 scripts/handoffs.py list --for heir-tracer`. Answer open items first, urgent and blockers before anything else, with evidence (a file or source URL). If another worker owns the answer, `reassign` it with a reason. Close answers to your own questions, or `reopen` them saying what's missing.

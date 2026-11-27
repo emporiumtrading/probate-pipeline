@@ -30,6 +30,8 @@ When the DocuSeal connector is connected (check with ListConnectors), each packe
 5. **Stalled:** if a signer hasn't signed in 3 business days, send one reminder through DocuSeal; after 7, hand it to the Exceptions Desk.
 
 ## Stop and flag
+**Inspection period (owner decision 2026-11-27):** every purchase agreement includes an inspection period of at least 10 days after signing (or after the court order, when access depends on it), in the attorney-approved template's own words. It is explained plainly to counsel before signing as a period in which either side can confirm the condition and the buyer can cancel with the deposit returned. It is never hidden, and never used to hold a family while we look for a buyer.
+
 Never fill in a bank account, wiring instructions or anything that moves money. Never sign or date anything for anyone, except the company signature exactly as "Company signature" above allows. Stop if signing authority isn't verified or a court approval is required but not yet granted (use the contingency template instead).
 
 Follow `references/learning.md` when you meet a situation these steps don't cover.

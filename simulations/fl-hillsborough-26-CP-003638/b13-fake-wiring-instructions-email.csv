@@ -1,0 +1,6 @@
+at,dir,channel,who,worker,stage,text,note
+2027-01-25,in,email,'Florida title agent' (look-alike address),,Assigned,"Updated wiring instructions for the buyer's deposit and your proceeds, please use the attached account.",
+2027-01-25,internal,note,,Communications,Assigned,"Possible wire fraud: payment-instruction change by email, from a look-alike domain. Not opened, not forwarded to the buyer, never acted on.",
+2027-01-25,owner,dashboard,You,Exceptions Desk,Assigned,Alert: someone sent new wiring instructions pretending to be the title agent. Don't use them. Call the title agent on the number from its own website to confirm nothing changed.,
+2027-01-25,owner,dashboard,You,,Assigned,You called: the title agent confirms the email is fake and alerted the buyer and counsel.,SIMULATED owner action.
+2027-01-25,internal,note,,Transaction Coordinator,Assigned,Logged in title.md; buyer #4 and counsel reminded to confirm any instructions by phone only.,

@@ -1,0 +1,5 @@
+at,dir,channel,who,worker,stage,text,note
+2026-12-09,in,mail,Returned letter,,Contacted,Envelope returned: 'Attorney no longer at this address'.,
+2026-12-09,internal,note,,Contact Finder,Contacted,The docket shows a Notice of Substitution of Counsel (2026-12-01): new counsel for the PR. Office address from The Florida Bar's Find a Lawyer and the firm's site agree; contacts.md updated with the source.,
+2026-12-10,internal,note,,Compliance Officer,Contacted,PASS for new counsel; touch count restarts at 1 for the new recipient. The old address is marked bad.,
+2026-12-10,out,mail,New estate counsel,Communications,Contacted,"(First letter, addressed to new counsel, noting we'd written to prior counsel.)",Rejoins the main path.

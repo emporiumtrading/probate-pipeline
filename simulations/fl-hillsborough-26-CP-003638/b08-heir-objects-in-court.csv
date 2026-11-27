@@ -1,0 +1,6 @@
+at,dir,channel,who,worker,stage,text,note
+2027-01-27,internal,note,,Legal Advisor,Assigned,Court watch: Victoria filed an objection to the sale (claims the price is too low).,
+2027-01-27,internal,note,,Legal Counsel,Assigned,"Dispute steps: everything preserved in legal/disputes/sim-ladywood/; brief written (facts, the claim, our exposure, deadlines, options). Nothing goes to Victoria directly; all contact through counsel. Handed to the Exceptions Desk.",
+2027-01-27,owner,dashboard,You,Exceptions Desk,Assigned,"Decision: an heir objected to the sale. The contract's homestead-order contingency protects the $1,000 deposit. Options: wait for the hearing (closing moves 3-6 weeks; buyer #4 must agree to the delay), or cancel and get the deposit back. Recommendation: wait; the buyer has agreed to 30 days.",
+2027-01-28,internal,note,,Transaction Coordinator,Assigned,Closing date extended in writing (counsel and buyer #4) to 30 days after the court rules.,
+2027-02-24,internal,note,,Legal Advisor,Assigned,Court watch: objection overruled; the court found the price fair given the condition report and the listing comparison. Back on the main path.,

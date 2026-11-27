@@ -15,6 +15,10 @@ Use `pipeline/buyers/buyers.csv` (built and vetted by the Buyer-List worker; the
 ## Buyers lined up before signing (owner decision 2026-11-27)
 Every live lead has its 10 best-fit buyers in `pipeline/buyers/lead-matches.csv` (Deal detail page → Buyers lined up). When a lead reaches an offer or a counter, check its pairing: if fewer than 3 are vetted or none is ready to buy, hand the Buyer-List worker an urgent request naming the lead and its top buyers. The day the contract is signed, offer it to the paired buyers first (standby and ready ones, then vetted), so we assign or close in days or weeks, not months. Record which paired buyer took it, so the matching learns.
 
+## When the deal doesn't go to plan (owner decision 2026-11-27)
+- **No buyer at our price:** widen to every vetted buyer in the county and the neighbouring counties the same day. If the best written number still leaves less than a $5,000 fee, the Negotiator goes back to counsel **inside the inspection period**, with the buyers' documents (bids, estimates). Ask for a lower price honestly, or cancel within the period with the seller's and our deposits returned. Never hold a family past the period hoping a buyer appears. Log the lesson (e.g. repair estimates running high in an area) for the Deal Analyst.
+- **A buyer backs out after the assignment:** offer the contract the same day to the backup buyer, then the other ready and vetted paired buyers. The Negotiator asks counsel in writing for any extension needed. The first buyer's deposit is handled exactly as the assignment agreement says, through the title company. The Buyer-List worker records the red flag and removes them from standby.
+
 ## Vet buyers
 Proof of funds or lender letter, past purchases, references. Collect a **non-refundable** earnest deposit from the end buyer when they sign the assignment.
 

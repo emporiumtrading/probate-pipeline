@@ -286,12 +286,21 @@ for base, sim in ((os.path.join(ROOT, "leads"), False), (os.path.join(ROOT, "sim
     if not os.path.isdir(base):
         continue
     for lid in sorted(os.listdir(base)):
-        tp = os.path.join(base, lid, "thread.csv")
-        if not os.path.isfile(tp):
+        d_ = os.path.join(base, lid)
+        if not os.path.isdir(d_):
             continue
-        lead = next((x for x in leads if x["lead_id"] == lid), {})
-        for i, t in enumerate(csv.DictReader(open(tp))):
-            _threads.append({"thread": ("sim:" if sim else "") + lid, "lead_id": lid, "simulation": "yes" if sim else "no",
+        # A lead has thread.csv; a simulation may also have branch files (b01-*.csv), one scenario each.
+        files = ["thread.csv"] if not sim else sorted((f for f in os.listdir(d_) if f.endswith(".csv")), key=lambda f: (f != "thread.csv", f))
+        for fn in files:
+          tp = os.path.join(d_, fn)
+          if not os.path.isfile(tp):
+              continue
+          lead = next((x for x in leads if x["lead_id"] == lid), {})
+          stem = fn[:-4]
+          scen = "Main path: first letter to closing" if stem == "thread" else re.sub(r"^b\d+-", "", stem).replace("-", " ").capitalize()
+          for i, t in enumerate(csv.DictReader(open(tp))):
+            _threads.append({"thread": ("sim:" if sim else "") + lid + ("" if stem == "thread" else ":" + stem), "lead_id": lid, "simulation": "yes" if sim else "no",
+                             "scenario": scen if sim else "",
                              "address": lead.get("address", ""), "city": lead.get("city", ""), "state": lead.get("state", ""),
                              "n": i + 1, "at": t.get("at", ""), "dir": t.get("dir", ""), "channel": t.get("channel", ""),
                              "who": t.get("who", "")[:120], "worker": t.get("worker", "")[:60], "stage": t.get("stage", "")[:60],

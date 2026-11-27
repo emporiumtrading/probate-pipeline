@@ -1,0 +1,7 @@
+at,dir,channel,who,worker,stage,text,note
+2027-01-14,internal,note,,Dispositions,Under contract,"Paired buyers' written numbers top out at $205,000 (repairs over $70,000 by their estimates). With $203,000 committed, that's a $2,000 fee, below our $5,000 minimum.",
+2027-01-15,internal,note,,Dispositions,Under contract,"Widened to all vetted Hillsborough buyers and the neighbouring counties' lists; best answer $207,000. Still under the minimum.",
+2027-01-16,out,email,"Joseph Scott Reed, Esq.",Negotiator,Under contract,"Inside our inspection period: buyers' contractors estimate repairs at $70,000-$75,000, higher than ours (their bids attached). We can close at $195,000 with the moving help, or the family can cancel with nothing owed and our deposit returned. We'll accept either.","Honest, with documents; the inspection period was disclosed at signing."
+2027-01-19,in,email,"Joseph Scott Reed, Esq.",,Dead,"The family declines $195,000.",
+2027-01-19,internal,note,,Transaction Coordinator,Dead,"Cancelled within the inspection period by written notice; the title agent returns the $1,000 deposit (Bookkeeper confirms). Thread closed politely.",
+2027-01-20,internal,note,,Buyer-List,Dead,Lesson logged: Brandon 1970s houses with original systems: buyers' repair estimates run 15-25% above ours. Report flags it so the Deal Analyst adds a repair buffer (buyer_pct stays as set).,

@@ -1,0 +1,6 @@
+at,dir,channel,who,worker,stage,text,note
+2027-03-02,internal,note,,Field Inspections,Closing scheduled,Final walk-through: FAIL. Joseph is still living there; about half the contents remain.,
+2027-03-02,internal,note,,Transaction Coordinator,Closing scheduled,"No closing until the house is vacant. The $3,000 moving help is paid only when the walk-through passes. Exceptions Desk told; buyer #4 told.",
+2027-03-02,out,email,"Joseph Scott Reed, Esq.",Negotiator,Closing scheduled,"The walk-through found Joseph still moving out. We're happy to move closing two weeks to March 17 so he isn't rushed; the moving help is paid at closing once the house is empty. Could we confirm that in writing? Removing an occupant is a matter for the personal representative, and we won't be involved.",
+2027-03-03,in,email,"Joseph Scott Reed, Esq.",,Closing scheduled,Agreed: March 17.,
+2027-03-16,internal,note,,Field Inspections,Closing scheduled,"Walk-through ($125): vacant, PASS.",Closes 2027-03-17 as in the main path.

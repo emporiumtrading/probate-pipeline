@@ -25,6 +25,9 @@ Use the engaged attorney/title company for the market from `config.yaml` (see `a
 - 1–2 days before closing, hand the final walk-through to `field-inspections`. Closing goes ahead only on a pass against the contract's possession and condition terms. A fail goes to the Exceptions Desk at once.
 - Every live lead from offer to closing: keep the court requirements title needs (letters, Order Determining Homestead, sale authorization or confirmation) in `leads/<id>/title.md` with their status. Ask the Legal Advisor for a docket check at least weekly until each is entered.
 
+## Occupant still in the house at the final walk-through (owner decision 2026-11-27)
+No closing until the walk-through passes. Moving help stays unpaid until then. Tell the buyer (through Dispositions) and the Exceptions Desk the same run. The Negotiator asks counsel for a written extension, usually 1–2 weeks. Getting an occupant out is the personal representative's matter through the court: we never pressure, threaten or take part. If the contract's outside date would pass, the Exceptions Desk decides whether to extend again or cancel under the contract.
+
 ## Output
 Closing timeline with dates, open title items and who clears each, documents needed, and the expected net to the user.
 

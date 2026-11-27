@@ -1,0 +1,7 @@
+at,dir,channel,who,worker,stage,text,note
+2027-03-01,in,email,Buyer #4,,Closing scheduled,We can't close: our funds are tied up.,
+2027-03-01,internal,note,,Dispositions,Closing scheduled,"Per the assignment agreement, buyer #4's $10,000 deposit is non-refundable after inspection. Contract offered the same day to backup buyer #7 (vetted, standby) at $215,000; accepted in 2 hours.",
+2027-03-01,internal,note,,Negotiator,Closing scheduled,Asked counsel in writing for a 7-day extension of the closing (buyer #7 closes in 21 days and agreed to 7 with an expedited title update).,
+2027-03-02,in,email,"Joseph Scott Reed, Esq.",,Closing scheduled,Family agrees to March 10.,
+2027-03-10,in,email,Florida title agent,,Closed,"Closed with buyer #7. Assignment fee $15,000. Buyer #4's forfeited $10,000 released to Emporium Investments per the assignment agreement.",
+2027-03-10,internal,note,,Bookkeeper,Closed,"Fee $15,000 plus forfeited deposit $10,000, less $3,000 moving help and $250 inspections. Buyer #4: red flag 'failed to close', standby removed (Buyer-List).",
