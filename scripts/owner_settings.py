@@ -15,7 +15,8 @@ Rules: only the fields below are kept; bank details, card numbers and secrets ar
 refused outright (the system never stores or uses them); API keys never come through
 the page, the runner asks for them in Claude's secure credential form.
 """
-import json, os, re, sys
+import csv, json, os, re, sys
+from datetime import date
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 OUT = os.path.join(ROOT, "pipeline", "owner-settings.json")
@@ -27,7 +28,8 @@ SCHEMA = {
     "business": {"legal_name": TEXT, "entity_state": "state", "mailing_address": TEXT, "phone": "phone", "email": "email",
                  "website": "url", "signer": TEXT, "title_company": TEXT, "insurance": TEXT},
     "channels": {**{f"{c}_provider": TEXT for c in CHANNELS}, **{f"{c}_address": TEXT for c in CHANNELS},
-                 **{f"{c}_ready": BOOL for c in CHANNELS}},
+                 **{f"{c}_ready": BOOL for c in CHANNELS},
+                 **{f"field_inspections_price_{p}": TEXT for p in ("exterior", "pdr", "pdc")}},
     "autonomy": {"outreach": ("drafts_only", "autonomous"), "confirmed": BOOL, "confirm_text": TEXT},
     "market": {"attorney_name": TEXT, "attorney_firm": TEXT, "approved_on": DATE, "approval_doc": TEXT,
                "licensed_or_partnered": BOOL, "license_ref": TEXT},
@@ -183,6 +185,34 @@ def apply_business(areas):
     return n
 
 
+# ProxyPics packages the owner prices on the Setup page (owner decision 2026-11-27): Setup field -> package id.
+PRICE_FIELDS = {"exterior": ("357", "Front & Street Photo (2 Photos)"), "pdr": ("1288", "V2 PDR"), "pdc": ("2824", "PDC V6 - Fannie Mae")}
+
+
+def apply_package_prices(areas):
+    """Write the package prices saved on the Setup page into pipeline/proxypics-prices.csv (scripts/proxypics.py reads
+    them before ordering). Only plain numbers from 0 to 1000 are accepted; a price learned from a real order is kept
+    unless the owner enters a new one."""
+    ch = areas.get("channels") or {}
+    path = os.path.join(os.path.dirname(CONFIG), "pipeline", "proxypics-prices.csv")
+    rows = {r["template_id"]: r for r in csv.DictReader(open(path))} if os.path.exists(path) else {}
+    n = 0
+    for key, (tid, name) in PRICE_FIELDS.items():
+        v = str(ch.get(f"field_inspections_price_{key}") or "").strip().lstrip("$").replace(",", "")
+        if not re.fullmatch(r"\d{1,4}(\.\d{1,2})?", v) or float(v) > 1000:
+            continue
+        cur = rows.get(tid)
+        if cur and cur.get("source", "").startswith("owner") and abs(float(cur["price_usd"]) - float(v)) < 0.005:
+            continue
+        rows[tid] = {"template_id": tid, "template": name, "price_usd": f"{float(v):.2f}", "source": "owner, Setup page", "on": date.today().isoformat()}
+        n += 1
+    if n:
+        with open(path, "w", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=["template_id", "template", "price_usd", "source", "on"]); w.writeheader()
+            w.writerows(sorted(rows.values(), key=lambda r: int(r["template_id"])))
+    return n
+
+
 def apply_owner_switches(areas):
     """Channels with nothing for a run to test (owner decision 2026-11-27): the field-inspection service account is the
     owner's own word, so ticking it on the Setup page sets config.yaml → channels.field_inspections."""
@@ -212,6 +242,8 @@ def main():
         n = apply_business(good)
         if n:
             print(f"owner settings: {n} business details written into config.yaml")
+        if apply_package_prices(good):
+            print("owner settings: ProxyPics package prices saved")
         if apply_owner_switches(good):
             print("owner settings: field-inspection service account marked ready in config.yaml")
         for b in bad:

@@ -114,6 +114,9 @@ def order(args):
     write(LOG, LOG_COLS, log)
     if cost:
         learn_price(tid, t["name"][:80], cost, f"order {r.get('id')}")
+        if cost > float(price["price_usd"]) + 0.005:
+            print(f"proxypics: WARNING order {r.get('id')} cost ${cost:.2f}, more than the recorded ${price['price_usd']} "
+                  f"(area pricing or a change). Price updated; hand this to the Exceptions Desk the same run.")
     print(f"proxypics: ordered {r.get('id')} for {lead} ({t['name'][:50]}), status {r.get('status')}, cost ${cost:.2f}")
 
 

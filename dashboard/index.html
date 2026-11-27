@@ -617,6 +617,13 @@
           <label>Business number<input type="text" name="voicemail_to_email_address" maxlength="200" autocomplete="off"></label>
           <label class="pp-check"><input type="checkbox" name="voicemail_to_email_ready"> I've set this up. Please test it.</label>
         </fieldset>
+        <fieldset class="pp-ch"><legend>Someone can see a house (field inspections)</legend><p class="pp-sub">ProxyPics is connected with the key saved under Sending and signing services. Its API shows a price only after an order is placed, and orders can't be cancelled. So enter what your ProxyPics account charges for each package, from the price shown when you start an order on proxypics.com or from their support. The Field Inspections worker orders only packages priced at the $150 limit or less.</p>
+          <div class="pp-ch-status" data-draw="chStatus" data-ch="field_inspections" data-source="readiness">—</div>
+          <label>Front &amp; Street Photo, exterior (USD)<input type="text" name="field_inspections_price_exterior" maxlength="10" inputmode="decimal" autocomplete="off" placeholder="e.g. 25"></label>
+          <label>V2 PDR, interior and exterior (USD)<input type="text" name="field_inspections_price_pdr" maxlength="10" inputmode="decimal" autocomplete="off"></label>
+          <label>PDC V6 – Fannie Mae, full data collection (USD)<input type="text" name="field_inspections_price_pdc" maxlength="10" inputmode="decimal" autocomplete="off"></label>
+          <label class="pp-check"><input type="checkbox" name="field_inspections_ready"> I have an account with a card on file (a key saved above also counts).</label>
+        </fieldset>
         </div>
 
         <div class="pp-area" data-area="autonomy" hidden>
