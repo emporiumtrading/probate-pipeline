@@ -1,0 +1,4 @@
+domain,domain_status,record,name,type,value,priority,status
+emporium-investments.com,pending,DKIM,resend._domainkey,TXT,p=MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDdK5u1l6ucV5fkm6wolLQQ4j66WtCpn34BWe9oGP7yf+qw2GQYhA4LtvpKC8KG8txQwppem4LC/u+cJShkMUqpKbuNjnWF4/i49I14rQcA1NhaUQPb8SJy5NhsEVl6f0SdipAKkcqnfbF7HrOE3+/zlvUcRD+P5f7ke+h/NMflhQIDAQAB,,pending
+emporium-investments.com,pending,SPF,rsend,CNAME,rsend.forge.rmta.net,,pending
+emporium-investments.com,pending,SPF,send,CNAME,send.forge.rmta.net,,pending
