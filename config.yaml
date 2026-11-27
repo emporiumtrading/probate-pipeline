@@ -14,6 +14,8 @@ autonomy:
   attorney_template_fee_max: 1500 # one-time template/packet review per state, USD; above this -> Exceptions Desk
   attorney_per_deal_fee_max: 750  # per-deal contract/assignment review, USD, preferably paid at closing; above this -> Exceptions Desk
   title_fees: paid_at_closing     # title/settlement fees only from closing proceeds on the settlement statement; any up-front title charge -> Exceptions Desk
+  field_inspection_fee_max: 150  # owner decision 2026-11-27 (approved): Field Inspections may book a local field agent or inspector up to this per visit (photos + condition checklist, final walk-through); more -> Exceptions Desk
+  moving_help_max: 5000           # owner decision 2026-11-27 (approved): moving help ("cash for keys") for an occupant, counted inside MAO, paid only through the title company at closing after a vacant walk-through
   worker_decisions: within_written_limits   # owner decision 2026-11-25: workers decide routine matters (letters, counters within MAO, quotes within the limits above, buyer selection, scheduling, playbook exceptions) and log each in pipeline/decisions-log.csv with its reason
   # Always the owner, not configurable: every signature that company_signature doesn't cover (one click on packets the system prepared); no signature is ever applied for the owner any other way,
   # earnest money (only to a title company's escrow the owner has confirmed by phone, never from emailed instructions), phone calls.
