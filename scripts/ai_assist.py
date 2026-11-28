@@ -8,7 +8,7 @@ always shown next to the script's own numbers. If no key is set or every call
 fails, callers fall back to template text, so a run never depends on it.
 
 Env: NVIDIA_API_KEY, NVIDIA_MODEL (default meta/llama-3.3-70b-instruct),
-     OPENROUTER_API_KEY, OPENROUTER_MODEL (default meta-llama/llama-3.3-70b-instruct:free)
+     OPENROUTER_API_KEY, OPENROUTER_MODEL (default: today's pick from pipeline/ai-credits.json)
 """
 import json, os, sys, urllib.error, urllib.request
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "runner"))
@@ -17,8 +17,21 @@ PROVIDERS = [
     ("NVIDIA_API_KEY", "https://integrate.api.nvidia.com/v1/chat/completions",
      lambda: os.environ.get("NVIDIA_MODEL", "meta/llama-3.3-70b-instruct")),
     ("OPENROUTER_API_KEY", "https://openrouter.ai/api/v1/chat/completions",
-     lambda: os.environ.get("OPENROUTER_MODEL", "meta-llama/llama-3.3-70b-instruct:free")),
+     lambda: os.environ.get("OPENROUTER_MODEL") or _todays_pick() or "nvidia/nemotron-3-ultra-550b-a55b:free"),
 ]
+
+
+def _todays_pick():
+    """The free model the runner picked and tested today (pipeline/ai-credits.json), so no call is wasted on a
+    retired one (2026-11-28: the free Llama 3.3 was retired)."""
+    import datetime
+    try:
+        p = json.load(open(os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "pipeline", "ai-credits.json"))).get("openrouter_pick") or {}
+        if p.get("day") == datetime.datetime.now(datetime.timezone.utc).date().isoformat() and p.get("models"):
+            return p["models"][0]
+    except (OSError, ValueError):
+        pass
+    return None
 SYSTEM = ("You write short, plain-English status notes for a small real-estate business owner. "
           "Use only the facts given. Never invent numbers, names or events. No legal or tax advice. "
           "Be respectful: these are estates of people who died. 2-4 sentences, no headings, no lists.")
