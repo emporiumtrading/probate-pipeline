@@ -8,7 +8,7 @@
   "credit_left": null
  },
  "claude": {
-  "checked": "2026-11-28T16:04:44.915Z",
+  "checked": "2026-11-28T16:23:02.975Z",
   "ok": false,
   "why": "credit balance too low (add credit at console.anthropic.com, Settings, Billing)",
   "blocked_since": "2026-11-27T22:47:43.604Z",
