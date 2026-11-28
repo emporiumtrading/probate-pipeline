@@ -35,13 +35,13 @@ Source: the Florida Bar's board-certification member lists (Real Estate; Wills, 
 
 | # | Attorney | Firm | Bar # | Certification | Discipline |
 |---|---|---|---|---|---|
-| 1 | Peter John Kelly | Bush Ross, P.A. | 328618 | Real Estate + Wills, Trusts & Estates | not yet read |
-| 2 | Stephanie M Martin | Lieser Skaff, PLLC | 30585 | Real Estate (2013) | None (10-year history, read 2026-11-28) |
-| 3 | Jolyon Delphin Acosta | Bush Ross, P.A. | 31500 | Wills, Trusts & Estates | not yet read |
-| 4 | Felix Gabriel Montañez | Law Office of Felix G. Montañez, P.A. | 99892 | Real Estate | not yet read |
-| 5 | Joshua Thomas Keleske | Joshua T. Keleske, P.L. | 548472 | Wills, Trusts & Estates | not yet read |
-| 6 | Kristopher Emil Fernandez | Watson Sloane PLLC | 606847 | Real Estate | not yet read |
-| 7 | Samuel Brengle Dolcimascolo | Bush Ross, P.A. | 173047 | Wills, Trusts & Estates | not yet read |
-| 8 | Christopher Walter Brewer | (solo) | 148652 | Real Estate | not yet read |
+| 1 | Peter John Kelly | Bush Ross, P.A. | 328618 | Real Estate + Wills, Trusts & Estates | None (10-year history) |
+| 2 | Stephanie M Martin | Lieser Skaff, PLLC | 30585 | Real Estate (2013) | None (10-year history) |
+| 3 | Jolyon Delphin Acosta | Bush Ross, P.A. | 31500 | Wills, Trusts & Estates | None (10-year history) |
+| 4 | Felix Gabriel Montañez | Law Office of Felix G. Montañez, P.A. | 99892 | Real Estate | None (10-year history) |
+| 5 | Joshua Thomas Keleske | Joshua T. Keleske, P.L. | 548472 | Wills, Trusts & Estates | None (10-year history) |
+| 6 | Kristopher Emil Fernandez | Watson Sloane PLLC | 606847 | Real Estate | None (10-year history) |
+| 7 | Samuel Brengle Dolcimascolo | Bush Ross, P.A. | 173047 | Wills, Trusts & Estates | None (10-year history) |
+| 8 | Christopher Walter Brewer | (solo) | 148652 | Real Estate | None (10-year history) |
 
-Quote requests go first to Kelly (both certifications; his firm covers probate and closings), Martin and Montañez/Keleske (smaller firms, likely lower flat fees). Discipline history is read before anyone is chosen.
+Quote requests go first to Kelly (both certifications; his firm covers probate and closings), Martin and Montañez/Keleske (smaller firms, likely lower flat fees). All eight: Member in Good Standing, eligible, Hillsborough County, 10-year discipline history None (each read on the Florida Bar profile 2026-11-28). Emails from the Bar listing are in pipeline/attorney-candidates.csv.
