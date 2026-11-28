@@ -1,6 +1,6 @@
 # Attorney review packet: Harris County, TX
 
-Prepared 2026-11-27 from `legal/TX.md` (last verified 2026-11-19). This packet asks a licensed TX attorney to review and approve how we contact estates and contract for probate property in this county. Nothing here is legal advice; every rule below is our own research and is listed for the attorney to confirm or correct.
+Prepared 2026-11-28 from `legal/TX.md` (last verified 2026-11-19). This packet asks a licensed TX attorney to review and approve how we contact estates and contract for probate property in this county. Nothing here is legal advice; every rule below is our own research and is listed for the attorney to confirm or correct.
 
 ## Who we are
 - Company: Emporium Investments (formed in IL)
