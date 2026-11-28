@@ -1,3 +1,4 @@
 date,key,subject
 2026-11-27T22:47:48+00:00,credit:2026-11-27,"Claude has stopped: credit balance too low (add credit at console.anthropic.com, Settings, Billing)"
 2026-11-28T01:50:57+00:00,credit:2026-11-28,"Claude has stopped: credit balance too low (add credit at console.anthropic.com, Settings, Billing)"
+2026-11-28T11:40:47+00:00,system:2026-11-28,Your pipeline needs a look: the AI engines aren't finishing
