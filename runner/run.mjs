@@ -151,6 +151,15 @@ try { console.log(await pullContacts(WORK)); } catch (e) { console.log('contacts
 // Read-only Stripe bookkeeping import (scripts/stripe_fetch.py; restricted read-only key).
 if (process.env.STRIPE_API_KEY || process.env.STRIPE_TEST_API_KEY) { const c = spawnSync('python3', ['scripts/stripe_fetch.py'], { cwd: WORK, env: agentEnv, encoding: 'utf8' }); process.stdout.write((c.stdout || '') + (c.stderr || '').slice(0, 300)); }
 
+// Commit everything collected before the engines start (service checks, live simulation, email replies, website
+// forms, Stripe import, the resolution's state), so a failed engine attempt's reset (tidy) can't undo it. Found
+// 2026-11-28: a reset restored live-sim-request.json, so the simulation re-ran on 7 runs, and wiped exported forms.
+spawnSync('git', ['add', '-A'], { cwd: WORK });
+if (spawnSync('git', ['diff', '--cached', '--quiet'], { cwd: WORK }).status !== 0) {
+  spawnSync('git', ['-c', 'user.name=Pipeline runner', '-c', 'user.email=runner@probate-pipeline.local', 'commit', '-q', '-m', 'Runner: inbox, forms and service checks (before the engines)'], { cwd: WORK });
+  console.log('collected before engines: committed');
+}
+
 const wl = JSON.parse(spawnSync('python3', ['runner/workload.py', SLICE], { cwd: WORK, encoding: 'utf8' }).stdout || '{"level":"light"}');
 console.log('workload:', JSON.stringify(wl));
 
