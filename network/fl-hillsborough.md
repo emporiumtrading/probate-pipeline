@@ -29,3 +29,19 @@ Sources searched 2026-11-21: web search "Tampa real estate attorney … wholesal
 - Each evening run: Legal Advisor checks this matter's thread (`list_thread_messages`), routes questions on the handoff board, and reports the answers.
 2026-11-27: H-0006 done 0 of 5 markets: bar directories block automated lookups (FL 403, TX unavailable, TN 403), so no attorney verified; next: Ohio Supreme Court attorney directory (check terms) or have a session with a browser verify FL candidates
 2026-11-27: H-0006 blocked: floridabar.org, texasbar.com 403/503 from this box; no attorney can be verified automatically. Next: manual lookups (URLs in sources-log) or Ohio/TN directories
+
+## Attorney candidates, checked 2026-11-28 (Florida Bar certification lists)
+Source: the Florida Bar's board-certification member lists (Real Estate; Wills, Trusts & Estates), Tampa offices, all "Member in Good Standing / Eligible to Practice". Law.AI directory leads were dropped: 3 of 8 weren't Florida Bar members and the rest practice outside Hillsborough.
+
+| # | Attorney | Firm | Bar # | Certification | Discipline |
+|---|---|---|---|---|---|
+| 1 | Peter John Kelly | Bush Ross, P.A. | 328618 | Real Estate + Wills, Trusts & Estates | not yet read |
+| 2 | Stephanie M Martin | Lieser Skaff, PLLC | 30585 | Real Estate (2013) | None (10-year history, read 2026-11-28) |
+| 3 | Jolyon Delphin Acosta | Bush Ross, P.A. | 31500 | Wills, Trusts & Estates | not yet read |
+| 4 | Felix Gabriel Montañez | Law Office of Felix G. Montañez, P.A. | 99892 | Real Estate | not yet read |
+| 5 | Joshua Thomas Keleske | Joshua T. Keleske, P.L. | 548472 | Wills, Trusts & Estates | not yet read |
+| 6 | Kristopher Emil Fernandez | Watson Sloane PLLC | 606847 | Real Estate | not yet read |
+| 7 | Samuel Brengle Dolcimascolo | Bush Ross, P.A. | 173047 | Wills, Trusts & Estates | not yet read |
+| 8 | Christopher Walter Brewer | (solo) | 148652 | Real Estate | not yet read |
+
+Quote requests go first to Kelly (both certifications; his firm covers probate and closings), Martin and Montañez/Keleske (smaller firms, likely lower flat fees). Discipline history is read before anyone is chosen.
