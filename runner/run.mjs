@@ -28,7 +28,7 @@ import { syncDeploys } from './deploy.mjs';
 import { syncDb } from './dbsync.mjs';
 import { restoreWorkcache, saveWorkcache } from './workcache.mjs';
 import { pullContacts } from './contacts.mjs';
-import { checkCredits, recordSpend, noteOpenrouter, economy } from './credits.mjs';
+import { checkCredits, recordSpend, noteOpenrouter, economy, cachedPick, savePick } from './credits.mjs';
 
 const SLICE = process.argv[2] || 'a';
 const PIPELINE_REPO = process.env.PIPELINE_REPO || 'emporiumtrading/probate-pipeline';
@@ -179,10 +179,18 @@ const pickLadder = (eng) => {
   if (picked[eng] || !['nvidia', 'openrouter'].includes(eng)) return;
   picked[eng] = true;
   const prefer = (eng === 'nvidia' ? AI.nvidiaModels : AI.openrouterModels) || [];
+  // OpenRouter: test-call the free models once a day and reuse the pick (each test call uses a free request).
+  if (eng === 'openrouter' && !prefer.length) {
+    const c = cachedPick(WORK);
+    if (c) { LADDERS.openrouter = c; console.log(`openrouter models (picked earlier today): ${c.join(', ')}`); return; }
+  }
   const r = spawnSync('python3', ['runner/pick_models.py', eng, '--n', '4', ...(prefer.length ? ['--prefer', prefer.join(',')] : [])],
     { cwd: WORK, env: engineEnv, encoding: 'utf8', timeout: 180000 });
   const list = (r.stdout || '').split('\n').map((x) => x.trim()).filter(Boolean);
-  if (list.length) { LADDERS[eng] = list; console.log(`${eng} models picked: ${list.join(', ')}`); }
+  if (list.length) {
+    LADDERS[eng] = list; console.log(`${eng} models picked: ${list.join(', ')}`);
+    if (eng === 'openrouter') { savePick(WORK, list); noteOpenrouter(WORK, 8, false); saveCredits(); }   // up to 8 test calls
+  }
   else console.log(`${eng}: couldn't pick models (${(r.stderr || 'none usable').trim().slice(0, 200)}); using the last-known list`);
 };
 const startAt = (eng) => Math.min(wl.level === 'heavy' ? 1 : 0, LADDERS[eng].length - 1);
@@ -196,7 +204,7 @@ const saveCredits = () => {
     spawnSync('git', ['-c', 'user.name=Pipeline runner', '-c', 'user.email=runner@probate-pipeline.local', 'commit', '-q', '-m', 'Runner: AI credit and spend record'], { cwd: WORK });
 };
 const credits = wl.level === 'idle' ? { claude: { ok: true, why: 'not checked (idle)' }, openrouter: { ok: true, why: 'not checked (idle)' } }
-  : await checkCredits(WORK, LADDERS.claude).catch((e) => ({ claude: { ok: true, why: `check failed: ${e.message}` }, openrouter: { ok: true, why: 'check failed' } }));
+  : await checkCredits(WORK, LADDERS.claude, SLICE).catch((e) => ({ claude: { ok: true, why: `check failed: ${e.message}` }, openrouter: { ok: true, why: 'check failed' } }));
 if (credits.claude.cap) LADDERS.claude = [credits.claude.cap];
 console.log(`credits: claude ${credits.claude.ok ? 'ok' : 'SKIPPED'} (${credits.claude.why}); openrouter ${credits.openrouter.ok ? 'ok' : 'SKIPPED'} (${credits.openrouter.why})`);
 saveCredits();

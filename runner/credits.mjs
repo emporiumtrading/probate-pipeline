@@ -79,7 +79,12 @@ async function claude(cwd, state, models) {
   return { ok, why, cap };
 }
 
-async function openrouter(state) {
+// Each run type's share of OpenRouter's daily free requests (owner request 2026-11-28: split the free tier across the
+// work). The cap is per account across all free models, so the split is by run, not by model: the morning run (new
+// leads, deep-dives) gets the most, the 5 fast-desk runs a little each, so an early run can't use up the day.
+const SHARE = { a: 0.4, b: 0.25, c: 0.12, 'fast-desk': 0.04 };
+
+async function openrouter(state, slice) {
   const key = process.env.OPENROUTER_API_KEY;
   if (!key) return { ok: false, why: 'no key' };
   const o = state.openrouter && state.openrouter.day === today() ? state.openrouter : { day: today(), requests: 0 };
@@ -99,7 +104,9 @@ async function openrouter(state) {
     return { ok: false, why: `daily cap reached (${o.requests || 0}/${daily} today${free ? '; $10 of credit raises it to 1,000' : ''})` };
   }
   if (left !== null && left <= 0 && !free) return { ok: false, why: 'no credit left on the key' };
-  return { ok: true, why: `${remaining} requests left today`, minIntervalMs: 3200, maxRequests: remaining };
+  const share = Math.max(2, Math.ceil(daily * (SHARE[slice] ?? 0.1)));
+  const allow = Math.min(remaining, share);
+  return { ok: true, why: `${allow} of ${remaining} requests left today for this run (its share: ${share})`, minIntervalMs: 3200, maxRequests: allow };
 }
 
 // Pacing (owner request 2026-11-27: be economical, not just alert): with a monthly budget, each day may spend what's
@@ -119,11 +126,22 @@ export function economy(cwd) {
   return { budget, todaySpend: +todaySpend.toFixed(2), allowance: +allowance.toFixed(2), over: todaySpend >= allowance };
 }
 
-export async function checkCredits(cwd, claudeModels) {
+export async function checkCredits(cwd, claudeModels, slice = 'a') {
   const state = readState(cwd);
-  const out = { claude: await claude(cwd, state, claudeModels), openrouter: await openrouter(state) };
+  const out = { claude: await claude(cwd, state, claudeModels), openrouter: await openrouter(state, slice) };
   writeState(cwd, state);
   return out;
+}
+
+// The free models picked (and test-called) once a day, reused by every run that day: testing costs requests too.
+export function cachedPick(cwd) {
+  const p = readState(cwd).openrouter_pick;
+  return p && p.day === today() && Array.isArray(p.models) && p.models.length ? p.models : null;
+}
+export function savePick(cwd, models) {
+  const s = readState(cwd);
+  s.openrouter_pick = { day: today(), models };
+  writeState(cwd, s);
 }
 
 export function noteOpenrouter(cwd, used, exhausted) {

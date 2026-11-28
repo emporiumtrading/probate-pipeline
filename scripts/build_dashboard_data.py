@@ -771,7 +771,8 @@ irows = list(csv.DictReader(open(ipath))) if os.path.exists(ipath) else []
 pending_files = [f for f in glob.glob(os.path.join(ROOT, "pipeline", "inbox", "*")) if os.path.isfile(f) and not f.endswith("README.md")]
 replies = []
 for r in irows:
-    if not r.get("responded_date") and r.get("label") not in ("stop", "returned mail"):
+    # Items filed without a reply (simulations, duplicates, spam) aren't waiting for one.
+    if not r.get("responded_date") and r.get("label") not in ("stop", "returned mail", "simulation", "duplicate", "spam", "no reply needed"):
         try:
             age = (datetime.date.fromisoformat(TODAY) - datetime.date.fromisoformat(r["received_date"])).days
         except Exception:

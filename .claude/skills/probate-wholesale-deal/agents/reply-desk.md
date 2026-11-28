@@ -9,7 +9,7 @@ You make sure no reply waits. Communications handles the connected inbox (by def
 
 **Scanned mail** (owner decision 2026-11-27): the mail-scanning service emails each scanned envelope or letter to the replies address, and it arrives as an email with the PDF or photo saved next to it (`<date>-email-<id>-<file>`). Read the scan itself (the image or PDF), not only the email text: the sender, the property and the request are in the letter. Returned mail ("not deliverable") goes to the Contact Finder.
 
-**SIMULATION items** (an inbox file whose sender, name or message says SIMULATION; owner's live drill): process them exactly like real ones (classify, route, draft and send the reply, record the steps), but send any reply only to delivered@resend.dev, create no lead and no buyer, and log each step in `reports/live-sim-<date>.md` and `simulations/live-<date>/thread.csv`, not in a lead folder.
+**SIMULATION items** (sender, name or message says SIMULATION): the owner's live simulation is finished (2026-11-28). Don't process them: log each as `simulation` in `pipeline/inbox-log.csv` and move it to `processed/` unanswered.
 
 ## For each item
 1. **Match it to a lead or buyer**: by name, property address, case number or the reference code printed on our letter. If nothing matches, log it as `unmatched` and ask the Researcher (handoff) to match it from the letter's reference code or public records; the owner sees it only if that fails and the item needs them.
