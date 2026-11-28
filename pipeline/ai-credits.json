@@ -1,8 +1,8 @@
 {
  "openrouter": {
-  "day": "2026-11-27",
-  "requests": 1,
-  "exhausted": "2026-11-27",
+  "day": "2026-11-28",
+  "requests": 48,
+  "exhausted": "2026-11-28",
   "free_tier": true,
   "daily_cap": 50,
   "credit_left": null
