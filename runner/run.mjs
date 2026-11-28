@@ -171,7 +171,7 @@ const LADDERS = {
   // first needed (runner/pick_models.py: what the provider offers now, tool-capable, test-called).
   // These lists are only the last resort if the provider's model list can't be read at all.
   nvidia: ['meta/llama-3.3-70b-instruct', 'qwen/qwen3-coder-480b-a35b-instruct', 'deepseek-ai/deepseek-v3.1', 'openai/gpt-oss-120b'],
-  openrouter: ['meta-llama/llama-3.3-70b-instruct:free', 'qwen/qwen3-coder:free', 'deepseek/deepseek-chat-v3.1:free'],
+  openrouter: ['nvidia/nemotron-3-ultra-550b-a55b:free', 'google/gemma-4-31b-it:free', 'nvidia/nemotron-3.5-super-vl:free'],   // free list as of 2026-11-28
 };
 console.log(`claude models allowed: ${LADDERS.claude.join(', ')} (cap: ${AI.claudeMax || 'default, up to claude-sonnet-5-5'}; Setup → AI engines)`);
 const picked = {};

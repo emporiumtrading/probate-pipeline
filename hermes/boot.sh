@@ -59,7 +59,14 @@ if [ -n "${NVIDIA_API_KEY:-}" ]; then
   done
 fi
 if [ -n "${OPENROUTER_API_KEY:-}" ]; then
-  if [ -z "$PRIMARY" ]; then PRIMARY="openrouter|${HERMES_OPENROUTER_MODEL:-meta-llama/llama-3.3-70b-instruct:free}"; else add_fb openrouter "${HERMES_OPENROUTER_MODEL:-meta-llama/llama-3.3-70b-instruct:free}"; fi
+  # Same as NVIDIA (fixed 2026-11-28): OpenRouter retired the free Llama 3.3 the assistant was pinned to, and every
+  # hourly check failed. Pick from the free models it offers now, tested, strongest first; the rest are fallbacks.
+  OR=$(python3 /opt/probate/pick_models.py openrouter --n 3 ${HERMES_OPENROUTER_MODEL:+--prefer "$HERMES_OPENROUTER_MODEL"} 2>/dev/null | tac)
+  [ -z "$OR" ] && OR="nvidia/nemotron-3-ultra-550b-a55b:free" && log "couldn't list OpenRouter models; using the last-known one"
+  log "OpenRouter models picked: $(echo $OR)"
+  for m in $OR; do
+    if [ -z "$PRIMARY" ]; then PRIMARY="openrouter|$m"; else add_fb openrouter "$m"; fi
+  done
 fi
 [ -z "$PRIMARY" ] && log "no AI key yet: add Claude or NVIDIA keys on the dashboard's Setup page"
 PROV="${PRIMARY%%|*}"; MODEL="${PRIMARY#*|}"

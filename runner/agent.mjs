@@ -15,7 +15,7 @@ export const PROVIDERS = {
   nvidia: { url: 'https://integrate.api.nvidia.com/v1/chat/completions', keyEnv: 'NVIDIA_API_KEY',
     defaultModel: 'meta/llama-3.3-70b-instruct' },
   openrouter: { url: 'https://openrouter.ai/api/v1/chat/completions', keyEnv: 'OPENROUTER_API_KEY',
-    defaultModel: 'meta-llama/llama-3.3-70b-instruct:free' },
+    defaultModel: 'nvidia/nemotron-3-ultra-550b-a55b:free' },
 };
 
 const OUT_LIMIT = 12000;          // chars of one tool result kept in the conversation
