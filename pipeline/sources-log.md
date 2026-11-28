@@ -163,3 +163,5 @@
 | 2026-11-27 | pa-philadelphia | https://www.phila.gov/departments/register-of-wills/ | responds | automated re-test |
 | 2026-11-28 | fl-hillsborough | publicrec.hillsclerk.com/Probate/dailyfilings (2026-11-27..2026-11-27) | worked | 20261127: 0 rows, 0 estates; 0 new leads |
 | 2026-11-28 | oh-franklin | probatesearch PBODateInx.ndm (from 20261126, 25 pages) + Parcel_Features | worked | 0 cases, 0 estates kept, 0 new leads |
+| 2026-11-28 | fl-hillsborough | publicrec.hillsclerk.com/Probate/dailyfilings (2026-11-28..2026-11-27) | worked | no days to check; 0 new leads |
+| 2026-11-28 | oh-franklin | probatesearch PBODateInx.ndm (from 20261127, 25 pages) + Parcel_Features | worked | 0 cases, 0 estates kept, 0 new leads |
